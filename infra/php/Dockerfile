@@ -14,7 +14,7 @@ RUN apt-get update && \
     docker-php-ext-install intl pdo_mysql zip bcmath && \
     docker-php-ext-install -j$(nproc) gd 
 
-RUN curl -sL https://deb.nodesource.com/setup_11.x | bash - && \ 
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \ 
     apt-get update && \
     apt-get install -y nodejs && \
     npm install npm@latest -g
