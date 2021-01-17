@@ -37,6 +37,9 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
+                            <router-link  v-bind:to="{name: 'mypage', params: {userId: user.id }}">
+
+                                </router-link>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/mypage">

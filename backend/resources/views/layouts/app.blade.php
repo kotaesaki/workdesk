@@ -89,9 +89,9 @@
             </div>
         </nav>
 
-        {{-- <main class="py-4">
+        <main class="py-4">
             @yield('content')
-        </main> --}}
+        </main>
         <router-view></router-view>
     </div>
     <script src="{{ mix('/js/app.js') }}" defer></script>

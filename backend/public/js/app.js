@@ -2011,6 +2011,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2024,8 +2025,21 @@ __webpack_require__.r(__webpack_exports__);
         message: '投稿したタグ'
       }, {
         message: 'いいねした写真'
-      }]
+      }],
+      id: {}
     };
+  },
+  methods: {
+    getId: function getId() {
+      var _this = this;
+
+      axios.get('/api/mypage').then(function (res) {
+        _this.id = res.data;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.getId();
   }
 });
 
@@ -38006,6 +38020,8 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-4" }, [
+        _c("p", [_vm._v(_vm._s(_vm.id.login_id))]),
+        _vm._v(" "),
         _c(
           "ul",
           { attrs: { id: "mypage-item" } },
