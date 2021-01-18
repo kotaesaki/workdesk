@@ -1942,6 +1942,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -2013,6 +2016,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    userId: String
+  },
   data: function data() {
     return {
       items: [{
@@ -2033,7 +2039,7 @@ __webpack_require__.r(__webpack_exports__);
     getId: function getId() {
       var _this = this;
 
-      axios.get('/api/mypage').then(function (res) {
+      axios.get('/api/mypage' + this.userId).then(function (res) {
         _this.id = res.data;
       });
     }
@@ -37864,52 +37870,63 @@ var render = function() {
               _vm._v(
                 "\n                        @endif\n                        @else\n                        "
               ),
-              _c("li", { staticClass: "nav-item dropdown" }, [
-                _c(
-                  "a",
-                  {
-                    pre: true,
+              _c(
+                "li",
+                { staticClass: "nav-item dropdown" },
+                [
+                  _c(
+                    "a",
+                    {
+                      pre: true,
+                      attrs: {
+                        id: "navbarDropdown",
+                        class: "nav-link dropdown-toggle",
+                        href: "#",
+                        role: "button",
+                        "data-toggle": "dropdown",
+                        "aria-haspopup": "true",
+                        "aria-expanded": "false"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                {{ Auth::user()->name }}\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("router-link", {
                     attrs: {
-                      id: "navbarDropdown",
-                      class: "nav-link dropdown-toggle",
-                      href: "#",
-                      role: "button",
-                      "data-toggle": "dropdown",
-                      "aria-haspopup": "true",
-                      "aria-expanded": "false"
+                      to: { name: "mypage", params: { userId: _vm.user.id } }
                     }
-                  },
-                  [
-                    _vm._v(
-                      "\n                                {{ Auth::user()->name }}\n                            "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "dropdown-menu dropdown-menu-right",
-                    attrs: { "aria-labelledby": "navbarDropdown" }
-                  },
-                  [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "dropdown-item",
-                        attrs: { href: "/mypage" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                                    " +
-                            _vm._s(_vm.__("マイページ")) +
-                            "\n                                "
-                        )
-                      ]
-                    )
-                  ]
-                )
-              ]),
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "dropdown-menu dropdown-menu-right",
+                      attrs: { "aria-labelledby": "navbarDropdown" }
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "dropdown-item",
+                          attrs: { href: "/mypage" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                    " +
+                              _vm._s(_vm.__("マイページ")) +
+                              "\n                                "
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
               _vm._v(
                 "\n                        @endguest\n                    "
               )

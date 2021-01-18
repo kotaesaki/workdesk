@@ -39,7 +39,7 @@
                             </a>
                             <router-link  v-bind:to="{name: 'mypage', params: {userId: user.id }}">
 
-                                </router-link>
+                            </router-link>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="/mypage">

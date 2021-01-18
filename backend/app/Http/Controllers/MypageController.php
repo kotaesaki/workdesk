@@ -15,7 +15,7 @@ class MypageController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Auth $auth)
+    public function index()
     {
         $user = User::all();
         return $user;
