@@ -1,10 +1,8 @@
 <template>
  <div class="container">
-
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <p>人気の投稿</p>
-
+            <p>タイムライン</p>
         </div>
         <div class="col-md-4">  
             <p>{{id.login_id}}</p>
@@ -20,7 +18,7 @@
 <script>
 export default {
     props: {
-        userId: String
+        userId: String //idを取得
     },
     data() {
         return{
@@ -36,7 +34,7 @@ export default {
    },
    methods: {
        getId() {
-           axios.get('/api/mypage' + this.userId).then((res)=>{
+           axios.get('/api/mypage/' + this.userId).then((res)=>{
                this.id = res.data;
            })
        }

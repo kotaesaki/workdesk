@@ -15,9 +15,9 @@ class MypageController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($login_id)
     {
-        $user = User::all();
+        $user = User::find($login_id);
         return $user;
     }
 }

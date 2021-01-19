@@ -14,9 +14,20 @@ use App\Http\Controllers\MypageController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+/* 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+ */
 
-Route::get('/mypage', 'App\Http\Controllers\MypageController@index');
+/* Route::post('/register', 'App\Http\Controllers\RegisterController@register');
+Route::post('/login', 'App\Http\Controllers\LoginController@login');
+Route::post('/logout', 'App\Http\Controllers\LoginController@logout'); */
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+Route::get('/mypage/{login_id}', 'App\Http\Controllers\MypageController@index')->name('mypage');
