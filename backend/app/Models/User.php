@@ -41,4 +41,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * ユーザのプロフィールを取得
+     *
+     * @return void
+     */
+    public function profile()
+    {
+        return $this->hasOne('App\Models\Profile');
+    }
 }

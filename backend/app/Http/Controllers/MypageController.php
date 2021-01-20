@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 
 class MypageController extends Controller
@@ -18,6 +19,10 @@ class MypageController extends Controller
     public function index($login_id)
     {
         $user = User::find($login_id);
-        return $user;
+        $user1 = User::select()
+            ->join('profiles', 'profiles.user_id', '=', 'users.id')
+            ->where('id', $login_id)
+            ->get();
+        return $user1;
     }
 }
