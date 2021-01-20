@@ -2186,6 +2186,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2197,15 +2201,34 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      id: {}
+      id: {},
+      profile: {}
     };
   },
   methods: {
+    submit: function submit() {
+      var data = {
+        "id": this.id.id,
+        'name': this.id.name,
+        'website_url': this.profile.website_url,
+        'twitter_url': this.profile.twitter_url,
+        'shokai': this.profile.shokai
+      };
+      console.log(data);
+      axios.post('/api/profile/' + this.userId, data).then(function (res) {
+        alert('保存しました');
+      })["catch"](function (err) {
+        console.log('err:', err);
+        console.log('失敗');
+        alert('保存に失敗しました');
+      });
+    },
     getId: function getId() {
       var _this = this;
 
-      axios.get('/api/mypage/' + this.userId).then(function (res) {
-        _this.id = res.data;
+      axios.get('/api/profile/' + this.userId).then(function (res) {
+        _this.id = res.data[0];
+        _this.profile = res.data[1];
       });
     }
   },
@@ -39187,52 +39210,157 @@ var render = function() {
         _c("div", { staticClass: "col-md-8" }, [
           _c("p", [_vm._v("プロフィール設定")]),
           _vm._v(" "),
-          _c("form", { attrs: { action: "#" } }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "name" } }, [_vm._v("ニックネーム")]),
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.submit($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "name" } }, [
+                  _vm._v("ニックネーム")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.id.name,
+                      expression: "id.name"
+                    }
+                  ],
+                  attrs: { type: "text", name: "name", id: "name" },
+                  domProps: { value: _vm.id.name },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.id, "name", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "name" } }, [
+                  _vm._v("ウェブサイト")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.profile.website_url,
+                      expression: "profile.website_url"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    name: "website_url",
+                    id: "website_url"
+                  },
+                  domProps: { value: _vm.profile.website_url },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.profile, "website_url", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "name" } }, [_vm._v("Twitter")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.profile.twitter_url,
+                      expression: "profile.twitter_url"
+                    }
+                  ],
+                  attrs: {
+                    type: "text",
+                    name: "twitter_url",
+                    id: "twitter_url"
+                  },
+                  domProps: { value: _vm.profile.twitter_url },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.profile, "twitter_url", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "name" } }, [_vm._v("紹介文")]),
+                _vm._v(" "),
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.profile.shokai,
+                      expression: "profile.shokai"
+                    }
+                  ],
+                  attrs: { id: "shokai", name: "shokai" },
+                  domProps: { value: _vm.profile.shokai },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.profile, "shokai", $event.target.value)
+                    }
+                  }
+                })
+              ]),
               _vm._v(" "),
               _c("input", {
-                attrs: { type: "text", name: "name", id: "nickname" },
-                domProps: { value: _vm.id.name }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "name" } }, [_vm._v("ウェブサイト")]),
-              _vm._v(" "),
-              _c("input", {
-                attrs: { type: "text", name: "name", id: "nickname" },
-                domProps: { value: _vm.id.name }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", { attrs: { for: "name" } }, [_vm._v("紹介文")]),
-              _vm._v(" "),
-              _c("textarea", {
                 directives: [
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.id.name,
-                    expression: "id.name"
+                    value: _vm.id.id,
+                    expression: "id.id"
                   }
                 ],
-                attrs: { id: "shokai", name: "shokai" },
-                domProps: { value: _vm.id.name },
+                attrs: { type: "hidden", name: "id", id: "id" },
+                domProps: { value: _vm.id.id },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.id, "name", $event.target.value)
+                    _vm.$set(_vm.id, "id", $event.target.value)
                   }
                 }
-              })
-            ]),
-            _vm._v(" "),
-            _vm._m(0)
-          ])
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                [_vm._v("変更内容を保存する")]
+              )
+            ]
+          )
         ]),
         _vm._v(" "),
         _c("settings-bar")
@@ -39241,18 +39369,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("input", {
-        attrs: { type: "submit", name: "submit", value: "変更内容を保存する" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
