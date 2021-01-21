@@ -18,6 +18,9 @@
                         <router-link class="dropdown-item" v-bind:to="{name: 'mypage', params: {userId: user.id }}">
                             マイページ
                         </router-link>
+                        <router-link class="dropdown-item" v-bind:to="{name: 'post_upload', params: {userId: user.id }}">
+                            投稿
+                        </router-link>
                         <router-link class="dropdown-item" v-bind:to="{name: 'account', params: {userId: user.id }}">
                             設定
                         </router-link>

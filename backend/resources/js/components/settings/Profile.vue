@@ -10,7 +10,7 @@
                         <li v-for="error in errors" :key="error">{{ error }}</li>
                     </ul>
                 </p>
-                <profile-image v-on:catchImage="displayImage" :profile="profile"></profile-image>
+                <profile-image-form v-on:catchImage="displayImage" :profile="profile"></profile-image-form>
                 <div class="form-group">
                     <label for="name">ニックネーム</label>
                     <input type="text" name="name" id="name" v-model="id.name">
@@ -67,10 +67,10 @@
 </div>   
 </template>
 <script>
-import ProfileImage from './ProfileImage.vue';
-import settingsBar from './settingsBar.vue';
+import ProfileImageForm from './ProfileImageForm.vue';
+import SettingsBar from './SettingsBar.vue';
 export default {
-  components: { settingsBar, ProfileImage },
+  components: { SettingsBar, ProfileImageForm },
     props: {
         userId: String //idを取得
     },
