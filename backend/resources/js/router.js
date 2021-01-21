@@ -5,17 +5,20 @@ Vue.use(VueRouter);
 
 import HeaderComponent from "./components/HeaderComponent";
 import MypageComponent from "./components/MypageComponent";
+import PostUploadComponent from "./components/posts/PostUploadComponent";
+import PostImageForm from "./components/posts/PostImageForm";
 import Account from "./components/settings/Account";
 import Profile from "./components/settings/Profile";
-import ProfileImage from "./components/settings/ProfileImage";
-import settingsBar from "./components/settings/settingsBar";
+import ProfileImageForm from "./components/settings/ProfileImageForm";
+import SettingsBar from "./components/settings/SettingsBar";
 import HomeComponent from "./components/HomeComponent";
 import login from "./components/login";
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', HeaderComponent);
-Vue.component('settings-bar', settingsBar);
-Vue.component('profile-image', ProfileImage);
+Vue.component('settings-bar', SettingsBar);
+Vue.component('profile-image-form', ProfileImageForm);
+Vue.component('post-image-form', PostImageForm);
 
 Vue.directive('show-password', {
     inserted(el) {
@@ -81,7 +84,11 @@ Vue.directive('show-password', {
 const router = new VueRouter({
     mode: 'history',
     routes:[
-        
+        {
+            path: '/',
+            name: 'home',
+            component: HomeComponent
+        },        
         {
             path: '/mypage/:userId',
             name: 'mypage',
@@ -101,10 +108,12 @@ const router = new VueRouter({
             props: true
         },
         {
-            path: '/',
-            name: 'home',
-            component: HomeComponent
-        },
+            path: '/post_upload/:userId',
+            name: 'post_upload',
+            component: PostUploadComponent,
+            props: true
+        }
+
 ]
 })
 

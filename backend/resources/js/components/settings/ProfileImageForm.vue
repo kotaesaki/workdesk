@@ -7,10 +7,11 @@
                 </div>
                 <input id="image" class="form-input image-btn" type="file" name="image"
                     accept="image/png, image/jpeg" v-on:change="onFileChange">
+                <img class="userInfo__icon" v-bind:src="imageData" v-if="imageData">
+                <img class="userInfo__icon" :src="`../${imageData1.icon_path}`" v-if="imageData1"/> 
             </label>        
         </div>
-        <img class="userInfo__icon" v-bind:src="imageData" v-if="imageData">
-        <img class="userInfo__icon" :src="`../${imageData1.icon_path}`" v-if="imageData1"/> 
+ 
     </div>
 </template>
 <script>

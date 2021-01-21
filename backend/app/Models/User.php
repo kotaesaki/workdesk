@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Profile');
     }
+
+    public function post()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
 }
