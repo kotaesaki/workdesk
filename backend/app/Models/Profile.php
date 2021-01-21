@@ -18,6 +18,11 @@ class Profile extends Model
         'website_url',
         'twitter_url',
         'shokai',
+        'occupation',
+        'sex',
+        'age',
+        'icon_title',
+        'icon_path'
     ];
     protected $primaryKey = 'profiles_id';
 

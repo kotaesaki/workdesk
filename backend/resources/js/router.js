@@ -7,6 +7,7 @@ import HeaderComponent from "./components/HeaderComponent";
 import MypageComponent from "./components/MypageComponent";
 import Account from "./components/settings/Account";
 import Profile from "./components/settings/Profile";
+import ProfileImage from "./components/settings/ProfileImage";
 import settingsBar from "./components/settings/settingsBar";
 import HomeComponent from "./components/HomeComponent";
 import login from "./components/login";
@@ -14,6 +15,7 @@ import login from "./components/login";
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', HeaderComponent);
 Vue.component('settings-bar', settingsBar);
+Vue.component('profile-image', ProfileImage);
 
 
 const router = new VueRouter({
