@@ -33,3 +33,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/mypage/{login_id}', 'App\Http\Controllers\MypageController@index')->name('mypage');
 Route::get('/profile/{login_id}', 'App\Http\Controllers\ProfileController@index')->name('profile');
 Route::post('/profile/{login_id}', 'App\Http\Controllers\ProfileController@store')->name('store_profile');
+Route::get('/account/{login_id}', 'App\Http\Controllers\AccountController@index')->name('account');
+Route::post('/account/{login_id}', 'App\Http\Controllers\AccountController@update')->name('update_account');

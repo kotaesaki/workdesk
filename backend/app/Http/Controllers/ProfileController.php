@@ -30,17 +30,6 @@ class ProfileController extends Controller
             /* 'image' => 'required|file|image|mimes:png,jpeg|max:1024', */
         ]);
 
-        /*        if (request()->file) {
-            $file_name = time() . '.' . request()->file->getClientOriginalName();
-            request()->file->storeAs('public', $file_name);
-
-            $image = new Profile();
-            $image->icon_path = 'storage/' . $file_name;
-            $image->save();
-
-            return ['success' => '登録しました!'];
-        }
- */
         try {
 
             $file_name = request()->file->getClientOriginalName();

@@ -5,7 +5,7 @@
             <p>プロフィール設定</p>
             <form v-on:submit.prevent="submit" enctype="multipart/form-data">
                 <p v-if="errors.length">
-                    <b>Please correct the following error(s):</b>
+                    <b>以下のエラーを確認してください</b>
                     <ul>
                         <li v-for="error in errors" :key="error">{{ error }}</li>
                     </ul>

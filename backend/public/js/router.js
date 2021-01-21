@@ -279,6 +279,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -290,16 +310,43 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      id: {}
+      id: {},
+      errors: [],
+      //バリデーションエラー文
+      password: ''
     };
   },
   methods: {
     getId: function getId() {
       var _this = this;
 
-      axios.get('/api/mypage/' + this.userId).then(function (res) {
+      axios.get('/api/account/' + this.userId).then(function (res) {
         _this.id = res.data;
       });
+    },
+    submit: function submit() {
+      this.validate();
+      var formData = new FormData();
+      formData.append('id', this.id.id);
+      formData.append('email', this.id.email);
+      formData.append('password', this.password);
+      axios.post('/api/account/' + this.userId, formData).then(function (res) {
+        alert('変更を保存しました');
+      })["catch"](function (err) {
+        console.log('err:', err);
+        console.log('アカウント設定変更失敗');
+      });
+    },
+    validate: function validate() {
+      this.errors = [];
+
+      if (!this.id.email) {
+        this.errors.push('メールアドレスが入力されていません。');
+      }
+
+      if (!this.password) {
+        this.errors.push('パスワードが入力されていません。');
+      }
     }
   },
   mounted: function mounted() {
@@ -600,6 +647,65 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.component('example-component', __webpac
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('header-component', _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_2__.default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('settings-bar', _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_7__.default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('profile-image', _components_settings_ProfileImage__WEBPACK_IMPORTED_MODULE_6__.default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.directive('show-password', {
+  inserted: function inserted(el) {
+    var clone = el.cloneNode();
+    clone.id = '';
+    clone.type = 'text';
+    clone.style.display = 'none';
+    clone.addEventListener('input', function (e) {
+      var inputEvent = document.createEvent('Event');
+      inputEvent.initEvent('input', true, false);
+      el.value = e.target.value;
+      el.dispatchEvent(inputEvent);
+    });
+    el.parentNode.insertBefore(clone, el);
+    var icons = {
+      show: '&#x1F441;',
+      hide: '&#x1F576;'
+    };
+    var a = document.createElement('a');
+    a.style.position = 'absolute';
+    a.style.cursor = 'pointer';
+    a.style.fontSize = clone.style.fontSize;
+    a.style.color = clone.style.color;
+    a.textDecoration = 'none';
+    a.innerHTML = icons.show;
+    a.addEventListener('click', function (e) {
+      if (clone.style.display === 'none') {
+        e.target.innerHTML = icons.hide;
+        el.style.display = 'none';
+        clone.style.display = '';
+        clone.value = el.value;
+        clone.focus();
+      } else {
+        e.target.innerHTML = icons.show;
+        clone.style.display = 'none';
+        el.style.display = '';
+        el.value = clone.value;
+        el.focus();
+      }
+
+      e.preventDefault();
+    });
+    document.body.appendChild(a);
+
+    function alignElement(target) {
+      var rect = el.getBoundingClientRect();
+      var clientWidth = target.clientWidth;
+      var clientHeight = target.clientHeight;
+      var left = rect.right - Math.round(clientWidth) - 10;
+      var top = rect.top + Math.round(rect.height * 0.5) - Math.round(clientHeight * 0.5);
+      target.style.left = window.pageXOffset + left + 'px';
+      target.style.top = window.pageYOffset + top + 'px';
+    }
+
+    alignElement(a);
+    window.addEventListener('resize', function () {
+      alignElement(a);
+    });
+  }
+});
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
   mode: 'history',
   routes: [{
@@ -2181,21 +2287,144 @@ var render = function() {
     _c(
       "div",
       { staticClass: "row justify-content-center" },
-      [_vm._m(0), _vm._v(" "), _c("settings-bar")],
+      [
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("p", [_vm._v("アカウント設定")]),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.submit($event)
+                }
+              }
+            },
+            [
+              _vm.errors.length
+                ? _c("p", [
+                    _c("b", [_vm._v("以下のエラーを確認してください")]),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors, function(error) {
+                        return _c("li", { key: error }, [_vm._v(_vm._s(error))])
+                      }),
+                      0
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "e-mail" } }, [
+                  _vm._v("メールアドレス")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.id.email,
+                      expression: "id.email"
+                    }
+                  ],
+                  attrs: { type: "text", name: "email", id: "email" },
+                  domProps: { value: _vm.id.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.id, "email", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "password" } }, [
+                  _vm._v("パスワード")
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    "※メールアドレスのみを変更される方は、現在のパスワードを入力してください。"
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    "※パスワードを変更される方は、こちらに新たなパスワードを入力してください。"
+                  )
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.password,
+                      expression: "password"
+                    },
+                    { name: "show-password", rawName: "v-show-password" }
+                  ],
+                  attrs: {
+                    type: "password",
+                    name: "password",
+                    id: "password",
+                    autocomplete: "new-password"
+                  },
+                  domProps: { value: _vm.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.password = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.id.id,
+                    expression: "id.id"
+                  }
+                ],
+                attrs: { type: "hidden", name: "id", id: "id" },
+                domProps: { value: _vm.id.id },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.id, "id", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+                [_vm._v("変更内容を保存する")]
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("settings-bar")
+      ],
       1
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
-      _c("p", [_vm._v("アカウント設定")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -2239,7 +2468,7 @@ var render = function() {
             [
               _vm.errors.length
                 ? _c("p", [
-                    _c("b", [_vm._v("Please correct the following error(s):")]),
+                    _c("b", [_vm._v("以下のエラーを確認してください")]),
                     _vm._v(" "),
                     _c(
                       "ul",
