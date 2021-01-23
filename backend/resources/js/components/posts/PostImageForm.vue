@@ -34,7 +34,7 @@
                     <p><button v-on:click="cropImage">完了</button></p>
                 </div>
             </div>
-            <button v-on:click="deleteImage">削除</button>
+            <button v-on:click="deleteImage" v-if="cropImg">削除</button>
 
         </div>
     </div>
@@ -49,16 +49,17 @@ export default {
         VueCropper
     },
     el:'#post-image-preview',
-    props:
+/*     props:
     [
 
-    ],
+    ], */
     data() {
         return {
             showModal: false,
             imageData:'',
             cropImg:'',
-            file:{},
+            file:'',
+            blob: '',
         };
     },
     methods: {
@@ -80,26 +81,37 @@ export default {
             
         },
         closeModal(){
-            this.files= '';
+            this.deleteImage();
             this.showModal = false;
         },
         cropImage(){
             this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
+            let bin = atob(this.cropImg.replace(/^.*,/, ''));
+            let buffer = new Uint8Array(bin.length);
+            for(let i = 0; i < bin.length; i++){
+                buffer[i] = bin.charCodeAt(i);
+            }
+            // Blobを作成
+            this.blob = new Blob([buffer.buffer], {
+                type: "image/jpeg"
+            });
+            console.log(this.blob);
+            this.$emit('catchBlob', this.blob);
             this.showModal = false;
         },
         deleteImage(){
+            console.log("写真消します");
             this.imageData = '';
             this.cropImg = '';
             this.file = '';
+            this.blob = '';
+            this.$emit('catchBlob', this.blob);
+            console.log("写真消しました");
             //こっちでもemit送る
         },
 
 
     },
-    watch: {
-        
-    },
-    
 }
 </script>
 <style scoped>
@@ -138,5 +150,8 @@ export default {
     height:200px; 
     border: 1px solid gray; 
     display: inline-block;
+}
+label input{
+    display: none;
 }
 </style>

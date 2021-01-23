@@ -10,13 +10,17 @@ class Tag extends Model
     use HasFactory;
 
     protected $fillable =[
-        'tag_post_id',
-        'tag_name'
+        'tag_name',
     ];
     protected $primaryKey = 'tag_id';
     public function post()
     {
-        return $this->belongsTo('App\Models\Post');
-    }
+        return $this->belongsToMany(
+            'App\Models\Post',
+            'post_tag',
+            'tag_id',
+            'post_id'
+        );
+    } 
     
 }
