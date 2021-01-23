@@ -3,7 +3,7 @@
         <label for="tag">タグを追加する</label>
         <vue-simple-suggest
             v-model="selected"
-            :list="getSuggestionList"
+            :list="List"
             :filter-by-query="true"
             >
             <input type="text" name="tag" id="tag" placeholder="タグを入力してください" autocomplete="off">    
@@ -28,14 +28,15 @@ export default {
         };
     },
     methods: {
-        async getSuggestionList() {
-            return await axios.get('/api/tagList')
-            .then(res => this.List = res.data )
-            .catch((error)=>{
-                this.errorMsg = 'Error! Could not reach the API. ' + error
-                console.log(this.errorMsg)
-            })
-        },
+
+    },
+    created(){
+        axios.get('/api/tagList')
+        .then(res => this.List = res.data )
+        .catch((error)=>{
+            this.errorMsg = 'Error! Could not reach the API. ' + error
+            console.log(this.errorMsg)
+        })        
     }
 
 }
