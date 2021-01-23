@@ -10,11 +10,8 @@
                         <li v-for="error in errors" :key="error">{{ error }}</li>
                     </ul>
                 </p>
-                <post-image-form></post-image-form>
-                <div class="form-group">
-                    <label for="tag">タグを追加する</label>
-                    <input type="text" name="tag" id="id">
-                </div>
+                <post-image-form v-on:catchBlob="uploadBlob"></post-image-form>
+                <post-tag-form></post-tag-form>
                 <div class="form-group">
                     <label for="item_tag">アイテムタグを追加する</label>
                 </div>
@@ -31,14 +28,16 @@
 </template>
 <script>
 import PostImageForm from './PostImageForm.vue';
+import PostTagForm from './PostTagForm.vue';
 export default {
-  components: { PostImageForm },
+  components: { PostImageForm, PostTagForm },
     props: {
         userId: String
     },
     data() {
         return {
             errors: [],
+            blob: '',
         };
     },
     methods: {
@@ -51,6 +50,9 @@ export default {
                 this.profile = res.data[1];
 
            })
+       },
+       uploadBlob(blob){
+           this.blob = blob;
        },
     },
 }

@@ -23,6 +23,11 @@ class Post extends Model
     }
     public function tag()
     {
-        return $this->hasMany('App\Models\Post')
-    }
+        return $this->belongsToMany(
+            'App\Models\Term',
+            'post_tag',
+            'post_id',
+            'tag_id'
+        );
+    } 
 }

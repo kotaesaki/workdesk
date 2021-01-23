@@ -68,9 +68,9 @@
 </template>
 <script>
 import ProfileImageForm from './ProfileImageForm.vue';
-import SettingsBar from './SettingsBar.vue';
+import settingsBar from './settingsBar.vue';
 export default {
-  components: { SettingsBar, ProfileImageForm },
+  components: { settingsBar, ProfileImageForm },
     props: {
         userId: String //idを取得
     },
