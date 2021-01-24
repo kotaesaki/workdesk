@@ -424,6 +424,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -433,10 +438,27 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       selected: '',
-      List: ''
+      List: '',
+      tagList: [],
+      aim: ''
     };
   },
-  methods: {},
+  methods: {
+    addTag: function addTag() {
+      if (this.selected) {
+        if (!this.tagList.includes(this.selected)) {
+          this.tagList.push(this.selected);
+          console.log(this.selected + 'を追加');
+          this.selected = '';
+          this.aim = '';
+        } else {
+          this.selected = '';
+          this.aim = '';
+          console.log(this.selected + "は追加済み");
+        }
+      }
+    }
+  },
   created: function created() {
     var _this = this;
 
@@ -7248,18 +7270,59 @@ var render = function() {
         },
         [
           _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.aim,
+                expression: "aim"
+              }
+            ],
             attrs: {
               type: "text",
               name: "tag",
               id: "tag",
               placeholder: "タグを入力してください",
               autocomplete: "off"
+            },
+            domProps: { value: _vm.aim },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.aim = $event.target.value
+              }
             }
           })
         ]
       ),
       _vm._v(" "),
-      _c("button", [_vm._v("タグを追加する")])
+      _c("button", { on: { click: _vm.addTag } }, [_vm._v("タグを追加する")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.tagList,
+              expression: "tagList"
+            }
+          ],
+          staticClass: "tags"
+        },
+        [
+          _c(
+            "ul",
+            _vm._l(_vm.tagList, function(tag) {
+              return _c("li", { key: tag }, [_vm._v(_vm._s(tag))])
+            }),
+            0
+          )
+        ]
+      )
     ],
     1
   )
