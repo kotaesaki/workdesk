@@ -30,11 +30,11 @@
                         ></vue-cropper>
                     </div>
 
-                    <p><button v-on:click="closeModal">キャンセル</button></p>                    
-                    <p><button v-on:click="cropImage">完了</button></p>
+                    <p v-on:click="closeModal">キャンセル</p>                    
+                    <p v-on:click="cropImage">完了</p>
                 </div>
             </div>
-            <button v-on:click="deleteImage" v-if="cropImg">削除</button>
+            <p v-on:click="deleteImage" v-if="cropImg">削除</p>
 
         </div>
     </div>
@@ -91,6 +91,7 @@ export default {
             for(let i = 0; i < bin.length; i++){
                 buffer[i] = bin.charCodeAt(i);
             }
+
             // Blobを作成
             this.blob = new Blob([buffer.buffer], {
                 type: "image/jpeg"

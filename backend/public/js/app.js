@@ -2262,6 +2262,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2272,8 +2275,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       selected: '',
       List: '',
-      tagList: [],
-      aim: ''
+      tagList: []
     };
   },
   methods: {
@@ -2283,13 +2285,17 @@ __webpack_require__.r(__webpack_exports__);
           this.tagList.push(this.selected);
           console.log(this.selected + 'を追加');
           this.selected = '';
-          this.aim = '';
+          this.$emit('catchTag', this.tagList);
         } else {
           this.selected = '';
-          this.aim = '';
           console.log(this.selected + "は追加済み");
         }
       }
+    },
+    deleteTag: function deleteTag(tag) {
+      var index = this.tagList.indexOf(tag);
+      this.tagList.splice(index, 1);
+      console.log(tag + "タグを削除");
     }
   },
   created: function created() {
@@ -2347,6 +2353,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2359,22 +2367,64 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      id: '',
+      profile: '',
       errors: [],
-      blob: ''
+      blob: '',
+      tag: '',
+      description: ''
     };
   },
   methods: {
-    submit: function submit() {},
+    submit: function submit() {
+      this.validate();
+      var imageName = Math.random().toString(32).substring(2);
+      var formData = new FormData();
+      formData.append('file', this.blob, imageName + '.jpg');
+      formData.append('description', this.description);
+      formData.append('id', this.userId);
+
+      if (this.tag.length > 0) {
+        this.tag.forEach(function (text, index) {
+          formData.append('tag[]', text);
+        });
+      } else {
+        formData, append('tag', []);
+      }
+
+      console.log(formData);
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
+      axios.post('/api/post_upload/' + this.userId, formData, config).then(function (res) {
+        alert('保存しました');
+      })["catch"](function (err) {
+        console.log('err:', err);
+        console.log('失敗');
+      });
+    },
     getId: function getId() {
       var _this = this;
 
-      axios.get('/api/profile/' + this.userId).then(function (res) {
+      axios.get('/api/post_upload/' + this.userId).then(function (res) {
         _this.id = res.data[0];
         _this.profile = res.data[1];
       });
     },
+    validate: function validate() {
+      this.errors = [];
+
+      if (!this.blob) {
+        this.errors.push('画像は必須項目です');
+      }
+    },
     uploadBlob: function uploadBlob(blob) {
       this.blob = blob;
+    },
+    uploadTag: function uploadTag(tag) {
+      this.tag = tag;
     }
   }
 });
@@ -44224,21 +44274,17 @@ var render = function() {
                   )
                 : _vm._e(),
               _vm._v(" "),
-              _c("p", [
-                _c("button", { on: { click: _vm.closeModal } }, [
-                  _vm._v("キャンセル")
-                ])
+              _c("p", { on: { click: _vm.closeModal } }, [
+                _vm._v("キャンセル")
               ]),
               _vm._v(" "),
-              _c("p", [
-                _c("button", { on: { click: _vm.cropImage } }, [_vm._v("完了")])
-              ])
+              _c("p", { on: { click: _vm.cropImage } }, [_vm._v("完了")])
             ])
           ]
         ),
         _vm._v(" "),
         _vm.cropImg
-          ? _c("button", { on: { click: _vm.deleteImage } }, [_vm._v("削除")])
+          ? _c("p", { on: { click: _vm.deleteImage } }, [_vm._v("削除")])
           : _vm._e()
       ])
     ]
@@ -44291,8 +44337,8 @@ var render = function() {
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.aim,
-                expression: "aim"
+                value: _vm.selected,
+                expression: "selected"
               }
             ],
             attrs: {
@@ -44302,20 +44348,20 @@ var render = function() {
               placeholder: "タグを入力してください",
               autocomplete: "off"
             },
-            domProps: { value: _vm.aim },
+            domProps: { value: _vm.selected },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.aim = $event.target.value
+                _vm.selected = $event.target.value
               }
             }
           })
         ]
       ),
       _vm._v(" "),
-      _c("button", { on: { click: _vm.addTag } }, [_vm._v("タグを追加する")]),
+      _c("p", { on: { click: _vm.addTag } }, [_vm._v("タグを追加する")]),
       _vm._v(" "),
       _c(
         "div",
@@ -44334,7 +44380,22 @@ var render = function() {
           _c(
             "ul",
             _vm._l(_vm.tagList, function(tag) {
-              return _c("li", { key: tag }, [_vm._v(_vm._s(tag))])
+              return _c("li", { key: tag }, [
+                _vm._v(
+                  "\n                " + _vm._s(tag) + "\n                "
+                ),
+                _c(
+                  "p",
+                  {
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteTag(tag)
+                      }
+                    }
+                  },
+                  [_vm._v("削除")]
+                )
+              ])
             }),
             0
           )
@@ -44375,6 +44436,7 @@ var render = function() {
         _c(
           "form",
           {
+            attrs: { enctype: "multipart/form-data" },
             on: {
               submit: function($event) {
                 $event.preventDefault()
@@ -44399,11 +44461,63 @@ var render = function() {
             _vm._v(" "),
             _c("post-image-form", { on: { catchBlob: _vm.uploadBlob } }),
             _vm._v(" "),
-            _c("post-tag-form"),
+            _c("post-tag-form", { on: { catchTag: _vm.uploadTag } }),
             _vm._v(" "),
             _vm._m(0),
             _vm._v(" "),
-            _vm._m(1),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "description" } }, [
+                _vm._v("コメントを追加する")
+              ]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.description,
+                    expression: "description"
+                  }
+                ],
+                attrs: {
+                  name: "description",
+                  id: "description",
+                  cols: "30",
+                  rows: "10",
+                  placeholder: "コメントを入力する"
+                },
+                domProps: { value: _vm.description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.description = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.userId,
+                  expression: "userId"
+                }
+              ],
+              attrs: { type: "hidden", name: "id", id: "id" },
+              domProps: { value: _vm.userId },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.userId = $event.target.value
+                }
+              }
+            }),
             _vm._v(" "),
             _c(
               "button",
@@ -44426,26 +44540,6 @@ var staticRenderFns = [
       _c("label", { attrs: { for: "item_tag" } }, [
         _vm._v("アイテムタグを追加する")
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "description" } }, [
-        _vm._v("コメントを追加する")
-      ]),
-      _vm._v(" "),
-      _c("textarea", {
-        attrs: {
-          name: "description",
-          id: "description",
-          cols: "30",
-          rows: "10",
-          placeholder: "コメントを入力する"
-        }
-      })
     ])
   }
 ]
