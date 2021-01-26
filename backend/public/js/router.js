@@ -586,6 +586,16 @@ __webpack_require__.r(__webpack_exports__);
       if (!this.blob) {
         this.errors.push('画像は必須項目です');
       }
+
+      if (!this.tag) {
+        this.errors.push('タグは必須項目です');
+      }
+
+      if (!this.description) {
+        this.errors.push('コメントは必須項目です');
+      }
+
+      return this.errors;
     },
     uploadBlob: function uploadBlob(blob) {
       this.blob = blob;
@@ -7195,22 +7205,37 @@ var render = function() {
       _c("div", { staticClass: "form-group" }, [
         _c("p", [_vm._v("画像を追加する")]),
         _vm._v(" "),
-        _c("label", { staticClass: "image-view", attrs: { for: "image" } }, [
-          _c("input", {
-            staticClass: "form-input image-btn",
-            attrs: {
-              id: "image",
-              type: "file",
-              name: "image",
-              accept: "image/png, image/jpeg"
-            },
-            on: { change: _vm.openModal }
-          }),
-          _vm._v(" "),
-          _vm.cropImg
-            ? _c("img", { staticClass: "cropimg", attrs: { src: _vm.cropImg } })
-            : _vm._e()
-        ]),
+        _c(
+          "label",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.cropImg,
+                expression: "!cropImg"
+              }
+            ],
+            staticClass: "image-view",
+            attrs: { for: "image" }
+          },
+          [
+            _c("input", {
+              staticClass: "form-input image-btn",
+              attrs: {
+                id: "image",
+                type: "file",
+                name: "image",
+                accept: "image/png, image/jpeg"
+              },
+              on: { change: _vm.openModal }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _vm.cropImg
+          ? _c("img", { staticClass: "cropimg", attrs: { src: _vm.cropImg } })
+          : _vm._e(),
         _vm._v(" "),
         _c(
           "div",

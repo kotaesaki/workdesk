@@ -19,7 +19,11 @@ class PostController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([]);
+        $request->validate([
+            'file' => 'required|file|image|mimes:jpeg,jpg,png',
+            'tag' => 'required',
+            'description' => 'required|string'
+        ]);
 
         try {
             $file_name = request()->file->getClientOriginalName();

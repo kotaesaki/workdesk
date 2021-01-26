@@ -2,11 +2,11 @@
     <div id="post-image-preview" class="post-image-preview">
         <div class="form-group">
             <p>画像を追加する</p>
-            <label for="image" class="image-view">
+            <label for="image" class="image-view" v-show="!cropImg">
                 <input id="image" class="form-input image-btn" type="file" name="image"
                     accept="image/png, image/jpeg" v-on:change="openModal">
-                <img class="cropimg" v-bind:src="cropImg" v-if="cropImg">
             </label>
+            <img class="cropimg" v-bind:src="cropImg" v-if="cropImg">
 
             <!-- 以下モーダル -->
             <div class="overlay" v-show="showModal">

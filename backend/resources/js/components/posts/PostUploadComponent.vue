@@ -62,7 +62,6 @@ export default {
             } else {
                 formData.append('tag', []);
             }
-
             console.log(formData);
             var config = {
                 headers: {
@@ -89,6 +88,13 @@ export default {
            if(!this.blob){
                 this.errors.push('画像は必須項目です');
            }
+           if(!this.tag){
+                this.errors.push('タグは必須項目です');
+           }
+           if(!this.description){
+                this.errors.push('コメントは必須項目です');
+           }
+           return this.errors;
        },
        uploadBlob(blob){
            this.blob = blob;
