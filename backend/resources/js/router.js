@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
 import HeaderComponent from "./components/HeaderComponent";
-import MypageComponent from "./components/MypageComponent";
+import MypageComponent from "./components/mypage/MypageComponent";
 import PostUploadComponent from "./components/posts/PostUploadComponent";
 import PostImageForm from "./components/posts/PostImageForm";
 import PostTagForm from "./components/posts/PostTagForm";
