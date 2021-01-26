@@ -9,11 +9,11 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
         'tag_name',
     ];
     protected $primaryKey = 'tag_id';
-    public function post()
+    public function posts()
     {
         return $this->belongsToMany(
             'App\Models\Post',
@@ -21,6 +21,5 @@ class Tag extends Model
             'tag_id',
             'post_id'
         );
-    } 
-    
+    }
 }

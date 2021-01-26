@@ -55,21 +55,21 @@ export default {
             formData.append('file',this.blob, imageName + '.jpg');
             formData.append('description', this.description);
             formData.append('id', this.userId);
-            if(this.tag.length > 0){
-                this.tag.forEach((text, index)=>{
-                    formData.append('tag[]',text);
+            if (this.tag.length > 0) {
+                this.tag.forEach((text, index) => {
+                formData.append('tag[' + index + ']', text);
                 })
-            }else{
-                formData,append('tag', []);
+            } else {
+                formData.append('tag', []);
             }
-            
+
             console.log(formData);
             var config = {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
             };
-            axios.post('/api/post_upload/' + this.userId, formData,config).then((res)=>{
+            axios.post('/api/post_upload/' + this.userId, formData, config).then((res)=>{
                alert('保存しました');
 
             }).catch(err=>{

@@ -27,21 +27,27 @@ class PostController extends Controller
             DB::beginTransaction();
             try {
                 $user = User::find($request->id);
-                Post::create([
+                $post = Post::create([
                     'user_id' => $user->id,
                     'photo_name' => $file_name,
                     'photo_path' => 'storage/' . $file_name,
                     'description' => $request->description,
                 ]);
-                Tag::create([
-                    'tag_name' => $request->tag
-                ]);
+                foreach ($request->tag as $value) {
+                    Tag::firstOrCreate([
+                        'tag_name' => $value
+                    ]);
+                }
+                $tagIds = array();
+                foreach ($request->tag as $val) {
+                    $tagIds[] = Tag::select('tag_id')->where('tag_name', $val)
+                        ->first()->tag_id;
+                }
+                $post->tags()->sync($tagIds, false);
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
             }
-            /* $post = Post::find(Post::max('post_id'));
-            $post->tags()->attach($request->tag); */
         } catch (\Exception $e) {
         }
     }

@@ -21,13 +21,13 @@ class Post extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
-    public function tag()
+    public function tags()
     {
         return $this->belongsToMany(
-            'App\Models\Term',
+            'App\Models\Tag',
             'post_tag',
             'post_id',
             'tag_id'
         );
-    } 
+    }
 }
