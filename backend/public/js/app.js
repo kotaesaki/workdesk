@@ -2386,10 +2386,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.tag.length > 0) {
         this.tag.forEach(function (text, index) {
-          formData.append('tag[]', text);
+          formData.append('tag[' + index + ']', text);
         });
       } else {
-        formData, append('tag', []);
+        formData.append('tag', []);
       }
 
       console.log(formData);
