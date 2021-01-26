@@ -62,6 +62,7 @@ export default {
             }else{
                 formData,append('tag', []);
             }
+            
             console.log(formData);
             var config = {
                 headers: {
