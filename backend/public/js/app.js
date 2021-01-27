@@ -3019,6 +3019,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scroll_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scroll.js */ "./resources/js/directive/scroll.js");
+/* harmony import */ var _showPassword_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./showPassword.js */ "./resources/js/directive/showPassword.js");
+
 
 
 /***/ }),
@@ -3047,56 +3049,16 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.directive('mypage-scroll', {
 
 /***/ }),
 
-/***/ "./resources/js/router.js":
-/*!********************************!*\
-  !*** ./resources/js/router.js ***!
-  \********************************/
+/***/ "./resources/js/directive/showPassword.js":
+/*!************************************************!*\
+  !*** ./resources/js/directive/showPassword.js ***!
+  \************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/HeaderComponent */ "./resources/js/components/HeaderComponent.vue");
-/* harmony import */ var _components_mypage_MypageComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/mypage/MypageComponent */ "./resources/js/components/mypage/MypageComponent.vue");
-/* harmony import */ var _components_mypage_MypageBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/mypage/MypageBar */ "./resources/js/components/mypage/MypageBar.vue");
-/* harmony import */ var _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/mypage/MypageContent */ "./resources/js/components/mypage/MypageContent.vue");
-/* harmony import */ var _components_posts_PostUploadComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/posts/PostUploadComponent */ "./resources/js/components/posts/PostUploadComponent.vue");
-/* harmony import */ var _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/posts/PostImageForm */ "./resources/js/components/posts/PostImageForm.vue");
-/* harmony import */ var _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/posts/PostTagForm */ "./resources/js/components/posts/PostTagForm.vue");
-/* harmony import */ var _components_settings_Account__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/settings/Account */ "./resources/js/components/settings/Account.vue");
-/* harmony import */ var _components_settings_Profile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/settings/Profile */ "./resources/js/components/settings/Profile.vue");
-/* harmony import */ var _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/settings/ProfileImageForm */ "./resources/js/components/settings/ProfileImageForm.vue");
-/* harmony import */ var _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/settings/settingsBar */ "./resources/js/components/settings/settingsBar.vue");
-/* harmony import */ var _components_HomeComponent__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/HomeComponent */ "./resources/js/components/HomeComponent.vue");
-/* harmony import */ var _components_login__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/login */ "./resources/js/components/login.vue");
 
-
-vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_1__.default);
-
-
-
-
-
-
-
-
-
-
-
-
-
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('header-component', _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_2__.default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('mypage-bar', _components_mypage_MypageBar__WEBPACK_IMPORTED_MODULE_4__.default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('mypage-content', _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_5__.default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('settings-bar', _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_12__.default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('profile-image-form', _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_11__.default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('post-image-form', _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_7__.default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.component('post-tag-form', _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_8__.default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.directive('show-password', {
   inserted: function inserted(el) {
     var clone = el.cloneNode();
@@ -3156,6 +3118,59 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.directive('show-password', {
     });
   }
 });
+
+/***/ }),
+
+/***/ "./resources/js/router.js":
+/*!********************************!*\
+  !*** ./resources/js/router.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/HeaderComponent */ "./resources/js/components/HeaderComponent.vue");
+/* harmony import */ var _components_mypage_MypageComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/mypage/MypageComponent */ "./resources/js/components/mypage/MypageComponent.vue");
+/* harmony import */ var _components_mypage_MypageBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/mypage/MypageBar */ "./resources/js/components/mypage/MypageBar.vue");
+/* harmony import */ var _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/mypage/MypageContent */ "./resources/js/components/mypage/MypageContent.vue");
+/* harmony import */ var _components_posts_PostUploadComponent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/posts/PostUploadComponent */ "./resources/js/components/posts/PostUploadComponent.vue");
+/* harmony import */ var _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/posts/PostImageForm */ "./resources/js/components/posts/PostImageForm.vue");
+/* harmony import */ var _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/posts/PostTagForm */ "./resources/js/components/posts/PostTagForm.vue");
+/* harmony import */ var _components_settings_Account__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/settings/Account */ "./resources/js/components/settings/Account.vue");
+/* harmony import */ var _components_settings_Profile__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/settings/Profile */ "./resources/js/components/settings/Profile.vue");
+/* harmony import */ var _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/settings/ProfileImageForm */ "./resources/js/components/settings/ProfileImageForm.vue");
+/* harmony import */ var _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/settings/settingsBar */ "./resources/js/components/settings/settingsBar.vue");
+/* harmony import */ var _components_HomeComponent__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/HomeComponent */ "./resources/js/components/HomeComponent.vue");
+/* harmony import */ var _components_login__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/login */ "./resources/js/components/login.vue");
+
+
+vue__WEBPACK_IMPORTED_MODULE_0__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_1__.default);
+
+
+
+
+
+
+
+
+
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('header-component', _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_2__.default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('mypage-bar', _components_mypage_MypageBar__WEBPACK_IMPORTED_MODULE_4__.default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('mypage-content', _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_5__.default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('settings-bar', _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_12__.default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('profile-image-form', _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_11__.default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('post-image-form', _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_7__.default);
+vue__WEBPACK_IMPORTED_MODULE_0__.default.component('post-tag-form', _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_8__.default);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
   mode: 'history',
   routes: [{
