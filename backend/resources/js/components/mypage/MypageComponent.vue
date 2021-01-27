@@ -1,7 +1,9 @@
 <template>
  <div class="container">
     <div class="row justify-content-center">
-        <mypage-content :posts="posts" :tagss="tags"></mypage-content>
+        <mypage-content :posts="posts" :tagss="tags" :start="start" 
+            :end="end" :startScrollYOffset="startScrollYOffset"
+            :postData="postData"></mypage-content>
         <mypage-bar :id="id"></mypage-bar>
     </div>
 </div>   
@@ -12,13 +14,17 @@ import MypageContent from './MypageContent.vue';
 export default {
   components: { MypageBar, MypageContent },
     props: {
-        userId: String //idを取得
+        userId: Number //idを取得
     },
     data() {
         return{
             id:'',
             posts:'',
-            tags :''
+            tags :'',
+            start:0,
+            end:10,
+            startScrollYOffset: 0,
+            postData:[]
        }
    },
    methods: {
@@ -27,11 +33,19 @@ export default {
                this.id = res.data[0];
                this.posts = res.data[1];
                this.tags = res.data[2];
+               if(this.end <= this.posts.length){
+                this.postData = this.postData
+                    .concat(this.posts.slice(this.start,this.end));
+                this.start = this.start + 10;
+                this.end = this.end + 10;
+            }
            })
-       }
+       },
+       
    }, 
    mounted() {
        this.getId();
+       this.startScrollYOffset = Math.floor(window.innerHeight / 3);
    },
     
 }

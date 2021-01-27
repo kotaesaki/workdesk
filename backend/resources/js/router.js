@@ -26,6 +26,7 @@ Vue.component('profile-image-form', ProfileImageForm);
 Vue.component('post-image-form', PostImageForm);
 Vue.component('post-tag-form', PostTagForm);
 
+
 Vue.directive('show-password', {
     inserted(el) {
         var clone = el.cloneNode();

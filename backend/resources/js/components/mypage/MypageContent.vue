@@ -2,7 +2,7 @@
     <div class="col-md-8">
         <p>タイムライン</p>
         <div>
-            <div class="timeline" v-for="post in posts" :key="post">
+            <div class="timeline" v-for="post in postData" :key="post">
                 <div class="page-content">
                     <img class="post_image" :src="`../${post.photo_path}`">
                     <p>{{post.created_at}}</p>
@@ -17,6 +17,7 @@
                     </div>
                 </div>
             </div>
+            <div v-mypage-scroll="infiniteHandler"></div>
         </div>    
     </div>
 </template>
@@ -25,12 +26,33 @@ export default {
     props: {
         posts: Array,
         tagss: Array,
-
+        start:Number,
+        end:Number,
+        startScrollYOffset: Number,
+        postData: Array,
     },
     data() {
         return {
-            property: 'value',
+            isGettingPosts: false
         };
+    },
+    methods: {
+        infiniteHandler() {
+            if(window.pageYOffset >= this.startScrollYOffset && !this.isGettingPosts){
+                this.startScrollYOffset = window.innerHeight + window.pageYOffset;
+                this.getPost();
+            }
+        },
+        getPost(){
+            this.isGettingPosts = true;
+            if(this.end <= this.posts.length){
+                this.postData = this.postData
+                    .concat(this.posts.slice(this.start,this.end));
+                this.start = this.start + 10;
+                this.end = this.end + 10;
+            }
+            this.isGettingPosts = false;
+        },
     },
 
 }
