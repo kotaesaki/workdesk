@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Profile;
@@ -23,6 +24,14 @@ class MypageController extends Controller
             ->join('profiles', 'profiles.user_id', '=', 'users.id')
             ->where('id', $login_id)
             ->get();
-        return $user1;
+        $posts = Post::where('user_id', $login_id)
+            ->orderBy('created_at', 'desc')->get();
+        foreach ($posts as $post) {
+            $post11[] = Post::find($post->post_id)->tags()->get();
+            /* foreach ($post11->tags as $tag) {
+                $tags[] = $tag->pivot;
+            } */
+        }
+        return [$user1, $posts, $post11];
     }
 }

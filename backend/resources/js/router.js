@@ -5,6 +5,8 @@ Vue.use(VueRouter);
 
 import HeaderComponent from "./components/HeaderComponent";
 import MypageComponent from "./components/mypage/MypageComponent";
+import MypageBar from "./components/mypage/MypageBar";
+import MypageContent from "./components/mypage/MypageContent";
 import PostUploadComponent from "./components/posts/PostUploadComponent";
 import PostImageForm from "./components/posts/PostImageForm";
 import PostTagForm from "./components/posts/PostTagForm";
@@ -17,6 +19,8 @@ import login from "./components/login";
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', HeaderComponent);
+Vue.component('mypage-bar', MypageBar);
+Vue.component('mypage-content', MypageContent);
 Vue.component('settings-bar', settingsBar);
 Vue.component('profile-image-form', ProfileImageForm);
 Vue.component('post-image-form', PostImageForm);
