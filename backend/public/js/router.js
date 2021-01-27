@@ -287,6 +287,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -295,14 +297,18 @@ __webpack_require__.r(__webpack_exports__);
     MypageContent: _MypageContent_vue__WEBPACK_IMPORTED_MODULE_1__.default
   },
   props: {
-    userId: String //idを取得
+    userId: Number //idを取得
 
   },
   data: function data() {
     return {
       id: '',
       posts: '',
-      tags: ''
+      tags: '',
+      start: 0,
+      end: 10,
+      startScrollYOffset: 0,
+      postData: []
     };
   },
   methods: {
@@ -313,11 +319,18 @@ __webpack_require__.r(__webpack_exports__);
         _this.id = res.data[0];
         _this.posts = res.data[1];
         _this.tags = res.data[2];
+
+        if (_this.end <= _this.posts.length) {
+          _this.postData = _this.postData.concat(_this.posts.slice(_this.start, _this.end));
+          _this.start = _this.start + 10;
+          _this.end = _this.end + 10;
+        }
       });
     }
   },
   mounted: function mounted() {
     this.getId();
+    this.startScrollYOffset = Math.floor(window.innerHeight / 3);
   }
 });
 
@@ -356,15 +369,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     posts: Array,
-    tagss: Array
+    tagss: Array,
+    start: Number,
+    end: Number,
+    startScrollYOffset: Number,
+    postData: Array
   },
   data: function data() {
     return {
-      property: 'value'
+      isGettingPosts: false
     };
+  },
+  methods: {
+    infiniteHandler: function infiniteHandler() {
+      if (window.pageYOffset >= this.startScrollYOffset && !this.isGettingPosts) {
+        this.startScrollYOffset = window.innerHeight + window.pageYOffset;
+        this.getPost();
+      }
+    },
+    getPost: function getPost() {
+      this.isGettingPosts = true;
+
+      if (this.end <= this.posts.length) {
+        this.postData = this.postData.concat(this.posts.slice(this.start, this.end));
+        this.start = this.start + 10;
+        this.end = this.end + 10;
+      }
+
+      this.isGettingPosts = false;
+    }
   }
 });
 
@@ -1122,65 +1159,6 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.component('settings-bar', _components_s
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('profile-image-form', _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_11__.default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('post-image-form', _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_7__.default);
 vue__WEBPACK_IMPORTED_MODULE_0__.default.component('post-tag-form', _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_8__.default);
-vue__WEBPACK_IMPORTED_MODULE_0__.default.directive('show-password', {
-  inserted: function inserted(el) {
-    var clone = el.cloneNode();
-    clone.id = '';
-    clone.type = 'text';
-    clone.style.display = 'none';
-    clone.addEventListener('input', function (e) {
-      var inputEvent = document.createEvent('Event');
-      inputEvent.initEvent('input', true, false);
-      el.value = e.target.value;
-      el.dispatchEvent(inputEvent);
-    });
-    el.parentNode.insertBefore(clone, el);
-    var icons = {
-      show: '&#x1F441;',
-      hide: '&#x1F576;'
-    };
-    var a = document.createElement('a');
-    a.style.position = 'absolute';
-    a.style.cursor = 'pointer';
-    a.style.fontSize = clone.style.fontSize;
-    a.style.color = clone.style.color;
-    a.textDecoration = 'none';
-    a.innerHTML = icons.show;
-    a.addEventListener('click', function (e) {
-      if (clone.style.display === 'none') {
-        e.target.innerHTML = icons.hide;
-        el.style.display = 'none';
-        clone.style.display = '';
-        clone.value = el.value;
-        clone.focus();
-      } else {
-        e.target.innerHTML = icons.show;
-        clone.style.display = 'none';
-        el.style.display = '';
-        el.value = clone.value;
-        el.focus();
-      }
-
-      e.preventDefault();
-    });
-    document.body.appendChild(a);
-
-    function alignElement(target) {
-      var rect = el.getBoundingClientRect();
-      var clientWidth = target.clientWidth;
-      var clientHeight = target.clientHeight;
-      var left = rect.right - Math.round(clientWidth) - 10;
-      var top = rect.top + Math.round(rect.height * 0.5) - Math.round(clientHeight * 0.5);
-      target.style.left = window.pageXOffset + left + 'px';
-      target.style.top = window.pageYOffset + top + 'px';
-    }
-
-    alignElement(a);
-    window.addEventListener('resize', function () {
-      alignElement(a);
-    });
-  }
-});
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
   mode: 'history',
   routes: [{
@@ -7675,7 +7653,16 @@ var render = function() {
       "div",
       { staticClass: "row justify-content-center" },
       [
-        _c("mypage-content", { attrs: { posts: _vm.posts, tagss: _vm.tags } }),
+        _c("mypage-content", {
+          attrs: {
+            posts: _vm.posts,
+            tagss: _vm.tags,
+            start: _vm.start,
+            end: _vm.end,
+            startScrollYOffset: _vm.startScrollYOffset,
+            postData: _vm.postData
+          }
+        }),
         _vm._v(" "),
         _c("mypage-bar", { attrs: { id: _vm.id } })
       ],
@@ -7711,49 +7698,62 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      _vm._l(_vm.posts, function(post) {
-        return _c("div", { key: post, staticClass: "timeline" }, [
-          _c(
-            "div",
-            { staticClass: "page-content" },
-            [
-              _c("img", {
-                staticClass: "post_image",
-                attrs: { src: "../" + post.photo_path }
-              }),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(post.created_at))]),
-              _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(post.updated_at))]),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(post.description))]),
-              _vm._v(" "),
-              _vm._l(_vm.tagss, function(tags) {
-                return _c(
-                  "div",
-                  { key: tags },
-                  _vm._l(tags, function(tag) {
-                    return _c("ul", { key: tag }, [
-                      post.post_id === tag.pivot.post_id
-                        ? _c("li", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(tag.tag_name) +
-                                "\n                        "
-                            )
-                          ])
-                        : _vm._e()
-                    ])
-                  }),
-                  0
-                )
-              })
-            ],
-            2
-          )
-        ])
-      }),
-      0
+      [
+        _vm._l(_vm.postData, function(post) {
+          return _c("div", { key: post, staticClass: "timeline" }, [
+            _c(
+              "div",
+              { staticClass: "page-content" },
+              [
+                _c("img", {
+                  staticClass: "post_image",
+                  attrs: { src: "../" + post.photo_path }
+                }),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(post.created_at))]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(post.updated_at))]),
+                _vm._v(" "),
+                _c("span", [_vm._v(_vm._s(post.description))]),
+                _vm._v(" "),
+                _vm._l(_vm.tagss, function(tags) {
+                  return _c(
+                    "div",
+                    { key: tags },
+                    _vm._l(tags, function(tag) {
+                      return _c("ul", { key: tag }, [
+                        post.post_id === tag.pivot.post_id
+                          ? _c("li", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(tag.tag_name) +
+                                  "\n                        "
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    }),
+                    0
+                  )
+                })
+              ],
+              2
+            )
+          ])
+        }),
+        _vm._v(" "),
+        _c("div", {
+          directives: [
+            {
+              name: "mypage-scroll",
+              rawName: "v-mypage-scroll",
+              value: _vm.infiniteHandler,
+              expression: "infiniteHandler"
+            }
+          ]
+        })
+      ],
+      2
     )
   ])
 }
