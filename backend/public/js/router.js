@@ -206,8 +206,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$store.dispatch('auth/logout').then(function () {
-        console.log('ログアウト完了');
-
         _this.$router.push({
           name: "login"
         });
@@ -220,7 +218,9 @@ __webpack_require__.r(__webpack_exports__);
 
     if (token && !user) {
       console.log('fetchUser()メソッドスタート');
+      console.log(token);
       this.$store.dispatch('auth/fetchUser');
+      console.log('fetchUser()完了しました');
     }
   }
 });
@@ -1269,32 +1269,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
     component: _components_Auth_Login__WEBPACK_IMPORTED_MODULE_15__.default,
     props: true
   }]
-});
-
-function isLoggedIn() {
-  return localStorage.getItem("auth");
-}
-
-router.beforeEach(function (to, from, next) {
-  if (to.matched.some(function (record) {
-    return record.meta.authOnly;
-  })) {
-    if (!isLoggedIn()) {
-      next("/login");
-    } else {
-      next();
-    }
-  } else if (to.matched.some(function (record) {
-    return record.meta.guestOnly;
-  })) {
-    if (isLoggedIn()) {
-      next("/");
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
@@ -7644,7 +7618,7 @@ var render = function() {
                         },
                         [
                           _c(
-                            "a",
+                            "button",
                             {
                               staticClass: "dropdown-item",
                               on: { click: _vm.logout }

@@ -15,9 +15,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         
-                        <a class="dropdown-item" v-on:click="logout">
+                        <button class="dropdown-item" v-on:click="logout">
                             ログアウト
-                        </a>
+                        </button>
                     </div>
 
                     </li>
@@ -51,7 +51,6 @@
         methods: {
             logout(context) {
                 this.$store.dispatch('auth/logout').then(()=>{
-                    console.log('ログアウト完了');
                     this.$router.push({ name: "login" });
             });        
             },
@@ -61,7 +60,9 @@
             const user = this.$store.getters["auth/user"];
             if(token && !user){
                 console.log('fetchUser()メソッドスタート');
+                console.log(token);
                 this.$store.dispatch('auth/fetchUser');
+                console.log('fetchUser()完了しました');
             }
         },
     }

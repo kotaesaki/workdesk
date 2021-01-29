@@ -28,9 +28,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
-    Route::post('/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout')->name('api.logout');
+    Route::delete('/user', function (Request $request) {
+        $user = $request->user();
+        dd($user->tokens());
+        $user->tokens()->delete();
+        return response()->json(['message' => 'logouted']);
+    });
 });
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
+
 
 Route::get('/mypage/{login_id}', 'App\Http\Controllers\MypageController@index')->name('mypage');
 Route::get('/profile/{login_id}', 'App\Http\Controllers\ProfileController@index')->name('profile');
@@ -44,3 +50,4 @@ Route::post('/post_upload/{login_id}', 'App\Http\Controllers\PostController@stor
 
 Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');
 Route::post('/login', 'App\Http\Controllers\Auth\Api\LoginController@login')->name('api.login');
+Route::post('/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout')->name('api.logout');

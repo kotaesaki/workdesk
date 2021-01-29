@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -69,7 +70,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $user = $request->user();
-
+        dd();
         // tokenの削除
         $user->tokens()->delete();
 

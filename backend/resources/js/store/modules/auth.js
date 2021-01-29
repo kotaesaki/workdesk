@@ -16,6 +16,12 @@ const mutations = {
     },
     setToken(state,token){ 
         window.localStorage.setItem('token',token);
+    },
+    deleteToken(state,token){
+        state.token = null;
+    },
+    deleteUser(state,user){
+        state.user = user;
     }
 };
 const actions = {
@@ -39,25 +45,30 @@ const actions = {
             console.log(data);
         });
     },
-    logout(context) {
-        axios.post('/api/logout', null, {
-            headers: {
-                Authorization: `Bearer ${state.token}`,
-            }
-        }).then((result) => {
-            context.commit("setUser", null);
-            context.commit("setToken", null);
-        }).catch(error => {
-            console.log(`Error! HTTP Status: ${error}`);
-        });
+    logout(context, data) {
+        axios.get("/sanctum/csrf-cookie").then((response)=>{
+            axios.delete('/api/user',{ data: data },{
+                headers: {
+                    Authorization: `Bearer ${state.token}`,
+                }
+            }).then((result) => {
+                context.commit("deleteUser", null);
+                context.commit("deleteToken", null);
+            }).catch(error => {
+                console.log(`Error! HTTP Status: ${error}`);
+            });
+    })
+
     },
     fetchUser(context){
-        axios.get('/api/user', null, {
+        axios.get('/api/user', {
             headers: {
-                Authorization: `Bearer ${state.token}`,
+                Authorization: `Bearer ${state.token}`
             }
         }).then((result)=>{
-            context.commit("setUser", result.data.user);
+            context.commit("setUser", result.data);
+            console.log('fetchUser()完了しました');
+
         }).catch(error=>{
             console.log(`Error! HTTP Status: ${error}`);
         })
