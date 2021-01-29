@@ -1,54 +1,69 @@
 <template>
     <nav id="header-nav" class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="/">
-                    Laravel
-            </a>
+            <router-link v-bind:to="{name: 'home'}">
+                WorkDesk
+            </router-link>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent" v-if="isLogin">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {{ user.name }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <router-link class="dropdown-item" v-bind:to="{name: 'mypage', params: {userId: user.id }}">
-                            マイページ
-                        </router-link>
-                        <router-link class="dropdown-item" v-bind:to="{name: 'post_upload', params: {userId: user.id }}">
-                            投稿
-                        </router-link>
-                        <router-link class="dropdown-item" v-bind:to="{name: 'account', params: {userId: user.id }}">
-                            設定
-                        </router-link>
+                        
+                        <a class="dropdown-item" v-on:click="logout">
+                            ログアウト
+                        </a>
                     </div>
 
                     </li>
                 </ul>
             </div>
+            <div v-else>
+                <router-link v-bind:to="{name: 'register'}">
+                    新規登録
+                </router-link>
+                <router-link v-bind:to="{name: 'login'}">
+                    ログイン
+                </router-link>
+            </div>
         </div>
-        <!-- <ul>
-            <router-link tag="li" id="home-nav" to="/mypage" exact><a>マイページ</a></router-link>
-            <router-link tag="li" id="home-nav" to="/logout" exact><a>ログアウト</a></router-link>
-            <a href="/mypage">aa</a>
-            <p>{{ user.name}}</p>
-        </ul> -->
     </nav>
 </template>
 
 <script>
     export default {
-        data() {
-           
-        },
         props:{
-            user: {
-                type: Object
+
+        },
+        computed: {
+            isLogin(){
+                return this.$store.getters["auth/check"];
+            },
+            user(){
+                return this.$store.getters["auth/user"];
+            } 
+        },
+        methods: {
+            logout(context) {
+                this.$store.dispatch('auth/logout').then(()=>{
+                    console.log('ログアウト完了');
+                    this.$router.push({ name: "login" });
+            });        
+            },
+        },
+        mounted() {
+            const token = this.$store.getters["auth/token"];
+            const user = this.$store.getters["auth/user"];
+            if(token && !user){
+                console.log('fetchUser()メソッドスタート');
+                this.$store.dispatch('auth/fetchUser');
             }
-        }
+        },
     }
 </script>
 <style scoped>

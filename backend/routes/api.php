@@ -28,6 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
+    Route::post('/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout')->name('api.logout');
 });
 
 Route::get('/mypage/{login_id}', 'App\Http\Controllers\MypageController@index')->name('mypage');
@@ -38,3 +40,7 @@ Route::post('/account/{login_id}', 'App\Http\Controllers\AccountController@updat
 Route::get('/tagList', 'App\Http\Controllers\TagController@index')->name('show_tagList');
 Route::get('/post_upload/{login_id}', 'App\Http\Controllers\PostController@index')->name('show_post_upload');
 Route::post('/post_upload/{login_id}', 'App\Http\Controllers\PostController@store')->name('create_post_upload');
+
+
+Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');
+Route::post('/login', 'App\Http\Controllers\Auth\Api\LoginController@login')->name('api.login');

@@ -26,9 +26,10 @@
     <div id="app">
         @include('header')
 
-        <header-component v-bind:user="{{ Auth::user() }}"></header-component>
+        <header-component></header-component>
         <router-view></router-view>
-        @yield('content')
+        {{--         @yield('content')
+ --}}
     </div>
     <script src="{{ mix('/js/app.js') }}" defer></script>
 </body>

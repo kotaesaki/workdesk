@@ -28,6 +28,8 @@ return [
     | not expire. This won't tweak the lifetime of first-party sessions.
     |
     */
+    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost,127.0.0.1,127.0.0.1:10080,::1')),
+
 
     'expiration' => null,
 
