@@ -15,7 +15,8 @@ import Profile from "./components/settings/Profile";
 import ProfileImageForm from "./components/settings/ProfileImageForm";
 import settingsBar from "./components/settings/settingsBar";
 import HomeComponent from "./components/HomeComponent";
-import login from "./components/login";
+import Register from "./components/Auth/Register";
+import Login from "./components/Auth/Login";
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', HeaderComponent);
@@ -60,6 +61,24 @@ const router = new VueRouter({
             path: '/post_upload/:userId',
             name: 'post_upload',
             component: PostUploadComponent,
+            props: true
+        },
+        {
+            path: '/register',
+            name:'register',
+            component: Register,
+            props: true
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login,
+            props: true
+        },
+        {
+            path: '/logout',
+            name: 'logout',
+            component: Login,
             props: true
         }
 

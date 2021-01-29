@@ -30,7 +30,6 @@ export default {
         end:Number,
         startScrollYOffset: Number,
         postData: Array,
-        
     },
     data() {
         return {

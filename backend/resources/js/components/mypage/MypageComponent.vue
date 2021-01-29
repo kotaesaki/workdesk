@@ -34,11 +34,13 @@ export default {
                this.posts = res.data[1];
                this.tags = res.data[2];
                if(this.end <= this.posts.length){
-                this.postData = this.postData
-                    .concat(this.posts.slice(this.start,this.end));
-                this.start = this.start + 10;
-                this.end = this.end + 10;
-            }
+                    this.postData = this.postData
+                        .concat(this.posts.slice(this.start,this.end));
+                    this.start = this.start + 10;
+                    this.end = this.end + 10;
+                }else{
+                    this.postData = this.posts;
+                }
            })
        },
        

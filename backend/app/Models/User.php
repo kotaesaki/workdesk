@@ -6,10 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -54,5 +55,23 @@ class User extends Authenticatable
     public function post()
     {
         return $this->hasMany('App\Models\Post');
+    }
+    public function followUsers()
+    {
+        return $this->belongsToMany(
+            'App\Models\User',
+            'follow_users',
+            'followed_user_id',
+            'following_user_id'
+        );
+    }
+    public function follow()
+    {
+        return $this->belongsToMany(
+            'App\Models\User',
+            'follow_users',
+            'following_user_id',
+            'followed_user_id'
+        );
     }
 }

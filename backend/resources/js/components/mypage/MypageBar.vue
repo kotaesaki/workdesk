@@ -5,6 +5,7 @@
             <img class="userInfo__icon" :src="`../${value.icon_path}`"/> 
             <p>{{value.name}}さん</p>
             <p>@{{value.login_id}}</p>
+            <div>フォロー</div>
             <a :href="`${value.twitter_url}`" v-if="value.twitter_url" target="_blank"><i class="fab fa-twitter"></i></a>
             <div>
                 <p>{{value.sex}}</p>
