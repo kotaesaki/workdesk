@@ -2039,8 +2039,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.$store.dispatch('auth/logout').then(function () {
-        console.log('ログアウト完了');
-
         _this.$router.push({
           name: "login"
         });
@@ -2053,7 +2051,9 @@ __webpack_require__.r(__webpack_exports__);
 
     if (token && !user) {
       console.log('fetchUser()メソッドスタート');
+      console.log(token);
       this.$store.dispatch('auth/fetchUser');
+      console.log('fetchUser()完了しました');
     }
   }
 });
@@ -3063,6 +3063,7 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.withCredentials = true;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -3285,32 +3286,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__.default({
     props: true
   }]
 });
-
-function isLoggedIn() {
-  return localStorage.getItem("auth");
-}
-
-router.beforeEach(function (to, from, next) {
-  if (to.matched.some(function (record) {
-    return record.meta.authOnly;
-  })) {
-    if (!isLoggedIn()) {
-      next("/login");
-    } else {
-      next();
-    }
-  } else if (to.matched.some(function (record) {
-    return record.meta.guestOnly;
-  })) {
-    if (isLoggedIn()) {
-      next("/");
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
 /***/ }),
@@ -3383,6 +3358,12 @@ var mutations = {
   },
   setToken: function setToken(state, token) {
     window.localStorage.setItem('token', token);
+  },
+  deleteToken: function deleteToken(state, token) {
+    state.token = null;
+  },
+  deleteUser: function deleteUser(state, user) {
+    state.user = user;
   }
 };
 var actions = {
@@ -3406,25 +3387,30 @@ var actions = {
       console.log(data);
     });
   },
-  logout: function logout(context) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/logout', null, {
-      headers: {
-        Authorization: "Bearer ".concat(state.token)
-      }
-    }).then(function (result) {
-      context.commit("setUser", null);
-      context.commit("setToken", null);
-    })["catch"](function (error) {
-      console.log("Error! HTTP Status: ".concat(error));
+  logout: function logout(context, data) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get("/sanctum/csrf-cookie").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/user', {
+        data: data
+      }, {
+        headers: {
+          Authorization: "Bearer ".concat(state.token)
+        }
+      }).then(function (result) {
+        context.commit("deleteUser", null);
+        context.commit("deleteToken", null);
+      })["catch"](function (error) {
+        console.log("Error! HTTP Status: ".concat(error));
+      });
     });
   },
   fetchUser: function fetchUser(context) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/user', null, {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/user', {
       headers: {
         Authorization: "Bearer ".concat(state.token)
       }
     }).then(function (result) {
-      context.commit("setUser", result.data.user);
+      context.commit("setUser", result.data);
+      console.log('fetchUser()完了しました');
     })["catch"](function (error) {
       console.log("Error! HTTP Status: ".concat(error));
     });
@@ -44902,7 +44888,7 @@ var render = function() {
                         },
                         [
                           _c(
-                            "a",
+                            "button",
                             {
                               staticClass: "dropdown-item",
                               on: { click: _vm.logout }

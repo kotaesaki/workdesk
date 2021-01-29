@@ -34,7 +34,7 @@ class RegisterController extends Controller
         // ユーザーの作成とトークンの作成します
         $data = DB::transaction(function () use ($request) {
             $user = $this->create($request->all());
-            $token = $user->createToken('authToken')->plainTextToken;
+            $token = $user->createToken($request->device_name ?? 'undefined')->plainTextToken;
             return json_encode(['token' => $token, 'user' => $user]);
         });
         // userとtokenのjsonを返却
