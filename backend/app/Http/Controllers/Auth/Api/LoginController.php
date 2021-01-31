@@ -69,8 +69,7 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $user = $request->user();
-        dd();
+        $user = User::where('login_id', $request->login_id)->first();
         // tokenの削除
         $user->tokens()->delete();
 

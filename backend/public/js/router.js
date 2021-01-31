@@ -193,6 +193,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {},
+  data: function data() {
+    return {
+      sendUser: ''
+    };
+  },
   computed: {
     isLogin: function isLogin() {
       return this.$store.getters["auth/check"];
@@ -202,10 +207,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    logout: function logout(context) {
+    logout: function logout(context, data) {
       var _this = this;
 
-      this.$store.dispatch('auth/logout').then(function () {
+      this.$store.dispatch('auth/logout', this.$store.getters["auth/user"]).then(function () {
         _this.$router.push({
           name: "login"
         });
@@ -216,7 +221,7 @@ __webpack_require__.r(__webpack_exports__);
     var token = this.$store.getters["auth/token"];
     var user = this.$store.getters["auth/user"];
 
-    if (token && !user) {
+    if (token && !this.sendUser) {
       console.log('fetchUser()メソッドスタート');
       console.log(token);
       this.$store.dispatch('auth/fetchUser');

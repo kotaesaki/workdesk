@@ -28,12 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::delete('/user', function (Request $request) {
-        $user = $request->user();
-        dd($user->tokens());
-        $user->tokens()->delete();
-        return response()->json(['message' => 'logouted']);
-    });
 });
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 
