@@ -40,6 +40,11 @@
         props:{
 
         },
+        data() {
+            return {
+                sendUser: ''
+            };
+        },
         computed: {
             isLogin(){
                 return this.$store.getters["auth/check"];
@@ -49,8 +54,8 @@
             } 
         },
         methods: {
-            logout(context) {
-                this.$store.dispatch('auth/logout').then(()=>{
+            logout(context, data) {
+                this.$store.dispatch('auth/logout', this.$store.getters["auth/user"]).then(()=>{
                     this.$router.push({ name: "login" });
             });        
             },
@@ -58,7 +63,7 @@
         mounted() {
             const token = this.$store.getters["auth/token"];
             const user = this.$store.getters["auth/user"];
-            if(token && !user){
+            if(token && !this.sendUser){
                 console.log('fetchUser()メソッドスタート');
                 console.log(token);
                 this.$store.dispatch('auth/fetchUser');

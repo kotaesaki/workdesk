@@ -2026,6 +2026,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {},
+  data: function data() {
+    return {
+      sendUser: ''
+    };
+  },
   computed: {
     isLogin: function isLogin() {
       return this.$store.getters["auth/check"];
@@ -2035,10 +2040,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    logout: function logout(context) {
+    logout: function logout(context, data) {
       var _this = this;
 
-      this.$store.dispatch('auth/logout').then(function () {
+      this.$store.dispatch('auth/logout', this.$store.getters["auth/user"]).then(function () {
         _this.$router.push({
           name: "login"
         });
@@ -2049,7 +2054,7 @@ __webpack_require__.r(__webpack_exports__);
     var token = this.$store.getters["auth/token"];
     var user = this.$store.getters["auth/user"];
 
-    if (token && !user) {
+    if (token && !this.sendUser) {
       console.log('fetchUser()メソッドスタート');
       console.log(token);
       this.$store.dispatch('auth/fetchUser');
@@ -3388,19 +3393,16 @@ var actions = {
     });
   },
   logout: function logout(context, data) {
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get("/sanctum/csrf-cookie").then(function (response) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/user', {
-        data: data
-      }, {
-        headers: {
-          Authorization: "Bearer ".concat(state.token)
-        }
-      }).then(function (result) {
-        context.commit("deleteUser", null);
-        context.commit("deleteToken", null);
-      })["catch"](function (error) {
-        console.log("Error! HTTP Status: ".concat(error));
-      });
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/logout', data, {
+      headers: {
+        Authorization: "Bearer ".concat(state.token)
+      }
+    }).then(function (result) {
+      console.log(data);
+      context.commit("deleteUser", null);
+      context.commit("setToken", null);
+    })["catch"](function (error) {
+      console.log("Error! HTTP Status: ".concat(error));
     });
   },
   fetchUser: function fetchUser(context) {
@@ -3410,7 +3412,6 @@ var actions = {
       }
     }).then(function (result) {
       context.commit("setUser", result.data);
-      console.log('fetchUser()完了しました');
     })["catch"](function (error) {
       console.log("Error! HTTP Status: ".concat(error));
     });

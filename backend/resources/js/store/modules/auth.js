@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const state = {
     user: null,
     token: window.localStorage.getItem('token')
@@ -28,8 +27,8 @@ const actions = {
     register(context, data) {
         axios.post('/api/register', data).then((result) => {
             console.log(data);
-           context.commit("setUser", result.data.user);
-           context.commit("setToken", result.data.token);
+            context.commit("setUser", result.data.user);
+            context.commit("setToken", result.data.token);
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
             console.log(data);
@@ -46,18 +45,17 @@ const actions = {
         });
     },
     logout(context, data) {
-        axios.get("/sanctum/csrf-cookie").then((response)=>{
-            axios.delete('/api/user',{ data: data },{
+            axios.post('/api/logout', data, {
                 headers: {
                     Authorization: `Bearer ${state.token}`,
                 }
             }).then((result) => {
+                console.log(data);
                 context.commit("deleteUser", null);
-                context.commit("deleteToken", null);
+                context.commit("setToken", null);
             }).catch(error => {
                 console.log(`Error! HTTP Status: ${error}`);
             });
-    })
 
     },
     fetchUser(context){
@@ -67,8 +65,6 @@ const actions = {
             }
         }).then((result)=>{
             context.commit("setUser", result.data);
-            console.log('fetchUser()完了しました');
-
         }).catch(error=>{
             console.log(`Error! HTTP Status: ${error}`);
         })
