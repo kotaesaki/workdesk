@@ -191,12 +191,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {},
   data: function data() {
-    return {
-      sendUser: ''
-    };
+    return {};
   },
   computed: {
     isLogin: function isLogin() {
@@ -204,6 +212,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     user: function user() {
       return this.$store.getters["auth/user"];
+    },
+    profile: function profile() {
+      return this.$store.getters["auth/profile"];
     }
   },
   methods: {
@@ -215,17 +226,19 @@ __webpack_require__.r(__webpack_exports__);
           name: "login"
         });
       });
+    },
+    getUser: function getUser() {
+      this.$store.dispatch('auth/fetchUser');
     }
   },
   mounted: function mounted() {
     var token = this.$store.getters["auth/token"];
     var user = this.$store.getters["auth/user"];
 
-    if (token && !this.sendUser) {
+    if (token && !user) {
       console.log('fetchUser()メソッドスタート');
       console.log(token);
       this.$store.dispatch('auth/fetchUser');
-      console.log('fetchUser()完了しました');
     }
   }
 });
@@ -4977,7 +4990,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nnav[data-v-153bfd55]{\n    background-color: aqua;\n    height: 60px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nnav[data-v-153bfd55]{\n    background-color: aqua;\n    height: 60px;\n}\n.icon_name[data-v-153bfd55]{\n    width: 35px;\n    height: 35px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -7603,17 +7616,26 @@ var render = function() {
                 [
                   _c("ul", { staticClass: "navbar-nav ml-auto" }, [
                     _c("li", { staticClass: "nav-item dropdown" }, [
-                      _c("a", {
-                        staticClass: "nav-link dropdown-toggle",
-                        attrs: {
-                          id: "navbarDropdown",
-                          href: "#",
-                          role: "button",
-                          "data-toggle": "dropdown",
-                          "aria-haspopup": "true",
-                          "aria-expanded": "false"
-                        }
-                      }),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link dropdown-toggle",
+                          attrs: {
+                            id: "navbarDropdown",
+                            href: "#",
+                            role: "button",
+                            "data-toggle": "dropdown",
+                            "aria-haspopup": "true",
+                            "aria-expanded": "false"
+                          }
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "icon_name",
+                            attrs: { src: "../" + _vm.profile.icon_path }
+                          })
+                        ]
+                      ),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -7622,6 +7644,60 @@ var render = function() {
                           attrs: { "aria-labelledby": "navbarDropdown" }
                         },
                         [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: {
+                                to: {
+                                  name: "mypage",
+                                  params: { userId: _vm.user.id }
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        マイページ\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: {
+                                to: {
+                                  name: "post_upload",
+                                  params: { userId: _vm.user.id }
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        投稿\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "dropdown-item",
+                              attrs: {
+                                to: {
+                                  name: "account",
+                                  params: { userId: _vm.user.id }
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                        設定\n                    "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
                           _c(
                             "button",
                             {
@@ -7634,7 +7710,8 @@ var render = function() {
                               )
                             ]
                           )
-                        ]
+                        ],
+                        1
                       )
                     ])
                   ])
