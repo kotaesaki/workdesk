@@ -3,26 +3,20 @@
         <img :src="`./images/top.jpg`" alt="トップ" class="image-top">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <p>最新の投稿</p>
-
-                    <div class="card">
-
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <p>人気の投稿</p>
-                </div>
-                <div class="col-md-4">
-                    <p>人気のアイテム</p>
-                </div>
+                <new-timeline></new-timeline>
+                <trend-timeline></trend-timeline>
+                <trend-item></trend-item>
             </div>
         </div>        
     </div>
  
 </template>
 <script>
+import NewTimeline from './NewTimeline.vue'
+import TrendItem from './TrendItem.vue'
+import TrendTimeline from './TrendTimeline.vue'
 export default {
+  components: { NewTimeline, TrendTimeline, TrendItem },
     
 }
 </script>

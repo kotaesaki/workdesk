@@ -43,9 +43,9 @@ Route::post('/account/{login_id}', 'App\Http\Controllers\AccountController@updat
 Route::get('/tagList', 'App\Http\Controllers\TagController@index')->name('show_tagList');
 Route::get('/post_upload/{login_id}', 'App\Http\Controllers\PostController@index')->name('show_post_upload');
 Route::post('/post_upload/{login_id}', 'App\Http\Controllers\PostController@store')->name('create_post_upload');
+Route::get('/timeline', 'App\Http\Controllers\TimelineController@index')->name('api.timeline');
 
 
 Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');
 Route::post('/login', 'App\Http\Controllers\Auth\Api\LoginController@login')->name('api.login');
 Route::post('/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout')->name('api.logout');
-Route::get('/profile', 'App\Http\Controllers\ProfileController@show')->name('api.profile');
