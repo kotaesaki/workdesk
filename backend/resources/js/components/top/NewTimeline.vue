@@ -2,13 +2,15 @@
     <div class="col-md-12">
         <p>最新の投稿</p>
         <div class="card-deck">
-            <div class="card post-content" v-for="post in posts" :key="post">
-                <img :src="`../${post.photo_path}`" alt="card" class="card-img-top">
-                <div class="card-body">
-                    <p class="card-text">{{post.description}}</p>
-                    <a href="#" class="card-link"></a>
+                <div class="card post-content" v-for="post in posts" :key="post">
+                    <router-link v-bind:to="{ name: 'individual', params: { postId: post.post_id }}">
+                        <img :src="`../${post.photo_path}`" alt="card" class="card-img-top">
+                        <div class="card-body">
+                            <p class="card-text">{{post.description}}</p>
+                        </div>
+                    </router-link>
+
                 </div>
-            </div>
         </div>
     </div>
 </template>

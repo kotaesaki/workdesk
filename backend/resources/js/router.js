@@ -20,6 +20,7 @@ import HomeComponent from "./components/top/HomeComponent";
 import NewTimeline from "./components/top/NewTimeline";
 import TrendTimeline from "./components/top/TrendTimeline";
 import TrendItem from "./components/top/TrendItem";
+import Individual from "./components/top/Individual";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 
@@ -47,6 +48,12 @@ const router = new VueRouter({
             path: '/',
             name: 'home',
             component: HomeComponent
+        },
+        {
+            path: '/photo/:postId',
+            name: 'individual',
+            component: Individual,
+            props: true,
         },        
         {
             path: '/mypage/:userId',
