@@ -17,7 +17,7 @@
             <li><router-link v-bind:to="{name: 'mypage'}">
                 すべての写真
             </router-link></li>
-            <li><router-link v-bind:to="{name: 'mypage'}">
+            <li><router-link v-bind:to="{name: 'follow'}">
                 フォロー
             </router-link></li>
             <li><router-link v-bind:to="{name: 'mypage'}">
