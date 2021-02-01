@@ -2,11 +2,13 @@ import axios from 'axios';
 
 const state = {
     user: null,
+    profile: null,
     token: window.localStorage.getItem('token')
 };
 const getters = {
     check: state => !!state.user,
     user: state => state.user ? state.user: '',
+    profile: state => state.profile ? state.profile: '', 
     token: state => state.token ? state.token: ''
 };
 const mutations = {
@@ -15,6 +17,9 @@ const mutations = {
     },
     setToken(state,token){ 
         window.localStorage.setItem('token',token);
+    },
+    setProfile(state,profile){
+        state.profile = profile;
     },
     deleteToken(state,token){
         state.token = null;
@@ -38,6 +43,7 @@ const actions = {
         axios.post('/api/login', data).then((result) => {
             console.log(data);
             context.commit("setUser", result.data.user);
+            context.commit("setProfile", result.data.profile);
             context.commit("setToken", result.data.token);
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
@@ -58,17 +64,20 @@ const actions = {
             });
 
     },
-    fetchUser(context){
+    async fetchUser(context){
         axios.get('/api/user', {
             headers: {
                 Authorization: `Bearer ${state.token}`
             }
         }).then((result)=>{
-            context.commit("setUser", result.data);
+            context.commit("setUser", result.data.user);
+            context.commit("setProfile", result.data.profile);
+            console.log(result.data);
         }).catch(error=>{
             console.log(`Error! HTTP Status: ${error}`);
         })
-    }
+    },
+
 };
 export default{
     namespaced: true,

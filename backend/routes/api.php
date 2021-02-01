@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MypageController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,9 @@ Route::post('/logout', 'App\Http\Controllers\LoginController@logout'); */
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function (Request $request) {
-        return $request->user();
+        $user = User::find($request->user()->id);
+        $profile = $user->profile;
+        return response()->json(['user' => $user, 'profile' => $profile], 200);
     });
 });
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
@@ -45,3 +48,4 @@ Route::post('/post_upload/{login_id}', 'App\Http\Controllers\PostController@stor
 Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');
 Route::post('/login', 'App\Http\Controllers\Auth\Api\LoginController@login')->name('api.login');
 Route::post('/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout')->name('api.logout');
+Route::get('/profile', 'App\Http\Controllers\ProfileController@show')->name('api.profile');
