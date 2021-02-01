@@ -12,6 +12,8 @@ import PostImageForm from "./components/posts/PostImageForm";
 import PostTagForm from "./components/posts/PostTagForm";
 import Account from "./components/settings/Account";
 import Profile from "./components/settings/Profile";
+import Follow from "./components/follow/Follow";
+import FollowContent from "./components/follow/FollowContent";
 import ProfileImageForm from "./components/settings/ProfileImageForm";
 import settingsBar from "./components/settings/settingsBar";
 import HomeComponent from "./components/top/HomeComponent";
@@ -28,6 +30,7 @@ Vue.component('trend-timeline', TrendTimeline);
 Vue.component('trend-item', TrendItem);
 Vue.component('mypage-bar', MypageBar);
 Vue.component('mypage-content', MypageContent);
+Vue.component('follow-content', FollowContent);
 Vue.component('settings-bar', settingsBar);
 Vue.component('profile-image-form', ProfileImageForm);
 Vue.component('post-image-form', PostImageForm);
@@ -67,6 +70,12 @@ const router = new VueRouter({
             path: '/post_upload/:userId',
             name: 'post_upload',
             component: PostUploadComponent,
+            props: true
+        },
+        {
+            path: '/follow/:userId',
+            name: 'follow',
+            component: Follow,
             props: true
         },
         {
