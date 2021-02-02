@@ -1352,6 +1352,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     postId: String
@@ -1371,10 +1372,24 @@ __webpack_require__.r(__webpack_exports__);
     },
     tags: function tags() {
       return this.$store.getters["individual/tags"];
+    },
+    status: function status() {
+      return this.$store.getters["individual/status"];
     }
   },
   methods: {
-    pushFavorite: function pushFavorite() {}
+    pushFavorite: function pushFavorite() {
+      this.$store.dispatch('individual/pushFavorite', {
+        post_id: this.post.post_id,
+        user_id: this.user.id
+      });
+    },
+    deleteFavorite: function deleteFavorite() {
+      this.$store.dispatch('individual/deleteFavorite', {
+        post_id: this.post.post_id,
+        user_id: this.user.id
+      });
+    }
   },
   mounted: function mounted() {
     console.log('Individual mount start!');
@@ -10214,8 +10229,36 @@ var render = function() {
             _vm._v(" "),
             _c(
               "button",
-              { staticClass: "favorite", on: { click: _vm.pushFavorite } },
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.status == false,
+                    expression: "status == false"
+                  }
+                ],
+                staticClass: "favorite",
+                on: { click: _vm.pushFavorite }
+              },
               [_vm._v("いいね")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.status == true,
+                    expression: "status == true"
+                  }
+                ],
+                staticClass: "favorite",
+                on: { click: _vm.deleteFavorite }
+              },
+              [_vm._v("いいね解除")]
             )
           ]),
           _vm._v(" "),
@@ -10223,7 +10266,7 @@ var render = function() {
             "div",
             { staticClass: "individual-tags" },
             _vm._l(_vm.tags, function(tag) {
-              return _c("li", { key: tag, staticClass: "tag" }, [
+              return _c("li", { key: tag.tag_id, staticClass: "tag" }, [
                 _vm._v(
                   "\n                        " +
                     _vm._s(tag.tag_name) +

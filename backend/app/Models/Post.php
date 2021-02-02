@@ -30,4 +30,8 @@ class Post extends Model
             'tag_id'
         );
     }
+    public function favorite()
+    {
+        return $this->hasMany('App\Model\Favorite');
+    }
 }

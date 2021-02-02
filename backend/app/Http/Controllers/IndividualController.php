@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Profile;
 use App\Models\Tag;
+use App\Models\Favorite;
 
 class IndividualController extends Controller
 {
@@ -16,7 +17,10 @@ class IndividualController extends Controller
         $user = $post->user;
         $profile = $user->profile;
         $tags = $post->tags()->get();
+        $status = Favorite::where('user_id', $user->id)
+            ->where('post_id', $post->post_id)
+            ->exists();
 
-        return response()->json(['post' => $post, 'user' => $user, 'profile' => $profile, 'tags' => $tags], 200);
+        return response()->json(['post' => $post, 'user' => $user, 'profile' => $profile, 'tags' => $tags, 'status' => $status], 200);
     }
 }
