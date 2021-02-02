@@ -74,4 +74,8 @@ class User extends Authenticatable
             'followed_user_id'
         );
     }
+    public function favorite()
+    {
+        return $this->hasMany('App\Model\Favorite');
+    }
 }

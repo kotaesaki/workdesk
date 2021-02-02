@@ -31,10 +31,11 @@
                     <div class="follow">
                         <i class="fas fa-user-plus"></i>
                     </div>
-                    <button class="favorite" @click="pushFavorite">いいね</button>
+                    <button class="favorite" v-show="status == false" @click="pushFavorite">いいね</button>
+                    <button class="favorite" v-show="status == true" @click="deleteFavorite">いいね解除</button>
                 </div>
                 <div class="individual-tags">
-                    <li class="tag" v-for="tag in tags" :key="tag">
+                    <li class="tag" v-for="tag in tags" :key="tag.tag_id">
                         {{tag.tag_name}}
                     </li>
                 </div>
@@ -52,7 +53,6 @@ export default {
     },
     data() {
         return {
-
         };
     },
     computed: {
@@ -67,11 +67,17 @@ export default {
         },
         tags(){
             return this.$store.getters["individual/tags"];
+        },
+        status(){
+            return this.$store.getters["individual/status"];
         }
     },
     methods: {
         pushFavorite(){
-
+            this.$store.dispatch('individual/pushFavorite', {post_id: this.post.post_id, user_id: this.user.id});
+        },
+        deleteFavorite(){
+            this.$store.dispatch('individual/deleteFavorite', {post_id: this.post.post_id, user_id: this.user.id});
         }
     },
     mounted() {

@@ -45,6 +45,9 @@ Route::get('/post_upload/{login_id}', 'App\Http\Controllers\PostController@index
 Route::post('/post_upload/{login_id}', 'App\Http\Controllers\PostController@store')->name('create_post_upload');
 Route::get('/timeline', 'App\Http\Controllers\TimelineController@index')->name('api.timeline');
 Route::get('/individual', 'App\Http\Controllers\IndividualController@index')->name('api.individual');
+Route::post('/favorite', 'App\Http\Controllers\FavoriteController@store')->name('api.store_favorite');
+Route::delete('/favorite', 'App\Http\Controllers\FavoriteController@delete')->name('api.delete_favorite');
+Route::get('/favorite', 'App\Http\Controllers\FavoriteController@isLiked')->name('api.isLiked_favorite');
 
 
 Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');
