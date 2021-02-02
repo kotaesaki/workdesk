@@ -9,7 +9,6 @@
                             <p class="card-text">{{post.description}}</p>
                         </div>
                     </router-link>
-
                 </div>
         </div>
     </div>
