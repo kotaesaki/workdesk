@@ -32,6 +32,6 @@ class Post extends Model
     }
     public function favorite()
     {
-        return $this->hasMany('App\Model\Favorite');
+        return $this->hasMany('App\Models\Favorite', 'post_id');
     }
 }

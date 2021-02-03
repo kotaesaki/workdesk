@@ -48,6 +48,7 @@ Route::get('/individual', 'App\Http\Controllers\IndividualController@index')->na
 Route::post('/favorite', 'App\Http\Controllers\FavoriteController@store')->name('api.store_favorite');
 Route::delete('/favorite', 'App\Http\Controllers\FavoriteController@delete')->name('api.delete_favorite');
 Route::get('/favorite', 'App\Http\Controllers\FavoriteController@isLiked')->name('api.isLiked_favorite');
+Route::get('/mylikes', 'App\Http\Controllers\FavoriteController@getMylikes')->name('api.getMylikes_favorite');
 
 
 Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');

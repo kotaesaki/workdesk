@@ -1,12 +1,16 @@
 <template>
- <div class="container">
-    <div class="row justify-content-center">
-        <router-view :posts="posts" :tagss="tags" :start="start" 
-            :end="end" :startScrollYOffset="startScrollYOffset"
-            :postData="postData"></router-view>
-        <mypage-bar :id="id"></mypage-bar>
-    </div>
-</div>   
+    <div class="container">
+        <div class="row justify-content-center">
+            <router-view name="mypage" :posts="posts" :tagss="tags" :start="start" 
+                :end="end" :startScrollYOffset="startScrollYOffset"
+                :postData="postData"></router-view>
+            <router-view name="follow"></router-view>
+            <router-view name="follower"></router-view>
+            <router-view name="postTag"></router-view>
+            <router-view name="mylikes" :userId="userId"></router-view>
+            <mypage-bar :id="id"></mypage-bar>
+        </div>
+    </div>   
 </template>
 <script>
 import MypageBar from './MypageBar.vue';
@@ -14,7 +18,7 @@ import MypageContent from './MypageContent.vue';
 export default {
   components: { MypageBar, MypageContent },
     props: {
-        userId: Number //idを取得
+        userId: String //idを取得
     },
     data() {
         return{

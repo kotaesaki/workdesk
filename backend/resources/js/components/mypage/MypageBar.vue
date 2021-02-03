@@ -26,7 +26,7 @@
             <li><router-link v-bind:to="{name: 'mypage'}">
                 投稿したタグ
             </router-link></li>
-            <li><router-link v-bind:to="{name: 'mypage'}">
+            <li><router-link v-bind:to="{name: 'mylikes'}">
                 いいねした写真
             </router-link></li>
         </ul>
