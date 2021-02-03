@@ -5,7 +5,8 @@ const state = {
     user: null,
     profile: null,
     tags: null,
-    status: null
+    status: null,
+    countFav: null
 };
 const getters = {
     post: state=> state.post ? state.post: '',
@@ -13,6 +14,7 @@ const getters = {
     profile: state=> state.profile ? state.profile: '',
     tags: state=> state.tags ? state.tags: '',
     status: state=> state.status ? state.status: '',
+    countFav: state=> state.countFav ? state.countFav: ''
 
 };
 const mutations = {
@@ -30,19 +32,30 @@ const mutations = {
     },
     setStatus(state,status){
         state.status = status;
+    },
+    setCountFav(state,countFav){
+        state.countFav = countFav;
+    },
+    addCount(state){
+        ++state.countFav;
+    },
+    subtractCount(state){
+        --state.countFav;
     }
+
 
 };
 const actions = {
-    async getIndividual(context, data){
+    async getIndividual(context, {post_id, user_id}){
         await axios.get('/api/individual',{
             params:{
-                post_id: data
+                post_id: post_id,
+                user_id: user_id
             }
         }).then((result)=>{
             console.log(result.data);
             context.commit("setPost", result.data.post);
-            context.commit("setUser", result.data.user);
+            context.commit("setUser", result.data.postUser);
             context.commit("setProfile", result.data.profile);
             context.commit("setTags", result.data.tags);
             context.commit('setStatus', result.data.status);
@@ -54,14 +67,16 @@ const actions = {
         axios.post('/api/favorite',data).then(result =>{
             console.log(result.data);
             context.commit('setStatus', result.data);
+            context.commit('addCount');
         }).catch(error=>{
-
+            console.log(error);
         });
     },
     deleteFavorite(context,data){
         axios.delete('/api/favorite',{data: data}).then(result=>{
             console.log(result.data);
             context.commit('setStatus', result.data);
+            context.commit('subtractCount');
         }).catch(error=>{
             console.log(error);
         })

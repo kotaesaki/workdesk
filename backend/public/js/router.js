@@ -365,9 +365,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     id: Array
+  },
+  computed: {
+    loading: function loading() {
+      return this.$store.getters["loading/loading"];
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$store.dispatch('loading/startLoad').then(function () {
+      return _this.$store.dispatch('loading/endLoad');
+    });
   }
 });
 
@@ -549,7 +563,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    userId: String
+    userId: String,
+    posts: Array
   },
   data: function data() {
     return {
@@ -1382,6 +1397,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -1397,7 +1413,7 @@ __webpack_require__.r(__webpack_exports__);
     post: function post() {
       return this.$store.getters["individual/post"];
     },
-    user: function user() {
+    postUser: function postUser() {
       return this.$store.getters["individual/user"];
     },
     profile: function profile() {
@@ -1409,6 +1425,12 @@ __webpack_require__.r(__webpack_exports__);
     status: function status() {
       return this.$store.getters["individual/status"];
     },
+    countFav: function countFav() {
+      return this.$store.getters["individual/countFav"];
+    },
+    authUser: function authUser() {
+      return this.$store.getters["auth/user"];
+    },
     loading: function loading() {
       return this.$store.getters["loading/loading"];
     }
@@ -1417,13 +1439,13 @@ __webpack_require__.r(__webpack_exports__);
     pushFavorite: function pushFavorite() {
       this.$store.dispatch('individual/pushFavorite', {
         post_id: this.post.post_id,
-        user_id: this.user.id
+        user_id: this.authUser.id
       });
     },
     deleteFavorite: function deleteFavorite() {
       this.$store.dispatch('individual/deleteFavorite', {
         post_id: this.post.post_id,
-        user_id: this.user.id
+        user_id: this.authUser.id
       });
     }
   },
@@ -1432,7 +1454,12 @@ __webpack_require__.r(__webpack_exports__);
 
     console.log('Individual mount start!');
     this.$store.dispatch('loading/startLoad').then(function () {
-      return _this.$store.dispatch('individual/getIndividual', _this.postId);
+      return _this.$store.dispatch('auth/fetchUser');
+    }).then(function () {
+      return _this.$store.dispatch('individual/getIndividual', {
+        post_id: _this.postId,
+        user_id: _this.authUser.id
+      });
     }).then(function () {
       return _this.$store.dispatch('loading/endLoad');
     });
@@ -5453,7 +5480,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.userInfo__icon[data-v-4eda792f]{\n    width: 100px;\n    height: 100px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.userInfo__icon[data-v-4eda792f]{\n    width: 100px;\n    height: 100px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.loader[data-v-4eda792f]{\n    width:100%;\n    height:100%;\n    position:fixed;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9113,6 +9140,33 @@ var render = function() {
   return _c("div", { staticClass: "col-md-4" }, [
     _c(
       "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loading,
+            expression: "loading"
+          }
+        ],
+        staticClass: "loader"
+      },
+      [_c("vue-loaders-line-spin-fade-loader")],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.loading,
+            expression: "!loading"
+          }
+        ]
+      },
       [
         _vm._l(_vm.id, function(value) {
           return _c("div", { key: value, staticClass: "mypage-profile" }, [
@@ -9150,7 +9204,7 @@ var render = function() {
             "li",
             [
               _c("router-link", { attrs: { to: { name: "mypage" } } }, [
-                _vm._v("\n            すべての写真\n        ")
+                _vm._v("\n                すべての写真\n            ")
               ])
             ],
             1
@@ -9160,7 +9214,7 @@ var render = function() {
             "li",
             [
               _c("router-link", { attrs: { to: { name: "follow" } } }, [
-                _vm._v("\n            フォロー\n        ")
+                _vm._v("\n                フォロー\n            ")
               ])
             ],
             1
@@ -9170,7 +9224,7 @@ var render = function() {
             "li",
             [
               _c("router-link", { attrs: { to: { name: "mypage" } } }, [
-                _vm._v("\n            フォロワー\n        ")
+                _vm._v("\n                フォロワー\n            ")
               ])
             ],
             1
@@ -9180,7 +9234,7 @@ var render = function() {
             "li",
             [
               _c("router-link", { attrs: { to: { name: "mypage" } } }, [
-                _vm._v("\n            投稿したタグ\n        ")
+                _vm._v("\n                投稿したタグ\n            ")
               ])
             ],
             1
@@ -9190,7 +9244,7 @@ var render = function() {
             "li",
             [
               _c("router-link", { attrs: { to: { name: "mylikes" } } }, [
-                _vm._v("\n            いいねした写真\n        ")
+                _vm._v("\n                いいねした写真\n            ")
               ])
             ],
             1
@@ -9214,7 +9268,9 @@ var render = function() {
               _vm._v(" "),
               _c("span", [
                 _vm._v(
-                  "\n                " + _vm._s(value.shokai) + "\n            "
+                  "\n                    " +
+                    _vm._s(value.shokai) +
+                    "\n                "
                 )
               ])
             ])
@@ -9271,7 +9327,9 @@ var render = function() {
         _vm._v(" "),
         _c("router-view", { attrs: { name: "postTag" } }),
         _vm._v(" "),
-        _c("router-view", { attrs: { name: "mylikes", userId: _vm.userId } }),
+        _c("router-view", {
+          attrs: { name: "mylikes", userId: _vm.userId, posts: _vm.posts }
+        }),
         _vm._v(" "),
         _c("mypage-bar", { attrs: { id: _vm.id } })
       ],
@@ -10602,9 +10660,9 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.user.name))]),
+                _c("p", [_vm._v(_vm._s(_vm.postUser.name))]),
                 _vm._v(" "),
-                _c("p", [_vm._v("@" + _vm._s(_vm.user.login_id))]),
+                _c("p", [_vm._v("@" + _vm._s(_vm.postUser.login_id))]),
                 _vm._v(" "),
                 _vm._m(0),
                 _vm._v(" "),
@@ -10627,7 +10685,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("p", { staticClass: "profile-name" }, [
-                  _vm._v(_vm._s(_vm.user.name))
+                  _vm._v(_vm._s(_vm.postUser.name))
                 ]),
                 _vm._v(" "),
                 _vm._m(1),
@@ -10664,6 +10722,22 @@ var render = function() {
                     on: { click: _vm.deleteFavorite }
                   },
                   [_vm._v("いいね解除")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.countFav,
+                        expression: "!countFav"
+                      }
+                    ],
+                    staticClass: "count"
+                  },
+                  [_vm._v(_vm._s(_vm.countFav + 1) + "人がいいねしました")]
                 )
               ]),
               _vm._v(" "),
