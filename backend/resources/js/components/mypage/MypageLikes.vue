@@ -17,7 +17,8 @@
 <script>
 export default {
     props:{
-        userId: String
+        userId: String,
+        posts: Array,
     },
     data() {
         return {

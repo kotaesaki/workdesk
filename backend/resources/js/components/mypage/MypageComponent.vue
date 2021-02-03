@@ -7,7 +7,7 @@
             <router-view name="follow"></router-view>
             <router-view name="follower"></router-view>
             <router-view name="postTag"></router-view>
-            <router-view name="mylikes" :userId="userId"></router-view>
+            <router-view name="mylikes" :userId="userId" :posts="posts"></router-view>
             <mypage-bar :id="id"></mypage-bar>
         </div>
     </div>   

@@ -14,13 +14,22 @@ class IndividualController extends Controller
     public function index(Request $request)
     {
         $post = Post::find($request->post_id);
-        $user = $post->user;
-        $profile = $user->profile;
+        $postUser = $post->user;
+        $profile = $postUser->profile;
         $tags = $post->tags()->get();
-        $status = Favorite::where('user_id', $post->user_id)
+        $authUser = User::find($request->user_id);
+        $status = Favorite::where('user_id', $request->user_id)
             ->where('post_id', $post->post_id)
             ->exists();
+        $count_fav = Favorite::where('post_id', $request->post_id)->count();
 
-        return response()->json(['post' => $post, 'user' => $user, 'profile' => $profile, 'tags' => $tags, 'status' => $status], 200);
+        return response()->json([
+            'post' => $post,
+            'postUser' => $postUser,
+            'profile' => $profile,
+            'tags' => $tags,
+            'status' => $status,
+            'count_fav' => $count_fav
+        ], 200);
     }
 }
