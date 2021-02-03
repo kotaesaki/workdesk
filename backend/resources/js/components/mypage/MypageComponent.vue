@@ -1,9 +1,9 @@
 <template>
  <div class="container">
     <div class="row justify-content-center">
-        <mypage-content :posts="posts" :tagss="tags" :start="start" 
+        <router-view :posts="posts" :tagss="tags" :start="start" 
             :end="end" :startScrollYOffset="startScrollYOffset"
-            :postData="postData"></mypage-content>
+            :postData="postData"></router-view>
         <mypage-bar :id="id"></mypage-bar>
     </div>
 </div>   

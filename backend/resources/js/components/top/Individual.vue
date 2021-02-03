@@ -1,6 +1,7 @@
 <template>
 <div id="wrapper">
-    <div class="container">
+    <loading v-show="loading"></loading>
+    <div class="container" v-show="!loading">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="contents">
@@ -21,7 +22,7 @@
                     </div>
                     <p>フォロー</p>
                     <p>フォロワー</p>
-                    <span>{{profile.description}}</span>
+                    <span>{{profile.shokai}}</span>
                 </div>
             </div>
             <div class="col-md-4">
@@ -39,7 +40,6 @@
                         {{tag.tag_name}}
                     </li>
                 </div>
-
             </div>
         </div>
     </div>
@@ -47,7 +47,9 @@
 
 </template>
 <script>
+import Loading from '../common/Loading.vue';
 export default {
+  components: { Loading },
     props:{
         postId: String
     },
@@ -70,6 +72,9 @@ export default {
         },
         status(){
             return this.$store.getters["individual/status"];
+        },
+        loading(){
+            return this.$store.getters["loading/loading"];
         }
     },
     methods: {
@@ -82,8 +87,9 @@ export default {
     },
     mounted() {
         console.log('Individual mount start!');
-        this.$store.dispatch('individual/getIndividual', this.postId);            
-
+        this.$store.dispatch('loading/startLoad')
+            .then(()=>this.$store.dispatch('individual/getIndividual', this.postId))
+            .then(()=>this.$store.dispatch('loading/endLoad'));        
     },
 }
 </script>

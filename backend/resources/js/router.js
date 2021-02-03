@@ -1,12 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
- 
+import VueLoaders from 'vue-loaders';
+
 Vue.use(VueRouter);
+Vue.use(VueLoaders);
 
 import HeaderComponent from "./components/HeaderComponent";
 import MypageComponent from "./components/mypage/MypageComponent";
 import MypageBar from "./components/mypage/MypageBar";
 import MypageContent from "./components/mypage/MypageContent";
+import MypageTimeline from "./components/mypage/MypageTimeline";
 import PostUploadComponent from "./components/posts/PostUploadComponent";
 import PostImageForm from "./components/posts/PostImageForm";
 import PostTagForm from "./components/posts/PostTagForm";
@@ -23,6 +26,7 @@ import TrendItem from "./components/top/TrendItem";
 import Individual from "./components/top/Individual";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
+import Loading from "./components/common/Loading";
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', HeaderComponent);
@@ -36,7 +40,7 @@ Vue.component('settings-bar', settingsBar);
 Vue.component('profile-image-form', ProfileImageForm);
 Vue.component('post-image-form', PostImageForm);
 Vue.component('post-tag-form', PostTagForm);
-
+Vue.component('loaging', Loading);
 
 
 

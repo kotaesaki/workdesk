@@ -34,8 +34,8 @@ const mutations = {
 
 };
 const actions = {
-    getIndividual(context, data){
-        axios.get('/api/individual',{
+    async getIndividual(context, data){
+        await axios.get('/api/individual',{
             params:{
                 post_id: data
             }
