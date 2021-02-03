@@ -3,7 +3,7 @@ import axios from 'axios';
 const state = {
     user: null,
     profile: null,
-    token: window.localStorage.getItem('token')
+    token: window.localStorage.getItem('token'),
 };
 const getters = {
     check: state => !!state.user,
@@ -21,12 +21,9 @@ const mutations = {
     setProfile(state,profile){
         state.profile = profile;
     },
-    deleteToken(state,token){
-        state.token = null;
-    },
     deleteUser(state,user){
         state.user = user;
-    }
+    },
 };
 const actions = {
     register(context, data) {
@@ -65,7 +62,7 @@ const actions = {
 
     },
     async fetchUser(context){
-        axios.get('/api/user', {
+        await axios.get('/api/user', {
             headers: {
                 Authorization: `Bearer ${state.token}`
             }

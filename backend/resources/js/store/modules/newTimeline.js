@@ -15,8 +15,8 @@ const mutations = {
 };
 
 const actions = {
-    getPost(context){ 
-        axios.get('/api/timeline').then((result)=>{
+    async getPost(context){ 
+        await axios.get('/api/timeline').then((result)=>{
             context.commit("setPost", result.data);
             console.log(result.data);
             return result.data;
