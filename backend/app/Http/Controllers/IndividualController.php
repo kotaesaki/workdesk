@@ -17,7 +17,7 @@ class IndividualController extends Controller
         $user = $post->user;
         $profile = $user->profile;
         $tags = $post->tags()->get();
-        $status = Favorite::where('user_id', $user->id)
+        $status = Favorite::where('user_id', $post->user_id)
             ->where('post_id', $post->post_id)
             ->exists();
 

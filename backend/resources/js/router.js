@@ -9,13 +9,12 @@ import HeaderComponent from "./components/HeaderComponent";
 import MypageComponent from "./components/mypage/MypageComponent";
 import MypageBar from "./components/mypage/MypageBar";
 import MypageContent from "./components/mypage/MypageContent";
-import MypageTimeline from "./components/mypage/MypageTimeline";
+import MypageLikes from "./components/mypage/MypageLikes";
 import PostUploadComponent from "./components/posts/PostUploadComponent";
 import PostImageForm from "./components/posts/PostImageForm";
 import PostTagForm from "./components/posts/PostTagForm";
 import Account from "./components/settings/Account";
 import Profile from "./components/settings/Profile";
-import Follow from "./components/follow/Follow";
 import FollowContent from "./components/follow/FollowContent";
 import ProfileImageForm from "./components/settings/ProfileImageForm";
 import settingsBar from "./components/settings/settingsBar";
@@ -36,6 +35,7 @@ Vue.component('trend-item', TrendItem);
 Vue.component('mypage-bar', MypageBar);
 Vue.component('mypage-content', MypageContent);
 Vue.component('follow-content', FollowContent);
+Vue.component('mypage-likes', MypageLikes);
 Vue.component('settings-bar', settingsBar);
 Vue.component('profile-image-form', ProfileImageForm);
 Vue.component('post-image-form', PostImageForm);
@@ -63,7 +63,31 @@ const router = new VueRouter({
             path: '/mypage/:userId',
             name: 'mypage',
             component: MypageComponent,
-            props: true
+            props: true,
+            children:[
+                {
+                    path:'/mypage/:userId',
+                    name:'mypage',
+                    components: {
+                        mypage: MypageContent,
+                    }
+                },
+                {
+                    path:'/follow/:userId',
+                    name: 'follow',
+                    components:{
+                        follow:FollowContent
+                    }
+                },
+                {
+                    path:'/mylikes/:userId',
+                    name:'mylikes',
+                    components:{
+                        mylikes: MypageLikes
+                    }
+                },
+
+            ]
         },
         {
             path: '/account/:userId',
@@ -81,12 +105,6 @@ const router = new VueRouter({
             path: '/post_upload/:userId',
             name: 'post_upload',
             component: PostUploadComponent,
-            props: true
-        },
-        {
-            path: '/follow/:userId',
-            name: 'follow',
-            component: Follow,
             props: true
         },
         {
