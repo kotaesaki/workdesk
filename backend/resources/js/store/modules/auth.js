@@ -48,18 +48,17 @@ const actions = {
         });
     },
     logout(context, data) {
-            axios.post('/api/logout', data, {
-                headers: {
-                    Authorization: `Bearer ${state.token}`,
-                }
-            }).then((result) => {
-                console.log(data);
-                context.commit("deleteUser", null);
-                context.commit("setToken", null);
-            }).catch(error => {
-                console.log(`Error! HTTP Status: ${error}`);
-            });
-
+        axios.post('/api/logout', data, {
+            headers: {
+                Authorization: `Bearer ${state.token}`,
+            }
+        }).then((result) => {
+            console.log(data);
+            context.commit("deleteUser", null);
+            context.commit("setToken", null);
+        }).catch(error => {
+            console.log(`Error! HTTP Status: ${error}`);
+        });
     },
     async fetchUser(context){
         await axios.get('/api/user', {

@@ -6,7 +6,7 @@ const state = {
     profile: null,
     tags: null,
     status: null,
-    countFav: null
+    countFav: null,
 };
 const getters = {
     post: state=> state.post ? state.post: '',
@@ -14,8 +14,14 @@ const getters = {
     profile: state=> state.profile ? state.profile: '',
     tags: state=> state.tags ? state.tags: '',
     status: state=> state.status ? state.status: '',
-    countFav: state=> state.countFav ? state.countFav: ''
-
+    countFav: state=> state.countFav ? state.countFav: '',
+    checked: state=>{
+        if(state.post==null || state.user==null || state.profile==null || state.tags==null || state.status==null || state.countFav==null){
+            return false;
+        }else{
+            return true;
+        }
+    },
 };
 const mutations = {
     setPost(state,post){
@@ -41,7 +47,7 @@ const mutations = {
     },
     subtractCount(state){
         --state.countFav;
-    }
+    },
 
 
 };
@@ -59,12 +65,13 @@ const actions = {
             context.commit("setProfile", result.data.profile);
             context.commit("setTags", result.data.tags);
             context.commit('setStatus', result.data.status);
+            context.commit('setCountFav', result.data.count_fav);
         }).catch(error=>{
             console.log(error);
         })
     },
-    pushFavorite(context,data){
-        axios.post('/api/favorite',data).then(result =>{
+    async pushFavorite(context,data){
+        await axios.post('/api/favorite',data).then(result =>{
             console.log(result.data);
             context.commit('setStatus', result.data);
             context.commit('addCount');
@@ -72,8 +79,8 @@ const actions = {
             console.log(error);
         });
     },
-    deleteFavorite(context,data){
-        axios.delete('/api/favorite',{data: data}).then(result=>{
+    async deleteFavorite(context,data){
+        await axios.delete('/api/favorite',{data: data}).then(result=>{
             console.log(result.data);
             context.commit('setStatus', result.data);
             context.commit('subtractCount');

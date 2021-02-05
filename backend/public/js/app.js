@@ -3192,7 +3192,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _common_Loading_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../common/Loading.vue */ "./resources/js/components/common/Loading.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_Loading_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Loading.vue */ "./resources/js/components/common/Loading.vue");
+/* harmony import */ var _mixins_multipost_aboidable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../mixins/multipost_aboidable */ "./resources/js/mixins/multipost_aboidable.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3243,15 +3265,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mixins: [_mixins_multipost_aboidable__WEBPACK_IMPORTED_MODULE_2__.default],
   components: {
-    Loading: _common_Loading_vue__WEBPACK_IMPORTED_MODULE_0__.default
+    Loading: _common_Loading_vue__WEBPACK_IMPORTED_MODULE_1__.default
   },
   props: {
     postId: String
   },
   data: function data() {
-    return {};
+    return {
+      isLiking: false
+    };
   },
   computed: {
     post: function post() {
@@ -3277,35 +3303,222 @@ __webpack_require__.r(__webpack_exports__);
     },
     loading: function loading() {
       return this.$store.getters["loading/loading"];
+    },
+    followStatus: function followStatus() {
+      return this.$store.getters["follow/status"];
+    },
+    checked: function checked() {
+      return this.$store.getters["individual/checked"];
+    },
+    postList: function postList() {
+      return this.$store.getters["individual/postList"];
     }
   },
   methods: {
     pushFavorite: function pushFavorite() {
-      this.$store.dispatch('individual/pushFavorite', {
-        post_id: this.post.post_id,
-        user_id: this.authUser.id
-      });
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _this.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          _context.next = 2;
+                          return _this.$store.dispatch('individual/pushFavorite', {
+                            post_id: _this.post.post_id,
+                            user_id: _this.authUser.id
+                          });
+
+                        case 2:
+                        case "end":
+                          return _context.stop();
+                      }
+                    }
+                  }, _callee);
+                })));
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     },
     deleteFavorite: function deleteFavorite() {
-      this.$store.dispatch('individual/deleteFavorite', {
-        post_id: this.post.post_id,
-        user_id: this.authUser.id
-      });
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _this2.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          _context3.next = 2;
+                          return _this2.$store.dispatch('individual/deleteFavorite', {
+                            post_id: _this2.post.post_id,
+                            user_id: _this2.authUser.id
+                          });
+
+                        case 2:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                })));
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    pushFollow: function pushFollow() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this3.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+                    while (1) {
+                      switch (_context5.prev = _context5.next) {
+                        case 0:
+                          _this3.$store.dispatch('follow/pushFollow', {
+                            auth_user: _this3.authUser.id,
+                            post_user: _this3.postUser.id
+                          });
+
+                        case 1:
+                        case "end":
+                          return _context5.stop();
+                      }
+                    }
+                  }, _callee5);
+                })));
+
+              case 1:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
+      }))();
+    },
+    deleteFollow: function deleteFollow() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _this4.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
+                    while (1) {
+                      switch (_context7.prev = _context7.next) {
+                        case 0:
+                          _this4.$store.dispatch('follow/deleteFollow', {
+                            auth_user: _this4.authUser.id,
+                            post_user: _this4.postUser.id
+                          });
+
+                        case 1:
+                        case "end":
+                          return _context7.stop();
+                      }
+                    }
+                  }, _callee7);
+                })));
+
+              case 1:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8);
+      }))();
+    },
+    getUser: function getUser() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
+        var user;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                user = _this5.$store.getters["auth/user"];
+
+                if (user) {
+                  _context9.next = 4;
+                  break;
+                }
+
+                _context9.next = 4;
+                return _this5.$store.dispatch('auth/fetchUser');
+
+              case 4:
+              case "end":
+                return _context9.stop();
+            }
+          }
+        }, _callee9);
+      }))();
+    },
+    getIndividual: function getIndividual() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
+          while (1) {
+            switch (_context10.prev = _context10.next) {
+              case 0:
+                _context10.next = 2;
+                return _this6.$store.dispatch('individual/getIndividual', {
+                  post_id: _this6.postId,
+                  user_id: _this6.authUser.id
+                });
+
+              case 2:
+              case "end":
+                return _context10.stop();
+            }
+          }
+        }, _callee10);
+      }))();
     }
   },
+  created: function created() {},
   mounted: function mounted() {
-    var _this = this;
+    var _this7 = this;
 
     console.log('Individual mount start!');
     this.$store.dispatch('loading/startLoad').then(function () {
-      return _this.$store.dispatch('auth/fetchUser');
+      return _this7.getUser();
     }).then(function () {
-      return _this.$store.dispatch('individual/getIndividual', {
-        post_id: _this.postId,
-        user_id: _this.authUser.id
+      return _this7.getIndividual();
+    }).then(function () {
+      return _this7.$store.dispatch('follow/checkFollow', {
+        auth_user: _this7.authUser.id,
+        post_user: _this7.postUser.id
       });
     }).then(function () {
-      return _this.$store.dispatch('loading/endLoad');
+      return _this7.$store.dispatch('loading/endLoad');
     });
   }
 });
@@ -3323,6 +3536,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -3354,14 +3575,43 @@ __webpack_require__.r(__webpack_exports__);
       return this.$store.getters["loading/loading"];
     }
   },
+  methods: {
+    getPost: function getPost() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var post;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                post = _this.$store.getters["newtimeline/post"];
+
+                if (post) {
+                  _context.next = 4;
+                  break;
+                }
+
+                _context.next = 4;
+                return _this.$store.dispatch('newtimeline/getPost');
+
+              case 4:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     console.log('newTimeline mounted start');
     this.$store.dispatch('loading/startLoad').then(function () {
-      return _this.$store.dispatch('newtimeline/getPost');
+      return _this2.getPost();
     }).then(function () {
-      return _this.$store.dispatch('loading/endLoad');
+      return _this2.$store.dispatch('loading/endLoad');
     });
   }
 });
@@ -3591,6 +3841,80 @@ vue__WEBPACK_IMPORTED_MODULE_0__.default.directive('show-password', {
 
 /***/ }),
 
+/***/ "./resources/js/mixins/multipost_aboidable.js":
+/*!****************************************************!*\
+  !*** ./resources/js/mixins/multipost_aboidable.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      isPosting: false
+    };
+  },
+  methods: {
+    beginPost: function beginPost() {
+      this.isPosting = true;
+    },
+    endPost: function endPost() {
+      this.isPosting = false;
+    },
+    avoidMultipost: function avoidMultipost(func) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!_this.isPosting) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", null);
+
+              case 2:
+                _this.beginPost();
+
+                _context.next = 5;
+                return func();
+
+              case 5:
+                res = _context.sent;
+
+                _this.endPost();
+
+                return _context.abrupt("return", res);
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/router.js":
 /*!********************************!*\
   !*** ./resources/js/router.js ***!
@@ -3748,21 +4072,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.common.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.common.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/auth */ "./resources/js/store/modules/auth.js");
 /* harmony import */ var _modules_newTimeline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/newTimeline */ "./resources/js/store/modules/newTimeline.js");
 /* harmony import */ var _modules_individual__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/individual */ "./resources/js/store/modules/individual.js");
 /* harmony import */ var _modules_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/loading */ "./resources/js/store/modules/loading.js");
+/* harmony import */ var _modules_follow__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/follow */ "./resources/js/store/modules/follow.js");
 
 
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_4__.default.use((vuex__WEBPACK_IMPORTED_MODULE_5___default()));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuex__WEBPACK_IMPORTED_MODULE_5___default().Store)({
+
+vue__WEBPACK_IMPORTED_MODULE_5__.default.use((vuex__WEBPACK_IMPORTED_MODULE_6___default()));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuex__WEBPACK_IMPORTED_MODULE_6___default().Store)({
   state: function state() {
     return {};
   },
@@ -3770,7 +4096,8 @@ vue__WEBPACK_IMPORTED_MODULE_4__.default.use((vuex__WEBPACK_IMPORTED_MODULE_5___
     auth: _modules_auth__WEBPACK_IMPORTED_MODULE_0__.default,
     newtimeline: _modules_newTimeline__WEBPACK_IMPORTED_MODULE_1__.default,
     individual: _modules_individual__WEBPACK_IMPORTED_MODULE_2__.default,
-    loading: _modules_loading__WEBPACK_IMPORTED_MODULE_3__.default
+    loading: _modules_loading__WEBPACK_IMPORTED_MODULE_3__.default,
+    follow: _modules_follow__WEBPACK_IMPORTED_MODULE_4__.default
   },
   mutations: {},
   actions: {},
@@ -3907,6 +4234,126 @@ var actions = {
 
 /***/ }),
 
+/***/ "./resources/js/store/modules/follow.js":
+/*!**********************************************!*\
+  !*** ./resources/js/store/modules/follow.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+var state = {
+  status: null
+};
+var getters = {
+  status: function status(state) {
+    return state.status ? state.status : '';
+  }
+};
+var mutations = {
+  setStatus: function setStatus(state, status) {
+    state.status = status;
+  }
+};
+var actions = {
+  pushFollow: function pushFollow(context, data) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/follow', data).then(function (result) {
+                context.commit('setStatus', result.data);
+              })["catch"](function (error) {
+                console.log(error);
+              });
+
+            case 2:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  deleteFollow: function deleteFollow(context, data) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/follow', {
+                data: data
+              }).then(function (result) {
+                context.commit('setStatus', result.data);
+              })["catch"](function (error) {
+                console.log(error);
+              });
+
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  },
+  checkFollow: function checkFollow(_ref, _ref2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      var commit, auth_user, post_user;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref.commit;
+              auth_user = _ref2.auth_user, post_user = _ref2.post_user;
+              _context3.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/follow', {
+                params: {
+                  auth_user: auth_user,
+                  post_user: post_user
+                }
+              }).then(function (result) {
+                commit('setStatus', result.data);
+              })["catch"](function (error) {
+                console.log(error);
+              });
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/modules/individual.js":
 /*!**************************************************!*\
   !*** ./resources/js/store/modules/individual.js ***!
@@ -3955,6 +4402,13 @@ var getters = {
   },
   countFav: function countFav(state) {
     return state.countFav ? state.countFav : '';
+  },
+  checked: function checked(state) {
+    if (state.post == null || state.user == null || state.profile == null || state.tags == null || state.status == null || state.countFav == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 };
 var mutations = {
@@ -4005,6 +4459,7 @@ var actions = {
                 context.commit("setProfile", result.data.profile);
                 context.commit("setTags", result.data.tags);
                 context.commit('setStatus', result.data.status);
+                context.commit('setCountFav', result.data.count_fav);
               })["catch"](function (error) {
                 console.log(error);
               });
@@ -4018,24 +4473,52 @@ var actions = {
     }))();
   },
   pushFavorite: function pushFavorite(context, data) {
-    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/favorite', data).then(function (result) {
-      console.log(result.data);
-      context.commit('setStatus', result.data);
-      context.commit('addCount');
-    })["catch"](function (error) {
-      console.log(error);
-    });
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/favorite', data).then(function (result) {
+                console.log(result.data);
+                context.commit('setStatus', result.data);
+                context.commit('addCount');
+              })["catch"](function (error) {
+                console.log(error);
+              });
+
+            case 2:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
   },
   deleteFavorite: function deleteFavorite(context, data) {
-    axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/favorite', {
-      data: data
-    }).then(function (result) {
-      console.log(result.data);
-      context.commit('setStatus', result.data);
-      context.commit('subtractCount');
-    })["catch"](function (error) {
-      console.log(error);
-    });
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/favorite', {
+                data: data
+              }).then(function (result) {
+                console.log(result.data);
+                context.commit('setStatus', result.data);
+                context.commit('subtractCount');
+              })["catch"](function (error) {
+                console.log(error);
+              });
+
+            case 2:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }))();
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -49022,7 +49505,64 @@ var render = function() {
                 _vm._v(" "),
                 _c("p", [_vm._v("@" + _vm._s(_vm.postUser.login_id))]),
                 _vm._v(" "),
-                _vm._m(0),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.postUser.id != _vm.authUser.id,
+                        expression: "postUser.id != authUser.id"
+                      }
+                    ]
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.followStatus,
+                            expression: "!followStatus"
+                          }
+                        ],
+                        staticClass: "follow",
+                        on: { click: _vm.pushFollow }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-user-plus" }),
+                        _vm._v(
+                          "\n                            フォローする\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.followStatus,
+                            expression: "followStatus"
+                          }
+                        ],
+                        staticClass: "unfollow",
+                        on: { click: _vm.deleteFollow }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-user-plus" }),
+                        _vm._v(
+                          "\n                            フォロー解除                        \n                        "
+                        )
+                      ]
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c("p", [_vm._v("フォロー")]),
                 _vm._v(" "),
@@ -49046,7 +49586,64 @@ var render = function() {
                   _vm._v(_vm._s(_vm.postUser.name))
                 ]),
                 _vm._v(" "),
-                _vm._m(1),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.postUser.id != _vm.authUser.id,
+                        expression: "postUser.id != authUser.id"
+                      }
+                    ]
+                  },
+                  [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.followStatus,
+                            expression: "!followStatus"
+                          }
+                        ],
+                        staticClass: "follow",
+                        on: { click: _vm.pushFollow }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-user-plus" }),
+                        _vm._v(
+                          "\n                            フォローする\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.followStatus,
+                            expression: "followStatus"
+                          }
+                        ],
+                        staticClass: "unfollow",
+                        on: { click: _vm.deleteFollow }
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-user-plus" }),
+                        _vm._v(
+                          "\n                            フォロー解除                        \n                        "
+                        )
+                      ]
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -49060,6 +49657,7 @@ var render = function() {
                       }
                     ],
                     staticClass: "favorite",
+                    attrs: { disabled: _vm.isPosting },
                     on: { click: _vm.pushFavorite }
                   },
                   [_vm._v("いいね")]
@@ -49077,26 +49675,17 @@ var render = function() {
                       }
                     ],
                     staticClass: "favorite",
+                    attrs: { disabled: _vm.isPosting },
                     on: { click: _vm.deleteFavorite }
                   },
                   [_vm._v("いいね解除")]
                 ),
                 _vm._v(" "),
-                _c(
-                  "p",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.countFav,
-                        expression: "!countFav"
-                      }
-                    ],
-                    staticClass: "count"
-                  },
-                  [_vm._v(_vm._s(_vm.countFav + 1) + "人がいいねしました")]
-                )
+                _vm.countFav != 0
+                  ? _c("p", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.countFav) + "人がいいねしました")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c(
@@ -49121,26 +49710,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "follow-button" }, [
-      _c("i", { staticClass: "fas fa-user-plus" }),
-      _vm._v(" "),
-      _c("p", [_vm._v("フォローする")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "follow" }, [
-      _c("i", { staticClass: "fas fa-user-plus" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

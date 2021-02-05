@@ -29,12 +29,20 @@ export default {
         },
         loading(){
             return this.$store.getters["loading/loading"];
-        }
+        },
+    },
+    methods: {
+        async getPost() {
+            const post = this.$store.getters["newtimeline/post"];
+            if(!post){
+                await this.$store.dispatch('newtimeline/getPost');
+            }
+        },
     },
     mounted() {
         console.log('newTimeline mounted start');
         this.$store.dispatch('loading/startLoad')
-            .then(()=>this.$store.dispatch('newtimeline/getPost'))
+            .then(()=>this.getPost())
             .then(()=>this.$store.dispatch('loading/endLoad'));
     },
 }
