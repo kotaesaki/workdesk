@@ -11,7 +11,7 @@ class FavoriteController extends Controller
 {
     public function store(Request $request)
     {
-        Favorite::create([
+        Favorite::firstOrCreate([
             'user_id' => $request->user_id,
             'post_id' => $request->post_id,
         ]);

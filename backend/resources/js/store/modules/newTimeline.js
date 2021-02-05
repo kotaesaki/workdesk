@@ -5,7 +5,7 @@ const state ={
 };
 
 const getters = {
-    post: state => state.post ? state.post: ''
+    post: state => state.post ? state.post: '',
 };
 
 const mutations = {

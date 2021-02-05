@@ -16,9 +16,15 @@
                     <img :src="`../${profile.icon_path}`" alt="contents-photo" class="icon-photo">
                     <p>{{postUser.name}}</p>
                     <p>@{{postUser.login_id}}</p>
-                    <div class="follow-button">
-                        <i class="fas fa-user-plus"></i>
-                        <p>フォローする</p>
+                    <div v-show="postUser.id != authUser.id">
+                        <div class="follow" @click="pushFollow" v-show="!followStatus" >
+                            <i class="fas fa-user-plus"></i>
+                            フォローする
+                        </div>
+                        <div class="unfollow" @click="deleteFollow" v-show="followStatus">
+                            <i class="fas fa-user-plus"></i>
+                            フォロー解除                        
+                        </div>
                     </div>
                     <p>フォロー</p>
                     <p>フォロワー</p>
@@ -29,17 +35,19 @@
                 <div class="individual-profile">
                     <img :src="`../${profile.icon_path}`" alt="icon-photo" class="icon-photo">
                     <p class="profile-name">{{postUser.name}}</p>
-                    <div class="follow" @click="pushFollow" v-show="!followStatus">
-                        <i class="fas fa-user-plus"></i>
-                        フォローする
+                    <div v-show="postUser.id != authUser.id">
+                        <div class="follow" @click="pushFollow" v-show="!followStatus" >
+                            <i class="fas fa-user-plus"></i>
+                            フォローする
+                        </div>
+                        <div class="unfollow" @click="deleteFollow" v-show="followStatus">
+                            <i class="fas fa-user-plus"></i>
+                            フォロー解除                        
+                        </div>
                     </div>
-                    <div class="unfollow" @click="deleteFollow" v-show="followStatus">
-                        <i class="fas fa-user-plus"></i>
-                        フォロー解除                        
-                    </div>
-                    <button class="favorite" v-show="status == false" @click="pushFavorite">いいね</button>
-                    <button class="favorite" v-show="status == true" @click="deleteFavorite">いいね解除</button>
-                    <p class="count" v-if="countFav!=0">{{countFav+1}}人がいいねしました</p>
+                    <button class="favorite" v-bind:disabled="isPosting" v-show="status == false" @click="pushFavorite">いいね</button>
+                    <button class="favorite" v-bind:disabled="isPosting" v-show="status == true" @click="deleteFavorite">いいね解除</button>
+                    <p class="count" v-if="countFav!=0">{{countFav}}人がいいねしました</p>
                 </div>
                 <div class="individual-tags">
                     <li class="tag" v-for="tag in tags" :key="tag.tag_id">
@@ -54,14 +62,16 @@
 </template>
 <script>
 import Loading from '../common/Loading.vue';
+import MultipostAboidable from '../../mixins/multipost_aboidable';
 export default {
-  components: { Loading },
+    mixins: [MultipostAboidable],
+    components: { Loading },
     props:{
         postId: String
     },
     data() {
         return {
-            
+            isLiking: false,
         };
     },
     computed: {
@@ -91,38 +101,54 @@ export default {
         },
         followStatus(){
             return this.$store.getters["follow/status"];
+        },
+        checked(){
+            return this.$store.getters["individual/checked"];
+        },
+        postList(){
+            return this.$store.getters["individual/postList"];
         }
-
     },
     methods: {
-        pushFavorite(){
-            this.$store.dispatch('individual/pushFavorite', {post_id: this.post.post_id, user_id: this.authUser.id});
+        async pushFavorite(){
+            this.avoidMultipost(async()=>{
+                await this.$store.dispatch('individual/pushFavorite', {post_id: this.post.post_id, user_id: this.authUser.id}); 
+            }) 
         },
-        deleteFavorite(){
-            this.$store.dispatch('individual/deleteFavorite', {post_id: this.post.post_id, user_id: this.authUser.id});
+        async deleteFavorite(){
+            this.avoidMultipost(async()=>{
+                await this.$store.dispatch('individual/deleteFavorite', {post_id: this.post.post_id, user_id: this.authUser.id});
+            })
         },
-        pushFollow(){
-            this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user:this.postUser.id});
+        async pushFollow(){
+            this.avoidMultipost(async()=>{
+                this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user:this.postUser.id});
+            });
         },
-        deleteFollow(){
-            this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user:this.postUser.id});
+        async deleteFollow(){
+            this.avoidMultipost(async()=>{
+                this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user:this.postUser.id});
+            });
         },
+        async getUser(){
+            const user = this.$store.getters["auth/user"];
+            if(!user){
+                await this.$store.dispatch('auth/fetchUser');
+            }
+        },
+        async getIndividual(){
+            await this.$store.dispatch('individual/getIndividual', {post_id: this.postId, user_id:this.authUser.id});
+        }
     },
     created() {
     },
     mounted() {
         console.log('Individual mount start!');
-        const user = this.$store.getters["auth/user"];
         this.$store.dispatch('loading/startLoad')
-            .then(()=>this.$store.dispatch('individual/getIndividual', {post_id: this.postId, user_id:this.authUser.id}))
+            .then(()=>this.getUser())
+            .then(()=>this.getIndividual())
+            .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.postUser.id}))
             .then(()=>this.$store.dispatch('loading/endLoad'));        
-    },
-    watch: {
-        authUser(newUser) {
-            if(newUser){    
-                this.$store.dispatch('individual/getIndividual', {post_id: this.postId, user_id:this.authUser.id})
-            }
-        },
     },
 }
 </script>

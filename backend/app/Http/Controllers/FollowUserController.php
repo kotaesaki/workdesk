@@ -9,7 +9,7 @@ class FollowUserController extends Controller
 {
     public function follow(Request $request)
     {
-        FollowUser::create([
+        FollowUser::firstOrCreate([
             'followed_user_id' => $request->post_user,
             'following_user_id' => $request->auth_user
         ]);
@@ -25,6 +25,13 @@ class FollowUserController extends Controller
             $follow->delete();
             return 'false';
         }
+    }
+    public function checkFollow(Request $request)
+    {
+        $checked = FollowUser::where('followed_user_id', $request->post_user)
+            ->where('following_user_id', $request->auth_user)
+            ->exists();
+        return $checked;
     }
     public function showFollow()
     {
