@@ -16,6 +16,7 @@ import PostTagForm from "./components/posts/PostTagForm";
 import Account from "./components/settings/Account";
 import Profile from "./components/settings/Profile";
 import FollowContent from "./components/follow/FollowContent";
+import FollowerContent from "./components/follow/FollowerContent";
 import ProfileImageForm from "./components/settings/ProfileImageForm";
 import settingsBar from "./components/settings/settingsBar";
 import HomeComponent from "./components/top/HomeComponent";
@@ -77,6 +78,13 @@ const router = new VueRouter({
                     name: 'follow',
                     components:{
                         follow:FollowContent
+                    }
+                },
+                {
+                    path:'/follower/:userId',
+                    name: 'follower',
+                    components: {
+                        follower:FollowerContent
                     }
                 },
                 {

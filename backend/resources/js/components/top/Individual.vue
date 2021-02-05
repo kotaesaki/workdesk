@@ -140,8 +140,6 @@ export default {
             await this.$store.dispatch('individual/getIndividual', {post_id: this.postId, user_id:this.authUser.id});
         }
     },
-    created() {
-    },
     mounted() {
         console.log('Individual mount start!');
         this.$store.dispatch('loading/startLoad')
