@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FollowUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FollowUserController extends Controller
@@ -33,10 +34,20 @@ class FollowUserController extends Controller
             ->exists();
         return $checked;
     }
-    public function showFollow()
+    public function showFollow(Request $request)
     {
+        $follows = User::with(['follow' => function ($query) {
+            $query->with('profile');
+        }])->find($request->user_id);
+        return response()->json(['follow' => $follows->follow], 200);
     }
-    public function showFollower()
+    public function showFollower(Request $request)
     {
+        $followers = User::with(['followUsers' => function ($query) {
+            $query->with('profile');
+        }])->find($request->user_id);
+        $sss = User::find($request->user_id);
+        $aaa = $sss->followUsers;
+        return response()->json(['follower' => $followers], 200);
     }
 }

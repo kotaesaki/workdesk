@@ -54,6 +54,8 @@ Route::get('/follow', 'App\Http\Controllers\FollowUserController@checkFollow')->
 Route::post('/follow', 'App\Http\Controllers\FollowUserController@follow')->name('api.push_follow');
 Route::delete('/follow', 'App\Http\Controllers\FollowUserController@unfollow')->name('api.push_unfollow');
 
+Route::get('/follow/{login_id}', 'App\Http\Controllers\FollowUserController@showFollow')->name('api.show_follow');
+Route::get('/follower/{login_id}', 'App\Http\Controllers\FollowUserController@showFollower')->name('api.show_follower');
 
 Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');
 Route::post('/login', 'App\Http\Controllers\Auth\Api\LoginController@login')->name('api.login');
