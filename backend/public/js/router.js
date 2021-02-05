@@ -1398,6 +1398,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -1433,6 +1438,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     loading: function loading() {
       return this.$store.getters["loading/loading"];
+    },
+    followStatus: function followStatus() {
+      return this.$store.getters["follow/status"];
     }
   },
   methods: {
@@ -1447,15 +1455,27 @@ __webpack_require__.r(__webpack_exports__);
         post_id: this.post.post_id,
         user_id: this.authUser.id
       });
+    },
+    pushFollow: function pushFollow() {
+      this.$store.dispatch('follow/pushFollow', {
+        auth_user: this.authUser.id,
+        post_user: this.postUser.id
+      });
+    },
+    deleteFollow: function deleteFollow() {
+      this.$store.dispatch('follow/deleteFollow', {
+        auth_user: this.authUser.id,
+        post_user: this.postUser.id
+      });
     }
   },
+  created: function created() {},
   mounted: function mounted() {
     var _this = this;
 
     console.log('Individual mount start!');
+    var user = this.$store.getters["auth/user"];
     this.$store.dispatch('loading/startLoad').then(function () {
-      return _this.$store.dispatch('auth/fetchUser');
-    }).then(function () {
       return _this.$store.dispatch('individual/getIndividual', {
         post_id: _this.postId,
         user_id: _this.authUser.id
@@ -1463,6 +1483,16 @@ __webpack_require__.r(__webpack_exports__);
     }).then(function () {
       return _this.$store.dispatch('loading/endLoad');
     });
+  },
+  watch: {
+    authUser: function authUser(newUser) {
+      if (newUser) {
+        this.$store.dispatch('individual/getIndividual', {
+          post_id: this.postId,
+          user_id: this.authUser.id
+        });
+      }
+    }
   }
 });
 
@@ -10688,7 +10718,49 @@ var render = function() {
                   _vm._v(_vm._s(_vm.postUser.name))
                 ]),
                 _vm._v(" "),
-                _vm._m(1),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.followStatus,
+                        expression: "!followStatus"
+                      }
+                    ],
+                    staticClass: "follow",
+                    on: { click: _vm.pushFollow }
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-user-plus" }),
+                    _vm._v(
+                      "\n                        フォローする\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.followStatus,
+                        expression: "followStatus"
+                      }
+                    ],
+                    staticClass: "unfollow",
+                    on: { click: _vm.deleteFollow }
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-user-plus" }),
+                    _vm._v(
+                      "\n                        フォロー解除                        \n                    "
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -10724,21 +10796,11 @@ var render = function() {
                   [_vm._v("いいね解除")]
                 ),
                 _vm._v(" "),
-                _c(
-                  "p",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.countFav,
-                        expression: "!countFav"
-                      }
-                    ],
-                    staticClass: "count"
-                  },
-                  [_vm._v(_vm._s(_vm.countFav + 1) + "人がいいねしました")]
-                )
+                _vm.countFav != 0
+                  ? _c("p", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.countFav + 1) + "人がいいねしました")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c(
@@ -10772,14 +10834,6 @@ var staticRenderFns = [
       _c("i", { staticClass: "fas fa-user-plus" }),
       _vm._v(" "),
       _c("p", [_vm._v("フォローする")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "follow" }, [
-      _c("i", { staticClass: "fas fa-user-plus" })
     ])
   }
 ]

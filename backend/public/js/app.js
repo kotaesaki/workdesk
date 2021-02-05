@@ -3242,6 +3242,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3277,6 +3282,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     loading: function loading() {
       return this.$store.getters["loading/loading"];
+    },
+    followStatus: function followStatus() {
+      return this.$store.getters["follow/status"];
     }
   },
   methods: {
@@ -3291,15 +3299,27 @@ __webpack_require__.r(__webpack_exports__);
         post_id: this.post.post_id,
         user_id: this.authUser.id
       });
+    },
+    pushFollow: function pushFollow() {
+      this.$store.dispatch('follow/pushFollow', {
+        auth_user: this.authUser.id,
+        post_user: this.postUser.id
+      });
+    },
+    deleteFollow: function deleteFollow() {
+      this.$store.dispatch('follow/deleteFollow', {
+        auth_user: this.authUser.id,
+        post_user: this.postUser.id
+      });
     }
   },
+  created: function created() {},
   mounted: function mounted() {
     var _this = this;
 
     console.log('Individual mount start!');
+    var user = this.$store.getters["auth/user"];
     this.$store.dispatch('loading/startLoad').then(function () {
-      return _this.$store.dispatch('auth/fetchUser');
-    }).then(function () {
       return _this.$store.dispatch('individual/getIndividual', {
         post_id: _this.postId,
         user_id: _this.authUser.id
@@ -3307,6 +3327,16 @@ __webpack_require__.r(__webpack_exports__);
     }).then(function () {
       return _this.$store.dispatch('loading/endLoad');
     });
+  },
+  watch: {
+    authUser: function authUser(newUser) {
+      if (newUser) {
+        this.$store.dispatch('individual/getIndividual', {
+          post_id: this.postId,
+          user_id: this.authUser.id
+        });
+      }
+    }
   }
 });
 
@@ -3748,21 +3778,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.common.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.common.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/auth */ "./resources/js/store/modules/auth.js");
 /* harmony import */ var _modules_newTimeline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/newTimeline */ "./resources/js/store/modules/newTimeline.js");
 /* harmony import */ var _modules_individual__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/individual */ "./resources/js/store/modules/individual.js");
 /* harmony import */ var _modules_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/loading */ "./resources/js/store/modules/loading.js");
+/* harmony import */ var _modules_follow__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/follow */ "./resources/js/store/modules/follow.js");
 
 
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_4__.default.use((vuex__WEBPACK_IMPORTED_MODULE_5___default()));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuex__WEBPACK_IMPORTED_MODULE_5___default().Store)({
+
+vue__WEBPACK_IMPORTED_MODULE_5__.default.use((vuex__WEBPACK_IMPORTED_MODULE_6___default()));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuex__WEBPACK_IMPORTED_MODULE_6___default().Store)({
   state: function state() {
     return {};
   },
@@ -3770,7 +3802,8 @@ vue__WEBPACK_IMPORTED_MODULE_4__.default.use((vuex__WEBPACK_IMPORTED_MODULE_5___
     auth: _modules_auth__WEBPACK_IMPORTED_MODULE_0__.default,
     newtimeline: _modules_newTimeline__WEBPACK_IMPORTED_MODULE_1__.default,
     individual: _modules_individual__WEBPACK_IMPORTED_MODULE_2__.default,
-    loading: _modules_loading__WEBPACK_IMPORTED_MODULE_3__.default
+    loading: _modules_loading__WEBPACK_IMPORTED_MODULE_3__.default,
+    follow: _modules_follow__WEBPACK_IMPORTED_MODULE_4__.default
   },
   mutations: {},
   actions: {},
@@ -3907,6 +3940,61 @@ var actions = {
 
 /***/ }),
 
+/***/ "./resources/js/store/modules/follow.js":
+/*!**********************************************!*\
+  !*** ./resources/js/store/modules/follow.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = {
+  status: null
+};
+var getters = {
+  status: function status(state) {
+    return state.status ? state.status : '';
+  }
+};
+var mutations = {
+  setStatus: function setStatus(state, status) {
+    state.status = status;
+  }
+};
+var actions = {
+  pushFollow: function pushFollow(context, data) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/follow', data).then(function (result) {
+      context.commit('setStatus', result.data);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  },
+  deleteFollow: function deleteFollow(context, data) {
+    axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/follow', {
+      data: data
+    }).then(function (result) {
+      context.commit('setStatus', result.data);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
 /***/ "./resources/js/store/modules/individual.js":
 /*!**************************************************!*\
   !*** ./resources/js/store/modules/individual.js ***!
@@ -4005,6 +4093,7 @@ var actions = {
                 context.commit("setProfile", result.data.profile);
                 context.commit("setTags", result.data.tags);
                 context.commit('setStatus', result.data.status);
+                context.commit('setCountFav', result.data.countFav);
               })["catch"](function (error) {
                 console.log(error);
               });
@@ -49046,7 +49135,49 @@ var render = function() {
                   _vm._v(_vm._s(_vm.postUser.name))
                 ]),
                 _vm._v(" "),
-                _vm._m(1),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.followStatus,
+                        expression: "!followStatus"
+                      }
+                    ],
+                    staticClass: "follow",
+                    on: { click: _vm.pushFollow }
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-user-plus" }),
+                    _vm._v(
+                      "\n                        フォローする\n                    "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.followStatus,
+                        expression: "followStatus"
+                      }
+                    ],
+                    staticClass: "unfollow",
+                    on: { click: _vm.deleteFollow }
+                  },
+                  [
+                    _c("i", { staticClass: "fas fa-user-plus" }),
+                    _vm._v(
+                      "\n                        フォロー解除                        \n                    "
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -49082,21 +49213,11 @@ var render = function() {
                   [_vm._v("いいね解除")]
                 ),
                 _vm._v(" "),
-                _c(
-                  "p",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.countFav,
-                        expression: "!countFav"
-                      }
-                    ],
-                    staticClass: "count"
-                  },
-                  [_vm._v(_vm._s(_vm.countFav + 1) + "人がいいねしました")]
-                )
+                _vm.countFav != 0
+                  ? _c("p", { staticClass: "count" }, [
+                      _vm._v(_vm._s(_vm.countFav + 1) + "人がいいねしました")
+                    ])
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _c(
@@ -49130,14 +49251,6 @@ var staticRenderFns = [
       _c("i", { staticClass: "fas fa-user-plus" }),
       _vm._v(" "),
       _c("p", [_vm._v("フォローする")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "follow" }, [
-      _c("i", { staticClass: "fas fa-user-plus" })
     ])
   }
 ]

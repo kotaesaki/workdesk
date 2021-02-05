@@ -29,12 +29,17 @@
                 <div class="individual-profile">
                     <img :src="`../${profile.icon_path}`" alt="icon-photo" class="icon-photo">
                     <p class="profile-name">{{postUser.name}}</p>
-                    <div class="follow">
+                    <div class="follow" @click="pushFollow" v-show="!followStatus">
                         <i class="fas fa-user-plus"></i>
+                        フォローする
+                    </div>
+                    <div class="unfollow" @click="deleteFollow" v-show="followStatus">
+                        <i class="fas fa-user-plus"></i>
+                        フォロー解除                        
                     </div>
                     <button class="favorite" v-show="status == false" @click="pushFavorite">いいね</button>
                     <button class="favorite" v-show="status == true" @click="deleteFavorite">いいね解除</button>
-                    <p class="count" v-show="!countFav">{{countFav+1}}人がいいねしました</p>
+                    <p class="count" v-if="countFav!=0">{{countFav+1}}人がいいねしました</p>
                 </div>
                 <div class="individual-tags">
                     <li class="tag" v-for="tag in tags" :key="tag.tag_id">
@@ -83,7 +88,11 @@ export default {
         },
         loading(){
             return this.$store.getters["loading/loading"];
+        },
+        followStatus(){
+            return this.$store.getters["follow/status"];
         }
+
     },
     methods: {
         pushFavorite(){
@@ -91,14 +100,29 @@ export default {
         },
         deleteFavorite(){
             this.$store.dispatch('individual/deleteFavorite', {post_id: this.post.post_id, user_id: this.authUser.id});
-        }
+        },
+        pushFollow(){
+            this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user:this.postUser.id});
+        },
+        deleteFollow(){
+            this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user:this.postUser.id});
+        },
+    },
+    created() {
     },
     mounted() {
         console.log('Individual mount start!');
+        const user = this.$store.getters["auth/user"];
         this.$store.dispatch('loading/startLoad')
-            .then(()=>this.$store.dispatch('auth/fetchUser'))
             .then(()=>this.$store.dispatch('individual/getIndividual', {post_id: this.postId, user_id:this.authUser.id}))
             .then(()=>this.$store.dispatch('loading/endLoad'));        
+    },
+    watch: {
+        authUser(newUser) {
+            if(newUser){    
+                this.$store.dispatch('individual/getIndividual', {post_id: this.postId, user_id:this.authUser.id})
+            }
+        },
     },
 }
 </script>

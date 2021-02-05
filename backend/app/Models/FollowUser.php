@@ -13,5 +13,5 @@ class FollowUser extends Model
         'followed_user_id',
         'following_user_id'
     ];
-    protected $table = 'following_users';
+    protected $table = 'follow_users';
 }

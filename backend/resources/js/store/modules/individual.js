@@ -59,6 +59,7 @@ const actions = {
             context.commit("setProfile", result.data.profile);
             context.commit("setTags", result.data.tags);
             context.commit('setStatus', result.data.status);
+            context.commit('setCountFav', result.data.countFav);
         }).catch(error=>{
             console.log(error);
         })

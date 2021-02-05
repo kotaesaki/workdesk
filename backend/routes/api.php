@@ -50,6 +50,10 @@ Route::delete('/favorite', 'App\Http\Controllers\FavoriteController@delete')->na
 Route::get('/favorite', 'App\Http\Controllers\FavoriteController@isLiked')->name('api.isLiked_favorite');
 Route::get('/mylikes', 'App\Http\Controllers\FavoriteController@getMylikes')->name('api.getMylikes_favorite');
 
+Route::get('/follow', 'App\Http\Controllers\FollowUserController@showFollow')->name('api.show_follow');
+Route::post('/follow', 'App\Http\Controllers\FollowUserController@follow')->name('api.push_follow');
+Route::delete('/follow', 'App\Http\Controllers\FollowUserController@unfollow')->name('api.push_unfollow');
+
 
 Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');
 Route::post('/login', 'App\Http\Controllers\Auth\Api\LoginController@login')->name('api.login');

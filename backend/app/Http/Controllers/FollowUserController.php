@@ -7,12 +7,29 @@ use Illuminate\Http\Request;
 
 class FollowUserController extends Controller
 {
-    public function follow()
+    public function follow(Request $request)
     {
-        $follow = FollowUser::create([]);
+        FollowUser::create([
+            'followed_user_id' => $request->post_user,
+            'following_user_id' => $request->auth_user
+        ]);
+        return 'true';
     }
 
-    public function unfollow()
+    public function unfollow(Request $request)
+    {
+        $follow = FollowUser::where('followed_user_id', $request->post_user)
+            ->where('following_user_id', $request->auth_user)
+            ->first();
+        if ($follow) {
+            $follow->delete();
+            return 'false';
+        }
+    }
+    public function showFollow()
+    {
+    }
+    public function showFollower()
     {
     }
 }

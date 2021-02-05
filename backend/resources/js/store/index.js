@@ -4,6 +4,7 @@ import auth from './modules/auth';
 import newtimeline from './modules/newTimeline';
 import individual from './modules/individual';
 import loading from './modules/loading';
+import follow from './modules/follow';
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
         newtimeline,
         individual,
         loading,
+        follow,
     },
     mutations: {},
     actions: {},
