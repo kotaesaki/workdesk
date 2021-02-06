@@ -8,9 +8,7 @@
                     <img :src="`../${post.photo_path}`" alt="contents-photo" class="contents-photo">
                     <p class="created-time">{{post.created_at}}</p>
                 </div>
-                <div class="comments">
-
-                </div>
+                <individual-comment></individual-comment>
                 <div class="contents-profile">
                     <p>写真を投稿したユーザー</p>
                     <img :src="`../${profile.icon_path}`" alt="contents-photo" class="icon-photo">
@@ -63,15 +61,15 @@
 <script>
 import Loading from '../common/Loading.vue';
 import MultipostAboidable from '../../mixins/multipost_aboidable';
+import IndividualComment from './IndividualComment.vue';
 export default {
     mixins: [MultipostAboidable],
-    components: { Loading },
+    components: { Loading, IndividualComment },
     props:{
         postId: String
     },
     data() {
         return {
-            isLiking: false,
         };
     },
     computed: {
@@ -102,12 +100,6 @@ export default {
         followStatus(){
             return this.$store.getters["follow/status"];
         },
-        checked(){
-            return this.$store.getters["individual/checked"];
-        },
-        postList(){
-            return this.$store.getters["individual/postList"];
-        }
     },
     methods: {
         async pushFavorite(){

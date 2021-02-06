@@ -26,12 +26,12 @@ class MypageController extends Controller
             ->get();
         $posts = Post::where('user_id', $login_id)
             ->orderBy('created_at', 'desc')->get();
-        foreach ($posts as $post) {
-            $post11[] = Post::find($post->post_id)->tags()->get();
-            /* foreach ($post11->tags as $tag) {
-                $tags[] = $tag->pivot;
-            } */
+        if ($posts) {
+            foreach ($posts as $post) {
+                $post11[] = Post::find($post->post_id)->tags()->get();
+                return [$user1, $posts, $post11];
+            }
         }
-        return [$user1, $posts, $post11];
+        return [$user1];
     }
 }

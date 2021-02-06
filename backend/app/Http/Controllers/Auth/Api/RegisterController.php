@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -35,7 +36,13 @@ class RegisterController extends Controller
         $data = DB::transaction(function () use ($request) {
             $user = $this->create($request->all());
             $token = $user->createToken($request->device_name ?? 'undefined')->plainTextToken;
-            return json_encode(['token' => $token, 'user' => $user]);
+            $profile = Profile::create([
+                'user_id' => $user->id,
+                'icon_title' => 'default_icon.jpg',
+                'icon_path' => 'storage/' . 'default_icon.jpg'
+
+            ]);
+            return json_encode(['token' => $token, 'user' => $user, 'profile' => $profile]);
         });
         // userとtokenのjsonを返却
         return response($data);

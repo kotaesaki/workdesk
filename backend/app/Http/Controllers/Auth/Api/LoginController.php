@@ -30,9 +30,7 @@ class LoginController extends Controller
 
         // ユーザーの取得
         $user = User::where('login_id', $request->login_id)->first();
-        if ($user->profile) {
-            $profile = $user->profile;
-        }
+
         // 取得できない場合、パスワードが不一致の場合エラー
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
@@ -42,7 +40,11 @@ class LoginController extends Controller
 
         // tokenの作成
         $token = $user->createToken('authToken')->plainTextToken;
-
+        if ($user->profile) {
+            $profile = $user->profile;
+        } else {
+            return response()->json(['token' => $token, 'user' => $user, 'profile' => ''], 200);
+        }
         return response()->json(['token' => $token, 'user' => $user, 'profile' => $profile], 200);
     }
 

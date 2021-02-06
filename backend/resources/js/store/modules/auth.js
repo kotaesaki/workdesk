@@ -27,17 +27,26 @@ const mutations = {
 };
 const actions = {
     register(context, data) {
-        axios.post('/api/register', data).then((result) => {
+        axios.post('/api/register', data, {
+            headers: {
+                Authorization: `Bearer ${state.token}`,
+            }
+        }).then((result) => {
             console.log(data);
             context.commit("setUser", result.data.user);
             context.commit("setToken", result.data.token);
+            context.commit("setProfile", result.data.profile);
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
             console.log(data);
         });
     },
     login(context, data){
-        axios.post('/api/login', data).then((result) => {
+        axios.post('/api/login', data, {
+            headers: {
+                Authorization: `Bearer ${state.token}`,
+            }
+        }).then((result) => {
             console.log(data);
             context.commit("setUser", result.data.user);
             context.commit("setProfile", result.data.profile);
@@ -56,6 +65,7 @@ const actions = {
             console.log(data);
             context.commit("deleteUser", null);
             context.commit("setToken", null);
+            context.commit("setProfile", null);
         }).catch(error => {
             console.log(`Error! HTTP Status: ${error}`);
         });

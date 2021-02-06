@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
         $profile = $user->profile;
         return response()->json(['user' => $user, 'profile' => $profile], 200);
     });
+    Route::get('/post_upload/{login_id}', 'App\Http\Controllers\PostController@index')->name('show_post_upload');
 });
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 
@@ -41,7 +42,6 @@ Route::post('/profile/{login_id}', 'App\Http\Controllers\ProfileController@store
 Route::get('/account/{login_id}', 'App\Http\Controllers\AccountController@index')->name('account');
 Route::post('/account/{login_id}', 'App\Http\Controllers\AccountController@update')->name('update_account');
 Route::get('/tagList', 'App\Http\Controllers\TagController@index')->name('show_tagList');
-Route::get('/post_upload/{login_id}', 'App\Http\Controllers\PostController@index')->name('show_post_upload');
 Route::post('/post_upload/{login_id}', 'App\Http\Controllers\PostController@store')->name('create_post_upload');
 Route::get('/timeline', 'App\Http\Controllers\TimelineController@index')->name('api.timeline');
 Route::get('/individual', 'App\Http\Controllers\IndividualController@index')->name('api.individual');
