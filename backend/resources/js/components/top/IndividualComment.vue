@@ -3,7 +3,7 @@
         <div class="comment-content">
             <ul>
                 <li>
-                    
+
                 </li>
             </ul>
         </div>
@@ -16,6 +16,11 @@
 </template>
 <script>
 export default {
-    
+    methods: {
+        submit() {
+            
+        },
+        
+    },
 }
 </script>
