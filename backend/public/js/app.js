@@ -3618,8 +3618,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: {
+    comment: {
+      get: function get() {
+        return this.$store.state['comment/comment'];
+      },
+      set: function set(value) {
+        this.$store.commit('comment/updateComment', value);
+      }
+    },
+    post: function post() {
+      return this.$store.getters['individual/post'];
+    }
+  },
   methods: {
-    submit: function submit() {}
+    /*         submit() {
+                this.$store.dispatch('comment/pushComment');
+            }, */
   }
 });
 
@@ -4183,14 +4198,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.common.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.common.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/auth */ "./resources/js/store/modules/auth.js");
 /* harmony import */ var _modules_newTimeline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/newTimeline */ "./resources/js/store/modules/newTimeline.js");
 /* harmony import */ var _modules_individual__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/individual */ "./resources/js/store/modules/individual.js");
 /* harmony import */ var _modules_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/loading */ "./resources/js/store/modules/loading.js");
 /* harmony import */ var _modules_follow__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/follow */ "./resources/js/store/modules/follow.js");
+/* harmony import */ var _modules_comment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/comment */ "./resources/js/store/modules/comment.js");
 
 
 
@@ -4198,8 +4214,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_5__.default.use((vuex__WEBPACK_IMPORTED_MODULE_6___default()));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuex__WEBPACK_IMPORTED_MODULE_6___default().Store)({
+
+vue__WEBPACK_IMPORTED_MODULE_6__.default.use((vuex__WEBPACK_IMPORTED_MODULE_7___default()));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuex__WEBPACK_IMPORTED_MODULE_7___default().Store)({
   state: function state() {
     return {};
   },
@@ -4208,7 +4225,8 @@ vue__WEBPACK_IMPORTED_MODULE_5__.default.use((vuex__WEBPACK_IMPORTED_MODULE_6___
     newtimeline: _modules_newTimeline__WEBPACK_IMPORTED_MODULE_1__.default,
     individual: _modules_individual__WEBPACK_IMPORTED_MODULE_2__.default,
     loading: _modules_loading__WEBPACK_IMPORTED_MODULE_3__.default,
-    follow: _modules_follow__WEBPACK_IMPORTED_MODULE_4__.default
+    follow: _modules_follow__WEBPACK_IMPORTED_MODULE_4__.default,
+    comment: _modules_comment__WEBPACK_IMPORTED_MODULE_5__.default
   },
   mutations: {},
   actions: {},
@@ -4343,6 +4361,52 @@ var actions = {
         }
       }, _callee);
     }))();
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/comment.js":
+/*!***********************************************!*\
+  !*** ./resources/js/store/modules/comment.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var state = {
+  comment: null
+};
+var getters = {
+  comment: function comment(state) {
+    return state.comment ? state.comment : '';
+  }
+};
+var mutations = {
+  setComment: function setComment(state, comment) {
+    state.comment = comment;
+  },
+  updateComment: function updateComment(state, comment) {
+    state.comment = comment;
+  }
+};
+var actions = {
+  pushComment: function pushComment(_ref, data) {
+    var context = _ref.context;
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/comment').then(function (result) {})["catch"](function (error) {});
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -50310,7 +50374,24 @@ var render = function() {
       },
       [
         _c("textarea", {
-          attrs: { name: "comment", id: "comment", cols: "30", rows: "10" }
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.comment,
+              expression: "comment"
+            }
+          ],
+          attrs: { name: "comment", id: "comment", cols: "30", rows: "10" },
+          domProps: { value: _vm.comment },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.comment = $event.target.value
+            }
+          }
         }),
         _vm._v(" "),
         _c("button", [_vm._v("コメントを送信する")])

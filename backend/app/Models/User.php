@@ -78,4 +78,13 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Favorite');
     }
+    public function comment()
+    {
+        return $this->belongsToMany(
+            'App\Models\Comment',
+            'comments',
+            'user_id',
+            'comment_id'
+        );
+    }
 }

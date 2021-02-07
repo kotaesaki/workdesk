@@ -5,6 +5,7 @@ import newtimeline from './modules/newTimeline';
 import individual from './modules/individual';
 import loading from './modules/loading';
 import follow from './modules/follow';
+import comment from './modules/comment';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
         individual,
         loading,
         follow,
+        comment,
     },
     mutations: {},
     actions: {},

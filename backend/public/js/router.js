@@ -1785,8 +1785,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: {
+    comment: {
+      get: function get() {
+        return this.$store.state['comment/comment'];
+      },
+      set: function set(value) {
+        this.$store.commit('comment/updateComment', value);
+      }
+    },
+    post: function post() {
+      return this.$store.getters['individual/post'];
+    }
+  },
   methods: {
-    submit: function submit() {}
+    /*         submit() {
+                this.$store.dispatch('comment/pushComment');
+            }, */
   }
 });
 
@@ -12484,7 +12499,24 @@ var render = function() {
       },
       [
         _c("textarea", {
-          attrs: { name: "comment", id: "comment", cols: "30", rows: "10" }
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.comment,
+              expression: "comment"
+            }
+          ],
+          attrs: { name: "comment", id: "comment", cols: "30", rows: "10" },
+          domProps: { value: _vm.comment },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.comment = $event.target.value
+            }
+          }
         }),
         _vm._v(" "),
         _c("button", [_vm._v("コメントを送信する")])
