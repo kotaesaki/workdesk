@@ -26,6 +26,7 @@ const getters = {
 const mutations = {
     setPost(state,post){
         state.post = post;
+        
     },
     setUser(state,user){
         state.user = user;
