@@ -138,6 +138,7 @@ export default {
             .then(()=>this.getUser())
             .then(()=>this.getIndividual())
             .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.postUser.id}))
+            .then(()=>this.$store.dispatch('comment/getComment', this.postId))
             .then(()=>this.$store.dispatch('loading/endLoad'));        
     },
 }

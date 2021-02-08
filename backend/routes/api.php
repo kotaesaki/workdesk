@@ -51,6 +51,7 @@ Route::get('/favorite', 'App\Http\Controllers\FavoriteController@isLiked')->name
 Route::get('/mylikes', 'App\Http\Controllers\FavoriteController@getMylikes')->name('api.getMylikes_favorite');
 
 Route::post('/comment', 'App\Http\Controllers\CommentController@store')->name('api.create_comment');
+Route::get('/comment', 'App\Http\Controllers\CommentController@index')->name('api.index_comment');
 
 Route::get('/follow', 'App\Http\Controllers\FollowUserController@checkFollow')->name('api.check_follow');
 Route::post('/follow', 'App\Http\Controllers\FollowUserController@follow')->name('api.push_follow');
