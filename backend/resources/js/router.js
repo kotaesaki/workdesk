@@ -10,6 +10,7 @@ import MypageComponent from "./components/mypage/MypageComponent";
 import MypageBar from "./components/mypage/MypageBar";
 import MypageContent from "./components/mypage/MypageContent";
 import MypageLikes from "./components/mypage/MypageLikes";
+import Mytag from "./components/mypage/Mytag";
 import PostUploadComponent from "./components/posts/PostUploadComponent";
 import PostImageForm from "./components/posts/PostImageForm";
 import PostTagForm from "./components/posts/PostTagForm";
@@ -87,6 +88,13 @@ const router = new VueRouter({
                     name: 'follower',
                     components: {
                         follower:FollowerContent
+                    }
+                },
+                {
+                    path:'/mytag/:userId',
+                    name:'mytag',
+                    components: {
+                        mytag:Mytag
                     }
                 },
                 {

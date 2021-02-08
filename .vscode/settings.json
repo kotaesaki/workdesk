@@ -3,26 +3,21 @@
     "window.zoomLevel": -1,
     "blade.format.enable": true,
     "diffEditor.ignoreTrimWhitespace": false,
-    // デフォルトのコード整形を無効化
-    "editor.formatOnSave": true,
 
- // ESLint 自動フォーマット有効化
-    "eslint.autoFixOnSave": true,
-
-    // ESLint の Vue.js 設定
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": false,
+    "files.associations": {
+      "*.vue": "vue"
+    },
     "eslint.validate": [
       "javascript",
       "javascriptreact",
-      {
-        "language": "vue",
-        "autoFix": true
-      }
+      "vue"
     ],
-
-// Prettier の ESLint 連携
-"prettier.eslintIntegration": true,
-"editor.codeActionsOnSave": {
-  "source.fixAll.eslint": true
-},
-
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll": true
+    }
 }

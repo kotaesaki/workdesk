@@ -49,6 +49,7 @@ Route::post('/favorite', 'App\Http\Controllers\FavoriteController@store')->name(
 Route::delete('/favorite', 'App\Http\Controllers\FavoriteController@delete')->name('api.delete_favorite');
 Route::get('/favorite', 'App\Http\Controllers\FavoriteController@isLiked')->name('api.isLiked_favorite');
 Route::get('/mylikes', 'App\Http\Controllers\FavoriteController@getMylikes')->name('api.getMylikes_favorite');
+Route::get('/mytag/{login_id}', 'App\Http\Controllers\MytagController@getMytag')->name('api.getMytag');
 
 Route::post('/comment', 'App\Http\Controllers\CommentController@store')->name('api.create_comment');
 Route::get('/comment', 'App\Http\Controllers\CommentController@index')->name('api.index_comment');

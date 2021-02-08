@@ -26,7 +26,7 @@
                 <li><router-link v-bind:to="{name: 'follower'}">
                     フォロワー
                 </router-link></li>
-                <li><router-link v-bind:to="{name: 'mypage'}">
+                <li><router-link v-bind:to="{name: 'mytag'}">
                     投稿したタグ
                 </router-link></li>
                 <li><router-link v-bind:to="{name: 'mylikes'}">

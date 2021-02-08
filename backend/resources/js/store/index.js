@@ -6,6 +6,7 @@ import individual from './modules/individual';
 import loading from './modules/loading';
 import follow from './modules/follow';
 import comment from './modules/comment';
+import mytag from './modules/mytag';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
         loading,
         follow,
         comment,
+        mytag,
     },
     mutations: {},
     actions: {},
