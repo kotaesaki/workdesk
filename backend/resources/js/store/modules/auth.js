@@ -42,19 +42,22 @@ const actions = {
         });
     },
     login(context, data){
-        axios.post('/api/login', data, {
-            headers: {
-                Authorization: `Bearer ${state.token}`,
-            }
-        }).then((result) => {
-            console.log(data);
-            context.commit("setUser", result.data.user);
-            context.commit("setProfile", result.data.profile);
-            context.commit("setToken", result.data.token);
-        }).catch(error => {
-            console.log(`Error! HTTP Status: ${error}`);
-            console.log(data);
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post('/api/login', data, {
+                headers: {
+                    Authorization: `Bearer ${state.token}`,
+                }
+            }).then((result) => {
+                console.log(data);
+                context.commit("setUser", result.data.user);
+                context.commit("setProfile", result.data.profile);
+                context.commit("setToken", result.data.token);
+            }).catch(error => {
+                console.log(`Error! HTTP Status: ${error}`);
+                console.log(data);
+            });
         });
+        
     },
     logout(context, data) {
         axios.post('/api/logout', data, {

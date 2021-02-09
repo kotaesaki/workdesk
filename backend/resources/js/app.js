@@ -8,8 +8,13 @@ import './directive';
 import store from './store';
 
 
-const app = new Vue({
-    el: '#app',
-    store,
-    router
-});
+const app = async () =>{
+    await store.dispatch('auth/fetchUser');
+    new Vue({
+        el: '#app',
+        store,
+        router
+    });
+}
+
+app()

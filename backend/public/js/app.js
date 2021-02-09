@@ -2074,7 +2074,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.complete = true;
 
         _this.$router.push({
-          name: "login"
+          name: "home"
         });
       });
     },
@@ -2100,6 +2100,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('auth/fetchUser').then(function () {
         return _this2.complete = true;
       });
+    } else {
+      this.complete = true;
     }
   }
 });
@@ -3838,10 +3840,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
-/* harmony import */ var _directive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./directive */ "./resources/js/directive/index.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
+/* harmony import */ var _directive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./directive */ "./resources/js/directive/index.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js").default;
@@ -3849,11 +3859,37 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js"
 
 
 
-var app = new vue__WEBPACK_IMPORTED_MODULE_3__.default({
-  el: '#app',
-  store: _store__WEBPACK_IMPORTED_MODULE_2__.default,
-  router: _router__WEBPACK_IMPORTED_MODULE_0__.default
-});
+
+var app = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return _store__WEBPACK_IMPORTED_MODULE_3__.default.dispatch('auth/fetchUser');
+
+          case 2:
+            new vue__WEBPACK_IMPORTED_MODULE_4__.default({
+              el: '#app',
+              store: _store__WEBPACK_IMPORTED_MODULE_3__.default,
+              router: _router__WEBPACK_IMPORTED_MODULE_1__.default
+            });
+
+          case 3:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function app() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+app();
 
 /***/ }),
 
@@ -3885,7 +3921,7 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-axios.defaults.withCredentials = true;
+window.axios.defaults.withCredentials = true;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -4098,44 +4134,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var vue_loaders__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-loaders */ "./node_modules/vue-loaders/dist/vue-loaders.esm.js");
-/* harmony import */ var _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/HeaderComponent */ "./resources/js/components/HeaderComponent.vue");
-/* harmony import */ var _components_mypage_MypageComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/mypage/MypageComponent */ "./resources/js/components/mypage/MypageComponent.vue");
-/* harmony import */ var _components_mypage_MypageBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/mypage/MypageBar */ "./resources/js/components/mypage/MypageBar.vue");
-/* harmony import */ var _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/mypage/MypageContent */ "./resources/js/components/mypage/MypageContent.vue");
-/* harmony import */ var _components_mypage_MypageLikes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/mypage/MypageLikes */ "./resources/js/components/mypage/MypageLikes.vue");
-/* harmony import */ var _components_mypage_Mytag__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/mypage/Mytag */ "./resources/js/components/mypage/Mytag.vue");
-/* harmony import */ var _components_posts_PostUploadComponent__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/posts/PostUploadComponent */ "./resources/js/components/posts/PostUploadComponent.vue");
-/* harmony import */ var _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/posts/PostImageForm */ "./resources/js/components/posts/PostImageForm.vue");
-/* harmony import */ var _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/posts/PostTagForm */ "./resources/js/components/posts/PostTagForm.vue");
-/* harmony import */ var _components_settings_Account__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/settings/Account */ "./resources/js/components/settings/Account.vue");
-/* harmony import */ var _components_settings_Profile__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/settings/Profile */ "./resources/js/components/settings/Profile.vue");
-/* harmony import */ var _components_follow_FollowContent__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/follow/FollowContent */ "./resources/js/components/follow/FollowContent.vue");
-/* harmony import */ var _components_follow_FollowerContent__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/follow/FollowerContent */ "./resources/js/components/follow/FollowerContent.vue");
-/* harmony import */ var _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/settings/ProfileImageForm */ "./resources/js/components/settings/ProfileImageForm.vue");
-/* harmony import */ var _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/settings/settingsBar */ "./resources/js/components/settings/settingsBar.vue");
-/* harmony import */ var _components_top_HomeComponent__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/top/HomeComponent */ "./resources/js/components/top/HomeComponent.vue");
-/* harmony import */ var _components_top_NewTimeline__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/top/NewTimeline */ "./resources/js/components/top/NewTimeline.vue");
-/* harmony import */ var _components_top_TrendTimeline__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/top/TrendTimeline */ "./resources/js/components/top/TrendTimeline.vue");
-/* harmony import */ var _components_top_TrendItem__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/top/TrendItem */ "./resources/js/components/top/TrendItem.vue");
-/* harmony import */ var _components_top_Individual__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/top/Individual */ "./resources/js/components/top/Individual.vue");
-/* harmony import */ var _components_top_IndividualComment__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/top/IndividualComment */ "./resources/js/components/top/IndividualComment.vue");
-/* harmony import */ var _components_Auth_Register__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/Auth/Register */ "./resources/js/components/Auth/Register.vue");
-/* harmony import */ var _components_Auth_Login__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Auth/Login */ "./resources/js/components/Auth/Login.vue");
-/* harmony import */ var _components_common_Loading__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/common/Loading */ "./resources/js/components/common/Loading.vue");
-
-
-
-vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_2__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_loaders__WEBPACK_IMPORTED_MODULE_0__.default);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/HeaderComponent */ "./resources/js/components/HeaderComponent.vue");
+/* harmony import */ var _components_mypage_MypageComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/mypage/MypageComponent */ "./resources/js/components/mypage/MypageComponent.vue");
+/* harmony import */ var _components_mypage_MypageBar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/mypage/MypageBar */ "./resources/js/components/mypage/MypageBar.vue");
+/* harmony import */ var _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/mypage/MypageContent */ "./resources/js/components/mypage/MypageContent.vue");
+/* harmony import */ var _components_mypage_MypageLikes__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/mypage/MypageLikes */ "./resources/js/components/mypage/MypageLikes.vue");
+/* harmony import */ var _components_mypage_Mytag__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/mypage/Mytag */ "./resources/js/components/mypage/Mytag.vue");
+/* harmony import */ var _components_posts_PostUploadComponent__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/posts/PostUploadComponent */ "./resources/js/components/posts/PostUploadComponent.vue");
+/* harmony import */ var _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/posts/PostImageForm */ "./resources/js/components/posts/PostImageForm.vue");
+/* harmony import */ var _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/posts/PostTagForm */ "./resources/js/components/posts/PostTagForm.vue");
+/* harmony import */ var _components_settings_Account__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/settings/Account */ "./resources/js/components/settings/Account.vue");
+/* harmony import */ var _components_settings_Profile__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/settings/Profile */ "./resources/js/components/settings/Profile.vue");
+/* harmony import */ var _components_follow_FollowContent__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/follow/FollowContent */ "./resources/js/components/follow/FollowContent.vue");
+/* harmony import */ var _components_follow_FollowerContent__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/follow/FollowerContent */ "./resources/js/components/follow/FollowerContent.vue");
+/* harmony import */ var _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/settings/ProfileImageForm */ "./resources/js/components/settings/ProfileImageForm.vue");
+/* harmony import */ var _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/settings/settingsBar */ "./resources/js/components/settings/settingsBar.vue");
+/* harmony import */ var _components_top_HomeComponent__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/top/HomeComponent */ "./resources/js/components/top/HomeComponent.vue");
+/* harmony import */ var _components_top_NewTimeline__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/top/NewTimeline */ "./resources/js/components/top/NewTimeline.vue");
+/* harmony import */ var _components_top_TrendTimeline__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/top/TrendTimeline */ "./resources/js/components/top/TrendTimeline.vue");
+/* harmony import */ var _components_top_TrendItem__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/top/TrendItem */ "./resources/js/components/top/TrendItem.vue");
+/* harmony import */ var _components_top_Individual__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/top/Individual */ "./resources/js/components/top/Individual.vue");
+/* harmony import */ var _components_top_IndividualComment__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/top/IndividualComment */ "./resources/js/components/top/IndividualComment.vue");
+/* harmony import */ var _components_Auth_Register__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/Auth/Register */ "./resources/js/components/Auth/Register.vue");
+/* harmony import */ var _components_Auth_Login__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/Auth/Login */ "./resources/js/components/Auth/Login.vue");
+/* harmony import */ var _components_common_Loading__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/common/Loading */ "./resources/js/components/common/Loading.vue");
 
 
 
 
-
-
+vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_3__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vue_loaders__WEBPACK_IMPORTED_MODULE_0__.default);
 
 
 
@@ -4154,99 +4186,171 @@ vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_loaders__WEBPACK_IMPORTED_MODUL
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('header-component', _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_3__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('new-timeline', _components_top_NewTimeline__WEBPACK_IMPORTED_MODULE_19__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('individual-comment', _components_top_IndividualComment__WEBPACK_IMPORTED_MODULE_23__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('trend-timeline', _components_top_TrendTimeline__WEBPACK_IMPORTED_MODULE_20__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('trend-item', _components_top_TrendItem__WEBPACK_IMPORTED_MODULE_21__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('mypage-bar', _components_mypage_MypageBar__WEBPACK_IMPORTED_MODULE_5__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('mypage-content', _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_6__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('follow-content', _components_follow_FollowContent__WEBPACK_IMPORTED_MODULE_14__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('mypage-likes', _components_mypage_MypageLikes__WEBPACK_IMPORTED_MODULE_7__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('settings-bar', _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_17__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('profile-image-form', _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_16__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('post-image-form', _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_10__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('post-tag-form', _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_11__.default);
-vue__WEBPACK_IMPORTED_MODULE_1__.default.component('loaging', _components_common_Loading__WEBPACK_IMPORTED_MODULE_26__.default);
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__.default({
+
+
+
+
+
+
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('header-component', _components_HeaderComponent__WEBPACK_IMPORTED_MODULE_4__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('new-timeline', _components_top_NewTimeline__WEBPACK_IMPORTED_MODULE_20__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('individual-comment', _components_top_IndividualComment__WEBPACK_IMPORTED_MODULE_24__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('trend-timeline', _components_top_TrendTimeline__WEBPACK_IMPORTED_MODULE_21__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('trend-item', _components_top_TrendItem__WEBPACK_IMPORTED_MODULE_22__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('mypage-bar', _components_mypage_MypageBar__WEBPACK_IMPORTED_MODULE_6__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('mypage-content', _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_7__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('follow-content', _components_follow_FollowContent__WEBPACK_IMPORTED_MODULE_15__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('mypage-likes', _components_mypage_MypageLikes__WEBPACK_IMPORTED_MODULE_8__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('settings-bar', _components_settings_settingsBar__WEBPACK_IMPORTED_MODULE_18__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('profile-image-form', _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_17__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('post-image-form', _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_11__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('post-tag-form', _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_12__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('loaging', _components_common_Loading__WEBPACK_IMPORTED_MODULE_27__.default);
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__.default({
   mode: 'history',
   routes: [{
     path: '/',
     name: 'home',
-    component: _components_top_HomeComponent__WEBPACK_IMPORTED_MODULE_18__.default
+    component: _components_top_HomeComponent__WEBPACK_IMPORTED_MODULE_19__.default,
+    meta: {
+      isPublic: true
+    }
   }, {
     path: '/photo/:postId',
     name: 'individual',
-    component: _components_top_Individual__WEBPACK_IMPORTED_MODULE_22__.default,
-    props: true
+    component: _components_top_Individual__WEBPACK_IMPORTED_MODULE_23__.default,
+    props: true,
+    meta: {
+      isPublic: true
+    }
   }, {
     path: '/mypage/:userId',
     name: 'mypage',
-    component: _components_mypage_MypageComponent__WEBPACK_IMPORTED_MODULE_4__.default,
+    component: _components_mypage_MypageComponent__WEBPACK_IMPORTED_MODULE_5__.default,
     props: true,
     children: [{
       path: '/mypage/:userId',
       name: 'mypage',
       components: {
-        mypage: _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_6__.default
+        mypage: _components_mypage_MypageContent__WEBPACK_IMPORTED_MODULE_7__.default
       }
     }, {
       path: '/follow/:userId',
       name: 'follow',
       components: {
-        follow: _components_follow_FollowContent__WEBPACK_IMPORTED_MODULE_14__.default
+        follow: _components_follow_FollowContent__WEBPACK_IMPORTED_MODULE_15__.default
       }
     }, {
       path: '/follower/:userId',
       name: 'follower',
       components: {
-        follower: _components_follow_FollowerContent__WEBPACK_IMPORTED_MODULE_15__.default
+        follower: _components_follow_FollowerContent__WEBPACK_IMPORTED_MODULE_16__.default
       }
     }, {
       path: '/mytag/:userId',
       name: 'mytag',
       components: {
-        mytag: _components_mypage_Mytag__WEBPACK_IMPORTED_MODULE_8__.default
+        mytag: _components_mypage_Mytag__WEBPACK_IMPORTED_MODULE_9__.default
       }
     }, {
       path: '/mylikes/:userId',
       name: 'mylikes',
       components: {
-        mylikes: _components_mypage_MypageLikes__WEBPACK_IMPORTED_MODULE_7__.default
+        mylikes: _components_mypage_MypageLikes__WEBPACK_IMPORTED_MODULE_8__.default
       }
     }]
   }, {
     path: '/account/:userId',
     name: 'account',
-    component: _components_settings_Account__WEBPACK_IMPORTED_MODULE_12__.default,
-    props: true
+    component: _components_settings_Account__WEBPACK_IMPORTED_MODULE_13__.default,
+    props: true,
+    beforeEnter: function beforeEnter(to, from, next) {
+      var user = _store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/user"];
+
+      if (to.params.userId != user.id) {
+        console.log('入れません');
+        next('/');
+      } else {
+        next();
+      }
+    }
   }, {
     path: '/profile/:userId',
     name: 'profile',
-    component: _components_settings_Profile__WEBPACK_IMPORTED_MODULE_13__.default,
-    props: true
+    component: _components_settings_Profile__WEBPACK_IMPORTED_MODULE_14__.default,
+    props: true,
+    beforeEnter: function beforeEnter(to, from, next) {
+      var user = _store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/user"];
+
+      if (to.params.userId != user.id) {
+        console.log('入れません');
+        next('/');
+      } else {
+        next();
+      }
+    }
   }, {
     path: '/post_upload/:userId',
     name: 'post_upload',
-    component: _components_posts_PostUploadComponent__WEBPACK_IMPORTED_MODULE_9__.default,
-    props: true
+    component: _components_posts_PostUploadComponent__WEBPACK_IMPORTED_MODULE_10__.default,
+    props: true,
+    beforeEnter: function beforeEnter(to, from, next) {
+      var user = _store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/user"];
+
+      if (to.params.userId != user.id) {
+        console.log('入れません');
+        next('/');
+      } else {
+        next();
+      }
+    }
   }, {
     path: '/register',
     name: 'register',
-    component: _components_Auth_Register__WEBPACK_IMPORTED_MODULE_24__.default,
-    props: true
+    component: _components_Auth_Register__WEBPACK_IMPORTED_MODULE_25__.default,
+    props: true,
+    meta: {
+      isPublic: true
+    },
+    beforeEnter: function beforeEnter(to, from, next) {
+      console.log(_store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/check"]);
+
+      if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/check"]) {
+        next('/');
+      } else {
+        next();
+      }
+    }
   }, {
     path: '/login',
     name: 'login',
-    component: _components_Auth_Login__WEBPACK_IMPORTED_MODULE_25__.default,
-    props: true
-  }, {
-    path: '/logout',
-    name: 'logout',
-    component: _components_Auth_Login__WEBPACK_IMPORTED_MODULE_25__.default,
-    props: true
+    component: _components_Auth_Login__WEBPACK_IMPORTED_MODULE_26__.default,
+    props: true,
+    meta: {
+      isPublic: true
+    },
+    beforeEnter: function beforeEnter(to, from, next) {
+      console.log(_store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/check"]);
+
+      if (_store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/check"]) {
+        next('/');
+      } else {
+        next();
+      }
+    }
   }]
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return !record.meta.isPublic;
+  }) && !_store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/check"]) {
+    console.log('beforeEach : true');
+    next('/login');
+  } else {
+    console.log('beforeEach : false');
+    next();
+  }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
@@ -4375,18 +4479,20 @@ var actions = {
     });
   },
   login: function login(context, data) {
-    axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/login', data, {
-      headers: {
-        Authorization: "Bearer ".concat(state.token)
-      }
-    }).then(function (result) {
-      console.log(data);
-      context.commit("setUser", result.data.user);
-      context.commit("setProfile", result.data.profile);
-      context.commit("setToken", result.data.token);
-    })["catch"](function (error) {
-      console.log("Error! HTTP Status: ".concat(error));
-      console.log(data);
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get('/sanctum/csrf-cookie').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/login', data, {
+        headers: {
+          Authorization: "Bearer ".concat(state.token)
+        }
+      }).then(function (result) {
+        console.log(data);
+        context.commit("setUser", result.data.user);
+        context.commit("setProfile", result.data.profile);
+        context.commit("setToken", result.data.token);
+      })["catch"](function (error) {
+        console.log("Error! HTTP Status: ".concat(error));
+        console.log(data);
+      });
     });
   },
   logout: function logout(context, data) {
