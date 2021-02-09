@@ -73,7 +73,7 @@
             logout(context, data) {
                 this.$store.dispatch('auth/logout', this.$store.getters["auth/user"]).then(()=>{
                     this.complete = true;
-                    this.$router.push({ name: "login" });
+                    this.$router.push({ name: "home" });
                 });        
             },
             getUser(){
@@ -93,6 +93,8 @@
                 console.log('fetchUser()メソッドスタート');
                 this.$store.dispatch('auth/fetchUser')
                     .then(()=> this.complete = true);
+            }else{
+                this.complete = true;
             }
         },
     }

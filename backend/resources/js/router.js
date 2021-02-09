@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import VueLoaders from 'vue-loaders';
+import store from './store';
 
 Vue.use(VueRouter);
 Vue.use(VueLoaders);
@@ -55,13 +56,15 @@ const router = new VueRouter({
         {
             path: '/',
             name: 'home',
-            component: HomeComponent
+            component: HomeComponent,
+            meta:{isPublic: true},
         },
         {
             path: '/photo/:postId',
             name: 'individual',
             component: Individual,
             props: true,
+            meta:{isPublic: true},
         },        
         {
             path: '/mypage/:userId',
@@ -111,40 +114,90 @@ const router = new VueRouter({
             path: '/account/:userId',
             name: 'account',
             component: Account,
-            props: true
+            props: true,
+            beforeEnter(to,from,next){
+                const user = store.getters['auth/user'];
+                if(to.params.userId !=user.id){
+                    console.log('入れません');
+                    next('/');
+                }else{
+                    next();
+                }
+            }
         },
         {
             path: '/profile/:userId',
             name: 'profile',
             component: Profile,
-            props: true
+            props: true,
+            beforeEnter(to,from,next){
+                const user = store.getters['auth/user'];
+                if(to.params.userId !=user.id){
+                    console.log('入れません');
+                    next('/');
+                }else{
+                    next();
+                }
+            }
         },
         {
             path: '/post_upload/:userId',
             name: 'post_upload',
             component: PostUploadComponent,
-            props: true
+            props: true,
+            beforeEnter(to,from,next){
+                const user = store.getters['auth/user'];
+                if(to.params.userId !=user.id){
+                    console.log('入れません');
+                    next('/');
+                }else{
+                    next();
+                }
+            }
         },
         {
             path: '/register',
             name:'register',
             component: Register,
-            props: true
+            props: true,
+            meta:{isPublic: true},
+            beforeEnter(to, from, next){
+                console.log(store.getters['auth/check']);
+                if(store.getters['auth/check']){
+                    next('/')
+                }else{
+                    next()
+                }
+            }
         },
         {
             path: '/login',
             name: 'login',
             component: Login,
-            props: true
+            props: true,
+            meta:{isPublic: true},
+            beforeEnter(to, from, next){
+                console.log(store.getters['auth/check']);
+                if(store.getters['auth/check']){
+                    next('/')
+                }else{
+                    next()
+                }
+            }
         },
-        {
-            path: '/logout',
-            name: 'logout',
-            component: Login,
-            props: true
-        }
 
 ]
+})
+
+
+router.beforeEach((to,from,next)=>{
+    if(to.matched.some(record => !record.meta.isPublic) && !store.getters["auth/check"]){
+        console.log('beforeEach : true');
+        next('/login')
+    }else{
+        console.log('beforeEach : false');
+        next()
+    }
 })
 
 export default router;
