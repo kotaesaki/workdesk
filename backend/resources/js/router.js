@@ -191,6 +191,7 @@ const router = new VueRouter({
 
 
 router.beforeEach((to,from,next)=>{
+    
     if(to.matched.some(record => !record.meta.isPublic) && !store.getters["auth/check"]){
         console.log('beforeEach : true');
         next('/login')
