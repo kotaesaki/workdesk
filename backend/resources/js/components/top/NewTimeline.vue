@@ -1,15 +1,19 @@
 <template>
-    <div class="col-md-12">
-            <p>最新の投稿</p>
+    <div class="new-article">
+            <h2 class="title">New Post</h2>
             <div class="loader-space" v-show="loading">
-                <vue-loaders-ball-beat color="blue" class="loader"></vue-loaders-ball-beat>
+                <vue-loaders-ball-beat color="#FFF" class="loader"></vue-loaders-ball-beat>
             </div>
-            <div class="card-deck" v-show="!loading">
-                <div class="card post-content" v-for="post in posts" :key="post.post_id">
+            <div class="contents" v-show="!loading">
+                <div class="content-item" v-for="post in posts" :key="post.post_id">
                     <router-link v-bind:to="{ name: 'individual', params: { postId: post.post_id }}">
-                        <img :src="`../${post.photo_path}`" alt="card" class="card-img-top">
-                        <div class="card-body">
-                            <p class="card-text">{{post.description}}</p>
+                        <img :src="`../${post.photo_path}`" alt="card" class="content-img">
+                        <div class="">
+                            <div class="profile">
+                                <img :src="`../${post.user.profile.icon_path}`" alt="" class="content-icon">
+                                <p class="content-id">@{{post.user.login_id}}</p>
+                            </div>
+                            <p class="content-description">{{post.description}}</p>
                         </div>
                     </router-link>
                 </div>
@@ -48,8 +52,44 @@ export default {
 }
 </script>
 <style scoped>
-    .post-content{
-        width: 20vw;
+    .new-article{
+        margin-top: 30px;
+        position: relative;
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    h2{
+
+    }
+
+    .contents{
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    .content-item{
+        width: 32%;
+        background-color: #fff;
+        box-shadow: 2px 2px 4px gray;
+        margin-bottom: 20px;
+    }
+    .content-img{
+        width: 100%;
+    }
+    .content-icon{
+        width:70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        float: left;
+    }
+    .content-id{
+        margin-left: 15px;
+    }
+    .content-description{
+        clear: both;
     }
     .loader-space{
         width: 100%;
