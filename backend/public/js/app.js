@@ -3279,6 +3279,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3287,6 +3300,16 @@ __webpack_require__.r(__webpack_exports__);
     NewTimeline: _NewTimeline_vue__WEBPACK_IMPORTED_MODULE_0__.default,
     TrendTimeline: _TrendTimeline_vue__WEBPACK_IMPORTED_MODULE_2__.default,
     TrendItem: _TrendItem_vue__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  data: function data() {
+    return {
+      isActive: '1'
+    };
+  },
+  methods: {
+    changeTab: function changeTab(val) {
+      this.isActive = val;
+    }
   }
 });
 
@@ -3718,6 +3741,10 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -13385,7 +13412,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nnav[data-v-153bfd55]{\n    background-color: aqua;\n    height: 60px;\n}\n.icon_name[data-v-153bfd55]{\n    width: 35px;\n    height: 35px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nnav[data-v-153bfd55]{\n    background-color: #fff;\n    height: 60px;\n}\n.icon_name[data-v-153bfd55]{\n    width: 35px;\n    height: 35px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13577,7 +13604,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.image-top[data-v-1eb9eac9]{\n    width:100vw;\n    height: 300px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.image-top[data-v-1eb9eac9]{\n    width:100vw;\n    height: 300px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n}\n.pages[data-v-1eb9eac9]{\n    width:100vw;\n    height: 100vh;;\n    background-color: #E6F2FF;\n    margin-top: 30px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13649,7 +13676,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.post-content[data-v-42c7892c]{\n    width: 20vw;\n}\n.loader-space[data-v-42c7892c]{\n    width: 100%;\n    height: 100%;\n}\n.loader[data-v-42c7892c]{\n    margin-left: 47%;\n    margin-top:1%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.new-article[data-v-42c7892c]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n}\nh2[data-v-42c7892c]{\n}\n.contents[data-v-42c7892c]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    flex-wrap: wrap;\n}\n.content-item[data-v-42c7892c]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n}\n.content-img[data-v-42c7892c]{\n    width: 100%;\n}\n.content-icon[data-v-42c7892c]{\n    width:70px;\n    height: 70px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-42c7892c]{\n    margin-left: 15px;\n}\n.content-description[data-v-42c7892c]{\n    clear: both;\n}\n.loader-space[data-v-42c7892c]{\n    width: 100%;\n    height: 100%;\n}\n.loader[data-v-42c7892c]{\n    margin-left: 47%;\n    margin-top:1%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -48669,7 +48696,7 @@ var render = function() {
   return _c(
     "nav",
     {
-      staticClass: "navbar navbar-expand-md navbar-light shadow-sm",
+      staticClass: "navbar navbar-expand-md navbar-light",
       attrs: { id: "header-nav" }
     },
     [
@@ -50507,24 +50534,103 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "wrapper" } }, [
+    _c("div", { staticClass: "tab" }, [
+      _c("div", { staticClass: "tab_box container" }, [
+        _c("ul", { staticClass: "tab_list" }, [
+          _c(
+            "li",
+            {
+              class: { active: _vm.isActive === "1" },
+              on: {
+                click: function($event) {
+                  return _vm.changeTab("1")
+                }
+              }
+            },
+            [_vm._v("New")]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: { active: _vm.isActive === "2" },
+              on: {
+                click: function($event) {
+                  return _vm.changeTab("2")
+                }
+              }
+            },
+            [_vm._v("Trend")]
+          ),
+          _vm._v(" "),
+          _c(
+            "li",
+            {
+              class: { active: _vm.isActive === "3" },
+              on: {
+                click: function($event) {
+                  return _vm.changeTab("3")
+                }
+              }
+            },
+            [_vm._v("Items")]
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
     _c("img", {
       staticClass: "image-top",
       attrs: { src: "./images/top.jpg", alt: "トップ" }
     }),
     _vm._v(" "),
-    _c("div", { staticClass: "container" }, [
-      _c(
-        "div",
-        { staticClass: "row justify-content-center" },
-        [
-          _c("new-timeline"),
-          _vm._v(" "),
-          _c("trend-timeline"),
-          _vm._v(" "),
-          _c("trend-item")
-        ],
-        1
-      )
+    _c("div", { staticClass: "pages" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "row justify-content-center" }, [
+          _c(
+            "div",
+            { staticClass: "article" },
+            [
+              _c("new-timeline", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.isActive === "1",
+                    expression: "isActive === '1'"
+                  }
+                ],
+                staticClass: "item"
+              }),
+              _vm._v(" "),
+              _c("trend-timeline", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.isActive === "2",
+                    expression: "isActive === '2'"
+                  }
+                ],
+                staticClass: "item"
+              }),
+              _vm._v(" "),
+              _c("trend-item", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.isActive === "3",
+                    expression: "isActive === '3'"
+                  }
+                ],
+                staticClass: "item"
+              })
+            ],
+            1
+          )
+        ])
+      ])
     ])
   ])
 }
@@ -50937,8 +51043,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-12" }, [
-    _c("p", [_vm._v("最新の投稿")]),
+  return _c("div", { staticClass: "new-article" }, [
+    _c("h2", { staticClass: "title" }, [_vm._v("New Post")]),
     _vm._v(" "),
     _c(
       "div",
@@ -50956,7 +51062,7 @@ var render = function() {
       [
         _c("vue-loaders-ball-beat", {
           staticClass: "loader",
-          attrs: { color: "blue" }
+          attrs: { color: "#FFF" }
         })
       ],
       1
@@ -50973,12 +51079,12 @@ var render = function() {
             expression: "!loading"
           }
         ],
-        staticClass: "card-deck"
+        staticClass: "contents"
       },
       _vm._l(_vm.posts, function(post) {
         return _c(
           "div",
-          { key: post.post_id, staticClass: "card post-content" },
+          { key: post.post_id, staticClass: "content-item" },
           [
             _c(
               "router-link",
@@ -50989,12 +51095,26 @@ var render = function() {
               },
               [
                 _c("img", {
-                  staticClass: "card-img-top",
+                  staticClass: "content-img",
                   attrs: { src: "../" + post.photo_path, alt: "card" }
                 }),
                 _vm._v(" "),
-                _c("div", { staticClass: "card-body" }, [
-                  _c("p", { staticClass: "card-text" }, [
+                _c("div", {}, [
+                  _c("div", { staticClass: "profile" }, [
+                    _c("img", {
+                      staticClass: "content-icon",
+                      attrs: {
+                        src: "../" + post.user.profile.icon_path,
+                        alt: ""
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "content-id" }, [
+                      _vm._v("@" + _vm._s(post.user.login_id))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "content-description" }, [
                     _vm._v(_vm._s(post.description))
                   ])
                 ])

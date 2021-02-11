@@ -1,5 +1,5 @@
 <template>
-    <nav id="header-nav" class="navbar navbar-expand-md navbar-light shadow-sm">
+    <nav id="header-nav" class="navbar navbar-expand-md navbar-light">
         <div class="container">
             <router-link v-bind:to="{name: 'home'}">
                 WorkDesk
@@ -101,7 +101,7 @@
 </script>
 <style scoped>
     nav{
-        background-color: aqua;
+        background-color: #fff;
         height: 60px;
         
     }
