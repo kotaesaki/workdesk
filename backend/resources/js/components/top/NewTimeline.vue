@@ -8,7 +8,7 @@
                 <div class="content-item" v-for="post in posts" :key="post.post_id">
                     <router-link v-bind:to="{ name: 'individual', params: { postId: post.post_id }}">
                         <img :src="`../${post.photo_path}`" alt="card" class="content-img">
-                        <div class="">
+                        <div class="content-exsept">
                             <div class="profile">
                                 <img :src="`../${post.user.profile.icon_path}`" alt="" class="content-icon">
                                 <p class="content-id">@{{post.user.login_id}}</p>
@@ -67,6 +67,7 @@ export default {
         margin-top: 30px;
         display: flex;
         justify-content: space-between;
+        align-items: flex-start;
         flex-wrap: wrap;
     }
     .content-item{
@@ -78,9 +79,12 @@ export default {
     .content-img{
         width: 100%;
     }
+    .content-exsept{
+        padding:10px;
+    }
     .content-icon{
-        width:70px;
-        height: 70px;
+        width:50px;
+        height: 50px;
         border-radius: 50%;
         object-fit: cover;
         float: left;
