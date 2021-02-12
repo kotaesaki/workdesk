@@ -8960,7 +8960,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.image-top[data-v-1eb9eac9]{\n    width:100vw;\n    height: 300px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n}\n.pages[data-v-1eb9eac9]{\n    width:100vw;\n    height: 100vh;;\n    background-color: #E6F2FF;\n    margin-top: 30px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.image-top[data-v-1eb9eac9]{\n    width:100vw;\n    height: 300px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n    position: -webkit-sticky;\n    position: sticky;\n    background-color:#fff;\n    top:0;\n    z-index: 100;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n}\n.pages[data-v-1eb9eac9]{\n    width:100vw;\n    height: 100%;\n    background-color: #E6F2FF;\n    margin-top: 30px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9032,7 +9032,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.new-article[data-v-42c7892c]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n}\nh2[data-v-42c7892c]{\n}\n.contents[data-v-42c7892c]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    flex-wrap: wrap;\n}\n.content-item[data-v-42c7892c]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n}\n.content-img[data-v-42c7892c]{\n    width: 100%;\n}\n.content-icon[data-v-42c7892c]{\n    width:70px;\n    height: 70px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-42c7892c]{\n    margin-left: 15px;\n}\n.content-description[data-v-42c7892c]{\n    clear: both;\n}\n.loader-space[data-v-42c7892c]{\n    width: 100%;\n    height: 100%;\n}\n.loader[data-v-42c7892c]{\n    margin-left: 47%;\n    margin-top:1%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.new-article[data-v-42c7892c]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n}\nh2[data-v-42c7892c]{\n}\n.contents[data-v-42c7892c]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-start;\n    flex-wrap: wrap;\n}\n.content-item[data-v-42c7892c]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n}\n.content-img[data-v-42c7892c]{\n    width: 100%;\n}\n.content-exsept[data-v-42c7892c]{\n    padding:10px;\n}\n.content-icon[data-v-42c7892c]{\n    width:50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-42c7892c]{\n    margin-left: 15px;\n}\n.content-description[data-v-42c7892c]{\n    clear: both;\n}\n.loader-space[data-v-42c7892c]{\n    width: 100%;\n    height: 100%;\n}\n.loader[data-v-42c7892c]{\n    margin-left: 47%;\n    margin-top:1%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15764,7 +15764,7 @@ var render = function() {
                   attrs: { src: "../" + post.photo_path, alt: "card" }
                 }),
                 _vm._v(" "),
-                _c("div", {}, [
+                _c("div", { staticClass: "content-exsept" }, [
                   _c("div", { staticClass: "profile" }, [
                     _c("img", {
                       staticClass: "content-icon",

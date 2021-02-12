@@ -50,6 +50,10 @@ export default {
     }
     .tab{
         width: 100%;
+        position: sticky;
+        background-color:#fff;
+        top:0;
+        z-index: 100;
     }
     .tab_list {
         overflow: hidden;
@@ -74,7 +78,7 @@ export default {
     }
     .pages{
         width:100vw;
-        height: 100vh;;
+        height: 100%;
         background-color: #E6F2FF;
         margin-top: 30px;
     }
