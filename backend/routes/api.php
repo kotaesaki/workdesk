@@ -33,6 +33,7 @@ Route::get('/follow', 'App\Http\Controllers\FollowUserController@checkFollow')->
 Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@register')->name('api.register');
 Route::post('/login', 'App\Http\Controllers\Auth\Api\LoginController@login')->name('api.login');
 Route::post('/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout')->name('api.logout');
+Route::get('/countFollow', 'App\Http\Controllers\CountFollowController@count')->name('api.countFollow');
 
 
 Route::get('/post_upload/{login_id}', 'App\Http\Controllers\PostController@index')->name('show_post_upload');

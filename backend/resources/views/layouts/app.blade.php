@@ -22,8 +22,12 @@
     <style>
         body{
             background-color: #fff;
-            color:#343434;
+            color:#443311;
         }
+        a {
+            text-decoration: none;
+        }
+
     </style>
 </head>
 
