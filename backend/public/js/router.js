@@ -3397,6 +3397,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3439,6 +3466,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     followStatus: function followStatus() {
       return this.$store.getters["follow/status"];
+    },
+    countFollow: function countFollow() {
+      return this.$store.getters['follow/countFollow'];
+    },
+    countFollower: function countFollower() {
+      return this.$store.getters['follow/countFollower'];
     }
   },
   methods: {
@@ -3633,7 +3666,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mounted: function mounted() {
     var _this7 = this;
 
-    console.log('Individual mount start!');
+    console.log('Individual mounted start!');
     this.$store.dispatch('loading/startLoad').then(function () {
       return _this7.getUser();
     }).then(function () {
@@ -3644,10 +3677,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         post_user: _this7.postUser.id
       });
     }).then(function () {
-      return _this7.$store.dispatch('comment/getComment', _this7.postId);
-    }).then(function () {
       return _this7.$store.dispatch('loading/endLoad');
+    }).then(function () {
+      return _this7.$store.dispatch('follow/countFollow', _this7.postUser.id);
     });
+    this.$store.dispatch('comment/getComment', this.postId);
   }
 });
 
@@ -3664,6 +3698,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4492,7 +4535,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var state = {
   status: null,
   follow: null,
-  follower: null
+  follower: null,
+  countFollow: null,
+  countFollower: null
 };
 var getters = {
   status: function status(state) {
@@ -4503,6 +4548,12 @@ var getters = {
   },
   follower: function follower(state) {
     return state.follower ? state.follower : '';
+  },
+  countFollow: function countFollow(state) {
+    return state.countFollow ? state.countFollow : '';
+  },
+  countFollower: function countFollower(state) {
+    return state.countFollower ? state.countFollower : '';
   }
 };
 var mutations = {
@@ -4514,6 +4565,12 @@ var mutations = {
   },
   setFollower: function setFollower(state, follower) {
     state.follower = follower;
+  },
+  setcountFollow: function setcountFollow(state, countFollow) {
+    state.countFollow = countFollow;
+  },
+  setcountFollower: function setcountFollower(state, countFollower) {
+    state.countFollower = countFollower;
   }
 };
 var actions = {
@@ -4562,40 +4619,26 @@ var actions = {
     }))();
   },
   checkFollow: function checkFollow(_ref, _ref2) {
+    var commit = _ref.commit;
+    var auth_user = _ref2.auth_user,
+        post_user = _ref2.post_user;
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/follow', {
+      params: {
+        auth_user: auth_user,
+        post_user: post_user
+      }
+    }).then(function (result) {
+      commit('setStatus', result.data);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  },
+  showFollow: function showFollow(_ref3, user_id) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      var commit, auth_user, post_user;
+      var commit;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
-            case 0:
-              commit = _ref.commit;
-              auth_user = _ref2.auth_user, post_user = _ref2.post_user;
-              _context3.next = 4;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/follow', {
-                params: {
-                  auth_user: auth_user,
-                  post_user: post_user
-                }
-              }).then(function (result) {
-                commit('setStatus', result.data);
-              })["catch"](function (error) {
-                console.log(error);
-              });
-
-            case 4:
-            case "end":
-              return _context3.stop();
-          }
-        }
-      }, _callee3);
-    }))();
-  },
-  showFollow: function showFollow(_ref3, user_id) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
-      var commit;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
             case 0:
               commit = _ref3.commit;
               axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/follow/' + user_id, {
@@ -4611,18 +4654,18 @@ var actions = {
 
             case 2:
             case "end":
-              return _context4.stop();
+              return _context3.stop();
           }
         }
-      }, _callee4);
+      }, _callee3);
     }))();
   },
   showFollower: function showFollower(_ref4, user_id) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
       var commit;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
               commit = _ref4.commit;
               axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/follower/' + user_id, {
@@ -4638,11 +4681,24 @@ var actions = {
 
             case 2:
             case "end":
-              return _context5.stop();
+              return _context4.stop();
           }
         }
-      }, _callee5);
+      }, _callee4);
     }))();
+  },
+  countFollow: function countFollow(_ref5, user_id) {
+    var commit = _ref5.commit;
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/countFollow', {
+      params: {
+        user_id: user_id
+      }
+    }).then(function (result) {
+      commit('setcountFollow', result.data[0]);
+      commit('setcountFollower', result.data[1]);
+    })["catch"](function (error) {
+      console.log(error);
+    });
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -8984,7 +9040,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.icon-photo[data-v-7ba11584]{\n    width: 50px;\n    height: 50px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.contents-photo[data-v-7ba11584]{\n    width: 70%;\n    height: 70%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper[data-v-7ba11584]{\n    background-color: #EDF2F7;\n}\n.pages[data-v-7ba11584]{\n    padding-top: 150px;\n}\n.comment[data-v-7ba11584]{\n    background-color: #FFF;\n    border-radius: 10px;\n    margin-top: 5%;\n}\n.contents-profile[data-v-7ba11584]{\n    background-color: #FFF;\n    border-radius: 10px;\n    margin: 6% auto;\n    padding: 5%;\n}\n.contents-profile h3[data-v-7ba11584] {\n    font-size: 1.3rem;\n}\n.contents-profile .name-id[data-v-7ba11584]{\n    float: left;\n}\n.contents-profile .pro_name[data-v-7ba11584]{\n    padding: 2% 0 0;\n    margin-bottom: 0;\n}\n.contents-profile .follow-unfollow[data-v-7ba11584]{\n    text-align: right;\n}\n.contents-profile .follow[data-v-7ba11584]{\n    display: inline-block;\n    border: 1px solid #CFCABF;\n    border-radius: 5%;\n    padding:7px;\n    cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]{\n    display: inline-block;\n    border: 1px solid #CFCABF;\n    border-radius: 5%;\n    padding:7px;\n    cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]:hover{\n    background-color: #2983FD;\n    color: #FFF;\n}\n.contents-profile .follow[data-v-7ba11584]:hover{\n    background-color: #2983FD;\n    color: #FFF;\n}\n.contents-profile .follower[data-v-7ba11584]{\n    clear: both;\n}\n.follower p[data-v-7ba11584] {\n    display: inline;\n    font-size: 0.8rem;\n    color: #859099;\n}\n.contents-profile hr[data-v-7ba11584]{\n    border-width: 1px 0 0 0;\n    border-style: solid;\n    border-color: #CFCABF;\n}\n.created-time[data-v-7ba11584]{\n    font-size: 0.9em;\n    color: #859099;\n}\n.contents-description[data-v-7ba11584]{\n    padding: 3%;\n}\n.sub[data-v-7ba11584]{\n    margin-left: 5%;\n}\n.individual-profile[data-v-7ba11584]{\n    background-color: #fff;\n    border-radius: 10px;\n    position: -webkit-sticky;\n    position: sticky;\n    top: 3%;\n}\n.individual-profile img[data-v-7ba11584]{\n    margin: 5%;\n}\n.individual-profile .pro_name[data-v-7ba11584]{\n    margin-bottom: 0;\n    padding: 5% 0 0;\n}\n.individual-profile a[data-v-7ba11584]{\n    font-size:1.2rem;\n}\n.individual-profile .link[data-v-7ba11584]{\n    clear: both;\n    padding-bottom: 7%;\n}\n.individual-profile .ff[data-v-7ba11584]{\n    text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]{\n    display: inline-block;\n    width: 90%;\n    padding: 3% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.individual-profile .follow[data-v-7ba11584]{\n    display: inline-block;\n    width: 90%;\n    padding: 3% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]:hover{\n    background-color: blue;\n    color: #fff;\n}\n.individual-tags[data-v-7ba11584]{\n    background-color: #fff;\n    border-radius: 10px;\n    margin: 13% 0;\n    position: -webkit-sticky;\n    position: sticky;\n    top: 22%;\n}\n.individual-tags h3[data-v-7ba11584]{\n    text-align: center;\n    padding: 3% 0;\n}\n.individual-tags ul[data-v-7ba11584]{\n    padding: 5%;\n}\n.individual-tags li[data-v-7ba11584]{    \n    list-style: none;\n    border: 1px solid #CFCABF;\n    border-radius: 7px;\n    display: inline;\n    padding: 1% 2%;\n    margin: 2%;\n    cursor: pointer;\n}\n.individual-tags li[data-v-7ba11584]:hover{\n    background-color: #CFCABF;\n}\n.icon-photo[data-v-7ba11584]{\n    width: 50px;\n    height: 50px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n    float: left;\n    margin: 1% 2% 0 0;\n}\n.contents-photo[data-v-7ba11584]{\n    width: 100%;\n}\n.menu[data-v-7ba11584]{\n    text-align: center;\n    position: fixed;\n}\n.curcle[data-v-7ba11584]{\n    border: 1px solid #fff;\n    background-color: #fff;\n    border-radius: 50%;\n    width: 3rem;\n    height: 3rem;\n    padding:24%;\n}\n.menu p[data-v-7ba11584]{\n    display: inline;\n    margin: 0;\n}\n.menu .twitter[data-v-7ba11584]{\n    font-size: 1.7rem;\n    color: grey;\n}\n.menu .twitter[data-v-7ba11584]:hover{\n    color: #000;\n}\n.favorite[data-v-7ba11584]{\n    font-size: 1.2rem;\n    vertical-align: middle;\n}\n.favorite2[data-v-7ba11584]{\n    font-size: 1.2rem;\n    color: #F66685;\n    vertical-align: middle;\n}\n.favorite[data-v-7ba11584]:hover{\n    color: red;\n}\n.favorite2[data-v-7ba11584]:hover{\n    color: red;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9008,7 +9064,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.icon_comment[data-v-13a617f1]{\n    width: 70px;\n    height: 70px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.icon_comment[data-v-13a617f1]{\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\nul[data-v-13a617f1]{\n    list-style: none;\n}\nli[data-v-13a617f1]{\n    padding-top:25px;\n}\na:hover .login_id[data-v-13a617f1]{\n    text-decoration: none;\n}\n.login_id[data-v-13a617f1]{\n    margin: 3px;\n    color: #E1544F;\n}\n.time[data-v-13a617f1]{\n    font-size: .8em;\n    color: #859099;\n}\n.balloon[data-v-13a617f1]{\n    width: 100%;\n    text-align: left;\n}\n.says[data-v-13a617f1]{\n    width: 80%;\n    display: inline-block;\n    position: relative; \n    margin: 0 0 0 50px;\n    padding: 10px;\n    max-width: 80%;\n    border-radius: 12px;\n    background: #edf1ee;\n}\n.says[data-v-13a617f1]:after {\n    content: \"\";\n    display: inline-block;\n    position: absolute;\n    top: 3px; \n    left: -19px;\n    border: 8px solid transparent;\n    border-right: 18px solid #edf1ee;\n    transform: rotate(40deg);\n}\n.message[data-v-13a617f1]{\n    margin-bottom: 0.5em;\n    clear: both;\n}\n.reply[data-v-13a617f1]{\n    color: #2983FD;\n    position: relative;\n    top: 26px;\n    right: 20px;\n    font-size: 1.6em;\n}\nform[data-v-13a617f1]{\n    display: block;\n    margin: 0 auto;\n    width: 90%;\n    padding: 10% 0 10%;\n}\n.textarea[data-v-13a617f1]{\n    width: 100%;\n    border-radius: 10px;\n    border: 1.5px solid #CFCABF;\n    resize: none;\n}\n.comment-btn[data-v-13a617f1]{\n    display: block;\n    margin: 2% 0 0 auto;\n    border: 1.5px solid #CFCABF;\n    border-radius: 2%;\n    width: 13rem;\n    height: 3rem;\n    background-color: #fff;\n    position: relative;\n}\n.comment-btn[data-v-13a617f1]:hover{\n    background-color: #CFCABF;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15324,7 +15380,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { attrs: { id: "wrapper" } },
+    { staticClass: "wrapper" },
     [
       _c("loading", {
         directives: [
@@ -15348,13 +15404,52 @@ var render = function() {
               expression: "!loading"
             }
           ],
-          staticClass: "container"
+          staticClass: "container pages"
         },
         [
           _c("div", { staticClass: "row justify-content-center" }, [
+            _c("div", { staticClass: "col-md-1" }, [
+              _c("div", { staticClass: "menu" }, [
+                _c("div", { staticClass: "curcle" }, [
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.status == false,
+                        expression: "status == false"
+                      }
+                    ],
+                    staticClass: "far fa-heart favorite",
+                    attrs: { disabled: _vm.isPosting },
+                    on: { click: _vm.pushFavorite }
+                  }),
+                  _vm._v(" "),
+                  _c("i", {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.status == true,
+                        expression: "status == true"
+                      }
+                    ],
+                    staticClass: "fas fa-heart favorite2",
+                    attrs: { disabled: _vm.isPosting },
+                    on: { click: _vm.deleteFavorite }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(_vm.countFav))]),
+                _c("br"),
+                _vm._v(" "),
+                _c("i", { staticClass: "fab fa-twitter twitter" })
+              ])
+            ]),
+            _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col-md-8" },
+              { staticClass: "col-md-7 main" },
               [
                 _c("div", { staticClass: "contents" }, [
                   _c("img", {
@@ -15367,26 +15462,200 @@ var render = function() {
                   _vm._v(" "),
                   _c("p", { staticClass: "created-time" }, [
                     _vm._v(_vm._s(_vm.post.created_at))
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "contents-description" }, [
+                    _vm._v(_vm._s(_vm.post.description))
                   ])
                 ]),
                 _vm._v(" "),
-                _c("individual-comment"),
+                _c("individual-comment", { staticClass: "comment" }),
                 _vm._v(" "),
                 _c("div", { staticClass: "contents-profile" }, [
-                  _c("p", [_vm._v("写真を投稿したユーザー")]),
+                  _c("h3", [_vm._v("写真を投稿したユーザー")]),
                   _vm._v(" "),
-                  _c("img", {
-                    staticClass: "icon-photo",
-                    attrs: {
-                      src: "../" + _vm.profile.icon_path,
-                      alt: "contents-photo"
-                    }
-                  }),
+                  _c("div", [
+                    _c("img", {
+                      staticClass: "icon-photo",
+                      attrs: {
+                        src: "../" + _vm.profile.icon_path,
+                        alt: "contents-photo"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "name-id" },
+                      [
+                        _c("p", { staticClass: "pro_name" }, [
+                          _vm._v(_vm._s(_vm.postUser.name))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            attrs: {
+                              to: {
+                                name: "mypage",
+                                params: { userId: _vm.postUser.id }
+                              }
+                            }
+                          },
+                          [_vm._v("@" + _vm._s(_vm.postUser.login_id))]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.postUser.id != _vm.authUser.id,
+                            expression: "postUser.id != authUser.id"
+                          }
+                        ],
+                        staticClass: "follow-unfollow"
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.followStatus,
+                                expression: "!followStatus"
+                              }
+                            ],
+                            staticClass: "follow",
+                            on: { click: _vm.pushFollow }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-user-plus" }),
+                            _vm._v(
+                              "\n                                フォローする\n                            "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.followStatus,
+                                expression: "followStatus"
+                              }
+                            ],
+                            staticClass: "unfollow",
+                            on: { click: _vm.deleteFollow }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-user-plus" }),
+                            _vm._v(
+                              "\n                                フォロー解除                        \n                            "
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]),
                   _vm._v(" "),
-                  _c("p", [_vm._v(_vm._s(_vm.postUser.name))]),
+                  _c("div", { staticClass: "follower" }, [
+                    _c("p", [_vm._v(_vm._s(_vm.countFollow) + "フォロー")]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(_vm.countFollower) + "フォロワー")])
+                  ]),
                   _vm._v(" "),
-                  _c("p", [_vm._v("@" + _vm._s(_vm.postUser.login_id))]),
+                  _c("hr"),
                   _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.profile.shokai))])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-3 sub" }, [
+              _c("div", { staticClass: "individual-profile" }, [
+                _c(
+                  "div",
+                  [
+                    _c(
+                      "router-link",
+                      {
+                        attrs: {
+                          to: {
+                            name: "mypage",
+                            params: { userId: _vm.postUser.id }
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "icon-photo",
+                          attrs: {
+                            src: "../" + _vm.profile.icon_path,
+                            alt: "icon-photo"
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "name-id" }, [
+                      _c("p", { staticClass: "pro_name" }, [
+                        _vm._v(_vm._s(_vm.postUser.name))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.profile.website_url,
+                              expression: "profile.website_url"
+                            }
+                          ],
+                          attrs: {
+                            href: "" + _vm.profile.website_url,
+                            target: "_blank"
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-link" })]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.profile.twitter_url,
+                              expression: "profile.twitter_url"
+                            }
+                          ],
+                          attrs: {
+                            href: "" + _vm.profile.twitter_url,
+                            target: "_blank"
+                          }
+                        },
+                        [_c("i", { staticClass: "fab fa-twitter" })]
+                      )
+                    ])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "link" }, [
                   _c(
                     "div",
                     {
@@ -15397,7 +15666,8 @@ var render = function() {
                           value: _vm.postUser.id != _vm.authUser.id,
                           expression: "postUser.id != authUser.id"
                         }
-                      ]
+                      ],
+                      staticClass: "ff"
                     },
                     [
                       _c(
@@ -15414,12 +15684,7 @@ var render = function() {
                           staticClass: "follow",
                           on: { click: _vm.pushFollow }
                         },
-                        [
-                          _c("i", { staticClass: "fas fa-user-plus" }),
-                          _vm._v(
-                            "\n                            フォローする\n                        "
-                          )
-                        ]
+                        [_c("i", { staticClass: "fas fa-user-plus" })]
                       ),
                       _vm._v(" "),
                       _c(
@@ -15436,156 +15701,30 @@ var render = function() {
                           staticClass: "unfollow",
                           on: { click: _vm.deleteFollow }
                         },
-                        [
-                          _c("i", { staticClass: "fas fa-user-plus" }),
-                          _vm._v(
-                            "\n                            フォロー解除                        \n                        "
-                          )
-                        ]
+                        [_c("i", { staticClass: "fas fa-user-check" })]
                       )
                     ]
-                  ),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("フォロー")]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v("フォロワー")]),
-                  _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(_vm.profile.shokai))])
+                  )
                 ])
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-4" }, [
-              _c("div", { staticClass: "individual-profile" }, [
-                _c("img", {
-                  staticClass: "icon-photo",
-                  attrs: {
-                    src: "../" + _vm.profile.icon_path,
-                    alt: "icon-photo"
-                  }
-                }),
-                _vm._v(" "),
-                _c("p", { staticClass: "profile-name" }, [
-                  _vm._v(_vm._s(_vm.postUser.name))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.postUser.id != _vm.authUser.id,
-                        expression: "postUser.id != authUser.id"
-                      }
-                    ]
-                  },
-                  [
-                    _c(
-                      "div",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: !_vm.followStatus,
-                            expression: "!followStatus"
-                          }
-                        ],
-                        staticClass: "follow",
-                        on: { click: _vm.pushFollow }
-                      },
-                      [
-                        _c("i", { staticClass: "fas fa-user-plus" }),
-                        _vm._v(
-                          "\n                            フォローする\n                        "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.followStatus,
-                            expression: "followStatus"
-                          }
-                        ],
-                        staticClass: "unfollow",
-                        on: { click: _vm.deleteFollow }
-                      },
-                      [
-                        _c("i", { staticClass: "fas fa-user-plus" }),
-                        _vm._v(
-                          "\n                            フォロー解除                        \n                        "
-                        )
-                      ]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.status == false,
-                        expression: "status == false"
-                      }
-                    ],
-                    staticClass: "favorite",
-                    attrs: { disabled: _vm.isPosting },
-                    on: { click: _vm.pushFavorite }
-                  },
-                  [_vm._v("いいね")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.status == true,
-                        expression: "status == true"
-                      }
-                    ],
-                    staticClass: "favorite",
-                    attrs: { disabled: _vm.isPosting },
-                    on: { click: _vm.deleteFavorite }
-                  },
-                  [_vm._v("いいね解除")]
-                ),
-                _vm._v(" "),
-                _vm.countFav != 0
-                  ? _c("p", { staticClass: "count" }, [
-                      _vm._v(_vm._s(_vm.countFav) + "人がいいねしました")
-                    ])
-                  : _vm._e()
               ]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "individual-tags" },
-                _vm._l(_vm.tags, function(tag) {
-                  return _c("li", { key: tag.tag_id, staticClass: "tag" }, [
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(tag.tag_name) +
-                        "\n                    "
-                    )
-                  ])
-                }),
-                0
-              )
+              _c("div", { staticClass: "individual-tags" }, [
+                _c("h3", [_vm._v("Tags")]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  _vm._l(_vm.tags, function(tag) {
+                    return _c("li", { key: tag.tag_id, staticClass: "tag" }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(tag.tag_name) +
+                          "\n                        "
+                      )
+                    ])
+                  }),
+                  0
+                )
+              ])
             ])
           ])
         ]
@@ -15622,27 +15761,48 @@ var render = function() {
       _c(
         "ul",
         _vm._l(_vm.commentList, function(comments) {
-          return _c("li", { key: comments.comment_id }, [
-            _c("img", {
-              staticClass: "icon_comment",
-              attrs: {
-                src: "../../../../" + comments.user[0].profile.icon_path,
-                alt: ""
-              }
-            }),
-            _vm._v(" "),
-            _c("p", { staticClass: "login_id" }, [
-              _vm._v(_vm._s(comments.user[0].login_id))
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "time" }, [
-              _vm._v(_vm._s(comments.created_at))
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "message" }, [
-              _vm._v(_vm._s(comments.comment_message))
-            ])
-          ])
+          return _c(
+            "li",
+            { key: comments.comment_id },
+            [
+              _c("img", {
+                staticClass: "icon_comment",
+                attrs: {
+                  src: "../../../../" + comments.user[0].profile.icon_path,
+                  alt: ""
+                }
+              }),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                {
+                  attrs: {
+                    to: { name: "mypage", params: { userId: comments.user_id } }
+                  }
+                },
+                [
+                  _c("p", { staticClass: "login_id" }, [
+                    _vm._v("@" + _vm._s(comments.user[0].login_id))
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("p", { staticClass: "time" }, [
+                _vm._v(_vm._s(comments.created_at))
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "balloon" }, [
+                _c("div", { staticClass: "says" }, [
+                  _c("p", { staticClass: "message" }, [
+                    _vm._v(_vm._s(comments.comment_message))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("i", { staticClass: "fas fa-reply reply" })
+              ])
+            ],
+            1
+          )
         }),
         0
       )
@@ -15659,28 +15819,37 @@ var render = function() {
         }
       },
       [
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.comment,
-              expression: "comment"
-            }
-          ],
-          attrs: { name: "comment", id: "comment", cols: "30", rows: "10" },
-          domProps: { value: _vm.comment },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+        _c("div", { staticClass: "area" }, [
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.comment,
+                expression: "comment"
               }
-              _vm.comment = $event.target.value
+            ],
+            staticClass: "textarea",
+            attrs: {
+              name: "comment",
+              id: "comment",
+              cols: "30",
+              rows: "3",
+              placeholder: "コメントを入力する"
+            },
+            domProps: { value: _vm.comment },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.comment = $event.target.value
+              }
             }
-          }
-        }),
+          })
+        ]),
         _vm._v(" "),
-        _c("button", [_vm._v("コメントを送信する")])
+        _c("button", { staticClass: "comment-btn" }, [_vm._v("コメントする")])
       ]
     )
   ])

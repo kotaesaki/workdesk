@@ -3,13 +3,17 @@ import axios from "axios";
 const state={
     status: null,
     follow: null,
-    follower: null
+    follower: null,
+    countFollow: null,
+    countFollower: null,
 };
 
 const getters = {
     status: state =>state.status ? state.status: '',
     follow: state =>state.follow ? state.follow: '',
     follower: state => state.follower ? state.follower: '',
+    countFollow: state => state.countFollow ? state.countFollow: '',
+    countFollower: state => state.countFollower ? state.countFollower: '',
 };
 
 const mutations = {
@@ -21,6 +25,12 @@ const mutations = {
     },
     setFollower(state,follower){
         state.follower = follower;
+    },
+    setcountFollow(state,countFollow){
+        state.countFollow = countFollow;
+    },
+    setcountFollower(state,countFollower){
+        state.countFollower = countFollower;
     }
 };
 
@@ -39,8 +49,8 @@ const actions = {
             console.log(error);
         })
     },
-    async checkFollow({commit}, {auth_user,post_user}){
-        await axios.get('/api/follow',{
+    checkFollow({commit}, {auth_user,post_user}){
+        axios.get('/api/follow',{
             params:{
                 auth_user: auth_user,
                 post_user: post_user
@@ -71,6 +81,18 @@ const actions = {
         }).then(result=>{
             console.log(result.data);
             commit('setFollower', result.data.follower.follow_users);
+        }).catch(error=>{
+            console.log(error);
+        })
+    },
+    countFollow({commit},user_id){
+        axios.get('/api/countFollow',{
+            params:{
+                user_id:user_id
+            }
+        }).then(result=>{
+            commit('setcountFollow',result.data[0]);
+            commit('setcountFollower',result.data[1]);
         }).catch(error=>{
             console.log(error);
         })
