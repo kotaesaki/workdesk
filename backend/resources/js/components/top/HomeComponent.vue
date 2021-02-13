@@ -79,7 +79,7 @@ export default {
     .pages{
         width:100vw;
         height: 100%;
-        background-color: #E6F2FF;
+        background-color: #CFCABF;
         margin-top: 30px;
     }
 </style>

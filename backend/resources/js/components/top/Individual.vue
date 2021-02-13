@@ -168,7 +168,6 @@ export default {
     mounted() {
         console.log('Individual mounted start!');
         this.$store.dispatch('loading/startLoad')
-            .then(()=>this.getUser())
             .then(()=>this.getIndividual())
             .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.postUser.id}))
             .then(()=>this.$store.dispatch('loading/endLoad')) 
@@ -321,9 +320,9 @@ export default {
         list-style: none;
         border: 1px solid #CFCABF;
         border-radius: 7px;
-        display: inline;
+        display: inline-block;
         padding: 1% 2%;
-        margin: 2%;
+        margin: 2% 3% 3% 3%;
         cursor: pointer;
     }
     .individual-tags li:hover{
