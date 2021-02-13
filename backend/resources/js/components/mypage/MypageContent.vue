@@ -1,8 +1,8 @@
 <template>
     <div class="col-md-8">
-        <p>タイムライン</p>
+        <h2>タイムライン</h2>
         <div>
-            <div class="timeline" v-for="post in postData" :key="post">
+            <div class="timeline" v-for="post in postData" :key="post" v-show="posts">
                 <div class="page-content">
                     <img class="post_image" :src="`../${post.photo_path}`">
                     <p>{{post.created_at}}</p>

@@ -49,8 +49,8 @@ const actions = {
             console.log(error);
         })
     },
-    checkFollow({commit}, {auth_user,post_user}){
-        axios.get('/api/follow',{
+    async checkFollow({commit}, {auth_user,post_user}){
+        await axios.get('/api/follow',{
             params:{
                 auth_user: auth_user,
                 post_user: post_user

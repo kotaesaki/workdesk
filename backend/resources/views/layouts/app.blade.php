@@ -26,6 +26,12 @@
         }
         a {
             text-decoration: none;
+            color:#443311;
+        }
+        a:hover{
+            color:#443311;
+            text-decoration: none;
+
         }
 
     </style>
