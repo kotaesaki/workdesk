@@ -17,21 +17,23 @@ class MypageController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index($login_id)
+    public function getId($login_id)
     {
         $user = User::find($login_id);
-        $user1 = User::select()
-            ->join('profiles', 'profiles.user_id', '=', 'users.id')
-            ->where('id', $login_id)
-            ->get();
+        $profile = $user->profile->where('user_id', $login_id)->first();
+        return [$user,$profile];
+    }
+
+    public function getPost($login_id)
+    {
         $posts = Post::where('user_id', $login_id)
             ->orderBy('created_at', 'desc')->get();
         if ($posts) {
             foreach ($posts as $post) {
-                $post11[] = Post::find($post->post_id)->tags()->get();
-                return [$user1, $posts, $post11];
+                $tags[] = Post::find($post->post_id)->tags()->get();
+                return [$posts, $tags];
             }
         }
-        return [$user1];
+        return [];
     }
 }

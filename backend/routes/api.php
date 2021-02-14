@@ -24,7 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
-Route::get('/mypage/{login_id}', 'App\Http\Controllers\MypageController@index')->name('mypage');
+Route::get('/getId/{login_id}', 'App\Http\Controllers\MypageController@getId')->name('api.getId');
+Route::get('/getPost/{login_id}', 'App\Http\Controllers\MypageController@getPost')->name('api.getPost');
 Route::get('/timeline', 'App\Http\Controllers\TimelineController@index')->name('api.timeline');
 Route::get('/individual', 'App\Http\Controllers\IndividualController@index')->name('api.individual');
 Route::get('/favorite', 'App\Http\Controllers\FavoriteController@isLiked')->name('api.isLiked_favorite');

@@ -1,15 +1,15 @@
 <template>
-    <div class="col-md-4 ">
-        <div class="loader" v-show="loading">
-            <vue-loaders-line-spin-fade-loader/>
+    <div class="col-md-4">
+        <div class="loader-space" v-show="loading">
+            <vue-loaders-line-scale-pulse-out color="#CFCABF" scale="2" class="loader"></vue-loaders-line-scale-pulse-out>
         </div>
         <div class="page" v-show="!loading">
-            <div class="mypage-profile" v-for="value in id" :key="value">
-                <img class="userInfo__icon" :src="`../${value.icon_path}`"/> 
-                <p class="name">{{value.name}}さん</p>
-                <p class="id">@{{value.login_id}}</p>
+            <div class="mypage-profile">
+                <img class="userInfo__icon" :src="`../${profile.icon_path}`"/> 
+                <p class="name">{{id.name}}さん</p>
+                <p class="id">@{{id.login_id}}</p>
                 <div class="link">
-                    <div v-show="value.id != authUser.id" class="ff">
+                    <div v-show="id.id != authUser.id" class="ff">
                         <div class="follow" @click="pushFollow" v-show="!followStatus" >
                             <i class="fas fa-user-plus"></i>
                         </div>
@@ -18,10 +18,10 @@
                         </div>
                     </div>
                 </div>
-                <a :href="`${value.website_url}`" v-if="value.twitter_url" target="_blank"><i class="fas fa-link"></i></a>
-                <a :href="`${value.twitter_url}`" v-if="value.twitter_url" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a :href="`${profile.website_url}`" v-if="profile.website_url" target="_blank"><i class="fas fa-link"></i></a>
+                <a :href="`${profile.twitter_url}`" v-if="profile.twitter_url" target="_blank"><i class="fab fa-twitter"></i></a>
                 <div>
-                    <p>{{value.sex}}性 | {{value.occupation}} | {{value.age}}歳</p>
+                    <p>{{profile.sex}}性 | {{profile.occupation}} | {{profile.age}}歳</p>
                 </div>
             </div>
             <ul id="mypage-item">
@@ -41,11 +41,11 @@
                     <li style="border-bottom: 1px solid #CFCABF;">いいねした写真</li>
                 </router-link>
             </ul>
-            <div class="shokai" v-for="value in id" :key="value">
+            <div class="shokai">
                 <div>
                     <p>自己紹介</p>
                     <span>
-                        {{value.shokai}}
+                        {{profile.shokai}}
                     </span>
                 </div>
             </div>
@@ -58,18 +58,29 @@ export default {
     mixins: [MultipostAboidable],
 
     props:{
-        id: Array
+        userId: String,
+    },
+    data() {
+        return {
+            loading: true,
+        };
     },
     computed: {
-        loading(){
-            return this.$store.getters["loading/loading"];
-        },
         authUser(){
             return this.$store.getters["auth/user"];
         },
         followStatus(){
             return this.$store.getters["follow/status"];
         },
+        id(){
+            return this.$store.getters['mypage/id']; 
+        },
+        profile(){
+            return this.$store.getters['mypage/profile'];
+        },
+        posts(){
+            return this.$store.getters['mypage/posts'];
+        }
     },
     methods: {
         async pushFollow(){
@@ -83,8 +94,19 @@ export default {
             });
         },
     },
-    mounted() {
 
+    created() {
+        console.log('created start!');
+        this.$store.dispatch('mypage/getId', this.userId)
+            .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.id.id}))
+            .then(()=> this.loading = false)
+    },
+    watch: {
+        userId(newValue, oldValue) {
+            console.log('mypagebar watch start');
+                this.$store.dispatch('mypage/getId', this.userId)
+                    .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.userId}))
+        },
     },
 }
 </script>
@@ -109,10 +131,14 @@ export default {
         object-fit: cover;
         border-radius: 50%;
     }
+    .loader-space{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
     .loader{
-        width:100%;
-        height:100%;
         position:fixed;
+        top:21%;
     }
     .mypage-profile .link{
         clear: both;

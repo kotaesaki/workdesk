@@ -2303,17 +2303,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_multipost_aboidable__WEBPACK_IMPORTED_MODULE_1__.default],
   props: {
-    id: Array
+    userId: String
+  },
+  data: function data() {
+    return {
+      loading: true
+    };
   },
   computed: {
-    loading: function loading() {
-      return this.$store.getters["loading/loading"];
-    },
     authUser: function authUser() {
       return this.$store.getters["auth/user"];
     },
     followStatus: function followStatus() {
       return this.$store.getters["follow/status"];
+    },
+    id: function id() {
+      return this.$store.getters['mypage/id'];
+    },
+    profile: function profile() {
+      return this.$store.getters['mypage/profile'];
+    },
+    posts: function posts() {
+      return this.$store.getters['mypage/posts'];
     }
   },
   methods: {
@@ -2386,7 +2397,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     }
   },
-  mounted: function mounted() {}
+  created: function created() {
+    var _this3 = this;
+
+    console.log('created start!');
+    this.$store.dispatch('mypage/getId', this.userId).then(function () {
+      return _this3.$store.dispatch('follow/checkFollow', {
+        auth_user: _this3.authUser.id,
+        post_user: _this3.id.id
+      });
+    }).then(function () {
+      return _this3.loading = false;
+    });
+  },
+  watch: {
+    userId: function userId(newValue, oldValue) {
+      var _this4 = this;
+
+      console.log('mypagebar watch start');
+      this.$store.dispatch('mypage/getId', this.userId).then(function () {
+        return _this4.$store.dispatch('follow/checkFollow', {
+          auth_user: _this4.authUser.id,
+          post_user: _this4.userId
+        });
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -2402,17 +2438,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _common_Loading_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Loading.vue */ "./resources/js/components/common/Loading.vue");
-/* harmony import */ var _MypageBar_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MypageBar.vue */ "./resources/js/components/mypage/MypageBar.vue");
-/* harmony import */ var _MypageContent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MypageContent.vue */ "./resources/js/components/mypage/MypageContent.vue");
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var _MypageBar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MypageBar.vue */ "./resources/js/components/mypage/MypageBar.vue");
+/* harmony import */ var _MypageContent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MypageContent.vue */ "./resources/js/components/mypage/MypageContent.vue");
 //
 //
 //
@@ -2425,123 +2452,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    MypageBar: _MypageBar_vue__WEBPACK_IMPORTED_MODULE_2__.default,
-    MypageContent: _MypageContent_vue__WEBPACK_IMPORTED_MODULE_3__.default,
-    Loading: _common_Loading_vue__WEBPACK_IMPORTED_MODULE_1__.default
+    MypageBar: _MypageBar_vue__WEBPACK_IMPORTED_MODULE_0__.default,
+    MypageContent: _MypageContent_vue__WEBPACK_IMPORTED_MODULE_1__.default
   },
   props: {
     userId: String //idを取得
 
-  },
-  data: function data() {
-    return {
-      id: '',
-      posts: '',
-      tags: '',
-      start: 0,
-      end: 10,
-      startScrollYOffset: 0,
-      postData: []
-    };
-  },
-  computed: {
-    authUser: function authUser() {
-      return this.$store.getters['auth/user'];
-    },
-    loading: function loading() {
-      return this.$store.getters["loading/loading"];
-    }
-  },
-  methods: {
-    getId: function getId() {
-      var _this = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('/api/mypage/' + _this.userId).then(function (res) {
-                  _this.id = res.data[0];
-
-                  if (!res.data[1] && !res.data[2]) {
-                    _this.posts = null;
-                    _this.tags = null;
-                    return;
-                  } else if (!res.data[2] && res.data[1]) {
-                    _this.posts = res.data[1];
-                    _this.tags = null;
-                    return;
-                  } else if (res.data[2] && !res.data[1]) {
-                    _this.posts = null;
-                    _this.tags = res.data[2];
-                    return;
-                  } else {
-                    _this.posts = res.data[1];
-                    _this.tags = res.data[2];
-                  }
-
-                  if (_this.end <= _this.posts.length) {
-                    _this.postData = _this.postData.concat(_this.posts.slice(_this.start, _this.end));
-                    _this.start = _this.start + 10;
-                    _this.end = _this.end + 10;
-                  } else {
-                    _this.postData = _this.posts;
-                  }
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }))();
-    }
-  },
-  mounted: function mounted() {
-    var _this2 = this;
-
-    console.log('created start!');
-    this.$store.dispatch('loading/startLoad').then(function () {
-      return _this2.getId();
-    }).then(function () {
-      return _this2.$store.dispatch('follow/checkFollow', {
-        auth_user: _this2.authUser.id,
-        post_user: _this2.id[0].id
-      });
-    }).then(function () {
-      return _this2.$store.dispatch('loading/endLoad');
-    });
-    this.startScrollYOffset = Math.floor(window.innerHeight / 3);
-  },
-  beforeUpdate: function beforeUpdate() {
-    var _this3 = this;
-
-    console.log('beforeUpdate start!');
-
-    if (this.userId != this.id[0].id) {
-      this.$store.dispatch('loading/startLoad').then(function () {
-        return _this3.getId();
-      }).then(function () {
-        return _this3.$store.dispatch('follow/checkFollow', {
-          auth_user: _this3.authUser.id,
-          post_user: _this3.id[0].id
-        });
-      }).then(function () {
-        return _this3.$store.dispatch('loading/endLoad');
-      });
-      this.startScrollYOffset = Math.floor(window.innerHeight / 3);
-    }
   }
 });
 
@@ -2581,37 +2501,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    posts: Array,
-    tagss: Array,
-    start: Number,
-    end: Number,
-    startScrollYOffset: Number,
-    postData: Array
+    userId: String
   },
   data: function data() {
     return {
-      isGettingPosts: false
+      loading: true
     };
+  },
+  computed: {
+    posts: function posts() {
+      return this.$store.getters['mypage/posts'];
+    },
+    tagss: function tagss() {
+      return this.$store.getters['mypage/tagss'];
+    },
+    startScrollYOffset: function startScrollYOffset() {
+      return this.$store.getters['mypage/startScrollYOffset'];
+    },
+    postData: function postData() {
+      return this.$store.getters['mypage/postData'];
+    },
+    id: function id() {
+      return this.$store.getters['mypage/id'];
+    }
   },
   methods: {
     infiniteHandler: function infiniteHandler() {
-      if (window.pageYOffset >= this.startScrollYOffset && !this.isGettingPosts) {
-        this.startScrollYOffset = window.innerHeight + window.pageYOffset;
-        this.getPost();
-      }
-    },
-    getPost: function getPost() {
-      this.isGettingPosts = true;
+      this.$store.commit('mypage/infiniteHandler');
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
 
-      if (this.end <= this.posts.length) {
-        this.postData = this.postData.concat(this.posts.slice(this.start, this.end));
-        this.start = this.start + 10;
-        this.end = this.end + 10;
-      }
+    console.log('mypageContent mounted start');
 
-      this.isGettingPosts = false;
+    if (this.userId !== this.id.id || !this.id.id) {
+      this.$store.dispatch('mypage/startPost', this.userId).then(function () {
+        return _this.loading = false;
+      });
+      this.$store.commit('mypage/setstartScrollYOffset', Math.floor(window.innerHeight / 3));
+    } else if (this.userId === this.id.id) {
+      console.log('unko');
     }
   }
 });
@@ -4600,9 +4538,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.common.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.common.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(vuex__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/auth */ "./resources/js/store/modules/auth.js");
 /* harmony import */ var _modules_newTimeline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/newTimeline */ "./resources/js/store/modules/newTimeline.js");
 /* harmony import */ var _modules_individual__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/individual */ "./resources/js/store/modules/individual.js");
@@ -4610,6 +4548,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_follow__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/follow */ "./resources/js/store/modules/follow.js");
 /* harmony import */ var _modules_comment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/comment */ "./resources/js/store/modules/comment.js");
 /* harmony import */ var _modules_mytag__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/mytag */ "./resources/js/store/modules/mytag.js");
+/* harmony import */ var _modules_mypage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/mypage */ "./resources/js/store/modules/mypage.js");
 
 
 
@@ -4619,8 +4558,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_7__.default.use((vuex__WEBPACK_IMPORTED_MODULE_8___default()));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuex__WEBPACK_IMPORTED_MODULE_8___default().Store)({
+
+vue__WEBPACK_IMPORTED_MODULE_8__.default.use((vuex__WEBPACK_IMPORTED_MODULE_9___default()));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new (vuex__WEBPACK_IMPORTED_MODULE_9___default().Store)({
   state: function state() {
     return {};
   },
@@ -4631,7 +4571,8 @@ vue__WEBPACK_IMPORTED_MODULE_7__.default.use((vuex__WEBPACK_IMPORTED_MODULE_8___
     loading: _modules_loading__WEBPACK_IMPORTED_MODULE_3__.default,
     follow: _modules_follow__WEBPACK_IMPORTED_MODULE_4__.default,
     comment: _modules_comment__WEBPACK_IMPORTED_MODULE_5__.default,
-    mytag: _modules_mytag__WEBPACK_IMPORTED_MODULE_6__.default
+    mytag: _modules_mytag__WEBPACK_IMPORTED_MODULE_6__.default,
+    mypage: _modules_mypage__WEBPACK_IMPORTED_MODULE_7__.default
   },
   mutations: {},
   actions: {},
@@ -5340,6 +5281,180 @@ var actions = {
               context.commit('setLoading', false);
 
             case 1:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }))();
+  }
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  mutations: mutations,
+  actions: actions
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/mypage.js":
+/*!**********************************************!*\
+  !*** ./resources/js/store/modules/mypage.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+var state = {
+  id: null,
+  profile: null,
+  posts: null,
+  tagss: null,
+  start: 0,
+  end: 10,
+  startScrollYOffset: 0,
+  postData: [],
+  isGettingPosts: false
+};
+var getters = {
+  id: function id(state) {
+    return state.id ? state.id : '';
+  },
+  profile: function profile(state) {
+    return state.profile ? state.profile : '';
+  },
+  posts: function posts(state) {
+    return state.posts ? state.posts : '';
+  },
+  tagss: function tagss(state) {
+    return state.tagss ? state.tagss : '';
+  },
+  start: function start(state) {
+    return state.start ? state.start : 0;
+  },
+  end: function end(state) {
+    return state.end ? state.end : 10;
+  },
+  startScrollYOffset: function startScrollYOffset(state) {
+    return state.startScrollYOffset ? state.startScrollYOffset : 0;
+  },
+  postData: function postData(state) {
+    return state.postData ? state.postData : [];
+  },
+  isGettingPosts: function isGettingPosts(state) {
+    return state.isGettingPosts ? state.isGettingPosts : false;
+  }
+};
+var mutations = {
+  setId: function setId(state, id) {
+    state.id = id;
+  },
+  setProfile: function setProfile(state, profile) {
+    state.profile = profile;
+  },
+  setPosts: function setPosts(state, posts) {
+    state.posts = posts;
+  },
+  setTagss: function setTagss(state, tagss) {
+    state.tagss = tagss;
+  },
+  setStart: function setStart(state, start) {
+    state.start = start;
+  },
+  setEnd: function setEnd(state, end) {
+    state.end = end;
+  },
+  setstartScrollYOffset: function setstartScrollYOffset(state, startScrollYOffset) {
+    state.startScrollYOffset = startScrollYOffset;
+  },
+  setpostData: function setpostData(state, postData) {
+    state.postData = postData;
+  },
+  infiniteHandler: function infiniteHandler(state) {
+    if (window.pageYOffset >= state.startScrollYOffset && !state.isGettingPosts) {
+      state.startScrollYOffset = window.innerHeight + window.pageYOffset;
+      state.isGettingPosts = true;
+
+      if (state.end <= state.posts.length) {
+        state.postData = state.postData.concat(state.posts.slice(state.start, state.end));
+        state.start = state.start + 10;
+        state.end = state.end + 10;
+      }
+
+      state.isGettingPosts = false;
+    }
+  }
+};
+var actions = {
+  getId: function getId(_ref, userId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              commit = _ref.commit;
+              _context.next = 3;
+              return axios.get('/api/getId/' + userId).then(function (res) {
+                commit('setId', res.data[0]);
+                commit('setProfile', res.data[1]);
+              })["catch"](function (error) {
+                console.log(error);
+              });
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
+  },
+  startPost: function startPost(_ref2, userId) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var commit, state;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit, state = _ref2.state;
+              _context2.next = 3;
+              return axios.get('/api/getPost/' + userId).then(function (res) {
+                if (!res.data[0]) {
+                  commit('setPosts', '');
+                  commit('setTagss', '');
+                  return;
+                } else if (res.data[0] && !res.data[1]) {
+                  commit('setPosts', res.data[0]);
+                  commit('setTagss', '');
+                } else {
+                  commit('setPosts', res.data[0]);
+                  commit('setTagss', res.data[1]);
+                }
+
+                if (state.end <= state.posts.length) {
+                  commit('setpostData', state.postData.concat(state.posts.slice(state.start, state.end)));
+                  commit('setStart', state.start + 10);
+                  commit('setEnd', state.end + 10);
+                } else {
+                  commit('setpostData', state.posts);
+                }
+              });
+
+            case 3:
             case "end":
               return _context2.stop();
           }
@@ -13741,7 +13856,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.page[data-v-4eda792f]{\n    position: -webkit-sticky;\n    position: sticky;\n    top: 5%;\n}\n.mypage-profile[data-v-4eda792f]{\n    text-align: center;\n    padding: 12% 0;\n}\n.mypage-profile p[data-v-4eda792f]{\n    margin-bottom: 0;\n}\n.mypage-profile .name[data-v-4eda792f]{\n    padding-top: 5%;\n}\n.userInfo__icon[data-v-4eda792f]{\n    width: 65px;\n    height: 65px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.loader[data-v-4eda792f]{\n    width:100%;\n    height:100%;\n    position:fixed;\n}\n.mypage-profile .link[data-v-4eda792f]{\n    clear: both;\n    padding: 5% 0 7%;\n}\n.mypage-profile .ff[data-v-4eda792f]{\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding: 1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.mypage-profile .follow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding:1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]:hover{\n    background-color: blue;\n    color: #fff;\n}\nul[data-v-4eda792f]{\n    list-style: none;\n}\nul a li[data-v-4eda792f]{\n    padding:1rem 1rem;\n    border-top: 1px solid #CFCABF;\n    color: #443311;\n}\nul li[data-v-4eda792f]:hover{\n    background-color: #CFCABF;\n    color: #fff;\n}\nul > a[data-v-4eda792f]:hover {\n    color: #fff;\n}\n.shokai[data-v-4eda792f]{\n    text-align: center;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.page[data-v-4eda792f]{\n    position: -webkit-sticky;\n    position: sticky;\n    top: 5%;\n}\n.mypage-profile[data-v-4eda792f]{\n    text-align: center;\n    padding: 12% 0;\n}\n.mypage-profile p[data-v-4eda792f]{\n    margin-bottom: 0;\n}\n.mypage-profile .name[data-v-4eda792f]{\n    padding-top: 5%;\n}\n.userInfo__icon[data-v-4eda792f]{\n    width: 65px;\n    height: 65px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.loader-space[data-v-4eda792f]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n}\n.loader[data-v-4eda792f]{\n    position:fixed;\n    top:21%;\n}\n.mypage-profile .link[data-v-4eda792f]{\n    clear: both;\n    padding: 5% 0 7%;\n}\n.mypage-profile .ff[data-v-4eda792f]{\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding: 1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.mypage-profile .follow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding:1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]:hover{\n    background-color: blue;\n    color: #fff;\n}\nul[data-v-4eda792f]{\n    list-style: none;\n}\nul a li[data-v-4eda792f]{\n    padding:1rem 1rem;\n    border-top: 1px solid #CFCABF;\n    color: #443311;\n}\nul li[data-v-4eda792f]:hover{\n    background-color: #CFCABF;\n    color: #fff;\n}\nul > a[data-v-4eda792f]:hover {\n    color: #fff;\n}\n.shokai[data-v-4eda792f]{\n    text-align: center;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -13765,7 +13880,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.post_image[data-v-76a3ec95]{\n    height: 300px;\n    width: 300px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-76a3ec95]{\n    padding: 4%;\n    font-size: 2rem;\n    background-color: #CFCABF;\n    box-shadow: 1px 1px 6px grey;\n    border-radius: 5px;\n}\n.timeline[data-v-76a3ec95]:hover{\n    opacity: 0.5;\n    cursor: pointer;\n}\n.page-content[data-v-76a3ec95]{\n    margin:4% 0;\n    border-bottom: 1px solid #CFCABF;\n}\n.post_image[data-v-76a3ec95]{\n    width: 16vw;;\n    float: left;\n}\n.page-content p[data-v-76a3ec95]{\n    margin: 0;\n    font-size: 0.8em;\n    color: #859099;\n    clear: both;\n}\n.page-content span[data-v-76a3ec95]{\n    padding: 2% 0 0;\n    position: relative;\n    left: 3%;\n}\n.page-content .tags[data-v-76a3ec95]{\n    display: inline-flex;\n}\n.page-content ul[data-v-76a3ec95] {\n    list-style: none;\n}\n.loader-space[data-v-76a3ec95]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n}\n.loader[data-v-76a3ec95]{\n    position:fixed;\n    top:26%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -49308,7 +49423,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-4 " }, [
+  return _c("div", { staticClass: "col-md-4" }, [
     _c(
       "div",
       {
@@ -49320,9 +49435,14 @@ var render = function() {
             expression: "loading"
           }
         ],
-        staticClass: "loader"
+        staticClass: "loader-space"
       },
-      [_c("vue-loaders-line-spin-fade-loader")],
+      [
+        _c("vue-loaders-line-scale-pulse-out", {
+          staticClass: "loader",
+          attrs: { color: "#CFCABF", scale: "2" }
+        })
+      ],
       1
     ),
     _vm._v(" "),
@@ -49340,103 +49460,111 @@ var render = function() {
         staticClass: "page"
       },
       [
-        _vm._l(_vm.id, function(value) {
-          return _c("div", { key: value, staticClass: "mypage-profile" }, [
-            _c("img", {
-              staticClass: "userInfo__icon",
-              attrs: { src: "../" + value.icon_path }
-            }),
-            _vm._v(" "),
-            _c("p", { staticClass: "name" }, [
-              _vm._v(_vm._s(value.name) + "さん")
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "id" }, [
-              _vm._v("@" + _vm._s(value.login_id))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "link" }, [
-              _c(
-                "div",
+        _c("div", { staticClass: "mypage-profile" }, [
+          _c("img", {
+            staticClass: "userInfo__icon",
+            attrs: { src: "../" + _vm.profile.icon_path }
+          }),
+          _vm._v(" "),
+          _c("p", { staticClass: "name" }, [
+            _vm._v(_vm._s(_vm.id.name) + "さん")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "id" }, [
+            _vm._v("@" + _vm._s(_vm.id.login_id))
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "link" }, [
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.id.id != _vm.authUser.id,
+                    expression: "id.id != authUser.id"
+                  }
+                ],
+                staticClass: "ff"
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.followStatus,
+                        expression: "!followStatus"
+                      }
+                    ],
+                    staticClass: "follow",
+                    on: { click: _vm.pushFollow }
+                  },
+                  [_c("i", { staticClass: "fas fa-user-plus" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.followStatus,
+                        expression: "followStatus"
+                      }
+                    ],
+                    staticClass: "unfollow",
+                    on: { click: _vm.deleteFollow }
+                  },
+                  [_c("i", { staticClass: "fas fa-user-check" })]
+                )
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _vm.profile.website_url
+            ? _c(
+                "a",
                 {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: value.id != _vm.authUser.id,
-                      expression: "value.id != authUser.id"
-                    }
-                  ],
-                  staticClass: "ff"
+                  attrs: {
+                    href: "" + _vm.profile.website_url,
+                    target: "_blank"
+                  }
                 },
-                [
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !_vm.followStatus,
-                          expression: "!followStatus"
-                        }
-                      ],
-                      staticClass: "follow",
-                      on: { click: _vm.pushFollow }
-                    },
-                    [_c("i", { staticClass: "fas fa-user-plus" })]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.followStatus,
-                          expression: "followStatus"
-                        }
-                      ],
-                      staticClass: "unfollow",
-                      on: { click: _vm.deleteFollow }
-                    },
-                    [_c("i", { staticClass: "fas fa-user-check" })]
-                  )
-                ]
+                [_c("i", { staticClass: "fas fa-link" })]
               )
-            ]),
-            _vm._v(" "),
-            value.twitter_url
-              ? _c(
-                  "a",
-                  { attrs: { href: "" + value.website_url, target: "_blank" } },
-                  [_c("i", { staticClass: "fas fa-link" })]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            value.twitter_url
-              ? _c(
-                  "a",
-                  { attrs: { href: "" + value.twitter_url, target: "_blank" } },
-                  [_c("i", { staticClass: "fab fa-twitter" })]
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", [
-              _c("p", [
-                _vm._v(
-                  _vm._s(value.sex) +
-                    "性 | " +
-                    _vm._s(value.occupation) +
-                    " | " +
-                    _vm._s(value.age) +
-                    "歳"
-                )
-              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.profile.twitter_url
+            ? _c(
+                "a",
+                {
+                  attrs: {
+                    href: "" + _vm.profile.twitter_url,
+                    target: "_blank"
+                  }
+                },
+                [_c("i", { staticClass: "fab fa-twitter" })]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", [
+            _c("p", [
+              _vm._v(
+                _vm._s(_vm.profile.sex) +
+                  "性 | " +
+                  _vm._s(_vm.profile.occupation) +
+                  " | " +
+                  _vm._s(_vm.profile.age) +
+                  "歳"
+              )
             ])
           ])
-        }),
+        ]),
         _vm._v(" "),
         _c(
           "ul",
@@ -49469,23 +49597,20 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _vm._l(_vm.id, function(value) {
-          return _c("div", { key: value, staticClass: "shokai" }, [
-            _c("div", [
-              _c("p", [_vm._v("自己紹介")]),
-              _vm._v(" "),
-              _c("span", [
-                _vm._v(
-                  "\n                    " +
-                    _vm._s(value.shokai) +
-                    "\n                "
-                )
-              ])
+        _c("div", { staticClass: "shokai" }, [
+          _c("div", [
+            _c("p", [_vm._v("自己紹介")]),
+            _vm._v(" "),
+            _c("span", [
+              _vm._v(
+                "\n                    " +
+                  _vm._s(_vm.profile.shokai) +
+                  "\n                "
+              )
             ])
           ])
-        })
-      ],
-      2
+        ])
+      ]
     )
   ])
 }
@@ -49512,66 +49637,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("loading", {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.loading,
-            expression: "loading"
-          }
-        ]
-      }),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: !_vm.loading,
-              expression: "!loading"
-            }
-          ],
-          staticClass: "row justify-content-center"
-        },
-        [
-          _c("router-view", {
-            attrs: {
-              name: "mypage",
-              posts: _vm.posts,
-              tagss: _vm.tags,
-              start: _vm.start,
-              end: _vm.end,
-              startScrollYOffset: _vm.startScrollYOffset,
-              postData: _vm.postData
-            }
-          }),
-          _vm._v(" "),
-          _c("router-view", { attrs: { name: "follow", userId: _vm.userId } }),
-          _vm._v(" "),
-          _c("router-view", {
-            attrs: { name: "follower", userId: _vm.userId }
-          }),
-          _vm._v(" "),
-          _c("router-view", { attrs: { name: "mytag", userId: _vm.userId } }),
-          _vm._v(" "),
-          _c("router-view", {
-            attrs: { name: "mylikes", userId: _vm.userId, posts: _vm.posts }
-          }),
-          _vm._v(" "),
-          _c("mypage-bar", { attrs: { id: _vm.id } })
-        ],
-        1
-      )
-    ],
-    1
-  )
+  return _c("div", { staticClass: "container" }, [
+    _c(
+      "div",
+      { staticClass: "row justify-content-center" },
+      [
+        _c("router-view", { attrs: { name: "mypage", userId: _vm.userId } }),
+        _vm._v(" "),
+        _c("router-view", { attrs: { name: "follow", userId: _vm.userId } }),
+        _vm._v(" "),
+        _c("router-view", { attrs: { name: "follower", userId: _vm.userId } }),
+        _vm._v(" "),
+        _c("router-view", { attrs: { name: "mytag", userId: _vm.userId } }),
+        _vm._v(" "),
+        _c("router-view", { attrs: { name: "mylikes", userId: _vm.userId } }),
+        _vm._v(" "),
+        _c("mypage-bar", { attrs: { userId: _vm.userId } })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -49601,6 +49686,38 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loading,
+            expression: "loading"
+          }
+        ],
+        staticClass: "loader-space"
+      },
+      [
+        _c("vue-loaders-line-scale-pulse-out", {
+          staticClass: "loader",
+          attrs: { color: "#CFCABF", scale: "5" }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.loading,
+            expression: "!loading"
+          }
+        ]
+      },
       [
         _vm._l(_vm.postData, function(post) {
           return _c(
@@ -49619,44 +49736,55 @@ var render = function() {
             },
             [
               _c(
-                "div",
-                { staticClass: "page-content" },
+                "router-link",
+                {
+                  attrs: {
+                    to: { name: "individual", params: { postId: post.post_id } }
+                  }
+                },
                 [
-                  _c("img", {
-                    staticClass: "post_image",
-                    attrs: { src: "../" + post.photo_path }
-                  }),
-                  _vm._v(" "),
-                  _c("p", [_vm._v(_vm._s(post.created_at))]),
-                  _vm._v(" "),
-                  _c("p", [_vm._v(_vm._s(post.updated_at))]),
-                  _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(post.description))]),
-                  _vm._v(" "),
-                  _vm._l(_vm.tagss, function(tags) {
-                    return _c(
+                  _c("div", { staticClass: "page-content" }, [
+                    _c("img", {
+                      staticClass: "post_image",
+                      attrs: { src: "../" + post.photo_path }
+                    }),
+                    _vm._v(" "),
+                    _c(
                       "div",
-                      { key: tags },
-                      _vm._l(tags, function(tag) {
-                        return _c("ul", { key: tag }, [
-                          post.post_id === tag.pivot.post_id
-                            ? _c("li", [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(tag.tag_name) +
-                                    "\n                        "
-                                )
+                      { staticClass: "right_side" },
+                      [
+                        _c("span", [_vm._v(_vm._s(post.description))]),
+                        _vm._v(" "),
+                        _vm._l(_vm.tagss, function(tags) {
+                          return _c(
+                            "div",
+                            { key: tags.tag_id, staticClass: "tags" },
+                            _vm._l(tags, function(tag) {
+                              return _c("ul", { key: tag.tag_id }, [
+                                post.post_id === tag.pivot.post_id
+                                  ? _c("li", [
+                                      _vm._v(
+                                        "\n                                    #" +
+                                          _vm._s(tag.tag_name) +
+                                          "\n                                "
+                                      )
+                                    ])
+                                  : _vm._e()
                               ])
-                            : _vm._e()
-                        ])
-                      }),
-                      0
+                            }),
+                            0
+                          )
+                        }),
+                        _vm._v(" "),
+                        _c("p", [_vm._v(_vm._s(post.created_at))])
+                      ],
+                      2
                     )
-                  })
-                ],
-                2
+                  ])
+                ]
               )
-            ]
+            ],
+            1
           )
         }),
         _vm._v(" "),
