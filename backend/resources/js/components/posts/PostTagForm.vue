@@ -1,24 +1,33 @@
 <template>
+<div class="Upload">
     <div class="form-group">
-        <label for="tag">タグを追加する</label>
-        <vue-simple-suggest
-            v-model="selected"
-            :list="List"
-            :filter-by-query="true"
-            >
-            <input type="text" name="tag" id="tag" v-model="selected" placeholder="タグを入力してください" autocomplete="off">    
-        </vue-simple-suggest>
-        <p v-on:click="addTag">タグを追加する</p>
-        <div class="tags" v-show="tagList">
-            <ul>
-                <li v-for="tag in tagList" :key="tag">
-                    {{tag}}
-                    <p v-on:click="deleteTag(tag)">削除</p>
-                </li>
-            </ul>
+        <div class="contents">
+            <div class="explain">
+                <p class="title">タグを追加する</p>
+                <p class="required">※必須</p>
+            </div>
+            <div class="uploadTag items">
+                <vue-simple-suggest
+                    class="formTag"
+                    v-model="selected"
+                    :list="List"
+                    :filter-by-query="true"
+                    >
+                    <input type="text" name="tag" id="tag" v-model="selected" placeholder="タグを入力してください" autocomplete="off">    
+                </vue-simple-suggest>
+                <div class="addTagBtn" v-on:click="addTag"><i class="fas fa-plus"></i>タグを追加する</div>
+                <div class="tags" v-show="tagList">
+                    <ul>
+                        <li v-for="tag in tagList" :key="tag">
+                            <i class="fas fa-times-circle batsuBtn" @click="deleteTag(tag)"></i>
+                            <p>{{tag}}</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-  
+</div>
 </template>
 <script>
 import VueSimpleSuggest from "vue-simple-suggest";
@@ -67,5 +76,52 @@ export default {
 }
 </script>
 <style scoped>
-
+.formTag{
+    width: 35%;
+    float: left;
+}
+.tags{
+    margin: 1%;
+}
+ul{
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0%;
+    
+}
+ul > li{
+    display: inline-block;
+    border: 1px solid #CFCABF;
+    border-radius: 5px;
+    background-color: #CFCABF;
+    padding: 0 2%;
+    margin: 0 1% 1% 0;
+}
+.batsuBtn{
+    cursor: pointer;
+    color:#fff;
+}
+.batsuBtn:hover{
+    opacity:0.6;
+}
+ul > li > p{
+    display: inline;
+    margin:0;
+    font-size: 1.1rem;
+}
+.addTagBtn{
+    display: inline-block;
+    border: 1.4px solid blue;
+    border-radius: 5px;
+    padding: 1%;
+    margin: 0 1%;
+    cursor: pointer;
+    color: blue;
+}
+.addTagBtn:hover{
+    background-color: rgb(101, 101, 220);
+    opacity: 0.5;
+    color: #FFF;
+}
 </style>

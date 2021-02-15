@@ -1,17 +1,31 @@
 <template>
     <div id="post-image-preview" class="post-image-preview">
         <div class="form-group">
-            <p>画像を追加する</p>
-            <label for="image" class="image-view" v-show="!cropImg">
-                <input id="image" class="form-input image-btn" type="file" name="image"
-                    accept="image/png, image/jpeg" v-on:change="openModal">
-            </label>
-            <img class="cropimg" v-bind:src="cropImg" v-if="cropImg">
+            <div class="contents">
+                <div class="explain">
+                    <p class="title">画像をアップロードする</p>
+                    <p class="required">※必須</p>
+                </div>
+                <div class="uploadStep items">
+                    <label for="image" class="image-view" v-show="!cropImg">
+                        <input id="image" class="form-input image-btn" type="file" name="image"
+                            accept="image/png, image/jpeg" v-on:change="openModal">
+                        <div class="selectBtn">写真を選択する</div>
+                    </label>
+                    <img class="cropimg" v-bind:src="cropImg" v-if="cropImg">
+                    <div class="deleteImg" v-on:click="deleteImage" v-if="cropImg">
+                        <i class="fas fa-times deleteBatsu"></i>
+                    </div>
+                </div>
+            </div>
 
             <!-- 以下モーダル -->
             <div class="overlay" v-show="showModal">
                 <div class="modal1">
-                    <p>モーダル</p>
+                    <div class="batsu">
+                        <i class="fas fa-times batsuBtn" v-on:click="closeModal"></i>
+                    </div>
+                    <p>トリミングする</p>
                     <div v-if="imageData" class="image-box">
                         <vue-cropper
                             ref="cropper"
@@ -25,16 +39,17 @@
                             :background="true"
                             :rotatable="false"
                             :src="imageData"
-                            :img-style="{ 'width': '200px', 'height': '200px' }"
+                            :img-style="{ 'width': '300px', 'height': '300px' }"
                             v-if="imageData"
                         ></vue-cropper>
                     </div>
-
-                    <p v-on:click="closeModal">キャンセル</p>                    
-                    <p v-on:click="cropImage">完了</p>
+                    <div class="modalBtn">
+                        <div class="cancelBtn" v-on:click="closeModal">キャンセル</div>                    
+                        <div class="completeBtn" v-on:click="cropImage">完了</div>
+                    </div>
                 </div>
             </div>
-            <p v-on:click="deleteImage" v-if="cropImg">削除</p>
+
 
         </div>
     </div>
@@ -116,11 +131,26 @@ export default {
 }
 </script>
 <style scoped>
+.uploadStep{
+    position:relative;
+}
 .image-view{
-    width: 200px;
-    height: 200px;
-    background-color: beige;
-
+    width: 300px;
+    height: 300px;
+    background-color: #CFCABF;
+    border: 2px dashed grey;
+    text-align: center;
+}
+.selectBtn{
+    margin: 71% 10% 0 10%;
+    border: 1px solid;
+    border-radius: 6px;
+    padding: 4% 14%;
+    background-color: #fff;
+    cursor: pointer;
+}
+.selectBtn:hover{
+    opacity: 0.6;
 }
 .overlay{
     z-index:1;
@@ -130,25 +160,98 @@ export default {
     width:100%;
     height:100%;
     background-color:rgba(0,0,0,0.5);
-
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .modal1{
+    position:relative;
     z-index: 2;
     width: 50%;
     padding: 1em;
     background-color: #fff;
+    text-align: center;
+    border-radius: 7px;
 }
-
+.modal1 p{
+    border-bottom: 2.3px solid slategrey;
+    padding: 1% 0 2% 0;
+}
+.modalBtn{
+    margin:2% 0;
+}
+.cancelBtn{
+    display: inline-block;
+    border: 2px solid;
+    border-radius: 6px;
+    padding: 2% 3%;
+    margin:0 2% 0 0;  
+    cursor: pointer; 
+}
+.cancelBtn:hover{
+    opacity: 0.3;
+}
+.completeBtn{
+    display: inline-block;
+    border: 2px solid #DC3E38;
+    border-radius: 6px;
+    padding: 2% 7%;
+    background-color: #DC3E38;
+    color: #fff;
+    margin:0 0 0 2%;
+    cursor: pointer;
+}
+.completeBtn:hover{
+    opacity: 0.3;
+}
+.batsu{
+    font-size:2em;
+    cursor: pointer;
+    position: absolute;
+    top: -1.3rem;
+    right: -0.8rem;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    padding: 0.5rem;
+    background-color: #fff;
+    width: 2.4rem;
+    height: 2.4rem;
+    box-shadow: 0 2px 7px grey;
+}
+.batsuBtn{
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: 0.6rem;
+    right: 0.65rem;
+    font-size: 1.3rem;
+}
+.deleteImg{
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid #443311;
+    padding: 0.5rem;
+    background-color: #443311;
+    box-shadow: 0 2px 7px grey;
+    top: -1rem;
+    right: 13rem;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+}
+.deleteBatsu{
+    position:absolute;
+    top: 0.58rem;
+    right: 0.6rem;
+    color: #fff;
+}
 .cropimg{
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
 }
 .image-box{
-    width: 200px; 
-    height:200px; 
+    width: 300px; 
+    height:300px; 
     border: 1px solid gray; 
     display: inline-block;
 }
