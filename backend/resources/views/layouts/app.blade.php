@@ -27,11 +27,11 @@
         a {
             text-decoration: none;
             color:#443311;
+            cursor: pointer;
         }
         a:hover{
             color:#443311;
             text-decoration: none;
-
         }
 
     </style>

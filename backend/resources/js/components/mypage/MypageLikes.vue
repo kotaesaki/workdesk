@@ -1,14 +1,13 @@
 <template>
     <div class="col-md-8">
-        <p>いいねしている写真</p>
-        <div class="card-deck">
-            <div class="card" v-for="likePost in likePosts" :key="likePost.post_id">
+        <h2>いいねしている写真</h2>
+        <div class="loader-space" v-show="loading">
+            <vue-loaders-line-scale-pulse-out color="#CFCABF" scale="5" class="loader"></vue-loaders-line-scale-pulse-out> 
+        </div>
+        <div class="likes" v-show="!loading">
+            <div class="content" v-for="likePost in likePosts" :key="likePost.post_id">
                 <router-link v-bind:to="{ name: 'individual', params: { postId: likePost.post_id}}">
                     <img :src="`../${likePost.post.photo_path}`" alt="" class="card-img">
-                    <div class="card-body">
-                        <h5 class="card-title">{{likePost.post.description}}</h5>
-                        <h6 class="card-subtitle"></h6>
-                    </div>
                 </router-link>
             </div>
         </div>
@@ -18,16 +17,16 @@
 export default {
     props:{
         userId: String,
-        posts: Array,
     },
     data() {
         return {
             likePosts: '',
+            loading: true,
         };
     },
     methods:{
-        getMylikes(data){
-            axios.get('/api/mylikes', {
+        async getMylikes(data){
+            await axios.get('/api/mylikes', {
                 params:{
                     user_id: data
                 }
@@ -41,8 +40,40 @@ export default {
     },
     mounted() {
         console.log("MypageLikes mounted start!");
-        this.getMylikes(this.userId);
+        this.getMylikes(this.userId)
+            .then(()=>this.loading= false)
     },
 
 }
 </script>
+<style scoped>
+    h2{
+        margin: 3rem 0.5rem 2rem;
+        background: linear-gradient(transparent 70%, #CFCABF 70%);
+    } 
+    .likes{
+        display: flex;
+        flex-wrap: wrap;
+        align-content: space-between;
+    }
+    .content{
+        width: 22%;
+        margin: 1% 1%;
+        cursor: pointer;
+    }
+    .content:hover{
+        opacity: 0.5;
+    }
+    .card-img{
+        
+    }
+    .loader-space{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
+    .loader{
+        position:fixed;
+        top:26%;
+    }
+</style>

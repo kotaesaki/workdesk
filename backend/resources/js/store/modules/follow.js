@@ -62,7 +62,7 @@ const actions = {
         })
     },
     async showFollow({commit}, user_id){
-        axios.get('/api/follow/'+ user_id, {
+        await axios.get('/api/follow/'+ user_id, {
             params:{
                 user_id: user_id
             }
@@ -74,7 +74,7 @@ const actions = {
         })
     },
     async showFollower({commit}, user_id){
-        axios.get('/api/follower/'+ user_id, {
+        await axios.get('/api/follower/'+ user_id, {
             params:{
                 user_id: user_id
             }
