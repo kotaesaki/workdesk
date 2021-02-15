@@ -64,13 +64,9 @@ export default {
     },
     mounted() {
         console.log('mypageContent mounted start');
-        if(this.userId !== this.id.id || !this.id.id){
             this.$store.dispatch('mypage/startPost', this.userId)
                 .then(()=>this.loading = false)
             this.$store.commit('mypage/setstartScrollYOffset',Math.floor(window.innerHeight / 3))
-        }else if(this.userId === this.id.id){
-            console.log('unko');
-        }
     },
 
 
@@ -84,6 +80,8 @@ export default {
         background-color: #CFCABF;
         box-shadow: 1px 1px 6px grey;
         border-radius: 5px;
+        background: linear-gradient(transparent 0%, #CFCABF 95%);
+
     }
     .timeline:hover{
         opacity: 0.5;

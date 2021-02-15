@@ -47,9 +47,6 @@
 
 <script>
     export default {
-        props:{
-
-        },
         data() {
             return {
                 complete: false,
