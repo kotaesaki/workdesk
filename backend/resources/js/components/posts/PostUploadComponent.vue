@@ -1,28 +1,45 @@
 <template>
-<div class="container">
+<div class="container postUpload">
     <div class="row justify-content-center">
             <div class="col-md-10">
-                <p>投稿する</p>
-            <form v-on:submit.prevent="submit" enctype="multipart/form-data">
-                <p v-if="errors.length">
-                    <b>以下のエラーを確認してください</b>
-                    <ul>
-                        <li v-for="error in errors" :key="error">{{ error }}</li>
-                    </ul>
-                </p>
-                <post-image-form v-on:catchBlob="uploadBlob"></post-image-form>
-                <post-tag-form v-on:catchTag="uploadTag"></post-tag-form>
-                <div class="form-group">
-                    <label for="item_tag">アイテムタグを追加する</label>
-                </div>
-                <div class="form-group">
-                    <label for="description">コメントを追加する</label>
-                    <textarea name="description" id="description" cols="30" rows="10" 
-                    placeholder="コメントを入力する" v-model="description"></textarea>
-                </div>
-                <input type="hidden" name="id" id="id" v-model="userId">
-                <button type="submit" class="btn btn-primary">写真を投稿する</button>
-            </form>
+                <h2>写真を投稿する</h2>
+                <form v-on:submit.prevent="submit" enctype="multipart/form-data">
+                    <p v-if="errors.length">
+                        <b>以下のエラーを確認してください</b>
+                        <ul>
+                            <li v-for="error in errors" :key="error">{{ error }}</li>
+                        </ul>
+                    </p>
+                    <post-image-form v-on:catchBlob="uploadBlob"></post-image-form>
+                    <post-tag-form v-on:catchTag="uploadTag"></post-tag-form>
+                    <div class="form-group">
+                        <div class="contents">
+                            <div class="explain">
+                                <p class="title">アイテムタグを追加する</p>
+                                <p class="required">※必須</p>
+                            </div>
+                            <div class="items">
+                                <input type="text" name="itemTag" id="itemTag">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="contents">
+                            <div class="explain">
+                                <p class="title">コメントを追加する</p>
+                                <p class="required">※必須</p>
+                            </div>
+                            <div class="items">
+                                <textarea class="commentArea" name="description" id="description" cols="30" rows="10"
+                                placeholder="コメントを入力する" v-model="description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="id" id="id" v-model="userId">
+                    <button type="submit" class="submitBtn">写真を投稿する</button>
+                </form>
         </div>
     </div>
 
@@ -105,6 +122,48 @@ export default {
     },
 }
 </script>
-<style scoped>
-
+<style>
+.postUpload h2{
+    padding: 3rem 4rem;
+}
+.postUpload .contents{
+    margin: 5%;
+    display: inline;
+}
+.postUpload .contents .explain{
+    float: left;
+    clear: both;
+    padding: 1% 7%;
+    width: 43%;
+}
+.postUpload .contents .title{
+    font-size:1.4rem;
+}
+.postUpload .required{
+    color: red;
+    font-size: 0.7rem;
+    padding: 0 4%;
+}
+.commentArea{
+    resize: none;
+    border: 1px solid #cde;
+    border-radius: 6px;
+    width: 53%;
+    height: 10vw;
+}
+.submitBtn{
+    border: 2px solid grey;
+    border-radius: 6px;
+    margin: 0 auto 20%;
+    display: block;
+    padding: 2% 8%;
+    font-size: 1.2rem;
+    background-color: #CFCABF;
+    color: #fff;
+}
+.submitBtn:hover{
+    opacity: 0.6;
+}
+.contents .items{
+}
 </style>
