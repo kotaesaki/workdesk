@@ -67,6 +67,7 @@ export default {
         width: 100%;
         height: 100%;
         text-align: center;
+        opacity: 0.6;
     }
     .loader{
         position:fixed;

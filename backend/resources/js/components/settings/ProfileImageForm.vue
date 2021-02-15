@@ -1,15 +1,20 @@
 <template>
     <div id="file-preview" class="file-preview">
         <div class="form-group">
-            <label class="form-label image-label" for="image">
-                <div class="add-image-btn">
-                    <img class="add-image" src="'images/add-picture.png'">
+            <div class="contents">
+                <div class="explain">
+                    <p>アイコン</p>
                 </div>
-                <input id="image" class="form-input image-btn" type="file" name="image"
-                    accept="image/png, image/jpeg" v-on:change="onFileChange">
-                <img class="userInfo__icon" v-bind:src="imageData" v-if="imageData">
-                <img class="userInfo__icon" :src="`../${imageData1.icon_path}`" v-if="imageData1"/> 
-            </label>        
+                <div class="items">
+                    <img class="userInfo__icon" v-bind:src="imageData" v-if="imageData">
+                    <img class="userInfo__icon" :src="`../${imageData1.icon_path}`" v-if="imageData1"/>                     
+                    <label class="form-label image-label" for="image">
+                        <input id="image" class="form-input image-btn" type="file" name="image"
+                            accept="image/png, image/jpeg" style="display:none;" v-on:change="onFileChange">
+                        <div>アイコンを変更する</div>
+                    </label>   
+                </div>
+            </div>
         </div>
  
     </div>
@@ -58,10 +63,44 @@ export default {
 };
 </script>
 <style scoped>
-    .userInfo__icon{
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 50%;
-    }
+.contents{
+    margin: 7% 0 8%;
+}
+.contents .explain{
+    float: left;
+    clear: both;
+    padding: 1% 7%;
+    width: 43%;
+}
+.contents .explain p{
+    font-size: 1.2rem;
+}
+.contents .items{
+    position: relative;
+}
+.items input{
+    width: 90%;
+    border: 1px solid #CFCABF;
+    position:relative;
+}
+.items label{
+    display: inline;
+}
+.items label div{
+    display: inline-block;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 2%;
+    margin: 0;
+    cursor: pointer;
+}
+.items label div:hover{
+    opacity: 0.6;;
+}
+.userInfo__icon{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
 </style>
