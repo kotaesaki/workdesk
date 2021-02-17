@@ -129,6 +129,7 @@ export default {
     .article{
         overflow: hidden;
         margin-top: -1px;
+        width: 100%;
     }
     .pages{
         width:100vw;

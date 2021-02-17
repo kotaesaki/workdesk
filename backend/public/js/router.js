@@ -4120,15 +4120,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  data: function data() {
-    return {};
-  },
   computed: {
-    posts: function posts() {
-      return this.$store.getters["newtimeline/post"];
-    },
     loading: function loading() {
       return this.$store.getters["loading/loading"];
+    },
+    posts: function posts() {
+      return this.$store.getters["newtimeline/items"];
+    },
+    itemLoading: function itemLoading() {
+      return this.$store.getters["newtimeline/itemLoading"];
     }
   },
   methods: {
@@ -4136,22 +4136,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var post;
+        var items;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                post = _this.$store.getters["newtimeline/post"];
+                items = _this.$store.getters["newtimeline/items"];
+                _context.next = 3;
+                return _this.$store.dispatch('newtimeline/ggetPost');
 
-                if (post) {
-                  _context.next = 4;
-                  break;
-                }
-
-                _context.next = 4;
-                return _this.$store.dispatch('newtimeline/getPost');
-
-              case 4:
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -4164,6 +4158,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this2 = this;
 
     console.log('newTimeline mounted start');
+
+    window.onscroll = function () {
+      var bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight;
+
+      if (bottomOfWindow >= document.documentElement.offsetHeight) {
+        _this2.$store.dispatch('loading/startLoad').then(function () {
+          return _this2.getPost();
+        }).then(function () {
+          return _this2.$store.dispatch('loading/endLoad');
+        });
+      }
+    };
+
     this.$store.dispatch('loading/startLoad').then(function () {
       return _this2.getPost();
     }).then(function () {
@@ -5562,38 +5569,135 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var state = {
-  post: null
+  post: null,
+  page: 1,
+  load: true,
+  itemLoading: false,
+  items: []
 };
 var getters = {
   post: function post(state) {
     return state.post ? state.post : '';
+  },
+  page: function page(state) {
+    return state.page ? state.page : '';
+  },
+  load: function load(state) {
+    return state.load ? state.load : '';
+  },
+  itemLoading: function itemLoading(state) {
+    return state.itemLoading ? state.itemLoading : '';
+  },
+  items: function items(state) {
+    return state.items ? state.items : '';
   }
 };
 var mutations = {
   setPost: function setPost(state, post) {
     state.post = post;
+  },
+  setPage: function setPage(state, page) {
+    state.page = page;
+  },
+  addPage: function addPage(state) {
+    state.page += 1;
+  },
+  setLoad: function setLoad(state, load) {
+    state.load = load;
+  },
+  setItemLoading: function setItemLoading(state, itemLoading) {
+    state.itemLoading = itemLoading;
+  },
+  setItems: function setItems(state, items) {},
+  clearVar: function clearVar(state) {
+    state.page = 1;
   }
 };
 var actions = {
-  getPost: function getPost(context) {
+  getPost: function getPost(_ref) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var commit, state;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/timeline').then(function (result) {
-                context.commit("setPost", result.data);
-                console.log(result.data);
-                return result.data;
+              commit = _ref.commit, state = _ref.state;
+              _context.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/timeline?page=' + state.page).then(function (result) {
+                commit("setPost", result.data.data);
+                console.log(result.data.data);
+                return result.data.data;
               });
 
-            case 2:
+            case 3:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
+    }))();
+  },
+  ggetPost: function ggetPost(_ref2) {
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+      var commit, state;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit, state = _ref2.state;
+
+              if (!state.load) {
+                _context2.next = 16;
+                break;
+              }
+
+              if (state.itemLoading) {
+                _context2.next = 16;
+                break;
+              }
+
+              commit('setItemLoading', true);
+              _context2.prev = 4;
+              _context2.next = 7;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/timeline?page=' + state.page).then(function (result) {
+                commit("setPost", result.data.data);
+                console.log(result.data.data);
+
+                if (result.data.last_page === state.page) {
+                  commit('setLoad', false);
+                }
+
+                if (result.data.data) {
+                  result.data.data.forEach(function (n, i) {
+                    state.items.push(n);
+                  });
+                }
+
+                state.page += 1;
+                return state.items;
+              });
+
+            case 7:
+              _context2.next = 13;
+              break;
+
+            case 9:
+              _context2.prev = 9;
+              _context2.t0 = _context2["catch"](4);
+              commit('setLoad', false);
+              commit('setItemLoading', false);
+
+            case 13:
+              _context2.prev = 13;
+              commit('setItemLoading', false);
+              return _context2.finish(13);
+
+            case 16:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[4, 9, 13, 16]]);
     }))();
   }
 };
@@ -9689,7 +9793,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.topImage[data-v-1eb9eac9]{\n    position: relative;\n    height: 50vh;\n}\n.image-top[data-v-1eb9eac9]{\n    position: absolute;\n    width: 41vh;\n    height: 100%;\n    top: 0%;\n    right: 2vw;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.topImage span[data-v-1eb9eac9]{\n    position: absolute;\n    font-size: 1.5rem;\n    text-align: center;\n    top: 36%;\n    left: 10%;\n    color: #111111;\n    text-shadow: 1px 1px 69px #3ea8ff;\n}\n.topImage ul[data-v-1eb9eac9] {\n    list-style: none;\n    padding: 0;\n}\n.topImage .circle[data-v-1eb9eac9]{\n    position: absolute;\n    width: 40vh;\n    height: 40vh;\n    border-radius: 50%;\n    background-color: #DEF2FF;\n    -webkit-animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n            animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n    -webkit-animation-duration: 6.5s;\n            animation-duration: 6.5s;\n    z-index:-1;\n}\n.topImage li[data-v-1eb9eac9]:first-child{\n\n    -webkit-animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n\n            animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n    -webkit-animation-duration: 10.5s;\n            animation-duration: 10.5s;\n}\n@-webkit-keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@-webkit-keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n@keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n    position: -webkit-sticky;\n    position: sticky;\n    background-color:#fff;\n    top:0;\n    z-index: 100;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n}\n.pages[data-v-1eb9eac9]{\n    width:100vw;\n    height: 100%;\n    background-color: #DEF2FF;\n    margin-top: 100px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.topImage[data-v-1eb9eac9]{\n    position: relative;\n    height: 50vh;\n}\n.image-top[data-v-1eb9eac9]{\n    position: absolute;\n    width: 41vh;\n    height: 100%;\n    top: 0%;\n    right: 2vw;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.topImage span[data-v-1eb9eac9]{\n    position: absolute;\n    font-size: 1.5rem;\n    text-align: center;\n    top: 36%;\n    left: 10%;\n    color: #111111;\n    text-shadow: 1px 1px 69px #3ea8ff;\n}\n.topImage ul[data-v-1eb9eac9] {\n    list-style: none;\n    padding: 0;\n}\n.topImage .circle[data-v-1eb9eac9]{\n    position: absolute;\n    width: 40vh;\n    height: 40vh;\n    border-radius: 50%;\n    background-color: #DEF2FF;\n    -webkit-animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n            animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n    -webkit-animation-duration: 6.5s;\n            animation-duration: 6.5s;\n    z-index:-1;\n}\n.topImage li[data-v-1eb9eac9]:first-child{\n\n    -webkit-animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n\n            animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n    -webkit-animation-duration: 10.5s;\n            animation-duration: 10.5s;\n}\n@-webkit-keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@-webkit-keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n@keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n    position: -webkit-sticky;\n    position: sticky;\n    background-color:#fff;\n    top:0;\n    z-index: 100;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n    width: 100%;\n}\n.pages[data-v-1eb9eac9]{\n    width:100vw;\n    height: 100%;\n    background-color: #DEF2FF;\n    margin-top: 100px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -9761,7 +9865,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.new-article[data-v-42c7892c]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n}\nh2[data-v-42c7892c]{\n}\n.contents[data-v-42c7892c]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-start;\n    flex-wrap: wrap;\n}\n.content-item[data-v-42c7892c]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n}\n.content-img[data-v-42c7892c]{\n    width: 100%;\n}\n.content-exsept[data-v-42c7892c]{\n    padding:10px;\n}\n.content-icon[data-v-42c7892c]{\n    width:50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-42c7892c]{\n    margin-left: 15px;\n}\n.content-description[data-v-42c7892c]{\n    clear: both;\n}\n.loader-space[data-v-42c7892c]{\n    width: 100%;\n    height: 100%;\n}\n.loader[data-v-42c7892c]{\n    margin-left: 47%;\n    margin-top:1%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.new-article[data-v-42c7892c]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n}\nh2[data-v-42c7892c]{\n    text-align: center;\n}\n.article[data-v-42c7892c]{\n    width: 100%;\n}\n.contents[data-v-42c7892c]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-start;\n    flex-wrap: wrap;\n}\n.content-item[data-v-42c7892c]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n}\n.content-img[data-v-42c7892c]{\n    width: 100%;\n}\n.content-exsept[data-v-42c7892c]{\n    padding:10px;\n}\n.content-icon[data-v-42c7892c]{\n    width:50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-42c7892c]{\n    margin-left: 15px;\n}\n.content-description[data-v-42c7892c]{\n    clear: both;\n}\n.loader-space[data-v-42c7892c]{\n    width: 100%;\n    height: 20vh;\n    position: relative;\n    margin: 0 47%;\n}\n.loader[data-v-42c7892c]{\n    position: absolute;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17432,39 +17536,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.loading,
-            expression: "loading"
-          }
-        ],
-        staticClass: "loader-space"
-      },
-      [
-        _c("vue-loaders-ball-beat", {
-          staticClass: "loader",
-          attrs: { color: "#FFF" }
-        })
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: !_vm.loading,
-            expression: "!loading"
-          }
-        ],
-        staticClass: "contents"
-      },
+      { staticClass: "contents" },
       _vm._l(_vm.posts, function(post) {
         return _c(
           "div",
@@ -17509,6 +17581,28 @@ var render = function() {
         )
       }),
       0
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.itemLoading,
+            expression: "itemLoading"
+          }
+        ],
+        staticClass: "loader-space"
+      },
+      [
+        _c("vue-loaders-ball-spin-fade-loader", {
+          staticClass: "loader",
+          attrs: { color: "#FFF" }
+        })
+      ],
+      1
     )
   ])
 }
