@@ -31,9 +31,12 @@ class ProfileController extends Controller
         ]);
 
         try {
-
-            $file_name = request()->file->getClientOriginalName();
-            request()->file->storeAs('public', $file_name);
+            if(!$request->file){
+                $file_name = $request->icon_title;
+            }else{
+                $file_name = request()->file->getClientOriginalName();
+                request()->file->storeAs('public', $file_name);
+            }
             DB::beginTransaction();
             try {
                 $user = User::find($request->id);

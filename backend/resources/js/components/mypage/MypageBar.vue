@@ -101,13 +101,13 @@ export default {
             .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.id.id}))
             .then(()=> this.loading = false)
     },
-    watch: {
+/*     watch: {
         userId(newValue, oldValue) {
             console.log('mypagebar watch start');
                 this.$store.dispatch('mypage/getId', this.userId)
                     .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.userId}))
         },
-    },
+    }, */
 }
 </script>
 <style  scoped>

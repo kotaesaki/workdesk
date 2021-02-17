@@ -18,18 +18,25 @@ export default {
     props: {
         userId: String //idを取得
     },
+    computed: {
+        authUser(){
+            return this.$store.getters['auth/user'];
+        }
+    },
     methods: {
         async updatePost(userId) {
             await this.$store.commit('mypage/clearVar')
                 .then(()=>this.$store.dispatch('mypage/startPost', userId))
         },
+        async updateUser(userId){
+            await this.$store.dispatch('mypage/getId', userId)
+                .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:userId}))
+        }
     },
     beforeRouteUpdate (to, from, next) {
-        console.log('route update start')
-        console.log(from);
-        console.log(to)
         if(to.name == 'mypage'){
             this.updatePost(to.params.userId);
+            this.updateUser(to.params.userId);
         }
         next();
     },
