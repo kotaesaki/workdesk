@@ -64,8 +64,23 @@ const mutations = {
 const actions = {
   async getId({commit},userId) {
     await axios.get('/api/getId/' + userId).then((res)=>{
-        commit('setId',res.data[0]);
-        commit('setProfile',res.data[1]);
+      if(res.data[1].age == "null"){
+        res.data[1].age = '';
+      }
+      if(res.data[1].sex == "null"){
+        res.data[1].sex = '';
+      }
+      if(res.data[1].occupation =="null"){
+        res.data[1].occupation = '';
+      }
+      if(res.data[1].website_url == "null"){
+        res.data[1].website_url = '';
+      }
+      if(res.data[1].twitter_url == "null"){
+        res.data[1].twitter_url = '';
+      }
+      commit('setId',res.data[0]);
+      commit('setProfile',res.data[1]);
     }).catch(error=>{
         console.log(error);
     })

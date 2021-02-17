@@ -45,7 +45,7 @@ Vue.component('settings-bar', settingsBar);
 Vue.component('profile-image-form', ProfileImageForm);
 Vue.component('post-image-form', PostImageForm);
 Vue.component('post-tag-form', PostTagForm);
-Vue.component('loaging', Loading);
+Vue.component('loading', Loading);
 
 
 

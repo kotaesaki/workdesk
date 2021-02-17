@@ -2322,6 +2322,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_multipost_aboidable__WEBPACK_IMPORTED_MODULE_1__.default],
@@ -4495,7 +4497,7 @@ vue__WEBPACK_IMPORTED_MODULE_2__.default.component('settings-bar', _components_s
 vue__WEBPACK_IMPORTED_MODULE_2__.default.component('profile-image-form', _components_settings_ProfileImageForm__WEBPACK_IMPORTED_MODULE_17__.default);
 vue__WEBPACK_IMPORTED_MODULE_2__.default.component('post-image-form', _components_posts_PostImageForm__WEBPACK_IMPORTED_MODULE_11__.default);
 vue__WEBPACK_IMPORTED_MODULE_2__.default.component('post-tag-form', _components_posts_PostTagForm__WEBPACK_IMPORTED_MODULE_12__.default);
-vue__WEBPACK_IMPORTED_MODULE_2__.default.component('loaging', _components_common_Loading__WEBPACK_IMPORTED_MODULE_27__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.component('loading', _components_common_Loading__WEBPACK_IMPORTED_MODULE_27__.default);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__.default({
   mode: 'history',
   routes: [{
@@ -5367,7 +5369,7 @@ var state = {
 };
 var getters = {
   loading: function loading(state) {
-    return state.loading ? state.loading : '';
+    return state.loading ? state.loading : false;
   }
 };
 var mutations = {
@@ -5528,6 +5530,26 @@ var actions = {
               commit = _ref.commit;
               _context.next = 3;
               return axios.get('/api/getId/' + userId).then(function (res) {
+                if (res.data[1].age == "null") {
+                  res.data[1].age = '';
+                }
+
+                if (res.data[1].sex == "null") {
+                  res.data[1].sex = '';
+                }
+
+                if (res.data[1].occupation == "null") {
+                  res.data[1].occupation = '';
+                }
+
+                if (res.data[1].website_url == "null") {
+                  res.data[1].website_url = '';
+                }
+
+                if (res.data[1].twitter_url == "null") {
+                  res.data[1].twitter_url = '';
+                }
+
                 commit('setId', res.data[0]);
                 commit('setProfile', res.data[1]);
               })["catch"](function (error) {
@@ -9656,7 +9678,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.page[data-v-4eda792f]{\n    position: -webkit-sticky;\n    position: sticky;\n    top: 5%;\n}\n.mypage-profile[data-v-4eda792f]{\n    text-align: center;\n    padding: 12% 0;\n}\n.mypage-profile p[data-v-4eda792f]{\n    margin-bottom: 0;\n}\n.mypage-profile .name[data-v-4eda792f]{\n    padding-top: 5%;\n}\n.userInfo__icon[data-v-4eda792f]{\n    width: 65px;\n    height: 65px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.loader-space[data-v-4eda792f]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n}\n.loader[data-v-4eda792f]{\n    position:fixed;\n    top:21%;\n}\n.mypage-profile .link[data-v-4eda792f]{\n    clear: both;\n    padding: 5% 0 7%;\n}\n.mypage-profile .ff[data-v-4eda792f]{\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding: 1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.mypage-profile .follow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding:1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]:hover{\n    background-color: blue;\n    color: #fff;\n}\nul[data-v-4eda792f]{\n    list-style: none;\n}\nul a li[data-v-4eda792f]{\n    padding:1rem 1rem;\n    border-top: 1px solid #CFCABF;\n    color: #443311;\n}\nul li[data-v-4eda792f]:hover{\n    background-color: #CFCABF;\n    color: #fff;\n}\nul > a[data-v-4eda792f]:hover {\n    color: #fff;\n}\n.shokai[data-v-4eda792f]{\n    text-align: center;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.page[data-v-4eda792f]{\n    position: -webkit-sticky;\n    position: sticky;\n    top: 5%;\n}\n.mypage-profile[data-v-4eda792f]{\n    text-align: center;\n    padding: 12% 0;\n}\n.mypage-profile p[data-v-4eda792f]{\n    margin-bottom: 0;\n}\n.mypage-profile .name[data-v-4eda792f]{\n    padding-top: 5%;\n}\n.userInfo__icon[data-v-4eda792f]{\n    width: 65px;\n    height: 65px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.loader-space[data-v-4eda792f]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n    padding: 45%;\n}\n.loader[data-v-4eda792f]{\n    position:fixed;\n    top:21%;\n}\n.mypage-profile .link[data-v-4eda792f]{\n    clear: both;\n    padding: 5% 0 7%;\n}\n.mypage-profile .ff[data-v-4eda792f]{\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding: 1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.mypage-profile .follow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding:1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]:hover{\n    background-color: blue;\n    color: #fff;\n}\n.attribute p[data-v-4eda792f]{\n    display: inline;\n}\nul[data-v-4eda792f]{\n    list-style: none;\n}\nul a li[data-v-4eda792f]{\n    padding:1rem 1rem;\n    border-top: 1px solid #CFCABF;\n    color: #443311;\n}\nul li[data-v-4eda792f]:hover{\n    background-color: #CFCABF;\n    color: #fff;\n}\nul > a[data-v-4eda792f]:hover {\n    color: #fff;\n}\n.shokai[data-v-4eda792f]{\n    text-align: center;\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14855,8 +14877,9 @@ var render = function() {
     [
       _c("div", { staticClass: "loading-space" }),
       _vm._v(" "),
-      _c("vue-loaders-ball-clip-rotate-multiple", {
-        attrs: { color: "blue", scale: "2" }
+      _c("vue-loaders-ball-spin-fade-loader", {
+        staticClass: "loader",
+        attrs: { color: "#DEF2FF", scale: "2" }
       })
     ],
     1
@@ -15094,9 +15117,9 @@ var render = function() {
         staticClass: "loader-space"
       },
       [
-        _c("vue-loaders-line-scale-pulse-out", {
+        _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#CFCABF", scale: "2" }
+          attrs: { color: "#DEF2FF", scale: "2" }
         })
       ],
       1
@@ -15182,43 +15205,83 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _vm.profile.website_url
-            ? _c(
-                "a",
+          _c(
+            "a",
+            {
+              directives: [
                 {
-                  attrs: {
-                    href: "" + _vm.profile.website_url,
-                    target: "_blank"
-                  }
-                },
-                [_c("i", { staticClass: "fas fa-link" })]
-              )
-            : _vm._e(),
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.profile.website_url,
+                  expression: "profile.website_url"
+                }
+              ],
+              attrs: { href: "" + _vm.profile.website_url, target: "_blank" }
+            },
+            [_c("i", { staticClass: "fas fa-link" })]
+          ),
           _vm._v(" "),
-          _vm.profile.twitter_url
-            ? _c(
-                "a",
+          _c(
+            "a",
+            {
+              directives: [
                 {
-                  attrs: {
-                    href: "" + _vm.profile.twitter_url,
-                    target: "_blank"
-                  }
-                },
-                [_c("i", { staticClass: "fab fa-twitter" })]
-              )
-            : _vm._e(),
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.profile.twitter_url,
+                  expression: "profile.twitter_url"
+                }
+              ],
+              attrs: { href: "" + _vm.profile.twitter_url, target: "_blank" }
+            },
+            [_c("i", { staticClass: "fab fa-twitter" })]
+          ),
           _vm._v(" "),
-          _c("div", [
-            _c("p", [
-              _vm._v(
-                _vm._s(_vm.profile.sex) +
-                  "性 | " +
-                  _vm._s(_vm.profile.occupation) +
-                  " | " +
-                  _vm._s(_vm.profile.age) +
-                  "歳"
-              )
-            ])
+          _c("div", { staticClass: "attribute" }, [
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.profile.sex,
+                    expression: "profile.sex"
+                  }
+                ]
+              },
+              [_vm._v(_vm._s(_vm.profile.sex))]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.profile.occupation,
+                    expression: "profile.occupation"
+                  }
+                ]
+              },
+              [_vm._v(" " + _vm._s(_vm.profile.occupation) + " ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.profile.age,
+                    expression: "profile.age"
+                  }
+                ]
+              },
+              [_vm._v(" " + _vm._s(_vm.profile.age) + "歳")]
+            )
           ])
         ]),
         _vm._v(" "),
@@ -15401,9 +15464,9 @@ var render = function() {
         staticClass: "loader-space"
       },
       [
-        _c("vue-loaders-line-scale-pulse-out", {
+        _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#CFCABF", scale: "5" }
+          attrs: { color: "#DEF2FF", scale: "2" }
         })
       ],
       1
@@ -16341,7 +16404,7 @@ var render = function() {
             [
               _c("vue-loaders-ball-spin-fade-loader", {
                 staticClass: "loader",
-                attrs: { color: "#CFCABF", scale: "1.7" }
+                attrs: { color: "#DEF2FF", scale: "2" }
               })
             ],
             1
@@ -16644,12 +16707,12 @@ var render = function() {
                           [
                             _c("option", { attrs: { value: "" } }),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "男" } }, [
-                              _vm._v("男")
+                            _c("option", { attrs: { value: "男性" } }, [
+                              _vm._v("男性")
                             ]),
                             _vm._v(" "),
-                            _c("option", { attrs: { value: "女" } }, [
-                              _vm._v("女")
+                            _c("option", { attrs: { value: "女性" } }, [
+                              _vm._v("女性")
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "その他" } }, [

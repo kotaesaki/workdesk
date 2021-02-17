@@ -1,7 +1,7 @@
 <template>
     <div class="view">
         <div class="loading-space"></div>
-        <vue-loaders-ball-clip-rotate-multiple color="blue" scale="2"></vue-loaders-ball-clip-rotate-multiple>
+            <vue-loaders-ball-spin-fade-loader color="#DEF2FF" scale="2" class="loader"></vue-loaders-ball-spin-fade-loader>
     </div>
 </template>
 <script>
