@@ -1,7 +1,7 @@
 <template>
     <div class="col-md-4">
         <div class="loader-space" v-show="loading">
-            <vue-loaders-line-scale-pulse-out color="#CFCABF" scale="2" class="loader"></vue-loaders-line-scale-pulse-out>
+            <vue-loaders-ball-spin-fade-loader color="#DEF2FF" scale="2" class="loader"></vue-loaders-ball-spin-fade-loader>
         </div>
         <div class="page" v-show="!loading">
             <div class="mypage-profile">
@@ -18,10 +18,12 @@
                         </div>
                     </div>
                 </div>
-                <a :href="`${profile.website_url}`" v-if="profile.website_url" target="_blank"><i class="fas fa-link"></i></a>
-                <a :href="`${profile.twitter_url}`" v-if="profile.twitter_url" target="_blank"><i class="fab fa-twitter"></i></a>
-                <div>
-                    <p>{{profile.sex}}性 | {{profile.occupation}} | {{profile.age}}歳</p>
+                <a :href="`${profile.website_url}`" v-show="profile.website_url" target="_blank"><i class="fas fa-link"></i></a>
+                <a :href="`${profile.twitter_url}`" v-show="profile.twitter_url" target="_blank"><i class="fab fa-twitter"></i></a>
+                <div class="attribute">
+                    <p v-show="profile.sex">{{profile.sex}}</p>
+                    <p v-show="profile.occupation"> {{profile.occupation}} </p>
+                    <p v-show="profile.age"> {{profile.age}}歳</p>
                 </div>
             </div>
             <ul id="mypage-item">
@@ -135,6 +137,7 @@ export default {
         width: 100%;
         height: 100%;
         text-align: center;
+        padding: 45%;
     }
     .loader{
         position:fixed;
@@ -173,6 +176,9 @@ export default {
     .mypage-profile .unfollow:hover{
         background-color: blue;
         color: #fff;
+    }
+    .attribute p{
+        display: inline;
     }
     ul{
         list-style: none;

@@ -20,7 +20,7 @@
             </div>
         </div> 
         <div class="loader-space" v-show="loading">
-            <vue-loaders-line-scale-pulse-out color="#CFCABF" scale="5" class="loader"></vue-loaders-line-scale-pulse-out> 
+            <vue-loaders-ball-spin-fade-loader color="#DEF2FF" scale="2" class="loader"></vue-loaders-ball-spin-fade-loader>
         </div>   
     </div>
 </template>

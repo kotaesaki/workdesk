@@ -3,7 +3,7 @@ const state ={
 };
 
 const getters ={
-    loading: state => state.loading ? state.loading: '',
+    loading: state => state.loading ? state.loading: false,
 };
 
 const mutations ={

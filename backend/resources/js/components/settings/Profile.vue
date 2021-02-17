@@ -4,7 +4,7 @@
         <div class="col-md-8">
             <h2>プロフィール設定</h2>
             <div class="loader-space" v-show="loading">
-                <vue-loaders-ball-spin-fade-loader color="#CFCABF" scale="1.7" class="loader"></vue-loaders-ball-spin-fade-loader> 
+                <vue-loaders-ball-spin-fade-loader color="#DEF2FF" scale="2" class="loader"></vue-loaders-ball-spin-fade-loader>
             </div>
             <div v-show="!loading">
                 <form v-on:submit.prevent="submit" enctype="multipart/form-data">
@@ -82,8 +82,8 @@
                             <div class="items">
                                 <select name="sex" v-model="profile.sex">
                                 <option value=""></option>
-                                <option value="男">男</option>
-                                <option value="女">女</option>
+                                <option value="男性">男性</option>
+                                <option value="女性">女性</option>
                                 <option value="その他">その他</option>                            
                                 </select>
                             </div>
