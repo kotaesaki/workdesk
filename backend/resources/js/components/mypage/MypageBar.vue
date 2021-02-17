@@ -85,12 +85,12 @@ export default {
     methods: {
         async pushFollow(){
             this.avoidMultipost(async()=>{
-                this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user:this.id[0].id});
+                this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user:this.id.id});
             });
         },
         async deleteFollow(){
             this.avoidMultipost(async()=>{
-                this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user:this.id[0].id});
+                this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user:this.id.id});
             });
         },
     },

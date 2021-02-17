@@ -18,5 +18,21 @@ export default {
     props: {
         userId: String //idを取得
     },
+    methods: {
+        async updatePost(userId) {
+            await this.$store.commit('mypage/clearVar')
+                .then(()=>this.$store.dispatch('mypage/startPost', userId))
+        },
+    },
+    beforeRouteUpdate (to, from, next) {
+        console.log('route update start')
+        console.log(from);
+        console.log(to)
+        if(to.name == 'mypage'){
+            this.updatePost(to.params.userId);
+        }
+        next();
+    },
+
 }
 </script>

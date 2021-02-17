@@ -4,22 +4,22 @@ const state = {
   profile: null,
   posts: null,
   tagss: null,
-  start:0,
-  end:10,
-  startScrollYOffset: 0,
   postData:[],
-  isGettingPosts:false
+  tagsData:[],
+  page: 1,
+  load : true,
+  itemLoading : false,
 };
 const getters = {
   id: state=>state.id ? state.id :'',
   profile: state=>state.profile ? state.profile :'',
   posts: state=>state.posts ? state.posts :'',
   tagss: state=>state.tagss ? state.tagss :'',
-  start: state=>state.start ? state.start : 0,
-  end: state=>state.end ? state.end : 10,
-  startScrollYOffset: state=>state.startScrollYOffset ? state.startScrollYOffset : 0,
   postData: state=>state.postData ? state.postData : [],
-  isGettingPosts:state=>state.isGettingPosts ? state.isGettingPosts: false,
+  tagsData: state=>state.tagsData ? state.tagsData : [],
+  page: state => state.page ? state.page: '',
+  load: state => state.load ? state.load: '',
+  itemLoading: state => state.itemLoading ? state.itemLoading: '',
 };
 const mutations = {
   setId(state,id){
@@ -34,31 +34,31 @@ const mutations = {
   setTagss(state,tagss){
     state.tagss = tagss;
   },
-  setStart(state,start){
-    state.start = start
-  },
-  setEnd(state,end){
-    state.end = end;
-  },
-  setstartScrollYOffset(state,startScrollYOffset){
-    state.startScrollYOffset = startScrollYOffset;
-  },
   setpostData(state,postData){
     state.postData = postData;
   },
-  infiniteHandler(state) {
-    if(window.pageYOffset >= state.startScrollYOffset && !state.isGettingPosts){
-        state.startScrollYOffset = window.innerHeight + window.pageYOffset;
-        state.isGettingPosts = true;
-        if(state.end <= state.posts.length){
-            state.postData = state.postData
-                .concat(state.posts.slice(state.start,state.end));
-            state.start = state.start + 10;
-            state.end = state.end + 10;
-        }
-        state.isGettingPosts = false;
-    }
+  settagsData(state,tagsData){
+    state.tagsData = tagsData;
   },
+  setPage(state,page){
+    state.page = page;
+  },
+  addPage(state){
+      state.page += 1;
+  },
+  setLoad(state,load){
+      state.load = load;
+  },
+  setItemLoading(state,itemLoading){
+    state.itemLoading = itemLoading;
+  },
+  clearVar(state){
+    state.postData.splice(0);
+    state.tagsData.splice(0);
+    state.page = 1;
+    state.load = true;
+    state.itemLoading = false;
+  }
 
 };
 const actions = {
@@ -71,28 +71,43 @@ const actions = {
     })
   },
   async startPost({commit, state},userId){
-    await axios.get('/api/getPost/' + userId).then(res=>{
-        if(!res.data[0]){
-          commit('setPosts', '');
-          commit('setTagss', '');
-          return;
-        }else if(res.data[0] && !res.data[1]){
-            commit('setPosts', res.data[0]);
-            commit('setTagss', '');
-        }else{
-            commit('setPosts', res.data[0]);
-            commit('setTagss', res.data[1]);
-        }
-        if(state.end <= state.posts.length){
-            commit('setpostData', state.postData
-              .concat(state.posts.slice(state.start,state.end)))
-            commit('setStart', state.start + 10);
-            commit('setEnd', state.end + 10);
-        }else{
-            commit('setpostData', state.posts);
-        }
-    })
-  },
+    if (state.load){
+      if(!state.itemLoading){
+          commit('setItemLoading', true);
+          try{
+              await axios.get('/api/getPost?page=' + state.page, {
+                params:{
+                  userId: userId
+                }
+              }).then((result)=>{
+                  commit("setPosts", result.data[0].data);
+                  console.log(result.data[0].data);
+                  console.log(result.data[1][0].data);
+                  if(result.data[0].last_page === state.page){
+                      commit('setLoad', false);
+                  }
+                  if(result.data[0].data){
+                    result.data[0].data.forEach((n,i) => {
+                        state.postData.push(n);
+                    })
+                  }
+                  if(result.data[1][0].data){
+                    result.data[1][0].data.forEach((n,i) => {
+                      state.tagsData.push(n);
+                    })                      
+                  }
+                  state.page += 1;
+                  return state.postData, state.tagsData;
+              })   
+          }catch(e){
+              commit('setLoad', false);
+              commit('setItemLoading', false);
+          }finally{
+              commit('setItemLoading', false);
+          }
+      }
+  }
+  }
 
 };
 
