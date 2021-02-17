@@ -9,7 +9,16 @@
                 </ul>
             </div>
         </div>
-        <img :src="`./images/top.jpg`" alt="トップ" class="image-top">
+        <div class="topImage container">
+            <div class="box">
+                <ul>
+                    <li><div class="circle"></div></li>
+                </ul>
+                <span>自宅の作業環境の参考に！<br>在宅環境をシェアする写真投稿サービスです。</span>
+                <img :src="`./images/top.jpg`" alt="トップ" class="image-top">
+
+            </div>
+        </div>
         <div class="pages">
             <div class="container">
                 <div class="row justify-content-center">
@@ -43,11 +52,56 @@ export default {
 }
 </script>
 <style scoped>
+    .topImage{
+        position: relative;
+        height: 50vh;
+    }
     .image-top{
-        width:100vw;
-        height: 300px;
+        position: absolute;
+        width: 41vh;
+        height: 100%;
+        top: 0%;
+        right: 2vw;
         object-fit: cover;
     }
+    .topImage span{
+        position: absolute;
+        font-size: 1.5rem;
+        text-align: center;
+        top: 36%;
+        left: 10%;
+        color: #111111;
+        text-shadow: 1px 1px 69px #3ea8ff;
+    }
+    .topImage ul {
+        list-style: none;
+        padding: 0;
+    }
+    .topImage .circle{
+        position: absolute;
+        width: 40vh;
+        height: 40vh;
+        border-radius: 50%;
+        background-color: #DEF2FF;
+        animation: horizontal 40s ease-in-out infinite alternate;
+        animation-duration: 6.5s;
+        z-index:-1;
+    }
+    .topImage li:first-child{
+
+        animation: vertical 30s ease-in-out infinite alternate;
+        animation-duration: 10.5s;
+    }
+
+    @keyframes horizontal {
+        0% { transform:translateX( -400px); }
+        100% { transform:translateX(  -200px); }
+    }
+    @keyframes vertical {
+        0% { transform:translateY( 0px); }
+        100% { transform:translateY(  100px); }
+    }
+
     .tab{
         width: 100%;
         position: sticky;
@@ -79,7 +133,7 @@ export default {
     .pages{
         width:100vw;
         height: 100%;
-        background-color: #CFCABF;
-        margin-top: 30px;
+        background-color: #DEF2FF;
+        margin-top: 100px;
     }
 </style>

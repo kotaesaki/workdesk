@@ -3553,14 +3553,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {},
-  data: function data() {
-    return {};
-  },
-  methods: {},
-  mounted: function mounted() {}
-});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
 
@@ -3578,6 +3571,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NewTimeline_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NewTimeline.vue */ "./resources/js/components/top/NewTimeline.vue");
 /* harmony import */ var _TrendItem_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TrendItem.vue */ "./resources/js/components/top/TrendItem.vue");
 /* harmony import */ var _TrendTimeline_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TrendTimeline.vue */ "./resources/js/components/top/TrendTimeline.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9687,7 +9689,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.image-top[data-v-1eb9eac9]{\n    width:100vw;\n    height: 300px;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n    position: -webkit-sticky;\n    position: sticky;\n    background-color:#fff;\n    top:0;\n    z-index: 100;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n}\n.pages[data-v-1eb9eac9]{\n    width:100vw;\n    height: 100%;\n    background-color: #CFCABF;\n    margin-top: 30px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.topImage[data-v-1eb9eac9]{\n    position: relative;\n    height: 50vh;\n}\n.image-top[data-v-1eb9eac9]{\n    position: absolute;\n    width: 41vh;\n    height: 100%;\n    top: 0%;\n    right: 2vw;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.topImage span[data-v-1eb9eac9]{\n    position: absolute;\n    font-size: 1.5rem;\n    text-align: center;\n    top: 36%;\n    left: 10%;\n    color: #111111;\n    text-shadow: 1px 1px 69px #3ea8ff;\n}\n.topImage ul[data-v-1eb9eac9] {\n    list-style: none;\n    padding: 0;\n}\n.topImage .circle[data-v-1eb9eac9]{\n    position: absolute;\n    width: 40vh;\n    height: 40vh;\n    border-radius: 50%;\n    background-color: #DEF2FF;\n    -webkit-animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n            animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n    -webkit-animation-duration: 6.5s;\n            animation-duration: 6.5s;\n    z-index:-1;\n}\n.topImage li[data-v-1eb9eac9]:first-child{\n\n    -webkit-animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n\n            animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n    -webkit-animation-duration: 10.5s;\n            animation-duration: 10.5s;\n}\n@-webkit-keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@-webkit-keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n@keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n    position: -webkit-sticky;\n    position: sticky;\n    background-color:#fff;\n    top:0;\n    z-index: 100;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n}\n.pages[data-v-1eb9eac9]{\n    width:100vw;\n    height: 100%;\n    background-color: #DEF2FF;\n    margin-top: 100px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16823,10 +16825,18 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("img", {
-      staticClass: "image-top",
-      attrs: { src: "./images/top.jpg", alt: "トップ" }
-    }),
+    _c("div", { staticClass: "topImage container" }, [
+      _c("div", { staticClass: "box" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c("img", {
+          staticClass: "image-top",
+          attrs: { src: "./images/top.jpg", alt: "トップ" }
+        })
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "pages" }, [
       _c("div", { staticClass: "container" }, [
@@ -16878,7 +16888,24 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", [_c("li", [_c("div", { staticClass: "circle" })])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _vm._v("自宅の作業環境の参考に！"),
+      _c("br"),
+      _vm._v("在宅環境をシェアする写真投稿サービスです。")
+    ])
+  }
+]
 render._withStripped = true
 
 
