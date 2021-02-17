@@ -24,13 +24,13 @@ class MypageController extends Controller
         return [$user,$profile];
     }
 
-    public function getPost($login_id)
+    public function getPost(Request $request)
     {
-        $posts = Post::where('user_id', $login_id)
-            ->orderBy('created_at', 'desc')->get();
+        $posts = Post::where('user_id', $request->userId)
+            ->orderBy('created_at', 'desc')->paginate(5);
         if ($posts) {
             foreach ($posts as $post) {
-                $tags[] = Post::find($post->post_id)->tags()->get();
+                $tags[] = Post::find($post->post_id)->tags()->paginate(5);
                 return [$posts, $tags];
             }
         }

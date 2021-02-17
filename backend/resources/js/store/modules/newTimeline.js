@@ -32,21 +32,12 @@ const mutations = {
     setItemLoading(state,itemLoading){
         state.itemLoading = itemLoading;
     },
-    setItems(state,items){
-    },
     clearVar(state){
         state.page = 1;
     }
 };
 
 const actions = {
-    async getPost({commit, state}){ 
-        await axios.get('/api/timeline?page=' + state.page).then((result)=>{
-            commit("setPost", result.data.data);
-            console.log(result.data.data);
-            return result.data.data;
-        })
-    },
     async ggetPost({commit,state}){
         if (state.load){
             if(!state.itemLoading){

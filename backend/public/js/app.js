@@ -2366,7 +2366,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         case 0:
                           _this.$store.dispatch('follow/pushFollow', {
                             auth_user: _this.authUser.id,
-                            post_user: _this.id[0].id
+                            post_user: _this.id.id
                           });
 
                         case 1:
@@ -2400,7 +2400,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         case 0:
                           _this2.$store.dispatch('follow/deleteFollow', {
                             auth_user: _this2.authUser.id,
-                            post_user: _this2.id[0].id
+                            post_user: _this2.id.id
                           });
 
                         case 1:
@@ -2461,8 +2461,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _MypageBar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MypageBar.vue */ "./resources/js/components/mypage/MypageBar.vue");
-/* harmony import */ var _MypageContent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MypageContent.vue */ "./resources/js/components/mypage/MypageContent.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _MypageBar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MypageBar.vue */ "./resources/js/components/mypage/MypageBar.vue");
+/* harmony import */ var _MypageContent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MypageContent.vue */ "./resources/js/components/mypage/MypageContent.vue");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2479,12 +2487,46 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    MypageBar: _MypageBar_vue__WEBPACK_IMPORTED_MODULE_0__.default,
-    MypageContent: _MypageContent_vue__WEBPACK_IMPORTED_MODULE_1__.default
+    MypageBar: _MypageBar_vue__WEBPACK_IMPORTED_MODULE_1__.default,
+    MypageContent: _MypageContent_vue__WEBPACK_IMPORTED_MODULE_2__.default
   },
   props: {
     userId: String //idを取得
 
+  },
+  methods: {
+    updatePost: function updatePost(userId) {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$store.commit('mypage/clearVar').then(function () {
+                  return _this.$store.dispatch('mypage/startPost', userId);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  },
+  beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
+    console.log('route update start');
+    console.log(from);
+    console.log(to);
+
+    if (to.name == 'mypage') {
+      this.updatePost(to.params.userId);
+    }
+
+    next();
   }
 });
 
@@ -2501,9 +2543,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-//
-//
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2535,40 +2582,68 @@ __webpack_require__.r(__webpack_exports__);
     userId: String
   },
   data: function data() {
-    return {
-      loading: true
-    };
+    return {};
   },
   computed: {
     posts: function posts() {
       return this.$store.getters['mypage/posts'];
     },
-    tagss: function tagss() {
-      return this.$store.getters['mypage/tagss'];
-    },
-    startScrollYOffset: function startScrollYOffset() {
-      return this.$store.getters['mypage/startScrollYOffset'];
+    tagsData: function tagsData() {
+      return this.$store.getters['mypage/tagsData'];
     },
     postData: function postData() {
       return this.$store.getters['mypage/postData'];
     },
     id: function id() {
       return this.$store.getters['mypage/id'];
+    },
+    loading: function loading() {
+      return this.$store.getters['mypage/itemLoading'];
     }
   },
   methods: {
-    infiniteHandler: function infiniteHandler() {
-      this.$store.commit('mypage/infiniteHandler');
+    startPost: function startPost() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$store.dispatch('mypage/startPost', _this.userId);
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   mounted: function mounted() {
-    var _this = this;
+    var _this2 = this;
 
     console.log('mypageContent mounted start');
-    this.$store.dispatch('mypage/startPost', this.userId).then(function () {
-      return _this.loading = false;
+
+    window.onscroll = function () {
+      var bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight;
+
+      if (bottomOfWindow >= document.documentElement.offsetHeight) {
+        _this2.$store.dispatch('loading/startLoad').then(function () {
+          return _this2.startPost();
+        }).then(function () {
+          return _this2.$store.dispatch('loading/endLoad');
+        });
+      }
+    };
+
+    this.$store.dispatch('loading/startLoad').then(function () {
+      return _this2.startPost();
+    }).then(function () {
+      return _this2.$store.dispatch('loading/endLoad');
     });
-    this.$store.commit('mypage/setstartScrollYOffset', Math.floor(window.innerHeight / 3));
   }
 });
 
@@ -5543,11 +5618,11 @@ var state = {
   profile: null,
   posts: null,
   tagss: null,
-  start: 0,
-  end: 10,
-  startScrollYOffset: 0,
   postData: [],
-  isGettingPosts: false
+  tagsData: [],
+  page: 1,
+  load: true,
+  itemLoading: false
 };
 var getters = {
   id: function id(state) {
@@ -5562,20 +5637,20 @@ var getters = {
   tagss: function tagss(state) {
     return state.tagss ? state.tagss : '';
   },
-  start: function start(state) {
-    return state.start ? state.start : 0;
-  },
-  end: function end(state) {
-    return state.end ? state.end : 10;
-  },
-  startScrollYOffset: function startScrollYOffset(state) {
-    return state.startScrollYOffset ? state.startScrollYOffset : 0;
-  },
   postData: function postData(state) {
     return state.postData ? state.postData : [];
   },
-  isGettingPosts: function isGettingPosts(state) {
-    return state.isGettingPosts ? state.isGettingPosts : false;
+  tagsData: function tagsData(state) {
+    return state.tagsData ? state.tagsData : [];
+  },
+  page: function page(state) {
+    return state.page ? state.page : '';
+  },
+  load: function load(state) {
+    return state.load ? state.load : '';
+  },
+  itemLoading: function itemLoading(state) {
+    return state.itemLoading ? state.itemLoading : '';
   }
 };
 var mutations = {
@@ -5591,31 +5666,30 @@ var mutations = {
   setTagss: function setTagss(state, tagss) {
     state.tagss = tagss;
   },
-  setStart: function setStart(state, start) {
-    state.start = start;
-  },
-  setEnd: function setEnd(state, end) {
-    state.end = end;
-  },
-  setstartScrollYOffset: function setstartScrollYOffset(state, startScrollYOffset) {
-    state.startScrollYOffset = startScrollYOffset;
-  },
   setpostData: function setpostData(state, postData) {
     state.postData = postData;
   },
-  infiniteHandler: function infiniteHandler(state) {
-    if (window.pageYOffset >= state.startScrollYOffset && !state.isGettingPosts) {
-      state.startScrollYOffset = window.innerHeight + window.pageYOffset;
-      state.isGettingPosts = true;
-
-      if (state.end <= state.posts.length) {
-        state.postData = state.postData.concat(state.posts.slice(state.start, state.end));
-        state.start = state.start + 10;
-        state.end = state.end + 10;
-      }
-
-      state.isGettingPosts = false;
-    }
+  settagsData: function settagsData(state, tagsData) {
+    state.tagsData = tagsData;
+  },
+  setPage: function setPage(state, page) {
+    state.page = page;
+  },
+  addPage: function addPage(state) {
+    state.page += 1;
+  },
+  setLoad: function setLoad(state, load) {
+    state.load = load;
+  },
+  setItemLoading: function setItemLoading(state, itemLoading) {
+    state.itemLoading = itemLoading;
+  },
+  clearVar: function clearVar(state) {
+    state.postData.splice(0);
+    state.tagsData.splice(0);
+    state.page = 1;
+    state.load = true;
+    state.itemLoading = false;
   }
 };
 var actions = {
@@ -5651,35 +5725,70 @@ var actions = {
           switch (_context2.prev = _context2.next) {
             case 0:
               commit = _ref2.commit, state = _ref2.state;
-              _context2.next = 3;
-              return axios.get('/api/getPost/' + userId).then(function (res) {
-                if (!res.data[0]) {
-                  commit('setPosts', '');
-                  commit('setTagss', '');
-                  return;
-                } else if (res.data[0] && !res.data[1]) {
-                  commit('setPosts', res.data[0]);
-                  commit('setTagss', '');
-                } else {
-                  commit('setPosts', res.data[0]);
-                  commit('setTagss', res.data[1]);
+
+              if (!state.load) {
+                _context2.next = 16;
+                break;
+              }
+
+              if (state.itemLoading) {
+                _context2.next = 16;
+                break;
+              }
+
+              commit('setItemLoading', true);
+              _context2.prev = 4;
+              _context2.next = 7;
+              return axios.get('/api/getPost?page=' + state.page, {
+                params: {
+                  userId: userId
+                }
+              }).then(function (result) {
+                commit("setPosts", result.data[0].data);
+                console.log(result.data[0].data);
+                console.log(result.data[1][0].data);
+
+                if (result.data[0].last_page === state.page) {
+                  commit('setLoad', false);
                 }
 
-                if (state.end <= state.posts.length) {
-                  commit('setpostData', state.postData.concat(state.posts.slice(state.start, state.end)));
-                  commit('setStart', state.start + 10);
-                  commit('setEnd', state.end + 10);
-                } else {
-                  commit('setpostData', state.posts);
+                if (result.data[0].data) {
+                  result.data[0].data.forEach(function (n, i) {
+                    state.postData.push(n);
+                  });
                 }
+
+                if (result.data[1][0].data) {
+                  result.data[1][0].data.forEach(function (n, i) {
+                    state.tagsData.push(n);
+                  });
+                }
+
+                state.page += 1;
+                return state.postData, state.tagsData;
               });
 
-            case 3:
+            case 7:
+              _context2.next = 13;
+              break;
+
+            case 9:
+              _context2.prev = 9;
+              _context2.t0 = _context2["catch"](4);
+              commit('setLoad', false);
+              commit('setItemLoading', false);
+
+            case 13:
+              _context2.prev = 13;
+              commit('setItemLoading', false);
+              return _context2.finish(13);
+
+            case 16:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2);
+      }, _callee2, null, [[4, 9, 13, 16]]);
     }))();
   }
 };
@@ -5825,13 +5934,12 @@ var mutations = {
   setItemLoading: function setItemLoading(state, itemLoading) {
     state.itemLoading = itemLoading;
   },
-  setItems: function setItems(state, items) {},
   clearVar: function clearVar(state) {
     state.page = 1;
   }
 };
 var actions = {
-  getPost: function getPost(_ref) {
+  ggetPost: function ggetPost(_ref) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var commit, state;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -5839,43 +5947,20 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit, state = _ref.state;
-              _context.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/timeline?page=' + state.page).then(function (result) {
-                commit("setPost", result.data.data);
-                console.log(result.data.data);
-                return result.data.data;
-              });
-
-            case 3:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
-  },
-  ggetPost: function ggetPost(_ref2) {
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-      var commit, state;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              commit = _ref2.commit, state = _ref2.state;
 
               if (!state.load) {
-                _context2.next = 16;
+                _context.next = 16;
                 break;
               }
 
               if (state.itemLoading) {
-                _context2.next = 16;
+                _context.next = 16;
                 break;
               }
 
               commit('setItemLoading', true);
-              _context2.prev = 4;
-              _context2.next = 7;
+              _context.prev = 4;
+              _context.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/timeline?page=' + state.page).then(function (result) {
                 commit("setPost", result.data.data);
                 console.log(result.data.data);
@@ -5895,26 +5980,26 @@ var actions = {
               });
 
             case 7:
-              _context2.next = 13;
+              _context.next = 13;
               break;
 
             case 9:
-              _context2.prev = 9;
-              _context2.t0 = _context2["catch"](4);
+              _context.prev = 9;
+              _context.t0 = _context["catch"](4);
               commit('setLoad', false);
               commit('setItemLoading', false);
 
             case 13:
-              _context2.prev = 13;
+              _context.prev = 13;
               commit('setItemLoading', false);
-              return _context2.finish(13);
+              return _context.finish(13);
 
             case 16:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
         }
-      }, _callee2, null, [[4, 9, 13, 16]]);
+      }, _callee, null, [[4, 9, 13, 16]]);
     }))();
   }
 };
@@ -14197,7 +14282,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-76a3ec95]{\n    padding: 4%;\n    font-size: 2rem;\n    background-color: #CFCABF;\n    box-shadow: 1px 1px 6px grey;\n    border-radius: 5px;\n    background: linear-gradient(transparent 0%, #CFCABF 95%);\n}\n.timeline[data-v-76a3ec95]:hover{\n    opacity: 0.5;\n    cursor: pointer;\n}\n.page-content[data-v-76a3ec95]{\n    margin:4% 0;\n    border-bottom: 1px solid #CFCABF;\n}\n.post_image[data-v-76a3ec95]{\n    width: 16vw;;\n    float: left;\n}\n.page-content p[data-v-76a3ec95]{\n    margin: 0;\n    font-size: 0.8em;\n    color: #859099;\n    clear: both;\n}\n.page-content span[data-v-76a3ec95]{\n    padding: 2% 0 0;\n    position: relative;\n    left: 3%;\n}\n.page-content .tags[data-v-76a3ec95]{\n    display: inline-flex;\n}\n.page-content ul[data-v-76a3ec95] {\n    list-style: none;\n}\n.loader-space[data-v-76a3ec95]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n}\n.loader[data-v-76a3ec95]{\n    position:fixed;\n    top:26%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-76a3ec95]{\n    padding: 4%;\n    font-size: 2rem;\n    background-color: #CFCABF;\n    box-shadow: 1px 1px 6px grey;\n    border-radius: 5px;\n    background: linear-gradient(transparent 0%, #CFCABF 95%);\n}\n.timeline[data-v-76a3ec95]:hover{\n    opacity: 0.5;\n    cursor: pointer;\n}\n.page-content[data-v-76a3ec95]{\n    margin:4% 0;\n    border-bottom: 1px solid #CFCABF;\n}\n.post_image[data-v-76a3ec95]{\n    width: 16vw;;\n    float: left;\n}\n.page-content p[data-v-76a3ec95]{\n    margin: 0;\n    font-size: 0.8em;\n    color: #859099;\n    clear: both;\n}\n.page-content span[data-v-76a3ec95]{\n    padding: 2% 0 0;\n    position: relative;\n    left: 3%;\n}\n.page-content .tags[data-v-76a3ec95]{\n    display: inline-flex;\n}\n.page-content ul[data-v-76a3ec95] {\n    list-style: none;\n}\n.loader-space[data-v-76a3ec95]{\n    width: 100%;\n    text-align: center;\n    padding: 7% 0;\n    margin: 10% 0 ;\n}\n.loader[data-v-76a3ec95]{\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50550,6 +50635,53 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
+      _vm._l(_vm.postData, function(post) {
+        return _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.posts,
+                expression: "posts"
+              }
+            ],
+            key: post.post_id,
+            staticClass: "timeline"
+          },
+          [
+            _c(
+              "router-link",
+              {
+                attrs: {
+                  to: { name: "individual", params: { postId: post.post_id } }
+                }
+              },
+              [
+                _c("div", { staticClass: "page-content" }, [
+                  _c("img", {
+                    staticClass: "post_image",
+                    attrs: { src: "../" + post.photo_path }
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "right_side" }, [
+                    _c("span", [_vm._v(_vm._s(post.description))]),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(post.created_at))])
+                  ])
+                ])
+              ]
+            )
+          ],
+          1
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
       {
         directives: [
           {
@@ -50568,102 +50700,6 @@ var render = function() {
         })
       ],
       1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: !_vm.loading,
-            expression: "!loading"
-          }
-        ]
-      },
-      [
-        _vm._l(_vm.postData, function(post) {
-          return _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.posts,
-                  expression: "posts"
-                }
-              ],
-              key: post,
-              staticClass: "timeline"
-            },
-            [
-              _c(
-                "router-link",
-                {
-                  attrs: {
-                    to: { name: "individual", params: { postId: post.post_id } }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "page-content" }, [
-                    _c("img", {
-                      staticClass: "post_image",
-                      attrs: { src: "../" + post.photo_path }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "right_side" },
-                      [
-                        _c("span", [_vm._v(_vm._s(post.description))]),
-                        _vm._v(" "),
-                        _vm._l(_vm.tagss, function(tags) {
-                          return _c(
-                            "div",
-                            { key: tags.tag_id, staticClass: "tags" },
-                            _vm._l(tags, function(tag) {
-                              return _c("ul", { key: tag.tag_id }, [
-                                post.post_id === tag.pivot.post_id
-                                  ? _c("li", [
-                                      _vm._v(
-                                        "\n                                    #" +
-                                          _vm._s(tag.tag_name) +
-                                          "\n                                "
-                                      )
-                                    ])
-                                  : _vm._e()
-                              ])
-                            }),
-                            0
-                          )
-                        }),
-                        _vm._v(" "),
-                        _c("p", [_vm._v(_vm._s(post.created_at))])
-                      ],
-                      2
-                    )
-                  ])
-                ]
-              )
-            ],
-            1
-          )
-        }),
-        _vm._v(" "),
-        _c("div", {
-          directives: [
-            {
-              name: "mypage-scroll",
-              rawName: "v-mypage-scroll",
-              value: _vm.infiniteHandler,
-              expression: "infiniteHandler"
-            }
-          ]
-        })
-      ],
-      2
     )
   ])
 }

@@ -77,7 +77,7 @@ const router = new VueRouter({
                     name:'mypage',
                     components: {
                         mypage: MypageContent,
-                    }
+                    },
                 },
                 {
                     path:'/follow/:userId',
