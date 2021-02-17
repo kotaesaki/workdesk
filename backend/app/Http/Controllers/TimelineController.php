@@ -11,7 +11,7 @@ class TimelineController extends Controller
     {
         $posts = Post::with(['user'=> function($query){
             $query->with('profile:user_id,icon_path');
-        }])->orderBy('created_at', 'desc')->limit(10)->get();
+        }])->orderBy('created_at', 'desc')->paginate(9);
 
         return response($posts);
     }
