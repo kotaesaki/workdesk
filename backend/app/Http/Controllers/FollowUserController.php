@@ -45,7 +45,7 @@ class FollowUserController extends Controller
     {
         $followers = User::with(['followUsers' => function ($query) {
             $query->with('profile');
-        }])->find($request->user_id);
+        }])->orderBy('created_at', 'asc')->find($request->user_id);
         $sss = User::find($request->user_id);
         $aaa = $sss->followUsers;
         return response()->json(['follower' => $followers], 200);

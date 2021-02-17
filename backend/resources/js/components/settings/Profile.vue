@@ -144,6 +144,7 @@ export default {
            formData.append('occupation',this.profile.occupation);
            formData.append('sex',this.profile.sex);
            formData.append('age',this.profile.age);
+           formData.append('icon_title', this.profile.icon_title);
            var config = {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -161,7 +162,21 @@ export default {
            await axios.get('/api/profile/' + this.userId).then((res)=>{
                 this.id = res.data[0];
                 this.profile = res.data[1];
-
+                if(this.profile.website_url == 'null'){
+                    this.profile.website_url = '';
+                }
+                if(this.profile.twitter_url == 'null'){
+                    this.profile.twitter_url = '';
+                }
+                if(this.profile.sex == 'null'){
+                    this.profile.sex = '';
+                }
+                if(this.profile.age == 'null'){
+                    this.profile.age = '';
+                }
+                if(this.profile.occupation == 'null'){
+                    this.profile.occupation = '';
+                }
            })
        },
        validate(){

@@ -2432,20 +2432,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }).then(function () {
       return _this3.loading = false;
     });
-  },
-  watch: {
-    userId: function userId(newValue, oldValue) {
-      var _this4 = this;
-
-      console.log('mypagebar watch start');
-      this.$store.dispatch('mypage/getId', this.userId).then(function () {
-        return _this4.$store.dispatch('follow/checkFollow', {
-          auth_user: _this4.authUser.id,
-          post_user: _this4.userId
-        });
-      });
-    }
   }
+  /*     watch: {
+          userId(newValue, oldValue) {
+              console.log('mypagebar watch start');
+                  this.$store.dispatch('mypage/getId', this.userId)
+                      .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.userId}))
+          },
+      }, */
+
 });
 
 /***/ }),
@@ -2494,6 +2489,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     userId: String //idを取得
 
   },
+  computed: {
+    authUser: function authUser() {
+      return this.$store.getters['auth/user'];
+    }
+  },
   methods: {
     updatePost: function updatePost(userId) {
       var _this = this;
@@ -2515,15 +2515,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    updateUser: function updateUser(userId) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this2.$store.dispatch('mypage/getId', userId).then(function () {
+                  return _this2.$store.dispatch('follow/checkFollow', {
+                    auth_user: _this2.authUser.id,
+                    post_user: userId
+                  });
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   },
   beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
-    console.log('route update start');
-    console.log(from);
-    console.log(to);
-
     if (to.name == 'mypage') {
       this.updatePost(to.params.userId);
+      this.updateUser(to.params.userId);
     }
 
     next();
@@ -3468,6 +3489,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       formData.append('occupation', this.profile.occupation);
       formData.append('sex', this.profile.sex);
       formData.append('age', this.profile.age);
+      formData.append('icon_title', this.profile.icon_title);
       var config = {
         headers: {
           'content-type': 'multipart/form-data'
@@ -3493,6 +3515,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios.get('/api/profile/' + _this.userId).then(function (res) {
                   _this.id = res.data[0];
                   _this.profile = res.data[1];
+
+                  if (_this.profile.website_url == 'null') {
+                    _this.profile.website_url = '';
+                  }
+
+                  if (_this.profile.twitter_url == 'null') {
+                    _this.profile.twitter_url = '';
+                  }
+
+                  if (_this.profile.sex == 'null') {
+                    _this.profile.sex = '';
+                  }
+
+                  if (_this.profile.age == 'null') {
+                    _this.profile.age = '';
+                  }
+
+                  if (_this.profile.occupation == 'null') {
+                    _this.profile.occupation = '';
+                  }
                 });
 
               case 2:

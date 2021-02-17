@@ -30,7 +30,7 @@ class FavoriteController extends Controller
     public function getMylikes(Request $request)
     {
         $favorites = User::with(['favorite' => function ($query) {
-            $query->with('post');
+            $query->with('post')->orderBy('created_at', 'desc');
         }])->find($request->user_id);
         return response()->json(['mylikes' => $favorites], 200);
     }
