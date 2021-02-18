@@ -59,6 +59,7 @@ const router = new VueRouter({
             path: '/',
             name: 'home',
             component: HomeComponent,
+            props: true,
             meta:{isPublic: true},
         },
         {

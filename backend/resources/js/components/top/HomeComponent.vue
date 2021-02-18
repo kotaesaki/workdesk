@@ -16,7 +16,6 @@
                 </ul>
                 <span>自宅の作業環境の参考に！<br>在宅環境をシェアする写真投稿サービスです。</span>
                 <img :src="`./images/top.jpg`" alt="トップ" class="image-top">
-
             </div>
         </div>
         <div class="pages">
@@ -30,6 +29,9 @@
                 </div>
             </div>     
         </div>   
+    <div>
+
+    </div>
     </div>
  
 </template>
@@ -39,6 +41,9 @@ import TrendItem from './TrendItem.vue'
 import TrendTimeline from './TrendTimeline.vue'
 export default {
     components: { NewTimeline, TrendTimeline, TrendItem },
+    props:{
+        successLogin: Boolean
+    },
     data() {
         return {
             isActive: '1',
