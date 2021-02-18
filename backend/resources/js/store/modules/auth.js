@@ -26,8 +26,8 @@ const mutations = {
     },
 };
 const actions = {
-    register(context, data) {
-        axios.post('/api/register', data, {
+    async register(context, data) {
+        await axios.post('/api/register', data, {
             headers: {
                 Authorization: `Bearer ${state.token}`,
             }
@@ -41,8 +41,8 @@ const actions = {
             console.log(data);
         });
     },
-    login(context, data){
-        axios.get('/sanctum/csrf-cookie').then(response => {
+    async login(context, data){
+        await axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('/api/login', data, {
                 headers: {
                     Authorization: `Bearer ${state.token}`,
@@ -59,8 +59,8 @@ const actions = {
         });
         
     },
-    logout(context, data) {
-        axios.post('/api/logout', data, {
+    async logout(context, data) {
+        await axios.post('/api/logout', data, {
             headers: {
                 Authorization: `Bearer ${state.token}`,
             }

@@ -13,11 +13,15 @@ export default {
 </script>
 <style scoped>
     .view{
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         position: fixed;
         top: 0;
-        left: 47%;
+        left: 0;
+        padding: 0 47%;
+        background:grey;
+        opacity: 0.6;
+        z-index: 1000;
     }
     .loading-space{
         height: 40%;

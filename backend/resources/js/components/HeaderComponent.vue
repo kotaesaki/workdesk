@@ -1,4 +1,5 @@
 <template>
+    <div>
     <nav id="header-nav" class="navbar navbar-expand-md navbar-light">
         <div class="container">
             <router-link v-bind:to="{name: 'home'}">
@@ -39,17 +40,26 @@
                     <router-link v-bind:to="{name: 'login'}">
                         ログイン
                     </router-link>
-                </div>  
+                </div>
             </div>
         </div>
     </nav>
+    <loading v-show="loading"></loading>
+    <div :class="{modalLogout: isLogin===false && isLogout === true}">
+        <p :class="{modalContent: isLogin===false && isLogout === true}"></p>
+    </div>
+    </div>
 </template>
 
 <script>
+import Loading from './common/Loading.vue';
     export default {
+        components: { Loading },
         data() {
             return {
                 complete: false,
+                loading: false,
+                isLogout: false,
             };
         },
         computed: {
@@ -68,10 +78,12 @@
         },
         methods: {
             logout(context, data) {
+                this.loading = true;
                 this.$store.dispatch('auth/logout', this.$store.getters["auth/user"]).then(()=>{
                     this.complete = true;
-                    this.$router.push({ name: "home" });
-                });        
+                    this.loading = false;
+                    this.isLogout = true;
+                })
             },
             getUser(){
                 this.$store.dispatch('auth/fetchUser');
@@ -107,5 +119,48 @@
         height: 35px;
         object-fit: cover;
         border-radius: 50%;
+    }
+    .loginStatus{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background-color: aqua;
+    }
+    .modalLogout{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #F8A017;
+        text-align: center;
+        padding:13px 0 0 0;
+        -moz-animation: modal 0s ease-in 2s forwards;
+        -webkit-animation: modal 0s ease-in 2s forwards;
+        -o-animation: modal 0s ease-in 2s forwards;
+        animation: modal 0s ease-in 2s forwards;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+    }
+    .modalContent{
+        position: relative;
+        color: #FFFFFF;
+        font-size: 1.2rem;
+        -moz-animation: modal 0s ease-in 2s forwards;
+        -webkit-animation: modal 0s ease-in 2s forwards;
+        -o-animation: modal 0s ease-in 2s forwards;
+        animation: modal 0s ease-in 2s forwards;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+    }
+    .modalContent::before{
+        content: 'ログアウトに成功しました。';
+    }
+    @keyframes modal {
+        to {
+            width:0;
+            height:0;
+            overflow:hidden;
+        }
     }
 </style>
