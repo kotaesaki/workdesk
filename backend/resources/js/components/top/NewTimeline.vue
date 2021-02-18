@@ -1,23 +1,23 @@
 <template>
     <div class="new-article">
-            <h2 class="title">New Post</h2>
-            <div class="contents">
-                <div class="content-item" v-for="post in posts" :key="post.post_id">
-                    <router-link v-bind:to="{ name: 'individual', params: { postId: post.post_id }}">
-                        <img :src="`../${post.photo_path}`" alt="card" class="content-img">
-                        <div class="content-exsept">
-                            <div class="profile">
-                                <img :src="`../${post.user.profile.icon_path}`" alt="" class="content-icon">
-                                <p class="content-id">@{{post.user.login_id}}</p>
-                            </div>
-                            <p class="content-description">{{post.description}}</p>
+        <h2 class="title">New Post</h2>
+        <div class="contents">
+            <div class="content-item" v-for="post in posts" :key="post.post_id">
+                <router-link v-bind:to="{ name: 'individual', params: { postId: post.post_id }}">
+                    <img :src="`../${post.photo_path}`" alt="card" class="content-img">
+                    <div class="content-exsept">
+                        <div class="profile">
+                            <img :src="`../${post.user.profile.icon_path}`" alt="" class="content-icon">
+                            <p class="content-id">@{{post.user.login_id}}</p>
                         </div>
-                    </router-link>
-                </div>
+                        <p class="content-description">{{post.description}}</p>
+                    </div>
+                </router-link>
             </div>
-            <div class="loader-space" v-show="itemLoading">
-                <vue-loaders-ball-spin-fade-loader color="#FFF" class="loader"></vue-loaders-ball-spin-fade-loader>
-            </div>
+        </div>
+        <div class="loader-space" v-show="itemLoading">
+            <vue-loaders-ball-spin-fade-loader color="#FFF" class="loader"></vue-loaders-ball-spin-fade-loader>
+        </div>
     </div>
     
 </template>
