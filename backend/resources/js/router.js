@@ -8,6 +8,7 @@ Vue.use(VueLoaders);
 
 import HeaderComponent from "./components/HeaderComponent";
 import MypageComponent from "./components/mypage/MypageComponent";
+import Footer from "./components/common/Footer";
 import MypageBar from "./components/mypage/MypageBar";
 import MypageContent from "./components/mypage/MypageContent";
 import MypageLikes from "./components/mypage/MypageLikes";
@@ -33,6 +34,7 @@ import Loading from "./components/common/Loading";
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('header-component', HeaderComponent);
+Vue.component('footer', Footer);
 Vue.component('new-timeline', NewTimeline);
 Vue.component('individual-comment', IndividualComment);
 Vue.component('trend-timeline', TrendTimeline);
