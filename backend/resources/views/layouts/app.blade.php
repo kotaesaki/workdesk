@@ -20,6 +20,13 @@
         integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/8efc5cc454.js" crossorigin="anonymous"></script>
     <style>
+        #app{
+            max-width: 100vw;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 20vh;
+            box-sizing: border-box;
+        }
         body{
             background-color: #fff;
             color:#443311;
@@ -40,7 +47,7 @@
     <div id="app">
         <header-component></header-component>
         <router-view></router-view>
-        <footer></footer>
+        <footer-component></footer>
 
     </div>
     <script src="{{ mix('/js/app.js') }}" defer></script>

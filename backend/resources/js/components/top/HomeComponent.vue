@@ -132,7 +132,6 @@ export default {
         width: 100%;
     }
     .pages{
-        width:100vw;
         height: 100%;
         background-color: #DEF2FF;
         margin-top: 100px;
