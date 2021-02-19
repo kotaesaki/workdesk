@@ -1,7 +1,10 @@
 <template>
   <div class="footer">
     <div>
-      <h3>TAKUWAKU</h3>
+      <img
+        :src="`/images/Logo.svg`"
+        alt="ロゴ"
+        class="logo">
       <p>@2021 TAKUWAKU All Rights Reserved.</p>
     </div>
   </div>
@@ -31,11 +34,15 @@ export default {
   left: 0;
   bottom: 0;
   width: 20%;
-  height: 30%;
+  height: 60%;
 
 }
 .footer p{
   font-size: 0.8rem;
   margin: 0%;
+}
+.logo{
+    height: 74px;
+    margin: 5% 0 0;
 }
 </style>

@@ -2037,7 +2037,7 @@ __webpack_require__.r(__webpack_exports__);
         email: '',
         password: '',
         password_confirmation: '',
-        loading: ''
+        loading: false
       }
     };
   },
@@ -2102,6 +2102,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _common_Loading_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common/Loading.vue */ "./resources/js/components/common/Loading.vue");
+//
+//
+//
 //
 //
 //
@@ -2267,6 +2270,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+//
+//
+//
 //
 //
 //
@@ -3055,18 +3061,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  el: '#post-image-preview',
   components: {
     VueCropper: vue_cropperjs__WEBPACK_IMPORTED_MODULE_0__.default
   },
-  el: '#post-image-preview',
 
   /*     props:
-      [
-  
-      ], */
+    [
+     ], */
   data: function data() {
     return {
       showModal: false,
@@ -3113,20 +3149,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
       this.blob = new Blob([buffer.buffer], {
-        type: "image/jpeg"
+        type: 'image/jpeg'
       });
       console.log(this.blob);
       this.$emit('catchBlob', this.blob);
       this.showModal = false;
     },
     deleteImage: function deleteImage() {
-      console.log("写真消します");
+      console.log('写真消します');
       this.imageData = '';
       this.cropImg = '';
       this.file = '';
       this.blob = '';
       this.$emit('catchBlob', this.blob);
-      console.log("写真消しました"); //こっちでもemit送る
+      console.log('写真消しました'); //こっちでもemit送る
     }
   }
 });
@@ -4320,48 +4356,135 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mixins: [_mixins_multipost_aboidable__WEBPACK_IMPORTED_MODULE_2__.default],
   components: {
     Loading: _common_Loading_vue__WEBPACK_IMPORTED_MODULE_1__.default,
     IndividualComment: _IndividualComment_vue__WEBPACK_IMPORTED_MODULE_3__.default
   },
+  mixins: [_mixins_multipost_aboidable__WEBPACK_IMPORTED_MODULE_2__.default],
   props: {
     postId: String
   },
   data: function data() {
-    return {};
+    return {
+      showModal: false
+    };
   },
   computed: {
     post: function post() {
-      return this.$store.getters["individual/post"];
+      return this.$store.getters['individual/post'];
     },
     postUser: function postUser() {
-      return this.$store.getters["individual/user"];
+      return this.$store.getters['individual/user'];
     },
     profile: function profile() {
-      return this.$store.getters["individual/profile"];
+      return this.$store.getters['individual/profile'];
     },
     tags: function tags() {
-      return this.$store.getters["individual/tags"];
+      return this.$store.getters['individual/tags'];
     },
     status: function status() {
-      return this.$store.getters["individual/status"];
+      return this.$store.getters['individual/status'];
     },
     countFav: function countFav() {
-      return this.$store.getters["individual/countFav"];
+      return this.$store.getters['individual/countFav'];
     },
     authUser: function authUser() {
-      return this.$store.getters["auth/user"];
+      return this.$store.getters['auth/user'];
     },
     loading: function loading() {
-      return this.$store.getters["loading/loading"];
+      return this.$store.getters['loading/loading'];
     },
     followStatus: function followStatus() {
-      return this.$store.getters["follow/status"];
+      return this.$store.getters['follow/status'];
     },
     countFollow: function countFollow() {
       return this.$store.getters['follow/countFollow'];
@@ -4370,33 +4493,55 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$store.getters['follow/countFollower'];
     }
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    console.log('Individual mounted start!');
+    this.$store.dispatch('loading/startLoad').then(function () {
+      return _this.getIndividual();
+    }).then(function () {
+      return _this.$store.dispatch('follow/checkFollow', {
+        auth_user: _this.authUser.id,
+        post_user: _this.postUser.id
+      });
+    }).then(function () {
+      return _this.$store.dispatch('loading/endLoad');
+    }).then(function () {
+      return _this.$store.dispatch('follow/countFollow', _this.postUser.id);
+    });
+    this.$store.dispatch('comment/getComment', this.postId);
+  },
   methods: {
     pushFavorite: function pushFavorite() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-                    while (1) {
-                      switch (_context.prev = _context.next) {
-                        case 0:
-                          _context.next = 2;
-                          return _this.$store.dispatch('individual/pushFavorite', {
-                            post_id: _this.post.post_id,
-                            user_id: _this.authUser.id
-                          });
+                if (!_this2.authUser) {
+                  _this2.showModal = true;
+                } else {
+                  _this2.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            _context.next = 2;
+                            return _this2.$store.dispatch('individual/pushFavorite', {
+                              post_id: _this2.post.post_id,
+                              user_id: _this2.authUser.id
+                            });
 
-                        case 2:
-                        case "end":
-                          return _context.stop();
+                          case 2:
+                          case "end":
+                            return _context.stop();
+                        }
                       }
-                    }
-                  }, _callee);
-                })));
+                    }, _callee);
+                  })));
+                }
 
               case 1:
               case "end":
@@ -4407,22 +4552,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     deleteFavorite: function deleteFavorite() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this2.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+                _this3.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
                   return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
                     while (1) {
                       switch (_context3.prev = _context3.next) {
                         case 0:
                           _context3.next = 2;
-                          return _this2.$store.dispatch('individual/deleteFavorite', {
-                            post_id: _this2.post.post_id,
-                            user_id: _this2.authUser.id
+                          return _this3.$store.dispatch('individual/deleteFavorite', {
+                            post_id: _this3.post.post_id,
+                            user_id: _this3.authUser.id
                           });
 
                         case 2:
@@ -4442,30 +4587,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     pushFollow: function pushFollow() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                _this3.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
-                    while (1) {
-                      switch (_context5.prev = _context5.next) {
-                        case 0:
-                          _this3.$store.dispatch('follow/pushFollow', {
-                            auth_user: _this3.authUser.id,
-                            post_user: _this3.postUser.id
-                          });
+                if (!_this4.authUser) {
+                  _this4.showModal = true;
+                } else {
+                  _this4.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5() {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
+                      while (1) {
+                        switch (_context5.prev = _context5.next) {
+                          case 0:
+                            _this4.$store.dispatch('follow/pushFollow', {
+                              auth_user: _this4.authUser.id,
+                              post_user: _this4.postUser.id
+                            });
 
-                        case 1:
-                        case "end":
-                          return _context5.stop();
+                          case 1:
+                          case "end":
+                            return _context5.stop();
+                        }
                       }
-                    }
-                  }, _callee5);
-                })));
+                    }, _callee5);
+                  })));
+                }
 
               case 1:
               case "end":
@@ -4476,21 +4625,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     deleteFollow: function deleteFollow() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                _this4.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
+                _this5.avoidMultipost( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
                   return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
                     while (1) {
                       switch (_context7.prev = _context7.next) {
                         case 0:
-                          _this4.$store.dispatch('follow/deleteFollow', {
-                            auth_user: _this4.authUser.id,
-                            post_user: _this4.postUser.id
+                          _this5.$store.dispatch('follow/deleteFollow', {
+                            auth_user: _this5.authUser.id,
+                            post_user: _this5.postUser.id
                           });
 
                         case 1:
@@ -4510,7 +4659,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getUser: function getUser() {
-      var _this5 = this;
+      var _this6 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9() {
         var user;
@@ -4518,7 +4667,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                user = _this5.$store.getters["auth/user"];
+                user = _this6.$store.getters['auth/user'];
 
                 if (user) {
                   _context9.next = 4;
@@ -4526,7 +4675,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context9.next = 4;
-                return _this5.$store.dispatch('auth/fetchUser');
+                return _this6.$store.dispatch('auth/fetchUser');
 
               case 4:
               case "end":
@@ -4537,7 +4686,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getIndividual: function getIndividual() {
-      var _this6 = this;
+      var _this7 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
@@ -4545,9 +4694,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context10.prev = _context10.next) {
               case 0:
                 _context10.next = 2;
-                return _this6.$store.dispatch('individual/getIndividual', {
-                  post_id: _this6.postId,
-                  user_id: _this6.authUser.id
+                return _this7.$store.dispatch('individual/getIndividual', {
+                  post_id: _this7.postId,
+                  user_id: _this7.authUser.id
                 });
 
               case 2:
@@ -4557,25 +4706,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee10);
       }))();
-    }
-  },
-  mounted: function mounted() {
-    var _this7 = this;
-
-    console.log('Individual mounted start!');
-    this.$store.dispatch('loading/startLoad').then(function () {
-      return _this7.getIndividual();
-    }).then(function () {
-      return _this7.$store.dispatch('follow/checkFollow', {
-        auth_user: _this7.authUser.id,
-        post_user: _this7.postUser.id
+    },
+    closeModal: function closeModal() {
+      this.showModal = false;
+    },
+    showRegister: function showRegister() {
+      this.$router.push({
+        name: 'register'
       });
-    }).then(function () {
-      return _this7.$store.dispatch('loading/endLoad');
-    }).then(function () {
-      return _this7.$store.dispatch('follow/countFollow', _this7.postUser.id);
-    });
-    this.$store.dispatch('comment/getComment', this.postId);
+    },
+    showLogin: function showLogin() {
+      this.$router.push({
+        name: 'login'
+      });
+    }
   }
 });
 
@@ -4620,7 +4764,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    showModal: Boolean
+  },
   computed: {
     comment: {
       get: function get() {
@@ -4644,15 +4810,19 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
-      this.$store.dispatch('loading/startLoad').then(function () {
-        return _this.$store.dispatch('comment/pushComment', {
-          comment: _this.comment,
-          post_id: _this.post.post_id,
-          user_id: _this.user.id
+      if (!this.user) {
+        this.$parent.showModal = true;
+      } else {
+        this.$store.dispatch('loading/startLoad').then(function () {
+          return _this.$store.dispatch('comment/pushComment', {
+            comment: _this.comment,
+            post_id: _this.post.post_id,
+            user_id: _this.user.id
+          });
+        }).then(function () {
+          return _this.$store.dispatch('loading/endLoad');
         });
-      }).then(function () {
-        return _this.$store.dispatch('loading/endLoad');
-      });
+      }
     }
   }
 });
@@ -4701,21 +4871,62 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {
     loading: function loading() {
-      return this.$store.getters["loading/loading"];
+      return this.$store.getters['loading/loading'];
     },
     posts: function posts() {
-      return this.$store.getters["newtimeline/items"];
+      return this.$store.getters['newtimeline/items'];
     },
     itemLoading: function itemLoading() {
-      return this.$store.getters["newtimeline/itemLoading"];
+      return this.$store.getters['newtimeline/itemLoading'];
     }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    console.log('newTimeline mounted start');
+
+    window.onscroll = function () {
+      var bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight;
+
+      if (bottomOfWindow >= document.documentElement.offsetHeight) {
+        _this.$store.dispatch('loading/startLoad').then(function () {
+          return _this.getPost();
+        }).then(function () {
+          return _this.$store.dispatch('loading/endLoad');
+        });
+      }
+    };
+
+    this.$store.dispatch('loading/startLoad').then(function () {
+      return _this.getPost();
+    }).then(function () {
+      return _this.$store.dispatch('loading/endLoad');
+    });
   },
   methods: {
     getPost: function getPost() {
-      var _this = this;
+      var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var items;
@@ -4723,9 +4934,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                items = _this.$store.getters["newtimeline/items"];
+                items = _this2.$store.getters['newtimeline/items'];
                 _context.next = 3;
-                return _this.$store.dispatch('newtimeline/ggetPost');
+                return _this2.$store.dispatch('newtimeline/ggetPost');
 
               case 3:
               case "end":
@@ -4735,29 +4946,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     }
-  },
-  mounted: function mounted() {
-    var _this2 = this;
-
-    console.log('newTimeline mounted start');
-
-    window.onscroll = function () {
-      var bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight;
-
-      if (bottomOfWindow >= document.documentElement.offsetHeight) {
-        _this2.$store.dispatch('loading/startLoad').then(function () {
-          return _this2.getPost();
-        }).then(function () {
-          return _this2.$store.dispatch('loading/endLoad');
-        });
-      }
-    };
-
-    this.$store.dispatch('loading/startLoad').then(function () {
-      return _this2.getPost();
-    }).then(function () {
-      return _this2.$store.dispatch('loading/endLoad');
-    });
   }
 });
 
@@ -10212,7 +10400,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nnav[data-v-153bfd55]{\n    background-color: #fff;\n    height: 60px;\n}\n.icon_name[data-v-153bfd55]{\n    width: 35px;\n    height: 35px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.modalLogout[data-v-153bfd55]{\n    position: absolute;\n    top: 0;\n    width: 100%;\n    height: 60px;\n    background-color: #F8A017;\n    text-align: center;\n    padding:13px 0 0 0;\n    -webkit-animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-153bfd55]{\n    position: relative;\n    color: #FFFFFF;\n    font-size: 1.2rem;\n    -webkit-animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-153bfd55]::before{\n    content: 'ログアウトに成功しました。';\n}\n@-webkit-keyframes modal-data-v-153bfd55 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n@keyframes modal-data-v-153bfd55 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nnav[data-v-153bfd55]{\n    background-color: #fff;\n    height: 60px;\n}\n.logo[data-v-153bfd55]{\n  position:absolute;\n  top: 12px;\n  height: 55px;\n}\n.icon_name[data-v-153bfd55]{\n    width: 35px;\n    height: 35px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.modalLogout[data-v-153bfd55]{\n    position: absolute;\n    top: 0;\n    width: 100%;\n    height: 60px;\n    background-color: #F8A017;\n    text-align: center;\n    padding:13px 0 0 0;\n    -webkit-animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-153bfd55]{\n    position: relative;\n    color: #FFFFFF;\n    font-size: 1.2rem;\n    -webkit-animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-153bfd55]::before{\n    content: 'ログアウトに成功しました。';\n}\n@-webkit-keyframes modal-data-v-153bfd55 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n@keyframes modal-data-v-153bfd55 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -10236,7 +10424,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.footer[data-v-4e50fea4]{\n  position: absolute;\n  width: 100%;\n  height: 20vh;\n  background-color: #3E3E3E;\n  color: aliceblue;\n  margin: 10% 0 0 0;\n  text-align: center;\n  vertical-align: middle;\n  bottom: 0;\n}\n.footer div[data-v-4e50fea4]{\n  position: absolute;\n  margin: auto;\n  top: 0;\n  right: 0;\n  left: 0;\n  bottom: 0;\n  width: 20%;\n  height: 30%;\n}\n.footer p[data-v-4e50fea4]{\n  font-size: 0.8rem;\n  margin: 0%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.footer[data-v-4e50fea4]{\n  position: absolute;\n  width: 100%;\n  height: 20vh;\n  background-color: #3E3E3E;\n  color: aliceblue;\n  margin: 10% 0 0 0;\n  text-align: center;\n  vertical-align: middle;\n  bottom: 0;\n}\n.footer div[data-v-4e50fea4]{\n  position: absolute;\n  margin: auto;\n  top: 0;\n  right: 0;\n  left: 0;\n  bottom: 0;\n  width: 20%;\n  height: 60%;\n}\n.footer p[data-v-4e50fea4]{\n  font-size: 0.8rem;\n  margin: 0%;\n}\n.logo[data-v-4e50fea4]{\n    height: 74px;\n    margin: 5% 0 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -10620,7 +10808,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper[data-v-7ba11584]{\n    background-color: #EDF2F7;\n}\n.pages[data-v-7ba11584]{\n    padding-top: 150px;\n}\n.comment[data-v-7ba11584]{\n    background-color: #FFF;\n    border-radius: 10px;\n    margin-top: 5%;\n}\n.contents-profile[data-v-7ba11584]{\n    background-color: #FFF;\n    border-radius: 10px;\n    margin: 6% auto;\n    padding: 5%;\n}\n.contents-profile h3[data-v-7ba11584] {\n    font-size: 1.3rem;\n}\n.contents-profile .name-id[data-v-7ba11584]{\n    float: left;\n}\n.contents-profile .pro_name[data-v-7ba11584]{\n    padding: 2% 0 0;\n    margin-bottom: 0;\n}\n.contents-profile .follow-unfollow[data-v-7ba11584]{\n    text-align: right;\n}\n.contents-profile .follow[data-v-7ba11584]{\n    display: inline-block;\n    border: 1px solid #CFCABF;\n    border-radius: 5%;\n    padding:7px;\n    cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]{\n    display: inline-block;\n    border: 1px solid #CFCABF;\n    border-radius: 5%;\n    padding:7px;\n    cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]:hover{\n    background-color: #2983FD;\n    color: #FFF;\n}\n.contents-profile .follow[data-v-7ba11584]:hover{\n    background-color: #2983FD;\n    color: #FFF;\n}\n.contents-profile .follower[data-v-7ba11584]{\n    clear: both;\n}\n.follower p[data-v-7ba11584] {\n    display: inline;\n    font-size: 0.8rem;\n    color: #859099;\n}\n.contents-profile hr[data-v-7ba11584]{\n    border-width: 1px 0 0 0;\n    border-style: solid;\n    border-color: #CFCABF;\n}\n.created-time[data-v-7ba11584]{\n    font-size: 0.9em;\n    color: #859099;\n}\n.contents-description[data-v-7ba11584]{\n    padding: 3%;\n}\n.sub[data-v-7ba11584]{\n    margin-left: 5%;\n}\n.individual-profile[data-v-7ba11584]{\n    background-color: #fff;\n    border-radius: 10px;\n    position: -webkit-sticky;\n    position: sticky;\n    top: 3%;\n}\n.individual-profile img[data-v-7ba11584]{\n    margin: 5%;\n}\n.individual-profile .pro_name[data-v-7ba11584]{\n    margin-bottom: 0;\n    padding: 5% 0 0;\n}\n.individual-profile a[data-v-7ba11584]{\n    font-size:1.2rem;\n}\n.individual-profile .link[data-v-7ba11584]{\n    clear: both;\n    padding-bottom: 7%;\n}\n.individual-profile .ff[data-v-7ba11584]{\n    text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]{\n    display: inline-block;\n    width: 90%;\n    padding: 3% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.individual-profile .follow[data-v-7ba11584]{\n    display: inline-block;\n    width: 90%;\n    padding: 3% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]:hover{\n    background-color: blue;\n    color: #fff;\n}\n.individual-tags[data-v-7ba11584]{\n    background-color: #fff;\n    border-radius: 10px;\n    margin: 13% 0;\n    position: -webkit-sticky;\n    position: sticky;\n    top: 22%;\n}\n.individual-tags h3[data-v-7ba11584]{\n    text-align: center;\n    padding: 3% 0;\n}\n.individual-tags ul[data-v-7ba11584]{\n    padding: 5%;\n}\n.individual-tags li[data-v-7ba11584]{    \n    list-style: none;\n    border: 1px solid #CFCABF;\n    border-radius: 7px;\n    display: inline-block;\n    padding: 1% 2%;\n    margin: 2% 3% 3% 3%;\n    cursor: pointer;\n}\n.individual-tags li[data-v-7ba11584]:hover{\n    background-color: #CFCABF;\n}\n.icon-photo[data-v-7ba11584]{\n    width: 50px;\n    height: 50px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n    float: left;\n    margin: 1% 2% 0 0;\n}\n.contents-photo[data-v-7ba11584]{\n    width: 100%;\n}\n.menu[data-v-7ba11584]{\n    text-align: center;\n    position: fixed;\n}\n.curcle[data-v-7ba11584]{\n    border: 1px solid #fff;\n    background-color: #fff;\n    border-radius: 50%;\n    width: 3rem;\n    height: 3rem;\n    padding:24%;\n}\n.menu p[data-v-7ba11584]{\n    display: inline;\n    margin: 0;\n}\n.menu .twitter[data-v-7ba11584]{\n    font-size: 1.7rem;\n    color: grey;\n}\n.menu .twitter[data-v-7ba11584]:hover{\n    color: #000;\n}\n.favorite[data-v-7ba11584]{\n    font-size: 1.2rem;\n    vertical-align: middle;\n}\n.favorite2[data-v-7ba11584]{\n    font-size: 1.2rem;\n    color: #F66685;\n    vertical-align: middle;\n}\n.favorite[data-v-7ba11584]:hover{\n    color: red;\n}\n.favorite2[data-v-7ba11584]:hover{\n    color: red;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper[data-v-7ba11584]{\n    background-color: #EDF2F7;\n}\n.pages[data-v-7ba11584]{\n    padding-top: 150px;\n}\n.comment[data-v-7ba11584]{\n    background-color: #FFF;\n    border-radius: 10px;\n    margin-top: 5%;\n}\n.contents-profile[data-v-7ba11584]{\n    background-color: #FFF;\n    border-radius: 10px;\n    margin: 6% auto;\n    padding: 5%;\n}\n.contents-profile h3[data-v-7ba11584] {\n    font-size: 1.3rem;\n}\n.contents-profile .name-id[data-v-7ba11584]{\n    float: left;\n}\n.contents-profile .pro_name[data-v-7ba11584]{\n    padding: 2% 0 0;\n    margin-bottom: 0;\n}\n.contents-profile .follow-unfollow[data-v-7ba11584]{\n    text-align: right;\n}\n.contents-profile .follow[data-v-7ba11584]{\n    display: inline-block;\n    border: 1px solid #CFCABF;\n    border-radius: 5%;\n    padding:7px;\n    cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]{\n    display: inline-block;\n    border: 1px solid #CFCABF;\n    border-radius: 5%;\n    padding:7px;\n    cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]:hover{\n    background-color: #2983FD;\n    color: #FFF;\n}\n.contents-profile .follow[data-v-7ba11584]:hover{\n    background-color: #2983FD;\n    color: #FFF;\n}\n.contents-profile .follower[data-v-7ba11584]{\n    clear: both;\n}\n.follower p[data-v-7ba11584] {\n    display: inline;\n    font-size: 0.8rem;\n    color: #859099;\n}\n.contents-profile hr[data-v-7ba11584]{\n    border-width: 1px 0 0 0;\n    border-style: solid;\n    border-color: #CFCABF;\n}\n.created-time[data-v-7ba11584]{\n    font-size: 0.9em;\n    color: #859099;\n}\n.contents-description[data-v-7ba11584]{\n    padding: 3%;\n}\n.sub[data-v-7ba11584]{\n    margin-left: 5%;\n}\n.individual-profile[data-v-7ba11584]{\n    background-color: #fff;\n    border-radius: 10px;\n    position: -webkit-sticky;\n    position: sticky;\n    top: 3%;\n}\n.individual-profile img[data-v-7ba11584]{\n    margin: 5%;\n}\n.individual-profile .pro_name[data-v-7ba11584]{\n    margin-bottom: 0;\n    padding: 5% 0 0;\n}\n.individual-profile a[data-v-7ba11584]{\n    font-size:1.2rem;\n}\n.individual-profile .link[data-v-7ba11584]{\n    clear: both;\n    padding-bottom: 7%;\n}\n.individual-profile .ff[data-v-7ba11584]{\n    text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]{\n    display: inline-block;\n    width: 90%;\n    padding: 3% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.individual-profile .follow[data-v-7ba11584]{\n    display: inline-block;\n    width: 90%;\n    padding: 3% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]:hover{\n    background-color: blue;\n    color: #fff;\n}\n.individual-tags[data-v-7ba11584]{\n    background-color: #fff;\n    border-radius: 10px;\n    margin: 13% 0;\n    position: -webkit-sticky;\n    position: sticky;\n    top: 22%;\n}\n.individual-tags h3[data-v-7ba11584]{\n    text-align: center;\n    padding: 3% 0;\n}\n.individual-tags ul[data-v-7ba11584]{\n    padding: 5%;\n}\n.individual-tags li[data-v-7ba11584]{    \n    list-style: none;\n    border: 1px solid #CFCABF;\n    border-radius: 7px;\n    display: inline-block;\n    padding: 1% 2%;\n    margin: 2% 3% 3% 3%;\n    cursor: pointer;\n}\n.individual-tags li[data-v-7ba11584]:hover{\n    background-color: #CFCABF;\n}\n.icon-photo[data-v-7ba11584]{\n    width: 50px;\n    height: 50px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n    float: left;\n    margin: 1% 2% 0 0;\n}\n.contents-photo[data-v-7ba11584]{\n    width: 100%;\n}\n.menu[data-v-7ba11584]{\n    text-align: center;\n    position: fixed;\n}\n.curcle[data-v-7ba11584]{\n    border: 1px solid #fff;\n    background-color: #fff;\n    border-radius: 50%;\n    width: 3rem;\n    height: 3rem;\n    padding:24%;\n}\n.menu p[data-v-7ba11584]{\n    display: inline;\n    margin: 0;\n}\n.menu .twitter[data-v-7ba11584]{\n    font-size: 1.7rem;\n    color: grey;\n    cursor: pointer;\n}\n.menu .twitter[data-v-7ba11584]:hover{\n    color: #000;\n}\n.favorite[data-v-7ba11584]{\n    font-size: 1.2rem;\n    vertical-align: middle;\n    cursor: pointer;\n}\n.favorite2[data-v-7ba11584]{\n    font-size: 1.2rem;\n    color: #F66685;\n    vertical-align: middle;\n    cursor: pointer;\n}\n.favorite[data-v-7ba11584]:hover{\n    color: red;\n}\n.favorite2[data-v-7ba11584]:hover{\n    color: red;\n}\n.overlay[data-v-7ba11584]{\n    z-index:1;\n    position:fixed;\n    top:0;\n    left:0;\n    width:100%;\n    height:100%;\n    background-color:rgba(0,0,0,0.5);\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.modalLogin[data-v-7ba11584]{\n    position:relative;\n    z-index: 2;\n    width: 30%;\n    padding: 1em;\n    background-color: #fff;\n    text-align: center;\n    border-radius: 7px;\n    box-shadow: 2px 2px 6px lightgrey;\n}\n.batsu[data-v-7ba11584]{\n    font-size:2em;\n    cursor: pointer;\n    position: absolute;\n    top: -1.3rem;\n    right: -0.8rem;\n    border-radius: 50%;\n    border: 1px solid #fff;\n    padding: 0.5rem;\n    background-color: #fff;\n    width: 2.4rem;\n    height: 2.4rem;\n    box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-7ba11584]{\n    width: 1rem;\n    height: 1rem;\n    position: absolute;\n    top: 0.6rem;\n    right: 0.65rem;\n    font-size: 1.3rem;\n}\n.modalLogin p[data-v-7ba11584]{\n    margin: 7% 0;\n}\n.modalBtn[data-v-7ba11584]{\n    margin: 5% 0;\n}\n.registerBtn[data-v-7ba11584]{\n    border: 1px solid blue;\n    border-radius: 5px;\n    background: #DEF2FF;\n    padding: 3% 7%;\n    margin: 0 2%;\n}\n.loginBtn[data-v-7ba11584]{\n    border: 1px solid blue;\n    border-radius: 5px;\n    background: #DEF2FF;\n    padding: 3% 7%;\n    margin: 0 2%;\n}\n.registerBtn[data-v-7ba11584]:hover{\n    opacity: 0.6;\n}\n.loginBtn[data-v-7ba11584]:hover{\n    opacity: 0.6;\n}\n.modalLogin .logo[data-v-7ba11584]{\n    height: 90px;\n    margin: 5% 0 0;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -15622,7 +15810,10 @@ var render = function() {
             { staticClass: "container" },
             [
               _c("router-link", { attrs: { to: { name: "home" } } }, [
-                _vm._v("\n        WorkDesk\n      ")
+                _c("img", {
+                  staticClass: "logo",
+                  attrs: { src: "/images/Logo.svg", alt: "ロゴ" }
+                })
               ]),
               _vm._v(" "),
               _vm._m(0),
@@ -15853,22 +16044,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "footer" }, [
-      _c("div", [
-        _c("h3", [_vm._v("TAKUWAKU")]),
-        _vm._v(" "),
-        _c("p", [_vm._v("@2021 TAKUWAKU All Rights Reserved.")])
-      ])
+  return _c("div", { staticClass: "footer" }, [
+    _c("div", [
+      _c("img", {
+        staticClass: "logo",
+        attrs: { src: "/images/Logo.svg", alt: "ロゴ" }
+      }),
+      _vm._v(" "),
+      _c("p", [_vm._v("@2021 TAKUWAKU All Rights Reserved.")])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -16800,13 +16987,13 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "cancelBtn", on: { click: _vm.closeModal } },
-                  [_vm._v("キャンセル")]
+                  [_vm._v("\n            キャンセル\n          ")]
                 ),
                 _vm._v(" "),
                 _c(
                   "div",
                   { staticClass: "completeBtn", on: { click: _vm.cropImage } },
-                  [_vm._v("完了")]
+                  [_vm._v("\n            完了\n          ")]
                 )
               ])
             ])
@@ -16822,9 +17009,13 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "explain" }, [
-      _c("p", { staticClass: "title" }, [_vm._v("画像をアップロードする")]),
+      _c("p", { staticClass: "title" }, [
+        _vm._v("\n          画像をアップロードする\n        ")
+      ]),
       _vm._v(" "),
-      _c("p", { staticClass: "required" }, [_vm._v("※必須")])
+      _c("p", { staticClass: "required" }, [
+        _vm._v("\n          ※必須\n        ")
+      ])
     ])
   }
 ]
@@ -18336,7 +18527,11 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("p", { staticClass: "created-time" }, [
-                    _vm._v(_vm._s(_vm.post.created_at))
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.post.created_at) +
+                        "\n          "
+                    )
                   ]),
                   _vm._v(" "),
                   _c("span", { staticClass: "contents-description" }, [
@@ -18344,9 +18539,12 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c("individual-comment", { staticClass: "comment" }),
+                _c("individual-comment", {
+                  staticClass: "comment",
+                  attrs: { "show-modal": _vm.showModal }
+                }),
                 _vm._v(" "),
-                _c("div", { staticClass: "contents-profile" }, [
+                _c("div", { staticClass: "\n          contents-profile" }, [
                   _c("h3", [_vm._v("写真を投稿したユーザー")]),
                   _vm._v(" "),
                   _c("div", [
@@ -18363,7 +18561,11 @@ var render = function() {
                       { staticClass: "name-id" },
                       [
                         _c("p", { staticClass: "pro_name" }, [
-                          _vm._v(_vm._s(_vm.postUser.name))
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(_vm.postUser.name) +
+                              "\n              "
+                          )
                         ]),
                         _vm._v(" "),
                         _c(
@@ -18376,7 +18578,13 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("@" + _vm._s(_vm.postUser.login_id))]
+                          [
+                            _vm._v(
+                              "\n                @" +
+                                _vm._s(_vm.postUser.login_id) +
+                                "\n              "
+                            )
+                          ]
                         )
                       ],
                       1
@@ -18413,7 +18621,7 @@ var render = function() {
                           [
                             _c("i", { staticClass: "fas fa-user-plus" }),
                             _vm._v(
-                              "\n                                フォローする\n                            "
+                              "\n                フォローする\n              "
                             )
                           ]
                         ),
@@ -18435,7 +18643,7 @@ var render = function() {
                           [
                             _c("i", { staticClass: "fas fa-user-plus" }),
                             _vm._v(
-                              "\n                                フォロー解除                        \n                            "
+                              "\n                フォロー解除                        \n              "
                             )
                           ]
                         )
@@ -18485,7 +18693,11 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "name-id" }, [
                       _c("p", { staticClass: "pro_name" }, [
-                        _vm._v(_vm._s(_vm.postUser.name))
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.postUser.name) +
+                            "\n              "
+                        )
                       ]),
                       _vm._v(" "),
                       _c(
@@ -18591,15 +18803,66 @@ var render = function() {
                   _vm._l(_vm.tags, function(tag) {
                     return _c("li", { key: tag.tag_id, staticClass: "tag" }, [
                       _vm._v(
-                        "\n                            " +
+                        "\n              " +
                           _vm._s(tag.tag_name) +
-                          "\n                        "
+                          "\n            "
                       )
                     ])
                   }),
                   0
                 )
               ])
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showModal,
+              expression: "showModal"
+            }
+          ],
+          staticClass: "overlay",
+          on: { click: _vm.closeModal }
+        },
+        [
+          _c("div", { staticClass: "modalLogin" }, [
+            _c("div", { staticClass: "batsu" }, [
+              _c("i", {
+                staticClass: "fas fa-times batsuBtn",
+                on: { click: _vm.closeModal }
+              })
+            ]),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "logo",
+              attrs: { src: "/images/Logo.svg", height: "64", alt: "ロゴだよ" }
+            }),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                "Takuwakuは在宅環境共有プラットフォームです。シェアしてみましょう。"
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modalBtn" }, [
+              _c(
+                "button",
+                { staticClass: "registerBtn", on: { click: _vm.showRegister } },
+                [_vm._v("\n          新規登録\n        ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                { staticClass: "loginBtn", on: { click: _vm.showLogin } },
+                [_vm._v("\n          ログイン\n        ")]
+              )
             ])
           ])
         ]
@@ -18657,19 +18920,29 @@ var render = function() {
                 },
                 [
                   _c("p", { staticClass: "login_id" }, [
-                    _vm._v("@" + _vm._s(comments.user[0].login_id))
+                    _vm._v(
+                      "\n            @" +
+                        _vm._s(comments.user[0].login_id) +
+                        "\n          "
+                    )
                   ])
                 ]
               ),
               _vm._v(" "),
               _c("p", { staticClass: "time" }, [
-                _vm._v(_vm._s(comments.created_at))
+                _vm._v(
+                  "\n          " + _vm._s(comments.created_at) + "\n        "
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "balloon" }, [
                 _c("div", { staticClass: "says" }, [
                   _c("p", { staticClass: "message" }, [
-                    _vm._v(_vm._s(comments.comment_message))
+                    _vm._v(
+                      "\n              " +
+                        _vm._s(comments.comment_message) +
+                        "\n            "
+                    )
                   ])
                 ]),
                 _vm._v(" "),
@@ -18706,8 +18979,8 @@ var render = function() {
             ],
             staticClass: "textarea",
             attrs: {
-              name: "comment",
               id: "comment",
+              name: "comment",
               cols: "30",
               rows: "3",
               placeholder: "コメントを入力する"
@@ -18724,7 +18997,9 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("button", { staticClass: "comment-btn" }, [_vm._v("コメントする")])
+        _c("button", { staticClass: "comment-btn" }, [
+          _vm._v("\n      コメントする\n    ")
+        ])
       ]
     )
   ])
@@ -18753,7 +19028,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "new-article" }, [
-    _c("h2", { staticClass: "title" }, [_vm._v("New Post")]),
+    _c("h2", { staticClass: "title" }, [_vm._v("\n    New Post\n  ")]),
     _vm._v(" "),
     _c(
       "div",
@@ -18787,12 +19062,20 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("p", { staticClass: "content-id" }, [
-                      _vm._v("@" + _vm._s(post.user.login_id))
+                      _vm._v(
+                        "\n              @" +
+                          _vm._s(post.user.login_id) +
+                          "\n            "
+                      )
                     ])
                   ]),
                   _vm._v(" "),
                   _c("p", { staticClass: "content-description" }, [
-                    _vm._v(_vm._s(post.description))
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(post.description) +
+                        "\n          "
+                    )
                   ])
                 ])
               ]

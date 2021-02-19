@@ -1,133 +1,163 @@
 <template>
-    <div id="post-image-preview" class="post-image-preview">
-        <div class="form-group">
-            <div class="contents">
-                <div class="explain">
-                    <p class="title">画像をアップロードする</p>
-                    <p class="required">※必須</p>
-                </div>
-                <div class="uploadStep items">
-                    <label for="image" class="image-view" v-show="!cropImg">
-                        <input id="image" class="form-input image-btn" type="file" name="image"
-                            accept="image/png, image/jpeg" v-on:change="openModal">
-                        <div class="selectBtn">写真を選択する</div>
-                    </label>
-                    <img class="cropimg" v-bind:src="cropImg" v-if="cropImg">
-                    <div class="deleteImg" v-on:click="deleteImage" v-if="cropImg">
-                        <i class="fas fa-times deleteBatsu"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 以下モーダル -->
-            <div class="overlay" v-show="showModal">
-                <div class="modal1">
-                    <div class="batsu">
-                        <i class="fas fa-times batsuBtn" v-on:click="closeModal"></i>
-                    </div>
-                    <p>トリミングする</p>
-                    <div v-if="imageData" class="image-box">
-                        <vue-cropper
-                            ref="cropper"
-                            :guides="true"
-                            :view-mode="2"
-                            :drag-mode="none"
-                            :aspect-ratio= "1/1"
-                            :auto-crop-area="0.5"
-                            :min-container-width="200"
-                            :min-container-height="200"
-                            :background="true"
-                            :rotatable="false"
-                            :src="imageData"
-                            :img-style="{ 'width': '300px', 'height': '300px' }"
-                            v-if="imageData"
-                        ></vue-cropper>
-                    </div>
-                    <div class="modalBtn">
-                        <div class="cancelBtn" v-on:click="closeModal">キャンセル</div>                    
-                        <div class="completeBtn" v-on:click="cropImage">完了</div>
-                    </div>
-                </div>
-            </div>
-
-
+  <div
+    id="post-image-preview"
+    class="post-image-preview">
+    <div class="form-group">
+      <div class="contents">
+        <div class="explain">
+          <p class="title">
+            画像をアップロードする
+          </p>
+          <p class="required">
+            ※必須
+          </p>
         </div>
+        <div class="uploadStep items">
+          <label
+            v-show="!cropImg"
+            for="image"
+            class="image-view">
+            <input
+              id="image"
+              class="form-input image-btn"
+              type="file"
+              name="image"
+              accept="image/png, image/jpeg"
+              @change="openModal">
+            <div class="selectBtn">写真を選択する</div>
+          </label>
+          <img
+            v-if="cropImg"
+            class="cropimg"
+            :src="cropImg">
+          <div
+            v-if="cropImg"
+            class="deleteImg"
+            @click="deleteImage">
+            <i class="fas fa-times deleteBatsu" />
+          </div>
+        </div>
+      </div>
+
+      <!-- 以下モーダル -->
+      <div
+        v-show="showModal"
+        class="overlay">
+        <div class="modal1">
+          <div class="batsu">
+            <i
+              class="fas fa-times batsuBtn"
+              @click="closeModal" />
+          </div>
+          <p>トリミングする</p>
+          <div
+            v-if="imageData"
+            class="image-box">
+            <vue-cropper
+              ref="cropper"
+              v-if="imageData"
+              :guides="true"
+              :view-mode="2"
+              :drag-mode="none"
+              :aspect-ratio="1/1"
+              :auto-crop-area="0.5"
+              :min-container-width="200"
+              :min-container-height="200"
+              :background="true"
+              :rotatable="false"
+              :src="imageData"
+              :img-style="{ 'width': '300px', 'height': '300px' }" />
+          </div>
+          <div class="modalBtn">
+            <div
+              class="cancelBtn"
+              @click="closeModal">
+              キャンセル
+            </div>                    
+            <div
+              class="completeBtn"
+              @click="cropImage">
+              完了
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
-import VueCropper from "vue-cropperjs";
+import VueCropper from 'vue-cropperjs'
 
-import "cropperjs/dist/cropper.css";
+import 'cropperjs/dist/cropper.css'
 
 export default {
-    components: {
-        VueCropper
-    },
-    el:'#post-image-preview',
-/*     props:
+  el: '#post-image-preview',
+  components: {
+    VueCropper
+  },
+  /*     props:
     [
 
     ], */
-    data() {
-        return {
-            showModal: false,
-            imageData:'',
-            cropImg:'',
-            file:'',
-            blob: '',
-        };
-    },
-    methods: {
-        openModal(e) {
-            let files = e.target.files;
-            if(files.length) {
-                this.file = files[0];
-                const reader = new FileReader();
-                console.log(this.file);
-                reader.onload = (e) => {
-                    this.imageData = e.target.result;
-                    this.$refs.cropper.replace(e.target.result);
-                };
-                reader.readAsDataURL(this.file);
-                e.target.value = '';
-                this.showModal = true;
+  data() {
+    return {
+      showModal: false,
+      imageData: '',
+      cropImg: '',
+      file: '',
+      blob: '',
+    }
+  },
+  methods: {
+    openModal(e) {
+      let files = e.target.files
+      if (files.length) {
+        this.file = files[0]
+        const reader = new FileReader()
+        console.log(this.file)
+        reader.onload = (e) => {
+          this.imageData = e.target.result
+          this.$refs.cropper.replace(e.target.result)
+        }
+        reader.readAsDataURL(this.file)
+        e.target.value = ''
+        this.showModal = true
 
-            }
+      }
             
-        },
-        closeModal(){
-            this.deleteImage();
-            this.showModal = false;
-        },
-        cropImage(){
-            this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL();
-            let bin = atob(this.cropImg.replace(/^.*,/, ''));
-            let buffer = new Uint8Array(bin.length);
-            for(let i = 0; i < bin.length; i++){
-                buffer[i] = bin.charCodeAt(i);
-            }
-
-            // Blobを作成
-            this.blob = new Blob([buffer.buffer], {
-                type: "image/jpeg"
-            });
-            console.log(this.blob);
-            this.$emit('catchBlob', this.blob);
-            this.showModal = false;
-        },
-        deleteImage(){
-            console.log("写真消します");
-            this.imageData = '';
-            this.cropImg = '';
-            this.file = '';
-            this.blob = '';
-            this.$emit('catchBlob', this.blob);
-            console.log("写真消しました");
-            //こっちでもemit送る
-        },
-
-
     },
+    closeModal(){
+      this.deleteImage()
+      this.showModal = false
+    },
+    cropImage(){
+      this.cropImg = this.$refs.cropper.getCroppedCanvas().toDataURL()
+      let bin = atob(this.cropImg.replace(/^.*,/, ''))
+      let buffer = new Uint8Array(bin.length)
+      for (let i = 0; i < bin.length; i++){
+        buffer[i] = bin.charCodeAt(i)
+      }
+
+      // Blobを作成
+      this.blob = new Blob([buffer.buffer], {
+        type: 'image/jpeg'
+      })
+      console.log(this.blob)
+      this.$emit('catchBlob', this.blob)
+      this.showModal = false
+    },
+    deleteImage(){
+      console.log('写真消します')
+      this.imageData = ''
+      this.cropImg = ''
+      this.file = ''
+      this.blob = ''
+      this.$emit('catchBlob', this.blob)
+      console.log('写真消しました')
+      //こっちでもemit送る
+    },
+
+  },
 }
 </script>
 <style scoped>

@@ -1,179 +1,282 @@
 <template>
-<div class="wrapper">
-    <loading v-show="loading"></loading>
-    <div class="container pages" v-show="!loading">
-        <div class="row justify-content-center">
-            <div class="col-md-1">
-                <div class="menu">
-                    <div class="curcle">
-                        <i class="far fa-heart favorite" v-bind:disabled="isPosting" v-show="status == false" @click="pushFavorite"></i>
-                        <i class="fas fa-heart favorite2" v-bind:disabled="isPosting" v-show="status == true" @click="deleteFavorite"></i>
-                    </div>
-                    <p>{{countFav}}</p><br>
-                    <i class="fab fa-twitter twitter"></i>
-                </div>
+  <div class="wrapper">
+    <loading v-show="loading" />
+    <div
+      v-show="!loading"
+      class="container pages">
+      <div class="row justify-content-center">
+        <div class="col-md-1">
+          <div class="menu">
+            <div class="curcle">
+              <i
+                v-show="status == false"
+                class="far fa-heart favorite"
+                :disabled="isPosting"
+                @click="pushFavorite" />
+              <i
+                v-show="status == true"
+                class="fas fa-heart favorite2"
+                :disabled="isPosting"
+                @click="deleteFavorite" />
             </div>
-            <div class="col-md-7 main">
-                <div class="contents">
-                    <img :src="`../${post.photo_path}`" alt="contents-photo" class="contents-photo">
-                    <p class="created-time">{{post.created_at}}</p>
-                    <span class="contents-description">{{post.description}}</span>
-                </div>
-                <individual-comment class="comment"></individual-comment>
-                <div class="contents-profile">
-                    <h3>写真を投稿したユーザー</h3>
-                    <div>
-                        <img :src="`../${profile.icon_path}`" alt="contents-photo" class="icon-photo">
-                        <div class="name-id">
-                            <p class="pro_name">{{postUser.name}}</p>
-                            <router-link v-bind:to="{ name:'mypage', params:{userId:postUser.id}}">@{{postUser.login_id}}</router-link>
-                        </div>
-                        <div v-show="postUser.id != authUser.id" class="follow-unfollow">
-                            <div class="follow" @click="pushFollow" v-show="!followStatus" >
-                                <i class="fas fa-user-plus"></i>
-                                フォローする
-                            </div>
-                            <div class="unfollow" @click="deleteFollow" v-show="followStatus">
-                                <i class="fas fa-user-plus"></i>
-                                フォロー解除                        
-                            </div>
-                        </div>
-                    </div>
-                    <div class="follower">
-                        <p>{{countFollow}}フォロー</p>
-                        <p>{{countFollower}}フォロワー</p>
-                    </div>
-                    <hr>
-                    <span>{{profile.shokai}}</span>
-                </div>
-            </div>
-            <div class="col-md-3 sub">
-                <div class="individual-profile">
-                    <div>
-                        <router-link v-bind:to="{ name:'mypage', params:{userId:postUser.id}}">
-                            <img :src="`../${profile.icon_path}`" alt="icon-photo" class="icon-photo">
-                        </router-link>
-                        <div class="name-id">
-                            <p class="pro_name">{{postUser.name}}</p>
-                            <a :href="`${profile.website_url}`" v-show="profile.website_url" target="_blank"><i class="fas fa-link"></i></a>
-                            <a :href="`${profile.twitter_url}`" v-show="profile.twitter_url" target="_blank"><i class="fab fa-twitter"></i></a>
-
-                        </div>
-                    </div>
-                    <div class="link">
-                        <div v-show="postUser.id != authUser.id" class="ff">
-                            <div class="follow" @click="pushFollow" v-show="!followStatus" >
-                                <i class="fas fa-user-plus"></i>
-                            </div>
-                            <div class="unfollow" @click="deleteFollow" v-show="followStatus">
-                                <i class="fas fa-user-check"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="individual-tags">
-                    <h3>Tags</h3>
-                    <ul>
-                        <li class="tag" v-for="tag in tags" :key="tag.tag_id">
-                            {{tag.tag_name}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <p>{{ countFav }}</p><br>
+            <i class="fab fa-twitter twitter" />
+          </div>
         </div>
+        <div class="col-md-7 main">
+          <div class="contents">
+            <img
+              :src="`../${post.photo_path}`"
+              alt="contents-photo"
+              class="contents-photo">
+            <p class="created-time">
+              {{ post.created_at }}
+            </p>
+            <span class="contents-description">{{ post.description }}</span>
+          </div>
+          <individual-comment
+            class="comment"
+            :show-modal="showModal" />
+          <div
+            class="
+            contents-profile">
+            <h3>写真を投稿したユーザー</h3>
+            <div>
+              <img
+                :src="`../${profile.icon_path}`"
+                alt="contents-photo"
+                class="icon-photo">
+              <div class="name-id">
+                <p class="pro_name">
+                  {{ postUser.name }}
+                </p>
+                <router-link :to="{ name:'mypage', params:{userId:postUser.id}}">
+                  @{{ postUser.login_id }}
+                </router-link>
+              </div>
+              <div
+                v-show="postUser.id != authUser.id"
+                class="follow-unfollow">
+                <div
+                  v-show="!followStatus"
+                  class="follow"
+                  @click="pushFollow">
+                  <i class="fas fa-user-plus" />
+                  フォローする
+                </div>
+                <div
+                  v-show="followStatus"
+                  class="unfollow"
+                  @click="deleteFollow">
+                  <i class="fas fa-user-plus" />
+                  フォロー解除                        
+                </div>
+              </div>
+            </div>
+            <div class="follower">
+              <p>{{ countFollow }}フォロー</p>
+              <p>{{ countFollower }}フォロワー</p>
+            </div>
+            <hr>
+            <span>{{ profile.shokai }}</span>
+            </individual-comment>
+          </div>
+        </div>
+        <div class="col-md-3 sub">
+          <div class="individual-profile">
+            <div>
+              <router-link :to="{ name:'mypage', params:{userId:postUser.id}}">
+                <img
+                  :src="`../${profile.icon_path}`"
+                  alt="icon-photo"
+                  class="icon-photo">
+              </router-link>
+              <div class="name-id">
+                <p class="pro_name">
+                  {{ postUser.name }}
+                </p>
+                <a
+                  v-show="profile.website_url"
+                  :href="`${profile.website_url}`"
+                  target="_blank"><i class="fas fa-link" /></a>
+                <a
+                  v-show="profile.twitter_url"
+                  :href="`${profile.twitter_url}`"
+                  target="_blank"><i class="fab fa-twitter" /></a>
+              </div>
+            </div>
+            <div class="link">
+              <div
+                v-show="postUser.id != authUser.id"
+                class="ff">
+                <div
+                  v-show="!followStatus"
+                  class="follow"
+                  @click="pushFollow">
+                  <i class="fas fa-user-plus" />
+                </div>
+                <div
+                  v-show="followStatus"
+                  class="unfollow"
+                  @click="deleteFollow">
+                  <i class="fas fa-user-check" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="individual-tags">
+            <h3>Tags</h3>
+            <ul>
+              <li
+                v-for="tag in tags"
+                :key="tag.tag_id"
+                class="tag">
+                {{ tag.tag_name }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-
+    <div
+      v-show="showModal"
+      class="overlay"
+      @click="closeModal">
+      <div class="modalLogin">
+        <div class="batsu">
+          <i
+            class="fas fa-times batsuBtn"
+            @click="closeModal" />
+        </div>
+        <img
+          :src="`/images/Logo.svg`"
+          height="64"
+          alt="ロゴだよ"
+          class="logo">
+        <p>Takuwakuは在宅環境共有プラットフォームです。シェアしてみましょう。</p>
+        <div class="modalBtn">
+          <button
+            class="registerBtn"
+            @click="showRegister">
+            新規登録
+          </button>
+          <button
+            class="loginBtn"
+            @click="showLogin">
+            ログイン
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-import Loading from '../common/Loading.vue';
-import MultipostAboidable from '../../mixins/multipost_aboidable';
-import IndividualComment from './IndividualComment.vue';
+import Loading from '../common/Loading.vue'
+import MultipostAboidable from '../../mixins/multipost_aboidable'
+import IndividualComment from './IndividualComment.vue'
 export default {
-    mixins: [MultipostAboidable],
-    components: { Loading, IndividualComment },
-    props:{
-        postId: String
+  components: { Loading, IndividualComment },
+  mixins: [MultipostAboidable],
+  props: {
+    postId: String
+  },
+  data() {
+    return {
+      showModal: false
+    }
+  },
+  computed: {
+    post(){
+      return this.$store.getters['individual/post']
     },
-    data() {
-        return {
-        };
+    postUser(){
+      return this.$store.getters['individual/user']
     },
-    computed: {
-        post(){
-            return this.$store.getters["individual/post"];
-        },
-        postUser(){
-            return this.$store.getters["individual/user"];
-        },
-        profile(){
-            return this.$store.getters["individual/profile"];
-        },
-        tags(){
-            return this.$store.getters["individual/tags"];
-        },
-        status(){
-            return this.$store.getters["individual/status"];
-        },
-        countFav(){
-            return this.$store.getters["individual/countFav"];
-        },
-        authUser(){
-            return this.$store.getters["auth/user"];
-        },
-        loading(){
-            return this.$store.getters["loading/loading"];
-        },
-        followStatus(){
-            return this.$store.getters["follow/status"];
-        },
-        countFollow(){
-            return this.$store.getters['follow/countFollow'];
-        },
-        countFollower(){
-            return this.$store.getters['follow/countFollower'];
-        }
+    profile(){
+      return this.$store.getters['individual/profile']
     },
-    methods: {
-        async pushFavorite(){
-            this.avoidMultipost(async()=>{
-                await this.$store.dispatch('individual/pushFavorite', {post_id: this.post.post_id, user_id: this.authUser.id}); 
-            }) 
-        },
-        async deleteFavorite(){
-            this.avoidMultipost(async()=>{
-                await this.$store.dispatch('individual/deleteFavorite', {post_id: this.post.post_id, user_id: this.authUser.id});
-            })
-        },
-        async pushFollow(){
-            this.avoidMultipost(async()=>{
-                this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user:this.postUser.id});
-            });
-        },
-        async deleteFollow(){
-            this.avoidMultipost(async()=>{
-                this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user:this.postUser.id});
-            });
-        },
-        async getUser(){
-            const user = this.$store.getters["auth/user"];
-            if(!user){
-                await this.$store.dispatch('auth/fetchUser');
-            }
-        },
-        async getIndividual(){
-            await this.$store.dispatch('individual/getIndividual', {post_id: this.postId, user_id:this.authUser.id});
-        }
+    tags(){
+      return this.$store.getters['individual/tags']
     },
-    mounted() {
-        console.log('Individual mounted start!');
-        this.$store.dispatch('loading/startLoad')
-            .then(()=>this.getIndividual())
-            .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.postUser.id}))
-            .then(()=>this.$store.dispatch('loading/endLoad')) 
-            .then(()=>this.$store.dispatch('follow/countFollow', this.postUser.id))
-        this.$store.dispatch('comment/getComment', this.postId);
+    status(){
+      return this.$store.getters['individual/status']
     },
+    countFav(){
+      return this.$store.getters['individual/countFav']
+    },
+    authUser(){
+      return this.$store.getters['auth/user']
+    },
+    loading(){
+      return this.$store.getters['loading/loading']
+    },
+    followStatus(){
+      return this.$store.getters['follow/status']
+    },
+    countFollow(){
+      return this.$store.getters['follow/countFollow']
+    },
+    countFollower(){
+      return this.$store.getters['follow/countFollower']
+    },
+  },
+  mounted() {
+    console.log('Individual mounted start!')
+    this.$store.dispatch('loading/startLoad')
+      .then(()=>this.getIndividual())
+      .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.postUser.id}))
+      .then(()=>this.$store.dispatch('loading/endLoad')) 
+      .then(()=>this.$store.dispatch('follow/countFollow', this.postUser.id))
+    this.$store.dispatch('comment/getComment', this.postId)
+  },
+  methods: {
+    async pushFavorite(){
+      if (!this.authUser){
+        this.showModal = true
+      } else {
+        this.avoidMultipost(async()=>{
+          await this.$store.dispatch('individual/pushFavorite', {post_id: this.post.post_id, user_id: this.authUser.id}) 
+        }) 
+      }
+    },
+    async deleteFavorite(){
+      this.avoidMultipost(async()=>{
+        await this.$store.dispatch('individual/deleteFavorite', {post_id: this.post.post_id, user_id: this.authUser.id})
+      })
+    },
+    async pushFollow(){
+      if (!this.authUser){
+        this.showModal = true
+      } else {
+        this.avoidMultipost(async()=>{
+          this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user: this.postUser.id})
+        })
+      }
+    },
+    async deleteFollow(){
+      this.avoidMultipost(async()=>{
+        this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user: this.postUser.id})
+      })
+    },
+    async getUser(){
+      const user = this.$store.getters['auth/user']
+      if (!user){
+        await this.$store.dispatch('auth/fetchUser')
+      }
+    },
+    async getIndividual(){
+      await this.$store.dispatch('individual/getIndividual', {post_id: this.postId, user_id: this.authUser.id})
+    },
+    closeModal(){
+      this.showModal = false
+    },
+    showRegister(){
+      this.$router.push({name: 'register'})
+    },
+    showLogin(){
+      this.$router.push({name: 'login'})
+    }
+  },
 }
 </script>
 <style  scoped>
@@ -358,6 +461,7 @@ export default {
     .menu .twitter{
         font-size: 1.7rem;
         color: grey;
+        cursor: pointer;
     }
     .menu .twitter:hover{
         color: #000;
@@ -365,16 +469,92 @@ export default {
     .favorite{
         font-size: 1.2rem;
         vertical-align: middle;
+        cursor: pointer;
     }
     .favorite2{
         font-size: 1.2rem;
         color: #F66685;
         vertical-align: middle;
+        cursor: pointer;
     }
     .favorite:hover{
         color: red;
     }
     .favorite2:hover{
         color: red;
+    }
+    .overlay{
+        z-index:1;
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background-color:rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .modalLogin{
+        position:relative;
+        z-index: 2;
+        width: 30%;
+        padding: 1em;
+        background-color: #fff;
+        text-align: center;
+        border-radius: 7px;
+        box-shadow: 2px 2px 6px lightgrey;
+    }
+    .batsu{
+        font-size:2em;
+        cursor: pointer;
+        position: absolute;
+        top: -1.3rem;
+        right: -0.8rem;
+        border-radius: 50%;
+        border: 1px solid #fff;
+        padding: 0.5rem;
+        background-color: #fff;
+        width: 2.4rem;
+        height: 2.4rem;
+        box-shadow: 0 2px 7px grey;
+    }
+    .batsuBtn{
+        width: 1rem;
+        height: 1rem;
+        position: absolute;
+        top: 0.6rem;
+        right: 0.65rem;
+        font-size: 1.3rem;
+    }
+    .modalLogin p{
+        margin: 7% 0;
+    }
+    .modalBtn{
+        margin: 5% 0;
+    }
+    .registerBtn{
+        border: 1px solid blue;
+        border-radius: 5px;
+        background: #DEF2FF;
+        padding: 3% 7%;
+        margin: 0 2%;
+    }
+    .loginBtn{
+        border: 1px solid blue;
+        border-radius: 5px;
+        background: #DEF2FF;
+        padding: 3% 7%;
+        margin: 0 2%;
+    }
+    .registerBtn:hover{
+        opacity: 0.6;
+    }
+    .loginBtn:hover{
+        opacity: 0.6;
+    }
+    .modalLogin .logo{
+        height: 90px;
+        margin: 5% 0 0;
     }
 </style>
