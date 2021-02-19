@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Profile;
@@ -17,14 +18,8 @@ class PostController extends Controller
         $profile = Profile::where('user_id', $login_id)->first();
         return [$user, $profile];
     }
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $request->validate([
-            'file' => 'required|file|image|mimes:jpeg,jpg,png',
-            'tag' => 'required',
-            'description' => 'required|string'
-        ]);
-
         try {
             $file_name = request()->file->getClientOriginalName();
             request()->file->storeAs('public', $file_name);
