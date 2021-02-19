@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ProfileRequest;
 use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Support\Facades\DB;
@@ -22,14 +23,8 @@ class ProfileController extends Controller
         $profile = Profile::where('user_id', $login_id)->first();
         return [$user, $profile];
     }
-    public function store(Request $request)
+    public function store(ProfileRequest $request)
     {
-
-        $request->validate([
-            'name' => 'required|string|max:100',
-            /* 'image' => 'required|file|image|mimes:png,jpeg|max:1024', */
-        ]);
-
         try {
             if(!$request->file){
                 $file_name = $request->icon_title;

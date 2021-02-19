@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\AccountRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,13 +18,8 @@ class AccountController extends Controller
     }
 
 
-    public function update(Request $request)
+    public function update(AccountRequest $request)
     {
-        $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255', 
-            Rule::unique('users')->ignore($request->id)],
-            'password' => ['required', 'string', 'min:8'],
-        ]); 
         DB::beginTransaction();
         try{
             $user = User::find($request->id);
@@ -35,6 +31,5 @@ class AccountController extends Controller
         }catch(\Exception $e){
             DB::rollBack();
         }
-
     }
 }

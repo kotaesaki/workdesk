@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
@@ -27,10 +28,8 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        // リクエストを検証します。
-        $this->validator($request->all())->validate();
 
         // ユーザーの作成とトークンの作成します
         $data = DB::transaction(function () use ($request) {
@@ -46,21 +45,6 @@ class RegisterController extends Controller
         });
         // userとtokenのjsonを返却
         return response($data);
-    }
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'login_id' => ['required', 'string', 'max:255', 'unique:users'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
     }
 
     /**

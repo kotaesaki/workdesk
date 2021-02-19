@@ -1,66 +1,79 @@
 <template>
-    <div id="file-preview" class="file-preview">
-        <div class="form-group">
-            <div class="contents">
-                <div class="explain">
-                    <p>アイコン</p>
-                </div>
-                <div class="items">
-                    <img class="userInfo__icon" v-bind:src="imageData" v-if="imageData">
-                    <img class="userInfo__icon" :src="`../${imageData1.icon_path}`" v-if="imageData1"/>                     
-                    <label class="form-label image-label" for="image">
-                        <input id="image" class="form-input image-btn" type="file" name="image"
-                            accept="image/png, image/jpeg" style="display:none;" v-on:change="onFileChange">
-                        <div>アイコンを変更する</div>
-                    </label>   
-                </div>
-            </div>
+  <div
+    id="file-preview"
+    class="file-preview">
+    <div class="form-group">
+      <div class="contents">
+        <div class="explain">
+          <p>アイコン</p>
         </div>
- 
+        <div class="items">
+          <img
+            v-if="imageData"
+            class="userInfo__icon"
+            :src="imageData">
+          <img
+            v-if="imageData1"
+            class="userInfo__icon"
+            :src="`../${imageData1.icon_path}`">                     
+          <label
+            class="form-label image-label"
+            for="image">
+            <input
+              id="image"
+              class="form-input image-btn"
+              type="file"
+              name="image"
+              accept="image/png, image/jpeg"
+              style="display:none;"
+              @change="onFileChange">
+            <div>アイコンを変更する</div>
+          </label>   
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 export default {
-    el: '#file-preview',
-    props: ['profile'],
-    data() {
-        return {
-            imageData: '', //プレビュー画像格納用変数
-            imageData1: this.profile.icon_path, //初期表示用の画像
-            file :'',
-        };
+  el: '#file-preview',
+  props: ['profile'],
+  data() {
+    return {
+      imageData: '', //プレビュー画像格納用変数
+      imageData1: this.profile.icon_path, //初期表示用の画像
+      file: '',
+    }
+  },
+  watch: {
+    profile(newValue) {
+      this.imageData1 = newValue
     },
-    mounted() {
-
+  },
+  mounted() {
         
-    },
-    methods: {
-        onFileChange(e) {
-            const files = e.target.files;
+  },
+  methods: {
+    onFileChange(e) {
+      const files = e.target.files
 
-            if(files.length > 0) {
+      if (files.length > 0) {
 
-                this.file = files[0];
-                const reader = new FileReader();
-                console.log(this.file);
+        this.file = files[0]
+        const reader = new FileReader()
+        console.log(this.file)
 
-                reader.onload = (e) => {
-                    this.imageData = e.target.result;
-                    this.imageData1 = '';
-                    this.$emit('catchImage', this.imageData,this.file);
-                    
+        reader.onload = (e) => {
+          this.imageData = e.target.result
+          this.imageData1 = ''
+          this.$emit('catchImage', this.imageData, this.file)
 
-                };
-                reader.readAsDataURL(this.file);
-            }
         }
-    },
-    watch: {
-        profile(newValue, oldValue) {
-            this.imageData1 = newValue;
-        },
-    },
-};
+        reader.readAsDataURL(this.file)
+      }
+    }
+  },
+}
 </script>
 <style scoped>
 .contents{
@@ -69,7 +82,6 @@ export default {
 .contents .explain{
     float: left;
     clear: both;
-    padding: 1% 7%;
     width: 43%;
 }
 .contents .explain p{
