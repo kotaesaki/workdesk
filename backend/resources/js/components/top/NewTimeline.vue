@@ -1,59 +1,77 @@
 <template>
-    <div class="new-article">
-        <h2 class="title">New Post</h2>
-        <div class="contents">
-            <div class="content-item" v-for="post in posts" :key="post.post_id">
-                <router-link v-bind:to="{ name: 'individual', params: { postId: post.post_id }}">
-                    <img :src="`../${post.photo_path}`" alt="card" class="content-img">
-                    <div class="content-exsept">
-                        <div class="profile">
-                            <img :src="`../${post.user.profile.icon_path}`" alt="" class="content-icon">
-                            <p class="content-id">@{{post.user.login_id}}</p>
-                        </div>
-                        <p class="content-description">{{post.description}}</p>
-                    </div>
-                </router-link>
+  <div class="new-article">
+    <h2 class="title">
+      New Post
+    </h2>
+    <div class="contents">
+      <div
+        v-for="post in posts"
+        :key="post.post_id"
+        class="content-item">
+        <router-link :to="{ name: 'individual', params: { postId: post.post_id }}">
+          <img
+            :src="`../${post.photo_path}`"
+            alt="card"
+            class="content-img">
+          <div class="content-exsept">
+            <div class="profile">
+              <img
+                :src="`../${post.user.profile.icon_path}`"
+                alt=""
+                class="content-icon">
+              <p class="content-id">
+                @{{ post.user.login_id }}
+              </p>
             </div>
-        </div>
-        <div class="loader-space" v-show="itemLoading">
-            <vue-loaders-ball-spin-fade-loader color="#FFF" class="loader"></vue-loaders-ball-spin-fade-loader>
-        </div>
+            <p class="content-description">
+              {{ post.description }}
+            </p>
+          </div>
+        </router-link>
+      </div>
     </div>
-    
+    <div
+      v-show="itemLoading"
+      class="loader-space">
+      <vue-loaders-ball-spin-fade-loader
+        color="#FFF"
+        class="loader" />
+    </div>
+  </div>
 </template>
 <script>
 export default {
-    computed: {
-        loading(){
-            return this.$store.getters["loading/loading"];
-        },
-        posts(){
-            return this.$store.getters["newtimeline/items"];
-        },
-        itemLoading(){
-            return this.$store.getters["newtimeline/itemLoading"]
-        }
+  computed: {
+    loading(){
+      return this.$store.getters['loading/loading']
     },
-    methods: {
-        async getPost() {
-            const items = this.$store.getters["newtimeline/items"];
-            await this.$store.dispatch('newtimeline/ggetPost');
-        },
+    posts(){
+      return this.$store.getters['newtimeline/items']
     },
-    mounted() {
-        console.log('newTimeline mounted start');
-        window.onscroll = () => {
-            let bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight;
-            if (bottomOfWindow >= document.documentElement.offsetHeight) {
-                this.$store.dispatch('loading/startLoad')
-                    .then(()=>this.getPost())
-                    .then(()=>this.$store.dispatch('loading/endLoad'));
-            }
-        };
+    itemLoading(){
+      return this.$store.getters['newtimeline/itemLoading']
+    }
+  },
+  mounted() {
+    console.log('newTimeline mounted start')
+    window.onscroll = () => {
+      let bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight
+      if (bottomOfWindow >= document.documentElement.offsetHeight) {
         this.$store.dispatch('loading/startLoad')
-            .then(()=>this.getPost())
-            .then(()=>this.$store.dispatch('loading/endLoad'));
+          .then(()=>this.getPost())
+          .then(()=>this.$store.dispatch('loading/endLoad'))
+      }
+    }
+    this.$store.dispatch('loading/startLoad')
+      .then(()=>this.getPost())
+      .then(()=>this.$store.dispatch('loading/endLoad'))
+  },
+  methods: {
+    async getPost() {
+      const items = this.$store.getters['newtimeline/items']
+      await this.$store.dispatch('newtimeline/ggetPost')
     },
+  },
 }
 </script>
 <style scoped>

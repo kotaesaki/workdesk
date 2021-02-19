@@ -5,7 +5,10 @@
       class="navbar navbar-expand-md navbar-light">
       <div class="container">
         <router-link :to="{name: 'home'}">
-          WorkDesk
+          <img
+            :src="`/images/Logo.svg`"
+            alt="ロゴ"
+            class="logo">
         </router-link>
         <button
           class="navbar-toggler"
@@ -143,7 +146,11 @@ export default {
     nav{
         background-color: #fff;
         height: 60px;
-        
+    }
+    .logo{
+      position:absolute;
+      top: 12px;
+      height: 55px;
     }
     .icon_name{
         width: 35px;

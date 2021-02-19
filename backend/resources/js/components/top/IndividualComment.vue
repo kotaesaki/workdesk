@@ -1,61 +1,87 @@
 <template>
-    <div class="comments">
-        <div class="comment-content">
-            <ul>
-                <li v-for="comments in commentList" :key="comments.comment_id">
-                    <img :src="`../../../../${comments.user[0].profile.icon_path}`" alt="" class="icon_comment">
-                    <router-link v-bind:to="{ name:'mypage', params:{userId:comments.user_id}}">
-                        <p class="login_id">@{{comments.user[0].login_id}}</p>
-                    </router-link>
-                    <p class="time">{{comments.created_at}}</p>
-                    <div class="balloon">
-                        <div class="says">
-                            <p class="message">{{comments.comment_message}}</p>
-                        </div>
-                        <i class="fas fa-reply reply"></i>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <form v-on:submit.prevent="submit">
-            <div class="area">
-                <textarea name="comment" id="comment" class="textarea" cols="30" rows="3" v-model="comment" placeholder="コメントを入力する"></textarea>
+  <div class="comments">
+    <div class="comment-content">
+      <ul>
+        <li
+          v-for="comments in commentList"
+          :key="comments.comment_id">
+          <img
+            :src="`../../../../${comments.user[0].profile.icon_path}`"
+            alt=""
+            class="icon_comment">
+          <router-link :to="{ name:'mypage', params:{userId:comments.user_id}}">
+            <p class="login_id">
+              @{{ comments.user[0].login_id }}
+            </p>
+          </router-link>
+          <p class="time">
+            {{ comments.created_at }}
+          </p>
+          <div class="balloon">
+            <div class="says">
+              <p class="message">
+                {{ comments.comment_message }}
+              </p>
             </div>
-            <button class="comment-btn">コメントする</button>
-        </form>
-
+            <i class="fas fa-reply reply" />
+          </div>
+        </li>
+      </ul>
     </div>
+    <form @submit.prevent="submit">
+      <div class="area">
+        <textarea
+          id="comment"
+          v-model="comment"
+          name="comment"
+          class="textarea"
+          cols="30"
+          rows="3"
+          placeholder="コメントを入力する" />
+      </div>
+      <button class="comment-btn">
+        コメントする
+      </button>
+    </form>
+  </div>
 </template>
 <script>
 export default {
-    computed: {
-        comment:{
-            get(){
-                return this.$store.getters['comment/comment'];
-            },
-            set(value){
-                this.$store.commit('comment/updateComment', value);
-            }
-        },
-        commentList(){
-            return this.$store.getters['comment/commentList'];
-        },
-        post(){
-            return this.$store.getters['individual/post'];
-        },
-        user(){
-            return this.$store.getters['auth/user'];
-        },
+  props: {  
+    showModal: Boolean,
+  },
+  computed: {
+    comment: {
+      get(){
+        return this.$store.getters['comment/comment']
+      },
+      set(value){
+        this.$store.commit('comment/updateComment', value)
+      }
     },
-    methods: {
-        submit() {
-            this.$store.dispatch('loading/startLoad')
-                .then(()=>this.$store.dispatch('comment/pushComment',
-                {comment: this.comment, post_id: this.post.post_id, user_id: this.user.id}))
-                .then(()=>this.$store.dispatch('loading/endLoad'));    
-        },
+    commentList(){
+      return this.$store.getters['comment/commentList']
+    },
+    post(){
+      return this.$store.getters['individual/post']
+    },
+    user(){
+      return this.$store.getters['auth/user']
+    },
+  },
+  methods: {
+    submit() {
+      if (!this.user){
+        this.$parent.showModal = true
+      } else {
+        this.$store.dispatch('loading/startLoad')
+          .then(()=>this.$store.dispatch('comment/pushComment',
+            {comment: this.comment, post_id: this.post.post_id, user_id: this.user.id}))
+          .then(()=>this.$store.dispatch('loading/endLoad'))    
+      }
+    }
 
-    },
+  },
 }
 </script>
 <style scoped>
