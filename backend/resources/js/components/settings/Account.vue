@@ -1,107 +1,139 @@
 <template>
- <div class="container">
+  <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h2>アカウント設定</h2>
-            <form v-on:submit.prevent="submit">
-                <p v-if="errors.length">
-                    <b>以下のエラーを確認してください</b>
-                    <ul>
-                        <li v-for="error in errors" :key="error">{{error}}</li>
-                    </ul>
-                </p>
-                <div>
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="e-mail">メールアドレス</label>
-                            </div>
-                            <div class="items">
-                                <input type="text" name="email" id="email" v-model="id.email">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="password">パスワード</label>
-                            </div>
-                            <div class="items">
-                                <input :type="inputType" name="password" id="password" v-model="password" autocomplete="new-password">
-                                <span :class="iconType" @click="changePassword"></span>
-                                <p>※メールアドレスのみを変更される方は、現在のパスワードを入力してください。</p>
-                                <p>※パスワードを変更される方は、こちらに新たなパスワードを入力してください。</p>
-                            </div>
-                        </div>
-                    </div>
+      <div class="col-md-8">
+        <h2>アカウント設定</h2>
+        <form @submit.prevent="submit">
+          <p
+            v-if="errors.length"
+            class="error">
+            <ul>
+              <li
+                v-for="error in errors"
+                :key="error">
+                {{ error }}
+              </li>
+            </ul>
+          </p>
+          <div>
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="e-mail">メールアドレス</label>
                 </div>
-                <input type="hidden" name="id" id="id" v-model="id.id">
-                <button type="submit" class="submitBtn">変更内容を保存する</button>
-            </form>
-        </div>
-        <settings-bar></settings-bar>
+                <div class="items">
+                  <input
+                    id="email"
+                    v-model="id.email"
+                    type="text"
+                    name="email">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="password">パスワード</label>
+                </div>
+                <div class="items">
+                  <input
+                    id="password"
+                    v-model="password"
+                    :type="inputType"
+                    name="password"
+                    autocomplete="new-password">
+                  <span
+                    :class="iconType"
+                    @click="changePassword" />
+                  <p>※メールアドレスのみを変更される方は、現在のパスワードを入力してください。</p>
+                  <p>※パスワードを変更される方は、こちらに新たなパスワードを入力してください。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <input
+            id="id"
+            v-model="id.id"
+            type="hidden"
+            name="id">
+          <button
+            type="submit"
+            class="submitBtn">
+            変更内容を保存する
+          </button>
+        </form>
+      </div>
+      <settings-bar />
     </div>
-</div>   
+  </div>   
 </template>
 <script>
-import settingsBar from './settingsBar.vue';
+import settingsBar from './settingsBar.vue'
+import axios from 'axios'
 export default {
   components: { settingsBar },
-    props: {
-        userId: String //idを取得
+  props: {
+    userId: String //idを取得
+  },
+  data() {
+    return {
+      id: {},
+      errors: [], //バリデーションエラー文
+      password: '',
+      isChecked: false,
+    }
+  },
+  computed: {
+    inputType() {
+      return this.isChecked ? 'text' : 'password'
     },
-    data() {
-        return{
-            id:{},
-            errors:[], //バリデーションエラー文
-            password : '',
-            isChecked: false,
-       }
-   },
-   computed: {
-       inputType() {
-           return this.isChecked ? "text" : "password"
-       },
-       iconType(){
-           return this.isChecked ? "eye-slash" : "eye"
-       }
-   },
-   methods: {
-       changePassword(){
-           this.isChecked = !this.isChecked;
-       },
-       getId() {
-           axios.get('/api/account/' + this.userId).then((res)=>{
-               this.id = res.data;
-           })
-       },
-       submit(){
-           this.validate();
-           let formData = new FormData();
-           formData.append('id',this.id.id);
-           formData.append('email', this.id.email);
-           formData.append('password',this.password);
+    iconType(){
+      return this.isChecked ? 'eye-slash' : 'eye'
+    }
+  }, 
+  mounted() {
+    this.getId()
+  },
+  methods: {
+    changePassword(){
+      this.isChecked = !this.isChecked
+    },
+    getId() {
+      axios.get('/api/account/' + this.userId).then((res)=>{
+        this.id = res.data
+      })
+    },
+    async submit(){
+      this.errors.splice(0)
+      let formData = new FormData()
+      formData.append('id', this.id.id)
+      formData.append('email', this.id.email)
+      formData.append('password', this.password)
 
-           axios.post('/api/account/' + this.userId, formData).then((res)=>{
-               alert('変更を保存しました');
-           }).catch(err => {
-               console.log('err:', err);
-               console.log('アカウント設定変更失敗');
-           })
-       },
-       validate(){  
-           this.errors = [];
-           if(!this.id.email){
-               this.errors.push('メールアドレスが入力されていません。');
-           }
-           if(!this.password){
-               this.errors.push('パスワードが入力されていません。');
-           }
-       }
-   }, 
-   mounted() {
-       this.getId();
-   },
+      await axios.post('/api/account/' + this.userId, formData).then((res)=>{
+        alert('変更を保存しました')
+        console.log(res.status)
+      }).catch(err => {
+        const val = err.response.data.errors
+        if (err.response.status === 422){
+          if (val.email){
+            val.email.forEach((v) =>{
+              console.log(v)
+              this.errors.push(v)
+            })
+          }
+          if (val.password){
+            val.password.forEach(i =>{
+              this.errors.push(i)
+            })
+          }
+        } else {
+          alert('変更に失敗しました。(ステータスコード:', err.response.status, ')')
+        }
+
+      })
+    },
+  },
     
 }
 </script>
@@ -162,5 +194,12 @@ h2{
     position: absolute;
     top: 0.1rem;
     right: 3rem;
+}
+.error{
+  color: red;
+  font-size:0.8rem;
+}
+.error ul{
+  list-style: none;
 }
 </style>

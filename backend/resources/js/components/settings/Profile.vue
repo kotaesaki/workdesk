@@ -1,201 +1,314 @@
 <template>
- <div class="container">
+  <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <h2>プロフィール設定</h2>
-            <div class="loader-space" v-show="loading">
-                <vue-loaders-ball-spin-fade-loader color="#DEF2FF" scale="2" class="loader"></vue-loaders-ball-spin-fade-loader>
-            </div>
-            <div v-show="!loading">
-                <form v-on:submit.prevent="submit" enctype="multipart/form-data">
-                    <p v-if="errors.length">
-                        <b>以下のエラーを確認してください</b>
-                        <ul>
-                            <li v-for="error in errors" :key="error">{{ error }}</li>
-                        </ul>
-                    </p>
-                    <profile-image-form v-on:catchImage="displayImage" :profile="profile"></profile-image-form>
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="name">ニックネーム</label>
-                            </div>
-                            <div class="items">
-                                <input type="text" name="name" id="name" v-model="id.name">
-                            </div>
-                        </div>
-                    </div>   
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="website_url">ウェブサイト</label>
-                            </div>
-                            <div class="items">
-                                <input type="text" name="website_url" id="website_url" v-model="profile.website_url">
-                            </div>
-                        </div>
-                    </div>  
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="twitter_url">Twitter</label>
-                            </div>
-                            <div class="items">
-                                <input type="text" name="twitter_url" id="twitter_url" v-model="profile.twitter_url">                            
-                            </div>
-                        </div>                    
-                    </div>  
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="shokai">紹介文</label>
-                            </div>
-                            <div class="items">
-                                <textarea id="shokai" name="shokai" v-model="profile.shokai" rows="200"></textarea>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="occupation">職業</label>
-                            </div>
-                            <div class="items">
-                                <select name="occupation" v-model="profile.occupation">
-                                <option value=""></option>
-                                <option value="学生">学生</option>
-                                <option value="主婦">主婦</option>
-                                <option value="デザイナー">デザイナー</option>
-                                <option value="エンジニア">エンジニア</option>
-                                <option value="営業">営業</option>
-                                <option value="マーケティング">マーケティング</option>
-                                <option value="その他">その他</option>
-                                </select>                            
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="sex">性別</label>
-                            </div>
-                            <div class="items">
-                                <select name="sex" v-model="profile.sex">
-                                <option value=""></option>
-                                <option value="男性">男性</option>
-                                <option value="女性">女性</option>
-                                <option value="その他">その他</option>                            
-                                </select>
-                            </div>
-                        </div>                    
-                    </div>
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <label for="age">年齢</label>
-                            </div>
-                            <div class="items">
-                                <select name="age" placeholder="Select" v-model="profile.age">
-                                <option value=""></option>
-                                <option v-for="n in 100" :key="n" :value="n + 1">{{n + 9}}</option>                    
-                                </select>
-                            </div>
-                        </div>                    
-                    </div>
-
-                    <input type="hidden" name="id" id="id" v-model="id.id">
-                    <button type="submit" class="submitBtn">変更内容を保存する</button>
-                
-                </form>
-            </div>
+      <div class="col-md-8">
+        <h2>プロフィール設定</h2>
+        <div
+          v-show="loading"
+          class="loader-space">
+          <vue-loaders-ball-spin-fade-loader
+            color="#DEF2FF"
+            scale="2"
+            class="loader" />
         </div>
-        <settings-bar></settings-bar>
+        <div v-show="!loading">
+          <form
+            enctype="multipart/form-data"
+            @submit.prevent="submit">
+            <profile-image-form
+              :profile="profile"
+              @catchImage="displayImage" />
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="name">ニックネーム</label>
+                  <p>*必須</p>
+                </div>
+                <div class="items">
+                  <input
+                    id="name"
+                    v-model="id.name"
+                    type="text"
+                    name="name">
+                </div>
+              </div>
+            </div>   
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="website_url">ウェブサイト</label>
+                </div>
+                <div class="items">
+                  <input
+                    id="website_url"
+                    v-model="profile.website_url"
+                    type="text"
+                    name="website_url">
+                </div>
+              </div>
+            </div>  
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="twitter_url">Twitter</label>
+                </div>
+                <div class="items">
+                  <input
+                    id="twitter_url"
+                    v-model="profile.twitter_url"
+                    type="text"
+                    name="twitter_url">                            
+                </div>
+              </div>                    
+            </div>  
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="shokai">紹介文</label>
+                </div>
+                <div class="items">
+                  <textarea
+                    id="shokai"
+                    v-model="profile.shokai"
+                    name="shokai"
+                    rows="200" />
+                </div>
+              </div>                    
+            </div>
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="occupation">職業</label>
+                </div>
+                <div class="items">
+                  <select
+                    v-model="profile.occupation"
+                    name="occupation">
+                    <option value="" />
+                    <option value="学生">
+                      学生
+                    </option>
+                    <option value="主婦">
+                      主婦
+                    </option>
+                    <option value="デザイナー">
+                      デザイナー
+                    </option>
+                    <option value="エンジニア">
+                      エンジニア
+                    </option>
+                    <option value="営業">
+                      営業
+                    </option>
+                    <option value="マーケティング">
+                      マーケティング
+                    </option>
+                    <option value="その他">
+                      その他
+                    </option>
+                  </select>                            
+                </div>
+              </div>                    
+            </div>
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="sex">性別</label>
+                </div>
+                <div class="items">
+                  <select
+                    v-model="profile.sex"
+                    name="sex">
+                    <option value="" />
+                    <option value="男性">
+                      男性
+                    </option>
+                    <option value="女性">
+                      女性
+                    </option>
+                    <option value="その他">
+                      その他
+                    </option>                            
+                  </select>
+                </div>
+              </div>                    
+            </div>
+            <div class="form-group">
+              <div class="contents">
+                <div class="explain">
+                  <label for="age">年齢</label>
+                </div>
+                <div class="items">
+                  <select
+                    v-model="profile.age"
+                    name="age"
+                    placeholder="Select">
+                    <option value="" />
+                    <option
+                      v-for="n in 100"
+                      :key="n"
+                      :value="n + 1">
+                      {{ n + 9 }}
+                    </option>                    
+                  </select>
+                </div>
+              </div>                    
+            </div>
+            <p
+              v-if="errors.length"
+              class="error">
+              <ul>
+                <li
+                  v-for="error in errors"
+                  :key="error">
+                  {{ error }}
+                </li>
+              </ul>
+            </p>
+            <input
+              id="id"
+              v-model="id.id"
+              type="hidden"
+              name="id">
+            <button
+              type="submit"
+              class="submitBtn">
+              変更内容を保存する
+            </button>
+          </form>
+        </div>
+      </div>
+      <settings-bar />
     </div>
-</div>   
+  </div>   
 </template>
 <script>
-import ProfileImageForm from './ProfileImageForm.vue';
-import settingsBar from './settingsBar.vue';
+import axios from 'axios'
+import ProfileImageForm from './ProfileImageForm.vue'
+import settingsBar from './settingsBar.vue'
 export default {
   components: { settingsBar, ProfileImageForm },
-    props: {
-        userId: String //idを取得
-    },
-    data() {
-        return{
-            id:{},
-            profile:{},
-            errors:[],
-            imageData: '',
-            file:'',
-            loading: true,
-       }
-   },
-   methods: {
-       submit() {
-           this.validate();
-           let formData = new FormData();
-           formData.append('file',this.file);
-           formData.append('id',this.id.id);
-           formData.append('name',this.id.name);
-           formData.append('website_url',this.profile.website_url);
-           formData.append('twitter_url',this.profile.twitter_url);
-           formData.append('shokai',this.profile.shokai);
-           formData.append('occupation',this.profile.occupation);
-           formData.append('sex',this.profile.sex);
-           formData.append('age',this.profile.age);
-           formData.append('icon_title', this.profile.icon_title);
-           var config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            };
-           console.log(formData);
-           axios.post('/api/profile/'+ this.userId, formData,config).then((res)=>{
-               alert('保存しました');
-           }).catch(err => {
-                console.log('err:', err);
-                console.log('失敗');
-        });
-       },
-       async getId() {
-           await axios.get('/api/profile/' + this.userId).then((res)=>{
-                this.id = res.data[0];
-                this.profile = res.data[1];
-                if(this.profile.website_url == 'null'){
-                    this.profile.website_url = '';
-                }
-                if(this.profile.twitter_url == 'null'){
-                    this.profile.twitter_url = '';
-                }
-                if(this.profile.sex == 'null'){
-                    this.profile.sex = '';
-                }
-                if(this.profile.age == 'null'){
-                    this.profile.age = '';
-                }
-                if(this.profile.occupation == 'null'){
-                    this.profile.occupation = '';
-                }
-           })
-       },
-       validate(){
-            this.errors = [];
-            if(!this.id.name){
-            console.log("ニックネームは必須項目です");
-            this.errors.push('ニックネームは必須項目です');
+  props: {
+    userId: String //idを取得
+  },
+  data() {
+    return {
+      id: {},
+      profile: {},
+      errors: [],
+      imageData: '',
+      file: '',
+      loading: true,
+    }
+  }, 
+  mounted() {
+    this.getId()
+      .then(()=>this.loading = false)
+  },
+  methods: {
+    submit() {
+      this.errors.splice(0)
+      let formData = new FormData()
+      formData.append('file', this.file)
+      formData.append('id', this.id.id)
+      formData.append('name', this.id.name)
+      formData.append('website_url', this.profile.website_url)
+      formData.append('twitter_url', this.profile.twitter_url)
+      formData.append('shokai', this.profile.shokai)
+      formData.append('occupation', this.profile.occupation)
+      formData.append('sex', this.profile.sex)
+      formData.append('age', this.profile.age)
+      formData.append('icon_title', this.profile.icon_title)
+      let config = {
+        headers: {
+          'content-type': 'multipart/form-data'
         }
-       },
-       displayImage(imageData,file){
-           this.imageData = imageData;
-           this.file = file;
-       }
+      }
+      console.log(formData)
+      axios.post('/api/profile/'+ this.userId, formData, config).then((res)=>{
+        alert('保存しました')
+      }).catch(err => {
+        console.log('err:', err.response.data.errors)
+        console.log('失敗')
+        const val = err.response.data.errors
+        if (err.response.status === 422){
+          this.validate(val)
+        } else {
+          alert('変更に失敗しました。(ステータスコード:', err.response.status, ')')
+        }
+      })
+    },
+    async validate(val){
+      if (val.name){
+        val.name.forEach((v) =>{
+          console.log(v)
+          this.errors.push(v)
+        })
+      }
+      if (val.file){
+        val.file.forEach(i =>{
+          this.errors.push(i)
+        })
+      }
+      if (val.website_url){
+        val.website_url.forEach(i =>{
+          this.errors.push(i)
+        })
+      }
+      if (val.twitter_url){
+        val.twitter_url.forEach(i =>{
+          this.errors.push(i)
+        })
+      }
+      if (val.shokai){
+        val.shokai.forEach(i =>{
+          this.errors.push(i)
+        })
+      }
+      if (val.occupation){
+        val.occupation.forEach(i =>{
+          this.errors.push(i)
+        })
+      }
+      if (val.sex){
+        val.sex.forEach(i =>{
+          this.errors.push(i)
+        })
+      }
+      if (val.age){
+        val.age.forEach(i =>{
+          this.errors.push(i)
+        })
+      }
 
-   }, 
-   mounted() {
-       this.getId()
-        .then(()=>this.loading = false)
-   },
+    },
+    async getId() {
+      await axios.get('/api/profile/' + this.userId).then((res)=>{
+        this.id = res.data[0]
+        this.profile = res.data[1]
+        if (this.profile.website_url == 'null'){
+          this.profile.website_url = ''
+        }
+        if (this.profile.twitter_url == 'null'){
+          this.profile.twitter_url = ''
+        }
+        if (this.profile.sex == 'null'){
+          this.profile.sex = ''
+        }
+        if (this.profile.age == 'null'){
+          this.profile.age = ''
+        }
+        if (this.profile.occupation == 'null'){
+          this.profile.occupation = ''
+        }
+      })
+    },
+    displayImage(imageData, file){
+      this.imageData = imageData
+      this.file = file
+    }
+
+  },
     
 }
 </script>
@@ -210,11 +323,14 @@ h2{
 .contents .explain{
     float: left;
     clear: both;
-    padding: 1% 7%;
     width: 43%;
 }
 .contents .explain label{
     font-size: 1.2rem;
+}
+.contents .explain p {
+    color: red;
+    font-size: 0.8rem;
 }
 .contents .items{
     position: relative;
@@ -264,5 +380,12 @@ h2{
 .loader{
     position:fixed;
     margin: 6% 0;
+}
+.error{
+  color: red;
+  font-size:0.8rem;
+}
+.error ul{
+  list-style: none;
 }
 </style>

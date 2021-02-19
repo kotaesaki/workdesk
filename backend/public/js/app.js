@@ -1858,6 +1858,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_Loading_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common/Loading.vue */ "./resources/js/components/common/Loading.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1886,99 +1887,63 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "login",
-  components: {},
+  name: 'Login',
+  components: {
+    Loading: _common_Loading_vue__WEBPACK_IMPORTED_MODULE_1__.default
+  },
   data: function data() {
     return {
       loginForm: {
-        login_id: "",
-        password: ""
-      },
-      errors: []
+        login_id: '',
+        password: ''
+      }
     };
+  },
+  computed: {
+    errors: function errors() {
+      return this.$store.getters['auth/errors'];
+    },
+    loading: function loading() {
+      return this.$store.getters['auth/loading'];
+    }
   },
   methods: {
     login: function login() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var validate;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return _this.validate();
+                _this.$store.dispatch('auth/login', _this.loginForm).then(function () {})["catch"](function (error) {
+                  console.log(error);
+                });
 
-              case 2:
-                validate = _context.sent;
-
-                if (validate) {
-                  _this.$store.dispatch("auth/login", _this.loginForm).then(function () {
-                    _this.$router.push({
-                      name: "home",
-                      params: {
-                        successLogin: true
-                      }
-                    });
-                  })["catch"](function (error) {
-                    console.log(error);
-                  });
-                } else {}
-
-              case 4:
+              case 1:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
-      }))();
-    },
-    validate: function validate() {
-      var _this2 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _this2.errors = [];
-
-                if (_this2.loginForm.login_id) {
-                  _context2.next = 4;
-                  break;
-                }
-
-                _context2.next = 4;
-                return _this2.errors.push('ログインIDが入力されていません。');
-
-              case 4:
-                if (_this2.loginForm.password) {
-                  _context2.next = 7;
-                  break;
-                }
-
-                _context2.next = 7;
-                return _this2.errors.push('パスワードが入力されていません。');
-
-              case 7:
-                if (!(_this2.errors.length == 0)) {
-                  _context2.next = 11;
-                  break;
-                }
-
-                return _context2.abrupt("return", true);
-
-              case 11:
-                return _context2.abrupt("return", false);
-
-              case 12:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2);
       }))();
     }
   }
@@ -2028,33 +1993,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "register",
+  name: 'Register',
   components: {},
   data: function data() {
     return {
       registerForm: {
-        name: "",
-        login_id: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
+        name: '',
+        login_id: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
         loading: ''
       }
     };
   },
+  computed: {
+    errors: function errors() {
+      return this.$store.getters['auth/errors'];
+    }
+  },
   methods: {
-    register: function register(context, data) {
-      var _this = this;
-
-      this.$store.dispatch('auth/register', this.registerForm).then(function () {
-        _this.$router.push({
-          name: "home",
-          params: {
-            successLogin: 'ログイン成功'
-          }
-        });
-      });
+    register: function register() {
+      this.$store.dispatch('auth/register', this.registerForm).then(function () {});
     }
   }
 });
@@ -2161,6 +2155,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2175,53 +2199,57 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     isLogin: function isLogin() {
-      return this.$store.getters["auth/check"];
+      return this.$store.getters['auth/check'];
     },
     user: function user() {
-      return this.$store.getters["auth/user"];
+      return this.$store.getters['auth/user'];
     },
     profile: function profile() {
-      return this.$store.getters["auth/profile"];
+      return this.$store.getters['auth/profile'];
     },
     token: function token() {
-      return this.$store.getters["auth/token"];
-    }
-  },
-  methods: {
-    logout: function logout(context, data) {
-      var _this = this;
-
-      this.loading = true;
-      this.$store.dispatch('auth/logout', this.$store.getters["auth/user"]).then(function () {
-        _this.complete = true;
-        _this.loading = false;
-        _this.isLogout = true;
-      });
-    },
-    getUser: function getUser() {
-      this.$store.dispatch('auth/fetchUser');
+      return this.$store.getters['auth/token'];
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this = this;
 
-    var token = this.$store.getters["auth/token"];
-    var user = this.$store.getters["auth/user"];
-    var profile = this.$store.getters["auth/profile"];
+    var token = this.$store.getters['auth/token'];
+    var user = this.$store.getters['auth/user'];
+    var profile = this.$store.getters['auth/profile'];
 
     if (token && !user) {
       console.log('fetchUser()メソッドスタート');
       console.log(token);
       this.$store.dispatch('auth/fetchUser').then(function () {
-        return _this2.complete = true;
+        return _this.complete = true;
       });
     } else if (!profile) {
       console.log('fetchUser()メソッドスタート');
       this.$store.dispatch('auth/fetchUser').then(function () {
-        return _this2.complete = true;
+        return _this.complete = true;
       });
     } else {
       this.complete = true;
+    }
+  },
+  methods: {
+    logout: function logout() {
+      var _this2 = this;
+
+      this.loading = true;
+      this.$store.dispatch('auth/logout', this.$store.getters['auth/user']).then(function () {
+        _this2.complete = true;
+        _this2.loading = false;
+        _this2.isLogout = true;
+
+        _this2.$router.push({
+          name: 'home'
+        });
+      });
+    },
+    getUser: function getUser() {
+      this.$store.dispatch('auth/fetchUser');
     }
   }
 });
@@ -2263,6 +2291,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var vue_loaders_dist_vue_loaders_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-loaders/dist/vue-loaders.css */ "./node_modules/vue-loaders/dist/vue-loaders.css");
+//
+//
+//
 //
 //
 //
@@ -3350,7 +3381,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _settingsBar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./settingsBar.vue */ "./resources/js/components/settings/settingsBar.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _settingsBar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./settingsBar.vue */ "./resources/js/components/settings/settingsBar.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3397,9 +3462,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    settingsBar: _settingsBar_vue__WEBPACK_IMPORTED_MODULE_0__.default
+    settingsBar: _settingsBar_vue__WEBPACK_IMPORTED_MODULE_1__.default
   },
   props: {
     userId: String //idを取得
@@ -3416,11 +3482,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     inputType: function inputType() {
-      return this.isChecked ? "text" : "password";
+      return this.isChecked ? 'text' : 'password';
     },
     iconType: function iconType() {
-      return this.isChecked ? "eye-slash" : "eye";
+      return this.isChecked ? 'eye-slash' : 'eye';
     }
+  },
+  mounted: function mounted() {
+    this.getId();
   },
   methods: {
     changePassword: function changePassword() {
@@ -3429,37 +3498,59 @@ __webpack_require__.r(__webpack_exports__);
     getId: function getId() {
       var _this = this;
 
-      axios.get('/api/account/' + this.userId).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/account/' + this.userId).then(function (res) {
         _this.id = res.data;
       });
     },
     submit: function submit() {
-      this.validate();
-      var formData = new FormData();
-      formData.append('id', this.id.id);
-      formData.append('email', this.id.email);
-      formData.append('password', this.password);
-      axios.post('/api/account/' + this.userId, formData).then(function (res) {
-        alert('変更を保存しました');
-      })["catch"](function (err) {
-        console.log('err:', err);
-        console.log('アカウント設定変更失敗');
-      });
-    },
-    validate: function validate() {
-      this.errors = [];
+      var _this2 = this;
 
-      if (!this.id.email) {
-        this.errors.push('メールアドレスが入力されていません。');
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var formData;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this2.errors.splice(0);
 
-      if (!this.password) {
-        this.errors.push('パスワードが入力されていません。');
-      }
+                formData = new FormData();
+                formData.append('id', _this2.id.id);
+                formData.append('email', _this2.id.email);
+                formData.append('password', _this2.password);
+                _context.next = 7;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/account/' + _this2.userId, formData).then(function (res) {
+                  alert('変更を保存しました');
+                  console.log(res.status);
+                })["catch"](function (err) {
+                  var val = err.response.data.errors;
+
+                  if (err.response.status === 422) {
+                    if (val.email) {
+                      val.email.forEach(function (v) {
+                        console.log(v);
+
+                        _this2.errors.push(v);
+                      });
+                    }
+
+                    if (val.password) {
+                      val.password.forEach(function (i) {
+                        _this2.errors.push(i);
+                      });
+                    }
+                  } else {
+                    alert('変更に失敗しました。(ステータスコード:', err.response.status, ')');
+                  }
+                });
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
-  },
-  mounted: function mounted() {
-    this.getId();
   }
 });
 
@@ -3478,8 +3569,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _ProfileImageForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProfileImageForm.vue */ "./resources/js/components/settings/ProfileImageForm.vue");
-/* harmony import */ var _settingsBar_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./settingsBar.vue */ "./resources/js/components/settings/settingsBar.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ProfileImageForm_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProfileImageForm.vue */ "./resources/js/components/settings/ProfileImageForm.vue");
+/* harmony import */ var _settingsBar_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./settingsBar.vue */ "./resources/js/components/settings/settingsBar.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3601,12 +3694,82 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    settingsBar: _settingsBar_vue__WEBPACK_IMPORTED_MODULE_2__.default,
-    ProfileImageForm: _ProfileImageForm_vue__WEBPACK_IMPORTED_MODULE_1__.default
+    settingsBar: _settingsBar_vue__WEBPACK_IMPORTED_MODULE_3__.default,
+    ProfileImageForm: _ProfileImageForm_vue__WEBPACK_IMPORTED_MODULE_2__.default
   },
   props: {
     userId: String //idを取得
@@ -3622,9 +3785,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       loading: true
     };
   },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.getId().then(function () {
+      return _this.loading = false;
+    });
+  },
   methods: {
     submit: function submit() {
-      this.validate();
+      var _this2 = this;
+
+      this.errors.splice(0);
       var formData = new FormData();
       formData.append('file', this.file);
       formData.append('id', this.id.id);
@@ -3642,48 +3814,79 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       };
       console.log(formData);
-      axios.post('/api/profile/' + this.userId, formData, config).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/profile/' + this.userId, formData, config).then(function (res) {
         alert('保存しました');
       })["catch"](function (err) {
-        console.log('err:', err);
+        console.log('err:', err.response.data.errors);
         console.log('失敗');
+        var val = err.response.data.errors;
+
+        if (err.response.status === 422) {
+          _this2.validate(val);
+        } else {
+          alert('変更に失敗しました。(ステータスコード:', err.response.status, ')');
+        }
       });
     },
-    getId: function getId() {
-      var _this = this;
+    validate: function validate(val) {
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return axios.get('/api/profile/' + _this.userId).then(function (res) {
-                  _this.id = res.data[0];
-                  _this.profile = res.data[1];
+                if (val.name) {
+                  val.name.forEach(function (v) {
+                    console.log(v);
 
-                  if (_this.profile.website_url == 'null') {
-                    _this.profile.website_url = '';
-                  }
+                    _this3.errors.push(v);
+                  });
+                }
 
-                  if (_this.profile.twitter_url == 'null') {
-                    _this.profile.twitter_url = '';
-                  }
+                if (val.file) {
+                  val.file.forEach(function (i) {
+                    _this3.errors.push(i);
+                  });
+                }
 
-                  if (_this.profile.sex == 'null') {
-                    _this.profile.sex = '';
-                  }
+                if (val.website_url) {
+                  val.website_url.forEach(function (i) {
+                    _this3.errors.push(i);
+                  });
+                }
 
-                  if (_this.profile.age == 'null') {
-                    _this.profile.age = '';
-                  }
+                if (val.twitter_url) {
+                  val.twitter_url.forEach(function (i) {
+                    _this3.errors.push(i);
+                  });
+                }
 
-                  if (_this.profile.occupation == 'null') {
-                    _this.profile.occupation = '';
-                  }
-                });
+                if (val.shokai) {
+                  val.shokai.forEach(function (i) {
+                    _this3.errors.push(i);
+                  });
+                }
 
-              case 2:
+                if (val.occupation) {
+                  val.occupation.forEach(function (i) {
+                    _this3.errors.push(i);
+                  });
+                }
+
+                if (val.sex) {
+                  val.sex.forEach(function (i) {
+                    _this3.errors.push(i);
+                  });
+                }
+
+                if (val.age) {
+                  val.age.forEach(function (i) {
+                    _this3.errors.push(i);
+                  });
+                }
+
+              case 8:
               case "end":
                 return _context.stop();
             }
@@ -3691,25 +3894,52 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    validate: function validate() {
-      this.errors = [];
+    getId: function getId() {
+      var _this4 = this;
 
-      if (!this.id.name) {
-        console.log("ニックネームは必須項目です");
-        this.errors.push('ニックネームは必須項目です');
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/profile/' + _this4.userId).then(function (res) {
+                  _this4.id = res.data[0];
+                  _this4.profile = res.data[1];
+
+                  if (_this4.profile.website_url == 'null') {
+                    _this4.profile.website_url = '';
+                  }
+
+                  if (_this4.profile.twitter_url == 'null') {
+                    _this4.profile.twitter_url = '';
+                  }
+
+                  if (_this4.profile.sex == 'null') {
+                    _this4.profile.sex = '';
+                  }
+
+                  if (_this4.profile.age == 'null') {
+                    _this4.profile.age = '';
+                  }
+
+                  if (_this4.profile.occupation == 'null') {
+                    _this4.profile.occupation = '';
+                  }
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     },
     displayImage: function displayImage(imageData, file) {
       this.imageData = imageData;
       this.file = file;
     }
-  },
-  mounted: function mounted() {
-    var _this2 = this;
-
-    this.getId().then(function () {
-      return _this2.loading = false;
-    });
   }
 });
 
@@ -3747,6 +3977,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   el: '#file-preview',
   props: ['profile'],
@@ -3758,6 +4003,11 @@ __webpack_require__.r(__webpack_exports__);
       //初期表示用の画像
       file: ''
     };
+  },
+  watch: {
+    profile: function profile(newValue) {
+      this.imageData1 = newValue;
+    }
   },
   mounted: function mounted() {},
   methods: {
@@ -3780,11 +4030,6 @@ __webpack_require__.r(__webpack_exports__);
 
         reader.readAsDataURL(this.file);
       }
-    }
-  },
-  watch: {
-    profile: function profile(newValue, oldValue) {
-      this.imageData1 = newValue;
     }
   }
 });
@@ -3871,6 +4116,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3887,6 +4152,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isActive: '1'
     };
+  },
+  computed: {
+    isLogin: function isLogin() {
+      return this.$store.getters['auth/check'];
+    }
   },
   methods: {
     changeTab: function changeTab(val) {
@@ -5088,6 +5358,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../router */ "./resources/js/router.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -5095,10 +5366,13 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
+
 var state = {
   user: null,
   profile: null,
-  token: window.localStorage.getItem('token')
+  token: window.localStorage.getItem('token'),
+  errors: [],
+  loading: false
 };
 var getters = {
   check: function check(state) {
@@ -5112,6 +5386,12 @@ var getters = {
   },
   token: function token(state) {
     return state.token ? state.token : '';
+  },
+  errors: function errors(state) {
+    return state.errors ? state.errors : [];
+  },
+  loading: function loading(state) {
+    return state.loading ? state.loading : '';
   }
 };
 var mutations = {
@@ -5126,6 +5406,37 @@ var mutations = {
   },
   deleteUser: function deleteUser(state, user) {
     state.user = user;
+  },
+  setLoading: function setLoading(state, loading) {
+    state.loading = loading;
+  },
+  validate: function validate(state, val) {
+    if (val.login_id) {
+      val.login_id.forEach(function (v) {
+        state.errors.push(v);
+      });
+    }
+
+    if (val.name) {
+      val.name.forEach(function (v) {
+        state.errors.push(v);
+      });
+    }
+
+    if (val.email) {
+      val.email.forEach(function (v) {
+        state.errors.push(v);
+      });
+    }
+
+    if (val.password) {
+      val.password.forEach(function (v) {
+        state.errors.push(v);
+      });
+    }
+  },
+  clearValidate: function clearValidate(state) {
+    state.errors.splice(0);
   }
 };
 var actions = {
@@ -5135,22 +5446,34 @@ var actions = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              context.commit('clearValidate');
+              _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/register', data, {
                 headers: {
                   Authorization: "Bearer ".concat(state.token)
                 }
               }).then(function (result) {
                 console.log(data);
-                context.commit("setUser", result.data.user);
-                context.commit("setToken", result.data.token);
-                context.commit("setProfile", result.data.profile);
-              })["catch"](function (error) {
-                console.log("Error! HTTP Status: ".concat(error));
-                console.log(data);
+                context.commit('setUser', result.data.user);
+                context.commit('setToken', result.data.token);
+                context.commit('setProfile', result.data.profile);
+              }).then(function () {
+                return _router__WEBPACK_IMPORTED_MODULE_2__.default.push({
+                  name: 'home'
+                });
+              })["catch"](function (err) {
+                console.log('err:', err.response.data.errors);
+                console.log('失敗');
+                var val = err.response.data.errors;
+
+                if (err.response.status === 422) {
+                  context.commit('validate', val);
+                } else {
+                  alert('変更に失敗しました。(ステータスコード:', err.response.status, ')');
+                }
               });
 
-            case 2:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -5164,24 +5487,42 @@ var actions = {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/sanctum/csrf-cookie').then(function (response) {
+              context.commit('clearValidate');
+              context.commit('setLoading', true);
+              _context2.next = 4;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/sanctum/csrf-cookie').then(function () {
                 axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/login', data, {
                   headers: {
                     Authorization: "Bearer ".concat(state.token)
                   }
                 }).then(function (result) {
                   console.log(data);
-                  context.commit("setUser", result.data.user);
-                  context.commit("setProfile", result.data.profile);
-                  context.commit("setToken", result.data.token);
-                })["catch"](function (error) {
-                  console.log("Error! HTTP Status: ".concat(error));
-                  console.log(data);
+                  context.commit('setUser', result.data.user);
+                  context.commit('setProfile', result.data.profile);
+                  context.commit('setToken', result.data.token);
+                  context.commit('setLoading', false);
+                }).then(function () {
+                  return _router__WEBPACK_IMPORTED_MODULE_2__.default.push({
+                    name: 'home',
+                    params: {
+                      successLogin: true
+                    }
+                  });
+                })["catch"](function (err) {
+                  context.commit('setLoading', false);
+                  console.log('err:', err.response.data.errors);
+                  console.log('失敗');
+                  var val = err.response.data.errors;
+
+                  if (err.response.status === 422) {
+                    context.commit('validate', val);
+                  } else {
+                    alert('変更に失敗しました。(ステータスコード:', err.response.status, ')');
+                  }
                 });
               });
 
-            case 2:
+            case 4:
             case "end":
               return _context2.stop();
           }
@@ -5202,9 +5543,9 @@ var actions = {
                 }
               }).then(function (result) {
                 console.log(data);
-                context.commit("deleteUser", null);
-                context.commit("setToken", null);
-                context.commit("setProfile", null);
+                context.commit('deleteUser', null);
+                context.commit('setToken', null);
+                context.commit('setProfile', null);
               })["catch"](function (error) {
                 console.log("Error! HTTP Status: ".concat(error));
               });
@@ -5229,8 +5570,8 @@ var actions = {
                   Authorization: "Bearer ".concat(state.token)
                 }
               }).then(function (result) {
-                context.commit("setUser", result.data.user);
-                context.commit("setProfile", result.data.profile);
+                context.commit('setUser', result.data.user);
+                context.commit('setProfile', result.data.profile);
                 console.log(result.data);
               })["catch"](function (error) {
                 console.log("Error! HTTP Status: ".concat(error));
@@ -14447,7 +14788,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-ff714c22]{\n  display: inline;\n  background: linear-gradient(transparent 70%, #DEF2FF 70%);\n}\n.register[data-v-ff714c22]{\n  text-align: center;\n  margin: 5% auto;\n}\n.register div[data-v-ff714c22]{\n  margin: 5% 0;\n}\ninput[data-v-ff714c22]{\n  width: 40%;\n  height: 2.6rem;\n  border: 1px solid #DEF2FF;\n}\ninput[data-v-ff714c22]:focus{\n  border: 1px solid #000;\n}\nlabel[data-v-ff714c22]{\n  width: 21%;\n  font-size: 1.2rem;\n}\nbutton[data-v-ff714c22]{\n  border: 1px solid #DEF2FF;\n  background-color: #DEF2FF;\n  border-radius: 5px;\n  padding: 1% 2%;\n}\nbutton[data-v-ff714c22]:hover{\n  opacity: 0.6;\n}\n.loader-space[data-v-ff714c22]{\n        width: 100%;\n        text-align: center;\n        padding: 7% 0;\n        margin: 10% 0 ;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-ff714c22]{\n  display: inline;\n  background: linear-gradient(transparent 70%, #DEF2FF 70%);\n}\n.register[data-v-ff714c22]{\n  text-align: center;\n  margin: 5% auto;\n}\n.register div[data-v-ff714c22]{\n  margin: 5% 0;\n}\ninput[data-v-ff714c22]{\n  width: 40%;\n  height: 2.6rem;\n  border: 1px solid #DEF2FF;\n}\ninput[data-v-ff714c22]:focus{\n  border: 1px solid #000;\n}\nlabel[data-v-ff714c22]{\n  width: 21%;\n  font-size: 1.2rem;\n}\nbutton[data-v-ff714c22]{\n  border: 1px solid #DEF2FF;\n  background-color: #DEF2FF;\n  border-radius: 5px;\n  padding: 1% 2%;\n}\nbutton[data-v-ff714c22]:hover{\n  opacity: 0.6;\n}\n.loader-space[data-v-ff714c22]{\n    width: 100%;\n    text-align: center;\n    padding: 7% 0;\n    margin: 10% 0 ;\n}\n.error[data-v-ff714c22]{\n  color: red;\n  font-size:0.8rem;\n}\n.error ul[data-v-ff714c22]{\n  list-style: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14471,7 +14812,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nnav[data-v-153bfd55]{\n    background-color: #fff;\n    height: 60px;\n}\n.icon_name[data-v-153bfd55]{\n    width: 35px;\n    height: 35px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.loginStatus[data-v-153bfd55]{\n    position: absolute;\n    top: 0;\n    width: 100%;\n    height: 60px;\n    background-color: aqua;\n}\n.modalLogout[data-v-153bfd55]{\n    position: absolute;\n    top: 0;\n    width: 100%;\n    height: 60px;\n    background-color: #F8A017;\n    text-align: center;\n    padding:13px 0 0 0;\n    -webkit-animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-153bfd55]{\n    position: relative;\n    color: #FFFFFF;\n    font-size: 1.2rem;\n    -webkit-animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-153bfd55]::before{\n    content: 'ログアウトに成功しました。';\n}\n@-webkit-keyframes modal-data-v-153bfd55 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n@keyframes modal-data-v-153bfd55 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nnav[data-v-153bfd55]{\n    background-color: #fff;\n    height: 60px;\n}\n.icon_name[data-v-153bfd55]{\n    width: 35px;\n    height: 35px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.modalLogout[data-v-153bfd55]{\n    position: absolute;\n    top: 0;\n    width: 100%;\n    height: 60px;\n    background-color: #F8A017;\n    text-align: center;\n    padding:13px 0 0 0;\n    -webkit-animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-153bfd55]{\n    position: relative;\n    color: #FFFFFF;\n    font-size: 1.2rem;\n    -webkit-animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    animation: modal-data-v-153bfd55 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-153bfd55]::before{\n    content: 'ログアウトに成功しました。';\n}\n@-webkit-keyframes modal-data-v-153bfd55 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n@keyframes modal-data-v-153bfd55 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14519,7 +14860,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.view[data-v-2f223803]{\n    width: 100vw;\n    height: 100vh;\n    position: fixed;\n    top: 0;\n    left: 0;\n    padding: 0 47%;\n    background:grey;\n    opacity: 0.6;\n    z-index: 1000;\n}\n.loading-space[data-v-2f223803]{\n    height: 40%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.view[data-v-2f223803]{\n    width: 100vw;\n    height: 100vh;\n    position: fixed;\n    top: 0;\n    left: 0;\n    padding: 0 47%;\n    background:grey;\n    opacity: 0.6;\n    z-index: 10000;\n}\n.loading-space[data-v-2f223803]{\n    height: 40%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14759,7 +15100,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-2d29adec]{\n    margin: 3rem 0.5rem 2rem;\n    background: linear-gradient(transparent 70%, #CFCABF 70%);\n}\n.contents[data-v-2d29adec]{\n    margin: 7% 0 14%;\n}\n.contents .explain[data-v-2d29adec]{\n    float: left;\n    clear: both;\n    padding: 1% 7%;\n    width: 43%;\n}\n.contents .explain label[data-v-2d29adec]{\n    font-size: 1.4rem;\n}\n.contents .items[data-v-2d29adec]{\n    position: relative;\n    display: grid;\n}\n.items input[data-v-2d29adec]{\n    width: 90%;\n    border: 1px solid #CFCABF;\n    position:relative;\n}\n.contents .items p[data-v-2d29adec]{\n    display: inline;\n    font-size: 0.4rem;\n    margin: 0;\n}\n.submitBtn[data-v-2d29adec]{\n    border: 2px solid grey;\n    border-radius: 6px;\n    margin: 0 auto 20%;\n    display: block;\n    padding: 2% 8%;\n    font-size: 1.2rem;\n    background-color: #CFCABF;\n    color: #fff;\n}\n.submitBtn[data-v-2d29adec]:hover{\n    opacity: 0.6;\n}\n.eye[data-v-2d29adec]::after{\n    font-family: 'FontAwesome';\n    content: \"\\f06e\";\n    position: absolute;\n    top: 0.1rem;\n    right: 3rem;\n}\n.eye-slash[data-v-2d29adec]::after{\n    font-family: 'FontAwesome';\n    content: \"\\f070\";\n    position: absolute;\n    top: 0.1rem;\n    right: 3rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-2d29adec]{\n    margin: 3rem 0.5rem 2rem;\n    background: linear-gradient(transparent 70%, #CFCABF 70%);\n}\n.contents[data-v-2d29adec]{\n    margin: 7% 0 14%;\n}\n.contents .explain[data-v-2d29adec]{\n    float: left;\n    clear: both;\n    padding: 1% 7%;\n    width: 43%;\n}\n.contents .explain label[data-v-2d29adec]{\n    font-size: 1.4rem;\n}\n.contents .items[data-v-2d29adec]{\n    position: relative;\n    display: grid;\n}\n.items input[data-v-2d29adec]{\n    width: 90%;\n    border: 1px solid #CFCABF;\n    position:relative;\n}\n.contents .items p[data-v-2d29adec]{\n    display: inline;\n    font-size: 0.4rem;\n    margin: 0;\n}\n.submitBtn[data-v-2d29adec]{\n    border: 2px solid grey;\n    border-radius: 6px;\n    margin: 0 auto 20%;\n    display: block;\n    padding: 2% 8%;\n    font-size: 1.2rem;\n    background-color: #CFCABF;\n    color: #fff;\n}\n.submitBtn[data-v-2d29adec]:hover{\n    opacity: 0.6;\n}\n.eye[data-v-2d29adec]::after{\n    font-family: 'FontAwesome';\n    content: \"\\f06e\";\n    position: absolute;\n    top: 0.1rem;\n    right: 3rem;\n}\n.eye-slash[data-v-2d29adec]::after{\n    font-family: 'FontAwesome';\n    content: \"\\f070\";\n    position: absolute;\n    top: 0.1rem;\n    right: 3rem;\n}\n.error[data-v-2d29adec]{\n  color: red;\n  font-size:0.8rem;\n}\n.error ul[data-v-2d29adec]{\n  list-style: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14783,7 +15124,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-04208f68]{\n    margin: 3rem 0.5rem 2rem;\n    background: linear-gradient(transparent 70%, #CFCABF 70%);\n}\n.contents[data-v-04208f68]{\n    margin: 7% 0 8%;\n}\n.contents .explain[data-v-04208f68]{\n    float: left;\n    clear: both;\n    padding: 1% 7%;\n    width: 43%;\n}\n.contents .explain label[data-v-04208f68]{\n    font-size: 1.2rem;\n}\n.contents .items[data-v-04208f68]{\n    position: relative;\n    display: grid;\n}\n.items input[data-v-04208f68]{\n    width: 90%;\n    border: 1px solid #CFCABF;\n    position:relative;\n}\n.items select[data-v-04208f68]{\n    width: 90%;\n    border: 1px solid #CFCABF;\n    position:relative;\n}\n.items textarea[data-v-04208f68]{\n    width: 90%;\n    height: 20vh;\n    border: 1px solid #CFCABF;\n    position:relative;\n    resize: none;\n}\n.contents .items p[data-v-04208f68]{\n    display: inline;\n    font-size: 0.4rem;\n    margin: 0;\n}\n.submitBtn[data-v-04208f68]{\n    border: 2px solid grey;\n    border-radius: 6px;\n    margin: 0 auto 20%;\n    display: block;\n    padding: 2% 8%;\n    font-size: 1.2rem;\n    background-color: #CFCABF;\n    color: #fff;\n}\n.submitBtn[data-v-04208f68]:hover{\n    opacity: 0.6;\n}\n.loader-space[data-v-04208f68]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n    opacity: 0.6;\n}\n.loader[data-v-04208f68]{\n    position:fixed;\n    margin: 6% 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-04208f68]{\n    margin: 3rem 0.5rem 2rem;\n    background: linear-gradient(transparent 70%, #CFCABF 70%);\n}\n.contents[data-v-04208f68]{\n    margin: 7% 0 8%;\n}\n.contents .explain[data-v-04208f68]{\n    float: left;\n    clear: both;\n    width: 43%;\n}\n.contents .explain label[data-v-04208f68]{\n    font-size: 1.2rem;\n}\n.contents .explain p[data-v-04208f68] {\n    color: red;\n    font-size: 0.8rem;\n}\n.contents .items[data-v-04208f68]{\n    position: relative;\n    display: grid;\n}\n.items input[data-v-04208f68]{\n    width: 90%;\n    border: 1px solid #CFCABF;\n    position:relative;\n}\n.items select[data-v-04208f68]{\n    width: 90%;\n    border: 1px solid #CFCABF;\n    position:relative;\n}\n.items textarea[data-v-04208f68]{\n    width: 90%;\n    height: 20vh;\n    border: 1px solid #CFCABF;\n    position:relative;\n    resize: none;\n}\n.contents .items p[data-v-04208f68]{\n    display: inline;\n    font-size: 0.4rem;\n    margin: 0;\n}\n.submitBtn[data-v-04208f68]{\n    border: 2px solid grey;\n    border-radius: 6px;\n    margin: 0 auto 20%;\n    display: block;\n    padding: 2% 8%;\n    font-size: 1.2rem;\n    background-color: #CFCABF;\n    color: #fff;\n}\n.submitBtn[data-v-04208f68]:hover{\n    opacity: 0.6;\n}\n.loader-space[data-v-04208f68]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n    opacity: 0.6;\n}\n.loader[data-v-04208f68]{\n    position:fixed;\n    margin: 6% 0;\n}\n.error[data-v-04208f68]{\n  color: red;\n  font-size:0.8rem;\n}\n.error ul[data-v-04208f68]{\n  list-style: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14807,7 +15148,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.contents[data-v-a79a0632]{\n    margin: 7% 0 8%;\n}\n.contents .explain[data-v-a79a0632]{\n    float: left;\n    clear: both;\n    padding: 1% 7%;\n    width: 43%;\n}\n.contents .explain p[data-v-a79a0632]{\n    font-size: 1.2rem;\n}\n.contents .items[data-v-a79a0632]{\n    position: relative;\n}\n.items input[data-v-a79a0632]{\n    width: 90%;\n    border: 1px solid #CFCABF;\n    position:relative;\n}\n.items label[data-v-a79a0632]{\n    display: inline;\n}\n.items label div[data-v-a79a0632]{\n    display: inline-block;\n    border: 1px solid;\n    border-radius: 5px;\n    padding: 2%;\n    margin: 0;\n    cursor: pointer;\n}\n.items label div[data-v-a79a0632]:hover{\n    opacity: 0.6;\n}\n.userInfo__icon[data-v-a79a0632]{\n    width: 100px;\n    height: 100px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.contents[data-v-a79a0632]{\n    margin: 7% 0 8%;\n}\n.contents .explain[data-v-a79a0632]{\n    float: left;\n    clear: both;\n    width: 43%;\n}\n.contents .explain p[data-v-a79a0632]{\n    font-size: 1.2rem;\n}\n.contents .items[data-v-a79a0632]{\n    position: relative;\n}\n.items input[data-v-a79a0632]{\n    width: 90%;\n    border: 1px solid #CFCABF;\n    position:relative;\n}\n.items label[data-v-a79a0632]{\n    display: inline;\n}\n.items label div[data-v-a79a0632]{\n    display: inline-block;\n    border: 1px solid;\n    border-radius: 5px;\n    padding: 2%;\n    margin: 0;\n    cursor: pointer;\n}\n.items label div[data-v-a79a0632]:hover{\n    opacity: 0.6;\n}\n.userInfo__icon[data-v-a79a0632]{\n    width: 100px;\n    height: 100px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -14855,7 +15196,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.topImage[data-v-1eb9eac9]{\n    position: relative;\n    height: 50vh;\n}\n.image-top[data-v-1eb9eac9]{\n    position: absolute;\n    width: 41vh;\n    height: 100%;\n    top: 0%;\n    right: 2vw;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.topImage span[data-v-1eb9eac9]{\n    position: absolute;\n    font-size: 1.5rem;\n    text-align: center;\n    top: 36%;\n    left: 10%;\n    color: #111111;\n    text-shadow: 1px 1px 69px #3ea8ff;\n}\n.topImage ul[data-v-1eb9eac9] {\n    list-style: none;\n    padding: 0;\n}\n.topImage .circle[data-v-1eb9eac9]{\n    position: absolute;\n    width: 40vh;\n    height: 40vh;\n    border-radius: 50%;\n    background-color: #DEF2FF;\n    -webkit-animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n            animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n    -webkit-animation-duration: 6.5s;\n            animation-duration: 6.5s;\n    z-index:-1;\n}\n.topImage li[data-v-1eb9eac9]:first-child{\n\n    -webkit-animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n\n            animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n    -webkit-animation-duration: 10.5s;\n            animation-duration: 10.5s;\n}\n@-webkit-keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@-webkit-keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n@keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n    position: -webkit-sticky;\n    position: sticky;\n    background-color:#fff;\n    top:0;\n    z-index: 100;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n    width: 100%;\n}\n.pages[data-v-1eb9eac9]{\n    height: 100%;\n    background-color: #DEF2FF;\n    margin-top: 100px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.topImage[data-v-1eb9eac9]{\n    position: relative;\n    height: 50vh;\n}\n.image-top[data-v-1eb9eac9]{\n    position: absolute;\n    width: 41vh;\n    height: 100%;\n    top: 0%;\n    right: 2vw;\n    -o-object-fit: cover;\n       object-fit: cover;\n}\n.topImage span[data-v-1eb9eac9]{\n    position: absolute;\n    font-size: 1.5rem;\n    text-align: center;\n    top: 36%;\n    left: 10%;\n    color: #111111;\n    text-shadow: 1px 1px 69px #3ea8ff;\n}\n.topImage ul[data-v-1eb9eac9] {\n    list-style: none;\n    padding: 0;\n}\n.topImage .circle[data-v-1eb9eac9]{\n    position: absolute;\n    width: 40vh;\n    height: 40vh;\n    border-radius: 50%;\n    background-color: #DEF2FF;\n    -webkit-animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n            animation: horizontal-data-v-1eb9eac9 40s ease-in-out infinite alternate;\n    -webkit-animation-duration: 6.5s;\n            animation-duration: 6.5s;\n    z-index:-1;\n}\n.topImage li[data-v-1eb9eac9]:first-child{\n\n    -webkit-animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n\n            animation: vertical-data-v-1eb9eac9 30s ease-in-out infinite alternate;\n    -webkit-animation-duration: 10.5s;\n            animation-duration: 10.5s;\n}\n@-webkit-keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@keyframes horizontal-data-v-1eb9eac9 {\n0% { transform:translateX( -400px);\n}\n100% { transform:translateX(  -200px);\n}\n}\n@-webkit-keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n@keyframes vertical-data-v-1eb9eac9 {\n0% { transform:translateY( 0px);\n}\n100% { transform:translateY(  100px);\n}\n}\n.tab[data-v-1eb9eac9]{\n    width: 100%;\n    position: -webkit-sticky;\n    position: sticky;\n    background-color:#fff;\n    top:0;\n    z-index: 100;\n}\n.tab_list[data-v-1eb9eac9] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-1eb9eac9] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-1eb9eac9]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-1eb9eac9] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n.article[data-v-1eb9eac9]{\n    overflow: hidden;\n    margin-top: -1px;\n    width: 100%;\n}\n.pages[data-v-1eb9eac9]{\n    height: 100%;\n    background-color: #DEF2FF;\n    margin-top: 100px;\n}\n.modalLogin[data-v-1eb9eac9]{\n    position: absolute;\n    top: 0;\n    width: 100%;\n    height: 60px;\n    background-color: #F8A017;\n    text-align: center;\n    padding:13px 0 0 0;\n    -webkit-animation: modal-data-v-1eb9eac9 0s ease-in 2s forwards;\n    animation: modal-data-v-1eb9eac9 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-1eb9eac9]{\n    position: relative;\n    color: #FFFFFF;\n    font-size: 1.2rem;\n    -webkit-animation: modal-data-v-1eb9eac9 0s ease-in 2s forwards;\n    animation: modal-data-v-1eb9eac9 0s ease-in 2s forwards;\n    -webkit-animation-fill-mode: forwards;\n    animation-fill-mode: forwards;\n}\n.modalContent[data-v-1eb9eac9]::before{\n    content: 'ログインに成功しました。';\n}\n@-webkit-keyframes modal-data-v-1eb9eac9 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n@keyframes modal-data-v-1eb9eac9 {\nto {\n        width:0;\n        height:0;\n        overflow:hidden;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50167,88 +50508,113 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container login" }, [
-    _c("h2", [_vm._v("ログイン")]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.login($event)
-          }
-        }
-      },
-      [
-        _vm.errors.length
-          ? _c("p", [
-              _c("b", [_vm._v("以下のエラーを確認してください")]),
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "container login" }, [
+        _c("h2", [_vm._v("ログイン")]),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.login($event)
+              }
+            }
+          },
+          [
+            _vm.errors.length
+              ? _c("p", { staticClass: "error" }, [
+                  _c(
+                    "ul",
+                    _vm._l(_vm.errors, function(error) {
+                      return _c("li", { key: error }, [
+                        _vm._v(
+                          "\n            " + _vm._s(error) + "\n          "
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "login_id" }, [
+              _c("label", { attrs: { for: "login_id" } }, [
+                _vm._v("ログインID")
+              ]),
               _vm._v(" "),
-              _c(
-                "ul",
-                _vm._l(_vm.errors, function(error) {
-                  return _c("li", { key: error }, [_vm._v(_vm._s(error))])
-                }),
-                0
-              )
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.loginForm.login_id,
+                    expression: "loginForm.login_id"
+                  }
+                ],
+                attrs: { id: "login_id", type: "text" },
+                domProps: { value: _vm.loginForm.login_id },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.loginForm, "login_id", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "password" }, [
+              _c("label", { attrs: { for: "password" } }, [
+                _vm._v("パスワード")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.loginForm.password,
+                    expression: "loginForm.password"
+                  }
+                ],
+                attrs: { id: "password", type: "password" },
+                domProps: { value: _vm.loginForm.password },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.loginForm, "password", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("button", { attrs: { type: "submit" } }, [
+              _vm._v("\n        ログイン\n      ")
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _c("div", { staticClass: "login_id" }, [
-          _c("label", { attrs: { for: "login_id" } }, [_vm._v("ログインID")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.loginForm.login_id,
-                expression: "loginForm.login_id"
-              }
-            ],
-            attrs: { type: "text", id: "login_id" },
-            domProps: { value: _vm.loginForm.login_id },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.loginForm, "login_id", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "password" }, [
-          _c("label", { attrs: { for: "password" } }, [_vm._v("パスワード")]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.loginForm.password,
-                expression: "loginForm.password"
-              }
-            ],
-            attrs: { type: "password", id: "password" },
-            domProps: { value: _vm.loginForm.password },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.loginForm, "password", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("button", { attrs: { type: "submit" } }, [_vm._v("ログイン")])
-      ]
-    )
-  ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("loading", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loading,
+            expression: "loading"
+          }
+        ]
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -50287,8 +50653,22 @@ var render = function() {
         }
       },
       [
+        _vm.errors.length
+          ? _c("p", { staticClass: "error" }, [
+              _c(
+                "ul",
+                _vm._l(_vm.errors, function(error) {
+                  return _c("li", { key: error }, [
+                    _vm._v("\n          " + _vm._s(error) + "\n        ")
+                  ])
+                }),
+                0
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _c("div", [
-          _c("label", { attrs: { for: "name" } }, [_vm._v("名前")]),
+          _c("label", { attrs: { for: "name" } }, [_vm._v("ニックネーム")]),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -50299,7 +50679,7 @@ var render = function() {
                 expression: "registerForm.name"
               }
             ],
-            attrs: { type: "text", id: "name" },
+            attrs: { id: "name", type: "text" },
             domProps: { value: _vm.registerForm.name },
             on: {
               input: function($event) {
@@ -50324,7 +50704,7 @@ var render = function() {
                 expression: "registerForm.login_id"
               }
             ],
-            attrs: { type: "text", id: "login_id" },
+            attrs: { id: "login_id", type: "text" },
             domProps: { value: _vm.registerForm.login_id },
             on: {
               input: function($event) {
@@ -50349,7 +50729,7 @@ var render = function() {
                 expression: "registerForm.email"
               }
             ],
-            attrs: { type: "email", id: "email" },
+            attrs: { id: "email", type: "email" },
             domProps: { value: _vm.registerForm.email },
             on: {
               input: function($event) {
@@ -50374,7 +50754,7 @@ var render = function() {
                 expression: "registerForm.password"
               }
             ],
-            attrs: { type: "password", id: "password" },
+            attrs: { id: "password", type: "password" },
             domProps: { value: _vm.registerForm.password },
             on: {
               input: function($event) {
@@ -50401,7 +50781,7 @@ var render = function() {
                 expression: "registerForm.password_confirmation"
               }
             ],
-            attrs: { type: "password", id: "password_confirm" },
+            attrs: { id: "password_confirm", type: "password" },
             domProps: { value: _vm.registerForm.password_confirmation },
             on: {
               input: function($event) {
@@ -50418,7 +50798,9 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c("button", { attrs: { type: "submit" } }, [_vm._v("新規登録")])
+        _c("button", { attrs: { type: "submit" } }, [
+          _vm._v("\n      新規登録\n    ")
+        ])
       ]
     ),
     _vm._v(" "),
@@ -50531,7 +50913,7 @@ var render = function() {
             { staticClass: "container" },
             [
               _c("router-link", { attrs: { to: { name: "home" } } }, [
-                _vm._v("\n            WorkDesk\n        ")
+                _vm._v("\n        WorkDesk\n      ")
               ]),
               _vm._v(" "),
               _vm._m(0),
@@ -50603,7 +50985,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                            マイページ\n                        "
+                                        "\n                  マイページ\n                "
                                       )
                                     ]
                                   ),
@@ -50621,7 +51003,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                            投稿\n                        "
+                                        "\n                  投稿\n                "
                                       )
                                     ]
                                   ),
@@ -50639,7 +51021,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                            設定\n                        "
+                                        "\n                  設定\n                "
                                       )
                                     ]
                                   ),
@@ -50652,7 +51034,7 @@ var render = function() {
                                     },
                                     [
                                       _vm._v(
-                                        "\n                            ログアウト\n                        "
+                                        "\n                  ログアウト\n                "
                                       )
                                     ]
                                   )
@@ -50670,21 +51052,13 @@ var render = function() {
                           _c(
                             "router-link",
                             { attrs: { to: { name: "register" } } },
-                            [
-                              _vm._v(
-                                "\n                    新規登録\n                "
-                              )
-                            ]
+                            [_vm._v("\n            新規登録\n          ")]
                           ),
                           _vm._v(" "),
                           _c(
                             "router-link",
                             { attrs: { to: { name: "login" } } },
-                            [
-                              _vm._v(
-                                "\n                    ログイン\n                "
-                              )
-                            ]
+                            [_vm._v("\n            ログイン\n          ")]
                           )
                         ],
                         1
@@ -52079,13 +52453,17 @@ var render = function() {
             },
             [
               _vm.errors.length
-                ? _c("p", [
-                    _c("b", [_vm._v("以下のエラーを確認してください")]),
-                    _vm._v(" "),
+                ? _c("p", { staticClass: "error" }, [
                     _c(
                       "ul",
                       _vm._l(_vm.errors, function(error) {
-                        return _c("li", { key: error }, [_vm._v(_vm._s(error))])
+                        return _c("li", { key: error }, [
+                          _vm._v(
+                            "\n              " +
+                              _vm._s(error) +
+                              "\n            "
+                          )
+                        ])
                       }),
                       0
                     )
@@ -52107,7 +52485,7 @@ var render = function() {
                             expression: "id.email"
                           }
                         ],
-                        attrs: { type: "text", name: "email", id: "email" },
+                        attrs: { id: "email", type: "text", name: "email" },
                         domProps: { value: _vm.id.email },
                         on: {
                           input: function($event) {
@@ -52138,8 +52516,8 @@ var render = function() {
                               }
                             ],
                             attrs: {
-                              name: "password",
                               id: "password",
+                              name: "password",
                               autocomplete: "new-password",
                               type: "checkbox"
                             },
@@ -52182,8 +52560,8 @@ var render = function() {
                               }
                             ],
                             attrs: {
-                              name: "password",
                               id: "password",
+                              name: "password",
                               autocomplete: "new-password",
                               type: "radio"
                             },
@@ -52204,8 +52582,8 @@ var render = function() {
                               }
                             ],
                             attrs: {
-                              name: "password",
                               id: "password",
+                              name: "password",
                               autocomplete: "new-password",
                               type: _vm.inputType
                             },
@@ -52250,7 +52628,7 @@ var render = function() {
                     expression: "id.id"
                   }
                 ],
-                attrs: { type: "hidden", name: "id", id: "id" },
+                attrs: { id: "id", type: "hidden", name: "id" },
                 domProps: { value: _vm.id.id },
                 on: {
                   input: function($event) {
@@ -52265,7 +52643,7 @@ var render = function() {
               _c(
                 "button",
                 { staticClass: "submitBtn", attrs: { type: "submit" } },
-                [_vm._v("変更内容を保存する")]
+                [_vm._v("\n          変更内容を保存する\n        ")]
               )
             ]
           )
@@ -52372,22 +52750,6 @@ var render = function() {
                   }
                 },
                 [
-                  _vm.errors.length
-                    ? _c("p", [
-                        _c("b", [_vm._v("以下のエラーを確認してください")]),
-                        _vm._v(" "),
-                        _c(
-                          "ul",
-                          _vm._l(_vm.errors, function(error) {
-                            return _c("li", { key: error }, [
-                              _vm._v(_vm._s(error))
-                            ])
-                          }),
-                          0
-                        )
-                      ])
-                    : _vm._e(),
-                  _vm._v(" "),
                   _c("profile-image-form", {
                     attrs: { profile: _vm.profile },
                     on: { catchImage: _vm.displayImage }
@@ -52407,7 +52769,7 @@ var render = function() {
                               expression: "id.name"
                             }
                           ],
-                          attrs: { type: "text", name: "name", id: "name" },
+                          attrs: { id: "name", type: "text", name: "name" },
                           domProps: { value: _vm.id.name },
                           on: {
                             input: function($event) {
@@ -52437,9 +52799,9 @@ var render = function() {
                             }
                           ],
                           attrs: {
+                            id: "website_url",
                             type: "text",
-                            name: "website_url",
-                            id: "website_url"
+                            name: "website_url"
                           },
                           domProps: { value: _vm.profile.website_url },
                           on: {
@@ -52474,9 +52836,9 @@ var render = function() {
                             }
                           ],
                           attrs: {
+                            id: "twitter_url",
                             type: "text",
-                            name: "twitter_url",
-                            id: "twitter_url"
+                            name: "twitter_url"
                           },
                           domProps: { value: _vm.profile.twitter_url },
                           on: {
@@ -52570,33 +52932,49 @@ var render = function() {
                             _c("option", { attrs: { value: "" } }),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "学生" } }, [
-                              _vm._v("学生")
+                              _vm._v(
+                                "\n                    学生\n                  "
+                              )
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "主婦" } }, [
-                              _vm._v("主婦")
+                              _vm._v(
+                                "\n                    主婦\n                  "
+                              )
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "デザイナー" } }, [
-                              _vm._v("デザイナー")
+                              _vm._v(
+                                "\n                    デザイナー\n                  "
+                              )
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "エンジニア" } }, [
-                              _vm._v("エンジニア")
+                              _vm._v(
+                                "\n                    エンジニア\n                  "
+                              )
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "営業" } }, [
-                              _vm._v("営業")
+                              _vm._v(
+                                "\n                    営業\n                  "
+                              )
                             ]),
                             _vm._v(" "),
                             _c(
                               "option",
                               { attrs: { value: "マーケティング" } },
-                              [_vm._v("マーケティング")]
+                              [
+                                _vm._v(
+                                  "\n                    マーケティング\n                  "
+                                )
+                              ]
                             ),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "その他" } }, [
-                              _vm._v("その他")
+                              _vm._v(
+                                "\n                    その他\n                  "
+                              )
                             ])
                           ]
                         )
@@ -52645,15 +53023,21 @@ var render = function() {
                             _c("option", { attrs: { value: "" } }),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "男性" } }, [
-                              _vm._v("男性")
+                              _vm._v(
+                                "\n                    男性\n                  "
+                              )
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "女性" } }, [
-                              _vm._v("女性")
+                              _vm._v(
+                                "\n                    女性\n                  "
+                              )
                             ]),
                             _vm._v(" "),
                             _c("option", { attrs: { value: "その他" } }, [
-                              _vm._v("その他")
+                              _vm._v(
+                                "\n                    その他\n                  "
+                              )
                             ])
                           ]
                         )
@@ -52705,7 +53089,13 @@ var render = function() {
                               return _c(
                                 "option",
                                 { key: n, domProps: { value: n + 1 } },
-                                [_vm._v(_vm._s(n + 9))]
+                                [
+                                  _vm._v(
+                                    "\n                    " +
+                                      _vm._s(n + 9) +
+                                      "\n                  "
+                                  )
+                                ]
                               )
                             })
                           ],
@@ -52714,6 +53104,24 @@ var render = function() {
                       ])
                     ])
                   ]),
+                  _vm._v(" "),
+                  _vm.errors.length
+                    ? _c("p", { staticClass: "error" }, [
+                        _c(
+                          "ul",
+                          _vm._l(_vm.errors, function(error) {
+                            return _c("li", { key: error }, [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(error) +
+                                  "\n              "
+                              )
+                            ])
+                          }),
+                          0
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -52724,7 +53132,7 @@ var render = function() {
                         expression: "id.id"
                       }
                     ],
-                    attrs: { type: "hidden", name: "id", id: "id" },
+                    attrs: { id: "id", type: "hidden", name: "id" },
                     domProps: { value: _vm.id.id },
                     on: {
                       input: function($event) {
@@ -52739,7 +53147,7 @@ var render = function() {
                   _c(
                     "button",
                     { staticClass: "submitBtn", attrs: { type: "submit" } },
-                    [_vm._v("変更内容を保存する")]
+                    [_vm._v("\n            変更内容を保存する\n          ")]
                   )
                 ],
                 1
@@ -52760,7 +53168,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "explain" }, [
-      _c("label", { attrs: { for: "name" } }, [_vm._v("ニックネーム")])
+      _c("label", { attrs: { for: "name" } }, [_vm._v("ニックネーム")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("*必須")])
     ])
   },
   function() {
@@ -52975,7 +53385,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("New")]
+            [_vm._v("\n          New\n        ")]
           ),
           _vm._v(" "),
           _c(
@@ -52988,7 +53398,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Trend")]
+            [_vm._v("\n          Trend\n        ")]
           ),
           _vm._v(" "),
           _c(
@@ -53001,7 +53411,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Items")]
+            [_vm._v("\n          Items\n        ")]
           )
         ])
       ])
@@ -53069,7 +53479,19 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div")
+    _c(
+      "div",
+      {
+        class: { modalLogin: _vm.isLogin === true && _vm.successLogin === true }
+      },
+      [
+        _c("p", {
+          class: {
+            modalContent: _vm.isLogin === true && _vm.successLogin === true
+          }
+        })
+      ]
+    )
   ])
 }
 var staticRenderFns = [

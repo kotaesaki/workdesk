@@ -1,68 +1,72 @@
 <template>
+  <div>
     <div class="container login">
-    <h2>ログイン</h2>
-    <form @submit.prevent="login">
-      <p v-if="errors.length">
-        <b>以下のエラーを確認してください</b>
-        <ul>
-            <li v-for="error in errors" :key="error">{{error}}</li>
-        </ul>
-      </p>
-      <div class="login_id">
-        <label for="login_id">ログインID</label>
-        <input  type="text" id="login_id" v-model="loginForm.login_id" />
-      </div>
-      <div class="password">
-        <label for="password">パスワード</label>
-        <input type="password" id="password" v-model="loginForm.password" />
-      </div>
-      <button type="submit">ログイン</button>
-    </form>
+      <h2>ログイン</h2>
+      <form @submit.prevent="login">
+        <p
+          v-if="errors.length"
+          class="error">
+          <ul>
+            <li
+              v-for="error in errors"
+              :key="error">
+              {{ error }}
+            </li>
+          </ul>
+        </p>
+        <div class="login_id">
+          <label for="login_id">ログインID</label>
+          <input
+            id="login_id"
+            v-model="loginForm.login_id"
+            type="text">
+        </div>
+        <div class="password">
+          <label for="password">パスワード</label>
+          <input
+            id="password"
+            v-model="loginForm.password"
+            type="password">
+        </div>
+        <button type="submit">
+          ログイン
+        </button>
+      </form>
     </div>
+    <loading v-show="loading" />
+  </div>
 </template>
 <script>
+import Loading from '../common/Loading.vue'
 export default {
-  name: "login",
-  components: {},
+  name: 'Login',
+  components: {Loading},
   data() {
     return {
       loginForm: {
-        login_id: "",
-        password: ""
+        login_id: '',
+        password: ''
       },
-      errors:[], 
-
-    };
+    }
+  },
+  computed: {
+    errors() {
+      return this.$store.getters['auth/errors']
+    },
+    loading(){
+      return this.$store.getters['auth/loading']
+    }
   },
   methods: {
     async login() {
-      const validate = await this.validate();
-      if(validate){
-        this.$store.dispatch("auth/login", this.loginForm).then(() => {
-          this.$router.push({ name: "home" , params:{successLogin : true} });
-        }).catch(error=>{
-          console.log(error)
-        })
-      }else{
-
-      }
-    },
-    async validate(){  
-      this.errors = [];
-      if(!this.loginForm.login_id){
-          await this.errors.push('ログインIDが入力されていません。');
-      }
-      if(!this.loginForm.password){
-          await this.errors.push('パスワードが入力されていません。');
-      }
-      if(this.errors.length == 0){
-        return true;
-      }else{
-        return false;
-      }
+      this.$store.dispatch('auth/login', this.loginForm).then(() => {
+      }).catch(error=>{
+        console.log(error)
+      })
     }
-  }
-};
+  },
+  
+}
 
 </script>
 <style scoped>

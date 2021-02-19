@@ -1,59 +1,84 @@
 <template>
-    <div id="wrapper">
-        <div class="tab">
-            <div class="tab_box container">
-                <ul class="tab_list">
-                    <li @click="changeTab('1')" v-bind:class="{'active': isActive === '1'}">New</li>
-                    <li @click="changeTab('2')" v-bind:class="{'active': isActive === '2'}">Trend</li>
-                    <li @click="changeTab('3')" v-bind:class="{'active': isActive === '3'}">Items</li>
-                </ul>
-            </div>
-        </div>
-        <div class="topImage container">
-            <div class="box">
-                <ul>
-                    <li><div class="circle"></div></li>
-                </ul>
-                <span>自宅の作業環境の参考に！<br>在宅環境をシェアする写真投稿サービスです。</span>
-                <img :src="`./images/top.jpg`" alt="トップ" class="image-top">
-            </div>
-        </div>
-        <div class="pages">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="article">
-                        <new-timeline v-show="isActive === '1'" class="item"></new-timeline>
-                        <trend-timeline v-show="isActive === '2'" class="item"></trend-timeline>
-                        <trend-item v-show="isActive === '3'"  class="item"></trend-item>
-                    </div>
-                </div>
-            </div>     
-        </div>   
-    <div>
-
+  <div id="wrapper">
+    <div class="tab">
+      <div class="tab_box container">
+        <ul class="tab_list">
+          <li
+            :class="{'active': isActive === '1'}"
+            @click="changeTab('1')">
+            New
+          </li>
+          <li
+            :class="{'active': isActive === '2'}"
+            @click="changeTab('2')">
+            Trend
+          </li>
+          <li
+            :class="{'active': isActive === '3'}"
+            @click="changeTab('3')">
+            Items
+          </li>
+        </ul>
+      </div>
     </div>
+    <div class="topImage container">
+      <div class="box">
+        <ul>
+          <li><div class="circle" /></li>
+        </ul>
+        <span>自宅の作業環境の参考に！<br>在宅環境をシェアする写真投稿サービスです。</span>
+        <img
+          :src="`./images/top.jpg`"
+          alt="トップ"
+          class="image-top">
+      </div>
     </div>
- 
+    <div class="pages">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="article">
+            <new-timeline
+              v-show="isActive === '1'"
+              class="item" />
+            <trend-timeline
+              v-show="isActive === '2'"
+              class="item" />
+            <trend-item
+              v-show="isActive === '3'"
+              class="item" />
+          </div>
+        </div>
+      </div>     
+    </div>   
+    <div :class="{modalLogin: isLogin===true && successLogin === true}">
+      <p :class="{modalContent: isLogin===true && successLogin === true}" />
+    </div>
+  </div>
 </template>
 <script>
 import NewTimeline from './NewTimeline.vue'
 import TrendItem from './TrendItem.vue'
 import TrendTimeline from './TrendTimeline.vue'
 export default {
-    components: { NewTimeline, TrendTimeline, TrendItem },
-    props:{
-        successLogin: Boolean
+  components: { NewTimeline, TrendTimeline, TrendItem },
+  props: {
+    successLogin: Boolean
+  },
+  data() {
+    return {
+      isActive: '1',
+    }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters['auth/check']
     },
-    data() {
-        return {
-            isActive: '1',
-        };
+  },
+  methods: {
+    changeTab(val) {
+      this.isActive = val
     },
-    methods: {
-        changeTab(val) {
-            this.isActive = val;
-        },
-    },
+  },
 }
 </script>
 <style scoped>
@@ -140,5 +165,41 @@ export default {
         height: 100%;
         background-color: #DEF2FF;
         margin-top: 100px;
+    }
+    .modalLogin{
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #F8A017;
+        text-align: center;
+        padding:13px 0 0 0;
+        -moz-animation: modal 0s ease-in 2s forwards;
+        -webkit-animation: modal 0s ease-in 2s forwards;
+        -o-animation: modal 0s ease-in 2s forwards;
+        animation: modal 0s ease-in 2s forwards;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+    }
+    .modalContent{
+        position: relative;
+        color: #FFFFFF;
+        font-size: 1.2rem;
+        -moz-animation: modal 0s ease-in 2s forwards;
+        -webkit-animation: modal 0s ease-in 2s forwards;
+        -o-animation: modal 0s ease-in 2s forwards;
+        animation: modal 0s ease-in 2s forwards;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+    }
+    .modalContent::before{
+        content: 'ログインに成功しました。';
+    }
+    @keyframes modal {
+        to {
+            width:0;
+            height:0;
+            overflow:hidden;
+        }
     }
 </style>

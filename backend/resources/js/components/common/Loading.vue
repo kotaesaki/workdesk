@@ -1,13 +1,15 @@
 <template>
-    <div class="view">
-        <div class="loading-space"></div>
-            <vue-loaders-ball-spin-fade-loader color="#DEF2FF" scale="2" class="loader"></vue-loaders-ball-spin-fade-loader>
-    </div>
+  <div class="view">
+    <div class="loading-space" />
+    <vue-loaders-ball-spin-fade-loader
+      color="#DEF2FF"
+      scale="2"
+      class="loader" />
+  </div>
 </template>
 <script>
-import "vue-loaders/dist/vue-loaders.css";
+import 'vue-loaders/dist/vue-loaders.css'
 export default {
-
     
 }
 </script>
@@ -21,7 +23,7 @@ export default {
         padding: 0 47%;
         background:grey;
         opacity: 0.6;
-        z-index: 1000;
+        z-index: 10000;
     }
     .loading-space{
         height: 40%;

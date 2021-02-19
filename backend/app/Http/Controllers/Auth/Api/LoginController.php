@@ -34,7 +34,7 @@ class LoginController extends Controller
         // 取得できない場合、パスワードが不一致の場合エラー
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'login_id' => [__('failed')],
+                'login_id' => [__('ログインIDまたはパスワードが違います。')],
             ]);
         }
 
