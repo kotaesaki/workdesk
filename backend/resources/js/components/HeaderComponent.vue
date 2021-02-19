@@ -10,6 +10,7 @@
             alt="ロゴ"
             class="logo">
         </router-link>
+        <search-component />
         <button
           class="navbar-toggler"
           type="button"
@@ -75,6 +76,7 @@
             </router-link>
           </div>
         </div>
+        </search-component>
       </div>
     </nav>
     <loading v-show="loading" />
@@ -86,8 +88,9 @@
 
 <script>
 import Loading from './common/Loading.vue'
+import SearchComponent from './common/Search.vue'
 export default {
-  components: { Loading },
+  components: { Loading, SearchComponent },
   data() {
     return {
       complete: false,
@@ -149,7 +152,7 @@ export default {
     }
     .logo{
       position:absolute;
-      top: 12px;
+      top:2px;
       height: 55px;
     }
     .icon_name{

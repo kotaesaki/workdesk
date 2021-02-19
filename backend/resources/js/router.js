@@ -9,6 +9,8 @@ Vue.use(VueLoaders)
 import HeaderComponent from './components/HeaderComponent'
 import MypageComponent from './components/mypage/MypageComponent'
 import FooterComponent from './components/common/Footer'
+import Search from './components/common/Search'
+import SearchComponent from './components/top/SearchComponent'
 import MypageBar from './components/mypage/MypageBar'
 import MypageContent from './components/mypage/MypageContent'
 import MypageLikes from './components/mypage/MypageLikes'
@@ -35,6 +37,7 @@ import Loading from './components/common/Loading'
 Vue.component('example-component', require('./components/ExampleComponent.vue').default)
 Vue.component('header-component', HeaderComponent)
 Vue.component('footer-component', FooterComponent)
+Vue.component('search-component', Search)
 Vue.component('new-timeline', NewTimeline)
 Vue.component('individual-comment', IndividualComment)
 Vue.component('trend-timeline', TrendTimeline)
@@ -64,6 +67,13 @@ const router = new VueRouter({
       name: 'individual',
       component: Individual,
       props: true,
+      meta: {isPublic: true},
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: SearchComponent,
+      proops: true,
       meta: {isPublic: true},
     },        
     {

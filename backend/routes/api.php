@@ -35,7 +35,7 @@ Route::post('/register', 'App\Http\Controllers\Auth\Api\RegisterController@regis
 Route::post('/login', 'App\Http\Controllers\Auth\Api\LoginController@login')->name('api.login');
 Route::post('/logout', 'App\Http\Controllers\Auth\Api\LoginController@logout')->name('api.logout');
 Route::get('/countFollow', 'App\Http\Controllers\CountFollowController@count')->name('api.countFollow');
-
+Route::get('/search', 'App\Http\Controllers\SearchController@search')->name('api.search');
 
 Route::get('/post_upload/{login_id}', 'App\Http\Controllers\PostController@index')->name('show_post_upload');
 Route::get('/tagList', 'App\Http\Controllers\TagController@index')->name('show_tagList');
