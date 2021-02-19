@@ -128,7 +128,7 @@ export default {
             })
           }
         } else {
-          alert('変更に失敗しました。(ステータスコード:', err.response.status, ')')
+          alert('変更に失敗しました。(ステータスコード:' + err.response.status + ')')
         }
 
       })

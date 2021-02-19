@@ -3237,6 +3237,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _PostImageForm_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PostImageForm.vue */ "./resources/js/components/posts/PostImageForm.vue");
 /* harmony import */ var _PostTagForm_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PostTagForm.vue */ "./resources/js/components/posts/PostTagForm.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 //
 //
 //
@@ -3284,6 +3286,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3306,12 +3339,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     submit: function submit() {
-      this.validate();
+      var _this = this;
+
+      this.errors.splice(0);
       var imageName = Math.random().toString(32).substring(2);
       var formData = new FormData();
-      formData.append('file', this.blob, imageName + '.jpg');
-      formData.append('description', this.description);
-      formData.append('id', this.userId);
+      var config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      };
 
       if (this.tag.length > 0) {
         this.tag.forEach(function (text, index) {
@@ -3321,43 +3358,49 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('tag', []);
       }
 
-      console.log(formData);
-      var config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
-      };
-      axios.post('/api/post_upload/' + this.userId, formData, config).then(function (res) {
+      if (!this.blob) {
+        formData.append('file', '');
+      } else {
+        formData.append('file', this.blob, imageName + '.jpg');
+      }
+
+      formData.append('description', this.description);
+      formData.append('id', this.userId);
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/post_upload/' + this.userId, formData, config).then(function (res) {
         alert('保存しました');
       })["catch"](function (err) {
-        console.log('err:', err);
-        console.log('失敗');
+        var val = err.response.data.errors;
+
+        if (err.response.status === 422) {
+          if (val.file) {
+            val.file.forEach(function (v) {
+              _this.errors.push(v);
+            });
+          }
+
+          if (val.tag) {
+            val.tag.forEach(function (i) {
+              _this.errors.push(i);
+            });
+          }
+
+          if (val.description) {
+            val.description.forEach(function (i) {
+              _this.errors.push(i);
+            });
+          }
+        } else {
+          alert('変更に失敗しました。(ステータスコード:' + err.response.status + ')');
+        }
       });
     },
     getId: function getId() {
-      var _this = this;
+      var _this2 = this;
 
-      axios.get('/api/post_upload/' + this.userId).then(function (res) {
-        _this.id = res.data[0];
-        _this.profile = res.data[1];
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/post_upload/' + this.userId).then(function (res) {
+        _this2.id = res.data[0];
+        _this2.profile = res.data[1];
       });
-    },
-    validate: function validate() {
-      this.errors = [];
-
-      if (!this.blob) {
-        this.errors.push('画像は必須項目です');
-      }
-
-      if (!this.tag) {
-        this.errors.push('タグは必須項目です');
-      }
-
-      if (!this.description) {
-        this.errors.push('コメントは必須項目です');
-      }
-
-      return this.errors;
     },
     uploadBlob: function uploadBlob(blob) {
       this.blob = blob;
@@ -3539,7 +3582,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       });
                     }
                   } else {
-                    alert('変更に失敗しました。(ステータスコード:', err.response.status, ')');
+                    alert('変更に失敗しました。(ステータスコード:' + err.response.status + ')');
                   }
                 });
 
@@ -10432,7 +10475,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.postUpload h2{\n    padding: 3rem 4rem;\n}\n.postUpload .contents{\n    margin: 5%;\n    display: inline;\n}\n.postUpload .contents .explain{\n    float: left;\n    clear: both;\n    padding: 1% 7%;\n    width: 43%;\n}\n.postUpload .contents .title{\n    font-size:1.4rem;\n}\n.postUpload .required{\n    color: red;\n    font-size: 0.7rem;\n    padding: 0 4%;\n}\n.commentArea{\n    resize: none;\n    border: 1px solid #cde;\n    border-radius: 6px;\n    width: 53%;\n    height: 10vw;\n}\n.submitBtn{\n    border: 2px solid grey;\n    border-radius: 6px;\n    margin: 0 auto 20%;\n    display: block;\n    padding: 2% 8%;\n    font-size: 1.2rem;\n    background-color: #CFCABF;\n    color: #fff;\n}\n.submitBtn:hover{\n    opacity: 0.6;\n}\n.contents .items{\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.postUpload h2{\n    padding: 3rem 4rem;\n}\n.postUpload .contents{\n    margin: 5%;\n    display: inline;\n}\n.postUpload .contents .explain{\n    float: left;\n    clear: both;\n    padding: 1% 7%;\n    width: 43%;\n}\n.postUpload .contents .title{\n    font-size:1.4rem;\n}\n.postUpload .required{\n    color: red;\n    font-size: 0.7rem;\n    padding: 0 4%;\n}\n.commentArea{\n    resize: none;\n    border: 1px solid #cde;\n    border-radius: 6px;\n    width: 53%;\n    height: 10vw;\n}\n.submitBtn{\n    border: 2px solid grey;\n    border-radius: 6px;\n    margin: 0 auto 20%;\n    display: block;\n    padding: 2% 8%;\n    font-size: 1.2rem;\n    background-color: #CFCABF;\n    color: #fff;\n}\n.submitBtn:hover{\n    opacity: 0.6;\n}\n.error{\n  color: red;\n  font-size:0.8rem;\n  text-align: center;\n}\n.error ul{\n  list-style: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16955,20 +16998,6 @@ var render = function() {
             }
           },
           [
-            _vm.errors.length
-              ? _c("p", [
-                  _c("b", [_vm._v("以下のエラーを確認してください")]),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    _vm._l(_vm.errors, function(error) {
-                      return _c("li", { key: error }, [_vm._v(_vm._s(error))])
-                    }),
-                    0
-                  )
-                ])
-              : _vm._e(),
-            _vm._v(" "),
             _c("post-image-form", { on: { catchBlob: _vm.uploadBlob } }),
             _vm._v(" "),
             _c("post-tag-form", { on: { catchTag: _vm.uploadTag } }),
@@ -16991,8 +17020,8 @@ var render = function() {
                     ],
                     staticClass: "commentArea",
                     attrs: {
-                      name: "description",
                       id: "description",
+                      name: "description",
                       cols: "30",
                       rows: "10",
                       placeholder: "コメントを入力する"
@@ -17011,6 +17040,22 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
+            _vm.errors.length
+              ? _c("p", { staticClass: "error" }, [
+                  _c(
+                    "ul",
+                    _vm._l(_vm.errors, function(error) {
+                      return _c("li", { key: error }, [
+                        _vm._v(
+                          "\n              " + _vm._s(error) + "\n            "
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _c("input", {
               directives: [
                 {
@@ -17020,7 +17065,7 @@ var render = function() {
                   expression: "userId"
                 }
               ],
-              attrs: { type: "hidden", name: "id", id: "id" },
+              attrs: { id: "id", type: "hidden", name: "id" },
               domProps: { value: _vm.userId },
               on: {
                 input: function($event) {
@@ -17035,7 +17080,7 @@ var render = function() {
             _c(
               "button",
               { staticClass: "submitBtn", attrs: { type: "submit" } },
-              [_vm._v("写真を投稿する")]
+              [_vm._v("\n          写真を投稿する\n        ")]
             )
           ],
           1
@@ -17052,14 +17097,18 @@ var staticRenderFns = [
     return _c("div", { staticClass: "form-group" }, [
       _c("div", { staticClass: "contents" }, [
         _c("div", { staticClass: "explain" }, [
-          _c("p", { staticClass: "title" }, [_vm._v("アイテムタグを追加する")]),
+          _c("p", { staticClass: "title" }, [
+            _vm._v("\n                アイテムタグを追加する\n              ")
+          ]),
           _vm._v(" "),
-          _c("p", { staticClass: "required" }, [_vm._v("※必須")])
+          _c("p", { staticClass: "required" }, [
+            _vm._v("\n                ※必須\n              ")
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "items" }, [
           _c("input", {
-            attrs: { type: "text", name: "itemTag", id: "itemTag" }
+            attrs: { id: "itemTag", type: "text", name: "itemTag" }
           })
         ])
       ])
@@ -17070,9 +17119,13 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "explain" }, [
-      _c("p", { staticClass: "title" }, [_vm._v("コメントを追加する")]),
+      _c("p", { staticClass: "title" }, [
+        _vm._v("\n                コメントを追加する\n              ")
+      ]),
       _vm._v(" "),
-      _c("p", { staticClass: "required" }, [_vm._v("※必須")])
+      _c("p", { staticClass: "required" }, [
+        _vm._v("\n                ※必須\n              ")
+      ])
     ])
   }
 ]

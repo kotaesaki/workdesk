@@ -1,125 +1,162 @@
 <template>
-<div class="container postUpload">
+  <div class="container postUpload">
     <div class="row justify-content-center">
-            <div class="col-md-10">
-                <h2>写真を投稿する</h2>
-                <form v-on:submit.prevent="submit" enctype="multipart/form-data">
-                    <p v-if="errors.length">
-                        <b>以下のエラーを確認してください</b>
-                        <ul>
-                            <li v-for="error in errors" :key="error">{{ error }}</li>
-                        </ul>
-                    </p>
-                    <post-image-form v-on:catchBlob="uploadBlob"></post-image-form>
-                    <post-tag-form v-on:catchTag="uploadTag"></post-tag-form>
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <p class="title">アイテムタグを追加する</p>
-                                <p class="required">※必須</p>
-                            </div>
-                            <div class="items">
-                                <input type="text" name="itemTag" id="itemTag">
-                            </div>
-                        </div>
-                    </div>
+      <div class="col-md-10">
+        <h2>写真を投稿する</h2>
+        <form
+          enctype="multipart/form-data"
+          @submit.prevent="submit">
+          <post-image-form @catchBlob="uploadBlob" />
+          <post-tag-form @catchTag="uploadTag" />
+          <div class="form-group">
+            <div class="contents">
+              <div class="explain">
+                <p class="title">
+                  アイテムタグを追加する
+                </p>
+                <p class="required">
+                  ※必須
+                </p>
+              </div>
+              <div class="items">
+                <input
+                  id="itemTag"
+                  type="text"
+                  name="itemTag">
+              </div>
+            </div>
+          </div>
 
-                    <div class="form-group">
-                        <div class="contents">
-                            <div class="explain">
-                                <p class="title">コメントを追加する</p>
-                                <p class="required">※必須</p>
-                            </div>
-                            <div class="items">
-                                <textarea class="commentArea" name="description" id="description" cols="30" rows="10"
-                                placeholder="コメントを入力する" v-model="description"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <input type="hidden" name="id" id="id" v-model="userId">
-                    <button type="submit" class="submitBtn">写真を投稿する</button>
-                </form>
-        </div>
+          <div class="form-group">
+            <div class="contents">
+              <div class="explain">
+                <p class="title">
+                  コメントを追加する
+                </p>
+                <p class="required">
+                  ※必須
+                </p>
+              </div>
+              <div class="items">
+                <textarea
+                  id="description"
+                  v-model="description"
+                  class="commentArea"
+                  name="description"
+                  cols="30"
+                  rows="10"
+                  placeholder="コメントを入力する" />
+              </div>
+            </div>
+          </div>
+          <p
+            v-if="errors.length"
+            class="error">
+            <ul>
+              <li
+                v-for="error in errors"
+                :key="error">
+                {{ error }}
+              </li>
+            </ul>
+          </p>
+          <input
+            id="id"
+            v-model="userId"
+            type="hidden"
+            name="id">
+          <button
+            type="submit"
+            class="submitBtn">
+            写真を投稿する
+          </button>
+        </form>
+      </div>
     </div>
-
-</div>
+  </div>
 </template>
 <script>
-import PostImageForm from './PostImageForm.vue';
-import PostTagForm from './PostTagForm.vue';
+import PostImageForm from './PostImageForm.vue'
+import PostTagForm from './PostTagForm.vue'
+import axios from 'axios'
 export default {
   components: { PostImageForm, PostTagForm },
-    props: {
-        userId: String
-    },
-    data() {
-        return {
-            id:'',
-            profile:'',
-            errors: [],
-            blob: '',
-            tag:'',
-            description:'',
+  props: {
+    userId: String
+  },
+  data() {
+    return {
+      id: '',
+      profile: '',
+      errors: [],
+      blob: '',
+      tag: '',
+      description: '',
 
-        };
+    }
+  },
+  methods: {
+    submit() {
+      this.errors.splice(0)
+      let imageName = Math.random().toString(32).substring(2)
+      let formData = new FormData()
+      let config = {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      }
+      if (this.tag.length > 0) {
+        this.tag.forEach((text, index) => {
+          formData.append('tag[' + index + ']', text)
+        })
+      } else {
+        formData.append('tag', [])
+      }
+      if (!this.blob){
+        formData.append('file', '')
+      } else {
+        formData.append('file', this.blob, imageName + '.jpg')
+      }
+      formData.append('description', this.description)
+      formData.append('id', this.userId)
+      axios.post('/api/post_upload/' + this.userId, formData, config).then((res)=>{
+        alert('保存しました')
+      }).catch(err=>{
+        const val = err.response.data.errors
+        if (err.response.status === 422){
+          if (val.file){
+            val.file.forEach((v) =>{
+              this.errors.push(v)
+            })
+          }
+          if (val.tag){
+            val.tag.forEach(i =>{
+              this.errors.push(i)
+            })
+          }
+          if (val.description){
+            val.description.forEach(i =>{
+              this.errors.push(i)
+            })
+          }
+        } else {
+          alert('変更に失敗しました。(ステータスコード:' + err.response.status + ')')
+        }
+      })
     },
-    methods: {
-        submit() {
-            this.validate();
-            let imageName = Math.random().toString(32).substring(2);
-            let formData = new FormData();
-            formData.append('file',this.blob, imageName + '.jpg');
-            formData.append('description', this.description);
-            formData.append('id', this.userId);
-            if (this.tag.length > 0) {
-                this.tag.forEach((text, index) => {
-                formData.append('tag[' + index + ']', text);
-                })
-            } else {
-                formData.append('tag', []);
-            }
-            console.log(formData);
-            var config = {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            };
-            axios.post('/api/post_upload/' + this.userId, formData, config).then((res)=>{
-               alert('保存しました');
-
-            }).catch(err=>{
-                console.log('err:',err);
-                console.log('失敗');
-            });
-        },
-        getId() {
-           axios.get('/api/post_upload/' + this.userId).then((res)=>{
-                this.id = res.data[0];
-                this.profile = res.data[1];
-
-           })
-       },
-       validate(){
-           this.errors = [];
-           if(!this.blob){
-                this.errors.push('画像は必須項目です');
-           }
-           if(!this.tag){
-                this.errors.push('タグは必須項目です');
-           }
-           if(!this.description){
-                this.errors.push('コメントは必須項目です');
-           }
-           return this.errors;
-       },
-       uploadBlob(blob){
-           this.blob = blob;
-       },
-       uploadTag(tag){
-           this.tag = tag;
-       }
+    getId() {
+      axios.get('/api/post_upload/' + this.userId).then((res)=>{
+        this.id = res.data[0]
+        this.profile = res.data[1]
+      })
     },
+    uploadBlob(blob){
+      this.blob = blob
+    },
+    uploadTag(tag){
+      this.tag = tag
+    }
+  },
 }
 </script>
 <style>
@@ -164,6 +201,12 @@ export default {
 .submitBtn:hover{
     opacity: 0.6;
 }
-.contents .items{
+.error{
+  color: red;
+  font-size:0.8rem;
+  text-align: center;
+}
+.error ul{
+  list-style: none;
 }
 </style>
