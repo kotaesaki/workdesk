@@ -3369,6 +3369,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/post_upload/' + this.userId, formData, config).then(function (res) {
         alert('保存しました');
       })["catch"](function (err) {
+        console.log(err.response);
         var val = err.response.data.errors;
 
         if (err.response.status === 422) {

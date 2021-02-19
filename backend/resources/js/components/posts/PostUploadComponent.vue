@@ -122,6 +122,7 @@ export default {
       axios.post('/api/post_upload/' + this.userId, formData, config).then((res)=>{
         alert('保存しました')
       }).catch(err=>{
+        console.log(err.response)
         const val = err.response.data.errors
         if (err.response.status === 422){
           if (val.file){
