@@ -13,9 +13,9 @@ class SearchController extends Controller
         $keyword = $request->q;
 
         if(!empty($keyword)){
-            $tag = Tag::select('tag_id', 'tag_name')->where('tag_name', 'like', "%{$keyword}%")->get();
+            $tag = Tag::select('tag_id', 'tag_name')->where('tag_name', 'like', "%{$keyword}%")->take(10)->get();
             $user = User::select('id','name','login_id')->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('login_id', 'LIKE', "%{$keyword}%")->get();
+                ->orWhere('login_id', 'LIKE', "%{$keyword}%")->take(10)->get();
         }
         return response()->json([$tag, $user]);
     }

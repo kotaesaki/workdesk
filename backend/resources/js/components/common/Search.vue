@@ -10,7 +10,9 @@
         placeholder="キーワードを入力..."
         @keydown.enter="trigger">
     </div>
-    <div v-show="result">
+    <div
+      v-show="result"
+      class="list">
       <div>
         <ul class="tab_list">
           <li
@@ -30,17 +32,43 @@
           v-show="isActive === '1'"
           class="tagSearch item">
           <ul>
-            <li />
+            <li
+              v-for="tag in tagArray"
+              :key="tag.tag_id">
+              <p>{{ tag.tag_name }}</p>
+            </li>
+            <p v-show="tagArray.length === 0 && !loading">
+              検索結果 0件...
+            </p>
           </ul>
         </div>
         <div
           v-show="isActive === '2'"
-          class="userSearch class">
+          class="userSearch item">
           <ul>
-            <li />
+            <li 
+              v-for="user in userArray"
+              :key="user.id">
+              <p>{{ user.name }}</p>
+              <p>@{{ user.login_id }}</p>
+            </li>
+            <p v-show="userArray.length === 0 && !loading">
+              検索結果 0件...
+            </p>
           </ul>
         </div>
       </div>
+      <div
+        v-show="loading"
+        class="loader-space">
+        <vue-loaders-line-scale
+          color="#222"
+          class="loader" />
+      </div>
+      <div
+        v-show="result"
+        class="overlay"
+        @click="closeSearch" />
     </div>
   </div>
 </template>
@@ -63,6 +91,15 @@ export default {
     },
     result(){
       return this.$store.getters['search/result']
+    },
+    tagArray(){
+      return this.$store.getters['search/tagArray']
+    },
+    userArray(){
+      return this.$store.getters['search/userArray']
+    },
+    loading(){
+      return this.$store.getters['search/loading']
     }
   },
   methods: {
@@ -73,6 +110,9 @@ export default {
     changeTab(val) {
       this.isActive = val
     },
+    closeSearch(){
+      this.$store.commit('search/setResult', false)
+    }
   },
 }
 </script>
@@ -83,6 +123,9 @@ export default {
   width: 29rem;
   margin-left: 7rem;
   margin-right: 1rem;
+  z-index: 10000;
+  height: 43rem;
+  top: 20.7rem;
 }
 .search .box {
   position: relative;
@@ -105,21 +148,69 @@ export default {
   border: 1px solid #eae7e2;
 
 }
+.overlay{
+  z-index:1001;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+.list{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  box-shadow: 1px 1px 11px lightgrey;
+  background: #fff;
+  z-index: 1002;
+}
 .tab_list {
-    overflow: hidden;
-    list-style: none;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  height: 8%;
 }
 .tab_list li {
-    float: left;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: .3s;
+  float: left;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: .3s;
+  width: 50%;
+  text-align: center;
 }
 .tab_list li:not(:first-child) {
-    border-left: none;
+  border-left: none;
 }
 .tab_list li.active {
-    border-bottom: 3px solid #000;
-    cursor: auto;
+  border-bottom: 3px solid #000;
+  cursor: auto;
+}
+.article{
+  height: 91%;
+}
+.article ul{
+  list-style: none;
+  padding: 0;
+  height: 91%;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+}
+.article ul li{
+  border-bottom: 1px solid #ddd;
+  height: 9%;
+  position: relative;
+}
+.article ul li p{
+  margin:  0 2rem;
+}
+.loader-space{
+  width: 100%;
+  height: 20vh;
+  position: absolute;
+  top: 4rem;
+  margin: 0 47%;
 }
 </style>
