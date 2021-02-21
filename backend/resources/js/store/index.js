@@ -9,6 +9,7 @@ import comment from './modules/comment'
 import mytag from './modules/mytag'
 import mypage from './modules/mypage'
 import search from './modules/search'
+import tagpage from './modules/tagPage'
 
 Vue.use(Vuex)
 
@@ -25,7 +26,8 @@ export default new Vuex.Store({
     comment,
     mytag,
     mypage,
-    search
+    search,
+    tagpage
   },
   mutations: {},
   actions: {},

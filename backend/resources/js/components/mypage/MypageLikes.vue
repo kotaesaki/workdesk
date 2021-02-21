@@ -1,48 +1,61 @@
 <template>
-    <div class="col-md-8">
-        <h2>いいねしている写真</h2>
-        <div class="loader-space" v-show="loading">
-            <vue-loaders-line-scale-pulse-out color="#CFCABF" scale="5" class="loader"></vue-loaders-line-scale-pulse-out> 
-        </div>
-        <div class="likes" v-show="!loading">
-            <div class="content" v-for="likePost in likePosts" :key="likePost.post_id">
-                <router-link v-bind:to="{ name: 'individual', params: { postId: likePost.post_id}}">
-                    <img :src="`../${likePost.post.photo_path}`" alt="" class="card-img">
-                </router-link>
-            </div>
-        </div>
+  <div class="col-md-8">
+    <h2>いいねしている写真</h2>
+    <div
+      v-show="loading"
+      class="loader-space">
+      <vue-loaders-line-scale-pulse-out
+        color="#CFCABF"
+        scale="5"
+        class="loader" /> 
     </div>
+    <div
+      v-show="!loading"
+      class="likes">
+      <div
+        v-for="likePost in likePosts"
+        :key="likePost.post_id"
+        class="content">
+        <router-link :to="{ name: 'individual', params: { postId: likePost.post_id}}">
+          <img
+            :src="`../${likePost.post.photo_path}`"
+            alt=""
+            class="card-img">
+        </router-link>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
-    props:{
-        userId: String,
-    },
-    data() {
-        return {
-            likePosts: '',
-            loading: true,
-        };
-    },
-    methods:{
-        async getMylikes(data){
-            await axios.get('/api/mylikes', {
-                params:{
-                    user_id: data
-                }
-            }).then(result=>{
-                console.log(result.data);
-                this.likePosts = result.data.mylikes.favorite;
-            }).catch(error=>{
-                console.log(error);  
-            })
+  props: {
+    userId: String,
+  },
+  data() {
+    return {
+      likePosts: '',
+      loading: true,
+    }
+  },
+  mounted() {
+    console.log('MypageLikes mounted start!')
+    this.getMylikes(this.userId)
+      .then(()=>this.loading= false)
+  },
+  methods: {
+    async getMylikes(data){
+      await axios.get('/api/mylikes', {
+        params: {
+          user_id: data
         }
-    },
-    mounted() {
-        console.log("MypageLikes mounted start!");
-        this.getMylikes(this.userId)
-            .then(()=>this.loading= false)
-    },
+      }).then(result=>{
+        console.log(result.data)
+        this.likePosts = result.data.mylikes.favorite
+      }).catch(error=>{
+        console.log(error)  
+      })
+    }
+  },
 
 }
 </script>

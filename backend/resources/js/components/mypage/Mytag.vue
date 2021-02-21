@@ -1,40 +1,52 @@
 <template>
-    <div class="col-md-8">
-        <h2>投稿したタグ一覧</h2>
-        <div class="loader-space" v-show="loading">
-            <vue-loaders-line-scale-pulse-out color="#CFCABF" scale="5" class="loader"></vue-loaders-line-scale-pulse-out> 
-        </div>        
-        <div class="mytag" v-show="!loading">
-            <ul>
-                <li v-for="(name,key) in mytag" :key="name">
-                    <p class="tag">{{key}}</p>
-                    <p class="count"> ({{name}}枚)</p>
-                </li>
-            </ul>
-        </div>
-
+  <div class="col-md-8">
+    <h2>投稿したタグ一覧</h2>
+    <div
+      v-show="loading"
+      class="loader-space">
+      <vue-loaders-line-scale-pulse-out
+        color="#CFCABF"
+        scale="5"
+        class="loader" /> 
+    </div>        
+    <div
+      v-show="!loading"
+      class="mytag">
+      <ul>
+        <li
+          v-for="(name,key) in mytag"
+          :key="name">
+          <p class="tag">
+            {{ key }}
+          </p>
+          <p class="count">
+            ({{ name }}枚)
+          </p>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 <script>
 export default {
-    props:{
-        userId: String
-    },
-    data() {
-        return {
-            loading: true,
-        };
-    },
-    computed: {
-        mytag(){
-            return this.$store.getters["mytag/mytag"];
-        }
-    },
-    mounted() {
-        this.$store.dispatch('mytag/getMytag', this.userId)
-            .then(()=>this.loading = false)
-    },
-};
+  props: {
+    userId: String
+  },
+  data() {
+    return {
+      loading: true,
+    }
+  },
+  computed: {
+    mytag(){
+      return this.$store.getters['mytag/mytag']
+    }
+  },
+  mounted() {
+    this.$store.dispatch('mytag/getMytag', this.userId)
+      .then(()=>this.loading = false)
+  },
+}
 </script>
 <style scoped>
     h2{
