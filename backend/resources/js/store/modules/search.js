@@ -4,13 +4,16 @@ const state = {
   word: null,
   result: false,
   tagArray: [],
-  userArray: []
+  userArray: [],
+  loading: false,
+
 }
 const getters ={
-  word: state => state.q ? state.q: '',
+  word: state => state.word ? state.word: '',
   result: state => state.result ? state.result: '',
   tagArray: state => state.tagArray ? state.tagArray: '',
-  userArray: state => state.userArray ? state.userArray: ''
+  userArray: state => state.userArray ? state.userArray: '',
+  loading: state=> state.loading ? state.loading: '',
 }
 const mutations ={
   setWord(state, word){
@@ -28,19 +31,30 @@ const mutations ={
     userArray.forEach(element => {
       state.userArray.push(element)
     })
-  }
+  },
+  setLoading(state, loading){
+    state.loading = loading
+  },
+  clearVal(state){
+    state.tagArray.length = 0
+    state.userArray.length = 0
+  },
+
 }
 const actions ={
   async trigger({commit}) {
+    commit('setResult', true)
+    commit('clearVal')
+    commit('setLoading', true)
     await axios.get('/api/search', {
       params: {
         q: state.word
       }
     }).then(res=> {
       console.log(res.data)
-      commit('setResult', true)
       commit('setTagArray', res.data[0])
       commit('setUserArray', res.data[1])
+      commit('setLoading', false)
     })
   },
 }

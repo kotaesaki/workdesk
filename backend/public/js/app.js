@@ -2383,6 +2383,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -2401,6 +2429,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     result: function result() {
       return this.$store.getters['search/result'];
+    },
+    tagArray: function tagArray() {
+      return this.$store.getters['search/tagArray'];
+    },
+    userArray: function userArray() {
+      return this.$store.getters['search/userArray'];
+    },
+    loading: function loading() {
+      return this.$store.getters['search/loading'];
     }
   },
   methods: {
@@ -2432,6 +2469,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     changeTab: function changeTab(val) {
       this.isActive = val;
+    },
+    closeSearch: function closeSearch() {
+      this.$store.commit('search/setResult', false);
     }
   }
 });
@@ -7035,11 +7075,12 @@ var state = {
   word: null,
   result: false,
   tagArray: [],
-  userArray: []
+  userArray: [],
+  loading: false
 };
 var getters = {
   word: function word(state) {
-    return state.q ? state.q : '';
+    return state.word ? state.word : '';
   },
   result: function result(state) {
     return state.result ? state.result : '';
@@ -7049,6 +7090,9 @@ var getters = {
   },
   userArray: function userArray(state) {
     return state.userArray ? state.userArray : '';
+  },
+  loading: function loading(state) {
+    return state.loading ? state.loading : '';
   }
 };
 var mutations = {
@@ -7067,6 +7111,13 @@ var mutations = {
     userArray.forEach(function (element) {
       state.userArray.push(element);
     });
+  },
+  setLoading: function setLoading(state, loading) {
+    state.loading = loading;
+  },
+  clearVal: function clearVal(state) {
+    state.tagArray.length = 0;
+    state.userArray.length = 0;
   }
 };
 var actions = {
@@ -7078,19 +7129,22 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              _context.next = 3;
+              commit('setResult', true);
+              commit('clearVal');
+              commit('setLoading', true);
+              _context.next = 6;
               return axios.get('/api/search', {
                 params: {
                   q: state.word
                 }
               }).then(function (res) {
                 console.log(res.data);
-                commit('setResult', true);
                 commit('setTagArray', res.data[0]);
                 commit('setUserArray', res.data[1]);
+                commit('setLoading', false);
               });
 
-            case 3:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -15378,7 +15432,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.search[data-v-61683f9e]{\n  position: relative;\n  min-width: 26rem;\n  width: 29rem;\n  margin-left: 7rem;\n  margin-right: 1rem;\n}\n.search .box[data-v-61683f9e] {\n  position: relative;\n}\n.search i[data-v-61683f9e]{\n  position: absolute;\n  top: 0.4rem;\n  left: 0.6rem;\n  color: grey;\n}\n.search input[data-v-61683f9e]{\n  width: 100%;\n  border: 1px solid #eae7e2;\n  padding-left: 2rem;\n  background: aliceblue;\n  outline: none;\n}\n.search input[data-v-61683f9e]:focus{\n  background-color: #fff;\n  border: 1px solid #eae7e2;\n}\n.tab_list[data-v-61683f9e] {\n    overflow: hidden;\n    list-style: none;\n}\n.tab_list li[data-v-61683f9e] {\n    float: left;\n    padding: 10px 20px;\n    cursor: pointer;\n    transition: .3s;\n}\n.tab_list li[data-v-61683f9e]:not(:first-child) {\n    border-left: none;\n}\n.tab_list li.active[data-v-61683f9e] {\n    border-bottom: 3px solid #000;\n    cursor: auto;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.search[data-v-61683f9e]{\n  position: relative;\n  min-width: 26rem;\n  width: 29rem;\n  margin-left: 7rem;\n  margin-right: 1rem;\n  z-index: 10000;\n  height: 43rem;\n  top: 20.7rem;\n}\n.search .box[data-v-61683f9e] {\n  position: relative;\n}\n.search i[data-v-61683f9e]{\n  position: absolute;\n  top: 0.4rem;\n  left: 0.6rem;\n  color: grey;\n}\n.search input[data-v-61683f9e]{\n  width: 100%;\n  border: 1px solid #eae7e2;\n  padding-left: 2rem;\n  background: aliceblue;\n  outline: none;\n}\n.search input[data-v-61683f9e]:focus{\n  background-color: #fff;\n  border: 1px solid #eae7e2;\n}\n.overlay[data-v-61683f9e]{\n  z-index:1001;\n  position:fixed;\n  top:0;\n  left:0;\n  width:100%;\n  height:100%;\n}\n.list[data-v-61683f9e]{\n  position: relative;\n  width: 100%;\n  height: 100%;\n  border-radius: 7px;\n  box-shadow: 1px 1px 11px lightgrey;\n  background: #fff;\n  z-index: 1002;\n}\n.tab_list[data-v-61683f9e] {\n  overflow: hidden;\n  list-style: none;\n  padding: 0;\n  width: 100%;\n  height: 8%;\n}\n.tab_list li[data-v-61683f9e] {\n  float: left;\n  padding: 10px 20px;\n  cursor: pointer;\n  transition: .3s;\n  width: 50%;\n  text-align: center;\n}\n.tab_list li[data-v-61683f9e]:not(:first-child) {\n  border-left: none;\n}\n.tab_list li.active[data-v-61683f9e] {\n  border-bottom: 3px solid #000;\n  cursor: auto;\n}\n.article[data-v-61683f9e]{\n  height: 91%;\n}\n.article ul[data-v-61683f9e]{\n  list-style: none;\n  padding: 0;\n  height: 91%;\n  margin: 0;\n  position: absolute;\n  width: 100%;\n}\n.article ul li[data-v-61683f9e]{\n  border-bottom: 1px solid #ddd;\n  height: 9%;\n  position: relative;\n}\n.article ul li p[data-v-61683f9e]{\n  margin:  0 2rem;\n}\n.loader-space[data-v-61683f9e]{\n  width: 100%;\n  height: 20vh;\n  position: absolute;\n  top: 4rem;\n  margin: 0 47%;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -51977,7 +52031,8 @@ var render = function() {
             value: _vm.result,
             expression: "result"
           }
-        ]
+        ],
+        staticClass: "list"
       },
       [
         _c("div", [
@@ -52024,7 +52079,34 @@ var render = function() {
               ],
               staticClass: "tagSearch item"
             },
-            [_vm._m(0)]
+            [
+              _c(
+                "ul",
+                [
+                  _vm._l(_vm.tagArray, function(tag) {
+                    return _c("li", { key: tag.tag_id }, [
+                      _c("p", [_vm._v(_vm._s(tag.tag_name))])
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.tagArray.length === 0 && !_vm.loading,
+                          expression: "tagArray.length === 0 && !loading"
+                        }
+                      ]
+                    },
+                    [_vm._v("\n            検索結果 0件...\n          ")]
+                  )
+                ],
+                2
+              )
+            ]
           ),
           _vm._v(" "),
           _c(
@@ -52038,29 +52120,80 @@ var render = function() {
                   expression: "isActive === '2'"
                 }
               ],
-              staticClass: "userSearch class"
+              staticClass: "userSearch item"
             },
-            [_vm._m(1)]
+            [
+              _c(
+                "ul",
+                [
+                  _vm._l(_vm.userArray, function(user) {
+                    return _c("li", { key: user.id }, [
+                      _c("p", [_vm._v(_vm._s(user.name))]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v("@" + _vm._s(user.login_id))])
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.userArray.length === 0 && !_vm.loading,
+                          expression: "userArray.length === 0 && !loading"
+                        }
+                      ]
+                    },
+                    [_vm._v("\n            検索結果 0件...\n          ")]
+                  )
+                ],
+                2
+              )
+            ]
           )
-        ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.loading,
+                expression: "loading"
+              }
+            ],
+            staticClass: "loader-space"
+          },
+          [
+            _c("vue-loaders-line-scale", {
+              staticClass: "loader",
+              attrs: { color: "#222" }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.result,
+              expression: "result"
+            }
+          ],
+          staticClass: "overlay",
+          on: { click: _vm.closeSearch }
+        })
       ]
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", [_c("li")])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", [_c("li")])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
