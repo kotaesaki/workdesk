@@ -11,7 +11,7 @@
         @keydown.enter="trigger">
     </div>
     <div
-      v-show="result"
+      v-if="result"
       class="list">
       <div>
         <ul class="tab_list">
@@ -35,7 +35,12 @@
             <li
               v-for="tag in tagArray"
               :key="tag.tag_id">
-              <p>{{ tag.tag_name }}</p>
+              <router-link
+                :to="{ name:'tag', params:{tagId: tag.tag_id}}">
+                <p>
+                  {{ tag.tag_name }}
+                </p>
+              </router-link>
             </li>
             <p v-show="tagArray.length === 0 && !loading">
               検索結果 0件...
@@ -48,9 +53,13 @@
           <ul>
             <li 
               v-for="user in userArray"
-              :key="user.id">
-              <p>{{ user.name }}</p>
-              <p>@{{ user.login_id }}</p>
+              :key="user.id"
+              @click="closeSearch">
+              <router-link
+                :to="{name: 'mypage', params: {userId: user.id}}">
+                <p>{{ user.name }}</p>
+                <p>@{{ user.login_id }}</p>
+              </router-link>
             </li>
             <p v-show="userArray.length === 0 && !loading">
               検索結果 0件...
@@ -65,11 +74,11 @@
           color="#222"
           class="loader" />
       </div>
-      <div
-        v-show="result"
-        class="overlay"
-        @click="closeSearch" />
     </div>
+    <div
+      v-if="result"
+      class="overlay"
+      @click="closeSearch" />
   </div>
 </template>
 <script>
@@ -124,8 +133,8 @@ export default {
   margin-left: 7rem;
   margin-right: 1rem;
   z-index: 10000;
-  height: 43rem;
-  top: 20.7rem;
+  height: 0.1rem;
+  top: -1rem;
 }
 .search .box {
   position: relative;
@@ -156,10 +165,13 @@ export default {
   width:100%;
   height:100%;
 }
+li:hover{
+  opacity: 0.6;
+}
 .list{
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 43rem;
   border-radius: 7px;
   box-shadow: 1px 1px 11px lightgrey;
   background: #fff;
@@ -171,6 +183,7 @@ export default {
   padding: 0;
   width: 100%;
   height: 8%;
+  z-index: 1002;
 }
 .tab_list li {
   float: left;
@@ -189,6 +202,7 @@ export default {
 }
 .article{
   height: 91%;
+  z-index: 1002;
 }
 .article ul{
   list-style: none;
@@ -203,6 +217,7 @@ export default {
   height: 9%;
   position: relative;
 }
+
 .article ul li p{
   margin:  0 2rem;
 }

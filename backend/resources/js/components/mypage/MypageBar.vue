@@ -1,108 +1,143 @@
 <template>
-    <div class="col-md-4">
-        <div class="loader-space" v-show="loading">
-            <vue-loaders-ball-spin-fade-loader color="#DEF2FF" scale="2" class="loader"></vue-loaders-ball-spin-fade-loader>
-        </div>
-        <div class="page" v-show="!loading">
-            <div class="mypage-profile">
-                <img class="userInfo__icon" :src="`../${profile.icon_path}`"/> 
-                <p class="name">{{id.name}}さん</p>
-                <p class="id">@{{id.login_id}}</p>
-                <div class="link">
-                    <div v-show="id.id != authUser.id" class="ff">
-                        <div class="follow" @click="pushFollow" v-show="!followStatus" >
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <div class="unfollow" @click="deleteFollow" v-show="followStatus">
-                            <i class="fas fa-user-check"></i>
-                        </div>
-                    </div>
-                </div>
-                <a :href="`${profile.website_url}`" v-show="profile.website_url" target="_blank"><i class="fas fa-link"></i></a>
-                <a :href="`${profile.twitter_url}`" v-show="profile.twitter_url" target="_blank"><i class="fab fa-twitter"></i></a>
-                <div class="attribute">
-                    <p v-show="profile.sex">{{profile.sex}}</p>
-                    <p v-show="profile.occupation"> {{profile.occupation}} </p>
-                    <p v-show="profile.age"> {{profile.age}}歳</p>
-                </div>
+  <div class="col-md-4">
+    <div
+      v-show="loading"
+      class="loader-space">
+      <vue-loaders-ball-spin-fade-loader
+        color="#DEF2FF"
+        scale="2"
+        class="loader" />
+    </div>
+    <div
+      v-show="!loading"
+      class="page">
+      <div class="mypage-profile">
+        <img
+          class="userInfo__icon"
+          :src="`../${profile.icon_path}`"> 
+        <p class="name">
+          {{ id.name }}さん
+        </p>
+        <p class="id">
+          @{{ id.login_id }}
+        </p>
+        <div class="link">
+          <div
+            v-show="id.id != authUser.id"
+            class="ff">
+            <div
+              v-show="!followStatus"
+              class="follow"
+              @click="pushFollow">
+              <i class="fas fa-user-plus" />
             </div>
-            <ul id="mypage-item">
-                <router-link v-bind:to="{name: 'mypage'}">
-                    <li>すべての写真</li>
-                </router-link>
-                <router-link v-bind:to="{name: 'follow'}">
-                    <li>フォロー</li>
-                </router-link>
-                <router-link v-bind:to="{name: 'follower'}">
-                    <li>フォロワー</li>
-                </router-link>
-                <router-link v-bind:to="{name: 'mytag'}">
-                    <li>投稿したタグ</li>
-                </router-link>
-                <router-link v-bind:to="{name: 'mylikes'}">
-                    <li style="border-bottom: 1px solid #CFCABF;">いいねした写真</li>
-                </router-link>
-            </ul>
-            <div class="shokai">
-                <div>
-                    <p>自己紹介</p>
-                    <span>
-                        {{profile.shokai}}
-                    </span>
-                </div>
+            <div
+              v-show="followStatus"
+              class="unfollow"
+              @click="deleteFollow">
+              <i class="fas fa-user-check" />
             </div>
+          </div>
         </div>
-    </div>    
+        <a
+          v-show="profile.website_url"
+          :href="`${profile.website_url}`"
+          target="_blank"><i class="fas fa-link" /></a>
+        <a
+          v-show="profile.twitter_url"
+          :href="`${profile.twitter_url}`"
+          target="_blank"><i class="fab fa-twitter" /></a>
+        <div class="attribute">
+          <p v-show="profile.sex">
+            {{ profile.sex }}
+          </p>
+          <p v-show="profile.occupation">
+            {{ profile.occupation }}
+          </p>
+          <p v-show="profile.age">
+            {{ profile.age }}歳
+          </p>
+        </div>
+      </div>
+      <ul id="mypage-item">
+        <router-link :to="{name: 'mypage'}">
+          <li>すべての写真</li>
+        </router-link>
+        <router-link :to="{name: 'follow'}">
+          <li>フォロー</li>
+        </router-link>
+        <router-link :to="{name: 'follower'}">
+          <li>フォロワー</li>
+        </router-link>
+        <router-link :to="{name: 'mytag'}">
+          <li>投稿したタグ</li>
+        </router-link>
+        <router-link :to="{name: 'mylikes'}">
+          <li style="border-bottom: 1px solid #CFCABF;">
+            いいねした写真
+          </li>
+        </router-link>
+      </ul>
+      <div class="shokai">
+        <div>
+          <p>自己紹介</p>
+          <span>
+            {{ profile.shokai }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>    
 </template>
 <script>
-import MultipostAboidable from '../../mixins/multipost_aboidable';
+import MultipostAboidable from '../../mixins/multipost_aboidable'
 export default {
-    mixins: [MultipostAboidable],
+  mixins: [MultipostAboidable],
 
-    props:{
-        userId: String,
+  props: {
+    userId: String,
+  },
+  data() {
+    return {
+      loading: true,
+    }
+  },
+  computed: {
+    authUser(){
+      return this.$store.getters['auth/user']
     },
-    data() {
-        return {
-            loading: true,
-        };
+    followStatus(){
+      return this.$store.getters['follow/status']
     },
-    computed: {
-        authUser(){
-            return this.$store.getters["auth/user"];
-        },
-        followStatus(){
-            return this.$store.getters["follow/status"];
-        },
-        id(){
-            return this.$store.getters['mypage/id']; 
-        },
-        profile(){
-            return this.$store.getters['mypage/profile'];
-        },
-        posts(){
-            return this.$store.getters['mypage/posts'];
-        }
+    id(){
+      return this.$store.getters['mypage/id'] 
     },
-    methods: {
-        async pushFollow(){
-            this.avoidMultipost(async()=>{
-                this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user:this.id.id});
-            });
-        },
-        async deleteFollow(){
-            this.avoidMultipost(async()=>{
-                this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user:this.id.id});
-            });
-        },
+    profile(){
+      return this.$store.getters['mypage/profile']
     },
+    posts(){
+      return this.$store.getters['mypage/posts']
+    }
+  },
 
-    created() {
-        console.log('created start!');
-        this.$store.dispatch('mypage/getId', this.userId)
-            .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.id.id}))
-            .then(()=> this.loading = false)
+  created() {
+    console.log('created start!')
+    this.$store.dispatch('mypage/getId', this.userId)
+      .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.id.id}))
+      .then(()=> this.loading = false)
+  },
+  methods: {
+    async pushFollow(){
+      this.avoidMultipost(async()=>{
+        this.$store.dispatch('follow/pushFollow', {auth_user: this.authUser.id, post_user: this.id.id})
+      })
     },
+    async deleteFollow(){
+      this.avoidMultipost(async()=>{
+        this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user: this.id.id})
+      })
+    },
+  },
 /*     watch: {
         userId(newValue, oldValue) {
             console.log('mypagebar watch start');

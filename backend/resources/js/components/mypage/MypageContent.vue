@@ -1,76 +1,86 @@
 <template>
-    <div class="col-md-8">
-        <h2>タイムライン</h2>
-        <div> 
-            <div class="timeline" v-for="post in postData" :key="post.post_id" v-show="posts">
-                <router-link v-bind:to="{ name:'individual', params: { postId: post.post_id}}">
-                    <div class="page-content">
-                        <img class="post_image" :src="`../${post.photo_path}`">
-                        <div class="right_side">
-                            <span>{{post.description}}</span>
-                            <!-- <div v-for="tags in tagsData" :key="tags.tag_id" class="tags">
+  <div class="col-md-8">
+    <h2>タイムライン</h2>
+    <div> 
+      <div
+        v-for="post in postData"
+        v-show="posts"
+        :key="post.post_id"
+        class="timeline">
+        <router-link :to="{ name:'individual', params: { postId: post.post_id}}">
+          <div class="page-content">
+            <img
+              class="post_image"
+              :src="`../${post.photo_path}`">
+            <div class="right_side">
+              <span>{{ post.description }}</span>
+              <!-- <div v-for="tags in tagsData" :key="tags.tag_id" class="tags">
                                     <li v-if="post.post_id === tags.pivot.post_id">
                                         #{{tags.tag_name}}
                                     </li>
                             </div> -->
-                            <p>{{post.created_at}}</p>
-                        </div>
-                    </div>
-                </router-link>
+              <p>{{ post.created_at }}</p>
             </div>
-        </div> 
-        <div class="loader-space" v-show="loading">
-            <vue-loaders-ball-spin-fade-loader color="#DEF2FF" scale="2" class="loader"></vue-loaders-ball-spin-fade-loader>
-        </div>   
-    </div>
+          </div>
+        </router-link>
+      </div>
+    </div> 
+    <div
+      v-show="loading"
+      class="loader-space">
+      <vue-loaders-ball-spin-fade-loader
+        color="#DEF2FF"
+        scale="2"
+        class="loader" />
+    </div>   
+  </div>
 </template>
 <script>
 export default {
-    props: {
-        userId:String,
+  props: {
+    userId: String,
+  },
+  data() {
+    return {
+    }
+  },
+  computed: {
+    posts(){
+      return this.$store.getters['mypage/posts']
     },
-    data() {
-        return {
-        };
+    tagsData(){
+      return this.$store.getters['mypage/tagsData']
     },
-    computed: {
-        posts(){
-            return this.$store.getters['mypage/posts'];
-        },
-        tagsData(){
-            return this.$store.getters['mypage/tagsData'];
-        },
-        postData(){
-            return this.$store.getters['mypage/postData'];
-        },
-        id(){
-            return this.$store.getters['mypage/id'];
-        },
-        loading(){
-            return this.$store.getters['mypage/itemLoading'];
-        }
+    postData(){
+      return this.$store.getters['mypage/postData']
+    },
+    id(){
+      return this.$store.getters['mypage/id']
+    },
+    loading(){
+      return this.$store.getters['mypage/itemLoading']
+    }
 
-
-    },
-    methods: {
-        async startPost(){
-            await this.$store.dispatch('mypage/startPost', this.userId);
-        }
-    },
-    mounted() {
-        console.log('mypageContent mounted start');
-        window.onscroll = () => {
-            let bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight;
-            if (bottomOfWindow >= document.documentElement.offsetHeight) {
-                this.$store.dispatch('loading/startLoad')
-                    .then(()=>this.startPost())
-                    .then(()=>this.$store.dispatch('loading/endLoad'));
-            }
-        };
+  },
+  mounted() {
+    console.log('mypageContent mounted start')
+    window.onscroll = () => {
+      let bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight
+      if (bottomOfWindow >= document.documentElement.offsetHeight) {
         this.$store.dispatch('loading/startLoad')
-            .then(()=>this.startPost())
-            .then(()=>this.$store.dispatch('loading/endLoad'));
-    },
+          .then(()=>this.startPost())
+          .then(()=>this.$store.dispatch('loading/endLoad'))
+      }
+    }
+    this.$store.dispatch('loading/startLoad')
+      .then(()=>this.startPost())
+      .then(()=>this.$store.dispatch('loading/endLoad'))
+  },
+  methods: {
+    async startPost(){
+      await this.$store.dispatch('mypage/startPost', this.userId)
+    }
+  },
 
 }
 </script>

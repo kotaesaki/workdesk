@@ -10,7 +10,7 @@ import HeaderComponent from './components/HeaderComponent'
 import MypageComponent from './components/mypage/MypageComponent'
 import FooterComponent from './components/common/Footer'
 import Search from './components/common/Search'
-import SearchComponent from './components/top/SearchComponent'
+import TagComponent from './components/top/TagComponent'
 import MypageBar from './components/mypage/MypageBar'
 import MypageContent from './components/mypage/MypageContent'
 import MypageLikes from './components/mypage/MypageLikes'
@@ -70,10 +70,10 @@ const router = new VueRouter({
       meta: {isPublic: true},
     },
     {
-      path: '/search',
-      name: 'search',
-      component: SearchComponent,
-      proops: true,
+      path: '/tag/:tagId',
+      name: 'tag',
+      component: TagComponent,
+      props: true,
       meta: {isPublic: true},
     },        
     {
