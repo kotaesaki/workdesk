@@ -7,6 +7,7 @@ const state = {
   tags: null,
   status: null,
   countFav: null,
+  loading: false
 }
 const getters = {
   post: state=> state.post ? state.post: '',
@@ -15,6 +16,7 @@ const getters = {
   tags: state=> state.tags ? state.tags: '',
   status: state=> state.status ? state.status: '',
   countFav: state=> state.countFav ? state.countFav: '',
+  loading: state => state.loading ? state.loading: '',
   checked: state=>{
     if (state.post==null || state.user==null || state.profile==null || state.tags==null || state.status==null || state.countFav==null){
       return false
@@ -49,10 +51,14 @@ const mutations = {
   subtractCount(state){
     --state.countFav
   },
+  setLoading(state, loading){
+    state.loading = loading
+  }
 
 }
 const actions = {
   async getIndividual(context, {post_id, user_id}){
+    context.commit('setLoading', true)
     await axios.get('/api/individual', {
       params: {
         post_id: post_id,
@@ -66,6 +72,7 @@ const actions = {
       context.commit('setTags', result.data.tags)
       context.commit('setStatus', result.data.status)
       context.commit('setCountFav', result.data.count_fav)
+      context.commit('setLoading', false)
     }).catch(error=>{
       console.log(error)
     })

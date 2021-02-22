@@ -23,11 +23,11 @@ class TagController extends Controller
         $tag = Tag::find($request->tag_id);
         $posts = $tag->posts;
         foreach($posts as $post){
-            $users[] = $post->user;
+            $data[] = Post::with(['user' => function ($query) {
+                $query->with('profile');
+            }])->find($post->post_id);
         }
-        foreach($users as $user){
-            $profiles[] = $user->profile;
-        }
-        return response()->json([$posts, $users, $profiles]);
+        array_multisort(array_map('strtotime', array_column($data, 'created_at')), SORT_DESC, $data);
+        return response()->json([$data, $tag]);
     }
 }

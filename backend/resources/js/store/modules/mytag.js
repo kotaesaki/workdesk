@@ -17,7 +17,7 @@ const actions = {
       }
     }).then(result=>{
       console.log(result.data)
-      commit('setMytag', result.data)
+      commit('setMytag', result.data[0])
     }).catch(error=>{
 
     })

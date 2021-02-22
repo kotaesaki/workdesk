@@ -16,10 +16,11 @@ class MytagController extends Controller
         foreach($tags->post as $post){
             foreach($post->tags as $tag){
                 $arr[] = $tag->tag_name; 
+                $tags_id = $tag->tag_id; 
             }
         }
         $tag_count = array_count_values($arr);
 
-        return $tag_count;
+        return [$tag_count,$tags_id];
     }
 }
