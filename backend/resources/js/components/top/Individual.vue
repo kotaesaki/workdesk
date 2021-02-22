@@ -9,15 +9,23 @@
           <div class="menu">
             <div class="curcle">
               <i
-                v-show="status == false"
+                v-show="status == false && !heartLoading"
                 class="far fa-heart favorite"
                 :disabled="isPosting"
                 @click="pushFavorite" />
               <i
-                v-show="status == true"
+                v-show="status == true && !heartLoading"
                 class="fas fa-heart favorite2"
                 :disabled="isPosting"
                 @click="deleteFavorite" />
+              <div
+                v-show="heartLoading"
+                class="loader-space">
+                <vue-loaders-ball-spin-fade-loader
+                  color="#F66868"
+                  class="loader"
+                  scale="0.4" />
+              </div>
             </div>
             <p>{{ countFav }}</p><br>
             <i class="fab fa-twitter twitter" />
@@ -30,7 +38,7 @@
               alt="contents-photo"
               class="contents-photo">
             <p class="created-time">
-              {{ post.created_at }}
+              {{ post.created_at | moment }}
             </p>
             <span class="contents-description">{{ post.description }}</span>
           </div>
@@ -177,8 +185,15 @@
 import Loading from '../common/Loading.vue'
 import MultipostAboidable from '../../mixins/multipost_aboidable'
 import IndividualComment from './IndividualComment.vue'
+import axios from 'axios'
+import moment from 'moment'
 export default {
   components: { Loading, IndividualComment },
+  filters: {
+    moment: function (date){
+      return moment(date).format('YYYY/MM/DD HH:mm')
+    }
+  },
   mixins: [MultipostAboidable],
   props: {
     postId: String
@@ -213,6 +228,9 @@ export default {
     loading(){
       return this.$store.getters['individual/loading']
     },
+    heartLoading(){
+      return this.$store.getters['individual/heartLoading']
+    },
     followStatus(){
       return this.$store.getters['follow/status']
     },
@@ -222,6 +240,9 @@ export default {
     countFollower(){
       return this.$store.getters['follow/countFollower']
     },
+    source(){
+      return this.$store.getters['individual/source']
+    }
   },
   mounted() {
     console.log('Individual mounted start!')
@@ -229,6 +250,11 @@ export default {
       .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.postUser.id}))
       .then(()=>this.$store.dispatch('follow/countFollow', this.postUser.id))
     this.$store.dispatch('comment/getComment', this.postId)
+  },
+  beforeRouteLeave(to, from, next){
+    console.log('beforeRouteLeave: キャンセル〜〜〜')
+    this.source.cancel()
+    next()
   },
   methods: {
     async pushFavorite(){
@@ -448,6 +474,7 @@ export default {
         position: fixed;
     }
     .curcle{
+        position: relative;
         border: 1px solid #fff;
         background-color: #fff;
         border-radius: 50%;
@@ -557,5 +584,17 @@ export default {
     .modalLogin .logo{
         height: 90px;
         margin: 5% 0 0;
+    }
+    .loader-space{
+        width: 100%;
+        height: 20vh;
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+    .loader{
+        position: absolute;
+        top: -0.6rem;
+        left: -0.6rem;
     }
 </style>

@@ -15,7 +15,7 @@
             </p>
           </router-link>
           <p class="time">
-            {{ comments.created_at }}
+            {{ comments.created_at | moment }}
           </p>
           <div class="balloon">
             <div class="says">
@@ -40,13 +40,30 @@
           placeholder="コメントを入力する" />
       </div>
       <button class="comment-btn">
-        コメントする
+        <p v-show="!loading">
+          コメントする
+        </p>
+        <div
+          v-show="loading"
+          class="loader-space">
+          <vue-loaders-ball-spin-fade-loader
+            color="#EDF2F7"
+            class="loader"
+            scale="0.4" />
+        </div>
       </button>
     </form>
   </div>
 </template>
 <script>
+import moment from 'moment'
+
 export default {
+  filters: {
+    moment: function (date){
+      return moment(date).format('YYYY/MM/DD HH:mm')
+    }
+  },
   props: {  
     showModal: Boolean,
   },
@@ -68,16 +85,17 @@ export default {
     user(){
       return this.$store.getters['auth/user']
     },
+    loading(){
+      return this.$store.getters['comment/loading']
+    }
   },
   methods: {
     submit() {
       if (!this.user){
         this.$parent.showModal = true
       } else {
-        this.$store.dispatch('loading/startLoad')
-          .then(()=>this.$store.dispatch('comment/pushComment',
-            {comment: this.comment, post_id: this.post.post_id, user_id: this.user.id}))
-          .then(()=>this.$store.dispatch('loading/endLoad'))    
+        this.$store.dispatch('comment/pushComment',
+          {comment: this.comment, post_id: this.post.post_id, user_id: this.user.id})
       }
     }
 
@@ -169,6 +187,21 @@ export default {
     }
     .comment-btn:hover{
         background-color: #CFCABF;
+    }
+    .comment-btn p{
+      margin: 0;
+    }
+    .loader-space{
+        width: 100%;
+        height: 20vh;
+        top: 0;
+        left: 0;
+        position: absolute;
+    }
+    .loader{
+        position: absolute;
+        top: -0.6rem;
+        left: 4.4rem;
     }
 
 </style>
