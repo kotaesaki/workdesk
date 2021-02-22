@@ -2,11 +2,14 @@ import axios from 'axios'
 
 const state = {
   comment: null,
-  commentList: []
+  commentList: [],
+  loading: false
 }
 const getters = {
   comment: state => state.comment ? state.comment: '',
-  commentList: state => state.commentList ? state.commentList: ''
+  commentList: state => state.commentList ? state.commentList: '',
+  loading: state => state.loading ? state.loading: '',
+
 }
 const mutations = {
   setCommentList(state, commentList){
@@ -18,15 +21,22 @@ const mutations = {
   },
   updateComment(state, comment){
     state.comment = comment
-  }
+  },
+  setLoading(state, loading){
+    state.loading = loading
+  },
 }
 const actions = {
   async pushComment({commit}, data){
+    commit('setLoading', true)
     await axios.post('/api/comment', data).then(result=>{
       console.log('コメント登録できました')
       commit('addCommentList', result.data)
+      commit('setLoading', false)
     }).catch(error=>{
       console.log(error)
+      alert('コメントに失敗しました')
+      commit('setLoading', false)
     })
   },
   async getComment({commit}, post_id){

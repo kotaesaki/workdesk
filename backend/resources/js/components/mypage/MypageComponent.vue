@@ -40,7 +40,7 @@ export default {
     },
     async updateUser(userId){
       this.$store.dispatch('mypage/getId', userId)
-        .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: userId}))
+      this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: userId})
     }
   },
   beforeRouteUpdate (to, from, next) {

@@ -14,7 +14,7 @@ const getters = {
   profile: state => state.profile ? state.profile: '', 
   token: state => state.token ? state.token: '',
   errors: state => state.errors ? state.errors: [],
-  loading: state => state.loading ? state.loading : ''
+  loading: state => state.loading ? state.loading : '',
 }
 const mutations = {
   setUser(state, user){

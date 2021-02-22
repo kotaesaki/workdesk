@@ -19,7 +19,7 @@
                                         #{{tags.tag_name}}
                                     </li>
                             </div> -->
-              <p>{{ post.created_at }}</p>
+              <p>{{ post.created_at | moment }}</p>
             </div>
           </div>
         </router-link>
@@ -36,7 +36,14 @@
   </div>
 </template>
 <script>
+import moment from 'moment'
+
 export default {
+  filters: {
+    moment: function (date){
+      return moment(date).format('YYYY/MM/DD HH:mm')
+    }
+  },
   props: {
     userId: String,
   },

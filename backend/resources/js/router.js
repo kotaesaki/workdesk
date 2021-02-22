@@ -75,7 +75,7 @@ const router = new VueRouter({
       component: TagComponent,
       props: true,
       meta: {isPublic: true},
-      
+
     },        
     {
       path: '/mypage/:userId',
