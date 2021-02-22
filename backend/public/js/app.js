@@ -2907,10 +2907,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return _this.$store.commit('mypage/clearVar').then(function () {
-                  return _this.$store.dispatch('mypage/startPost', userId);
-                });
+                _this.$store.commit('mypage/clearVar');
+
+                _this.$store.dispatch('mypage/startPost', userId);
 
               case 2:
               case "end":
@@ -2928,15 +2927,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return _this2.$store.dispatch('mypage/getId', userId).then(function () {
+                _this2.$store.dispatch('mypage/getId', userId).then(function () {
                   return _this2.$store.dispatch('follow/checkFollow', {
                     auth_user: _this2.authUser.id,
                     post_user: userId
                   });
                 });
 
-              case 2:
+              case 1:
               case "end":
                 return _context2.stop();
             }
@@ -2946,6 +2944,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
+    console.log(to);
+
     if (to.name == 'mypage') {
       this.updatePost(to.params.userId);
       this.updateUser(to.params.userId);
@@ -4698,6 +4698,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 
@@ -4738,7 +4741,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return this.$store.getters['auth/user'];
     },
     loading: function loading() {
-      return this.$store.getters['loading/loading'];
+      return this.$store.getters['individual/loading'];
     },
     followStatus: function followStatus() {
       return this.$store.getters['follow/status'];
@@ -4754,15 +4757,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     console.log('Individual mounted start!');
-    this.$store.dispatch('loading/startLoad').then(function () {
-      return _this.getIndividual();
-    }).then(function () {
+    this.getIndividual().then(function () {
       return _this.$store.dispatch('follow/checkFollow', {
         auth_user: _this.authUser.id,
         post_user: _this.postUser.id
       });
-    }).then(function () {
-      return _this.$store.dispatch('loading/endLoad');
     }).then(function () {
       return _this.$store.dispatch('follow/countFollow', _this.postUser.id);
     });
@@ -5259,29 +5258,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     tagId: String
   },
   computed: {
-    posts: function posts() {
-      return this.$store.getters['tagpage/posts'];
-    },
-    users: function users() {
-      return this.$store.getters['tagpage/users'];
-    },
-    profiles: function profiles() {
-      return this.$store.getters['tagpage/profiles'];
+    tag: function tag() {
+      return this.$store.getters['tagpage/tag'];
     },
     datas: function datas() {
       return this.$store.getters['tagpage/data'];
+    },
+    loading: function loading() {
+      return this.$store.getters['tagpage/loading'];
+    },
+    result: function result() {
+      return this.$store.getters['search/result'];
     }
   },
   mounted: function mounted() {
     console.log('tagId:', this.tagId);
     this.$store.dispatch('tagpage/getTag', this.tagId);
   },
-  methods: {}
+  methods: {
+    closeSearch: function closeSearch() {
+      this.$store.commit('search/setResult', false);
+    }
+  },
+  beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
+    var name = to.params.tagId;
+    this.closeSearch();
+    this.$store.dispatch('tagpage/getTag', name);
+    next();
+  }
 });
 
 /***/ }),
@@ -6537,7 +6551,8 @@ var state = {
   profile: null,
   tags: null,
   status: null,
-  countFav: null
+  countFav: null,
+  loading: false
 };
 var getters = {
   post: function post(state) {
@@ -6557,6 +6572,9 @@ var getters = {
   },
   countFav: function countFav(state) {
     return state.countFav ? state.countFav : '';
+  },
+  loading: function loading(state) {
+    return state.loading ? state.loading : '';
   },
   checked: function checked(state) {
     if (state.post == null || state.user == null || state.profile == null || state.tags == null || state.status == null || state.countFav == null) {
@@ -6590,6 +6608,9 @@ var mutations = {
   },
   subtractCount: function subtractCount(state) {
     --state.countFav;
+  },
+  setLoading: function setLoading(state, loading) {
+    state.loading = loading;
   }
 };
 var actions = {
@@ -6601,7 +6622,8 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               post_id = _ref.post_id, user_id = _ref.user_id;
-              _context.next = 3;
+              context.commit('setLoading', true);
+              _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/individual', {
                 params: {
                   post_id: post_id,
@@ -6615,11 +6637,12 @@ var actions = {
                 context.commit('setTags', result.data.tags);
                 context.commit('setStatus', result.data.status);
                 context.commit('setCountFav', result.data.count_fav);
+                context.commit('setLoading', false);
               })["catch"](function (error) {
                 console.log(error);
               });
 
-            case 3:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -6871,23 +6894,23 @@ var actions = {
               commit = _ref.commit;
               _context.next = 3;
               return axios.get('/api/getId/' + userId).then(function (res) {
-                if (res.data[1].age == "null") {
+                if (res.data[1].age == 'null') {
                   res.data[1].age = '';
                 }
 
-                if (res.data[1].sex == "null") {
+                if (res.data[1].sex == 'null') {
                   res.data[1].sex = '';
                 }
 
-                if (res.data[1].occupation == "null") {
+                if (res.data[1].occupation == 'null') {
                   res.data[1].occupation = '';
                 }
 
-                if (res.data[1].website_url == "null") {
+                if (res.data[1].website_url == 'null') {
                   res.data[1].website_url = '';
                 }
 
-                if (res.data[1].twitter_url == "null") {
+                if (res.data[1].twitter_url == 'null') {
                   res.data[1].twitter_url = '';
                 }
 
@@ -6932,7 +6955,7 @@ var actions = {
                   userId: userId
                 }
               }).then(function (result) {
-                commit("setPosts", result.data[0].data);
+                commit('setPosts', result.data[0].data);
                 console.log(result.data[0].data);
                 console.log(result.data[1][0].data);
 
@@ -7038,7 +7061,7 @@ var actions = {
                 }
               }).then(function (result) {
                 console.log(result.data);
-                commit('setMytag', result.data);
+                commit('setMytag', result.data[0]);
               })["catch"](function (error) {});
 
             case 3:
@@ -7334,56 +7357,30 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var state = {
-  posts: [],
-  users: [],
-  profiles: [],
-  data: []
+  data: '',
+  tag: '',
+  loading: false
 };
 var getters = {
-  posts: function posts(state) {
-    return state.posts ? state.posts : '';
-  },
-  users: function users(state) {
-    return state.users ? state.users : '';
-  },
-  profiles: function profiles(state) {
-    return state.profiles ? state.profiles : '';
-  },
   data: function data(state) {
     return state.data ? state.data : '';
+  },
+  tag: function tag(state) {
+    return state.tag ? state.tag : '';
+  },
+  loading: function loading(state) {
+    return state.loading ? state.loading : '';
   }
 };
 var mutations = {
-  setPosts: function setPosts(state, posts) {
-    posts.forEach(function (element) {
-      state.posts.push(element);
-    });
-  },
-  setUsers: function setUsers(state, users) {
-    users.forEach(function (element) {
-      state.users.push(element);
-    });
-  },
-  setProfiles: function setProfiles(state, profiles) {
-    profiles.forEach(function (element) {
-      state.profiles.push(element);
-    });
-  },
   setData: function setData(state, data) {
-    data[0].forEach(function (element) {
-      state.profiles.push(element);
-    });
-    data[1].forEach(function (element) {
-      state.users.push(element);
-    });
-    data[2].forEach(function (element) {
-      state.posts.push(element);
-    });
-    state.data = {
-      'posts': state.posts,
-      'users': state.users,
-      'profiles': state.profiles
-    };
+    state.data = data;
+  },
+  setTag: function setTag(state, tag) {
+    state.tag = tag;
+  },
+  setLoading: function setLoading(state, loading) {
+    state.loading = loading;
   }
 };
 var actions = {
@@ -7395,16 +7392,20 @@ var actions = {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit;
-              _context.next = 3;
+              commit('setLoading', true);
+              _context.next = 4;
               return axios.get('/api/tag', {
                 params: {
                   tag_id: tag_id
                 }
               }).then(function (res) {
-                commit('setData', res.data);
+                console.log(res.data);
+                commit('setData', res.data[0]);
+                commit('setTag', res.data[1]);
+                commit('setLoading', false);
               });
 
-            case 3:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -16100,7 +16101,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.new-article[data-v-42c7892c]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n}\nh2[data-v-42c7892c]{\n    text-align: center;\n}\n.article[data-v-42c7892c]{\n    width: 100%;\n}\n.contents[data-v-42c7892c]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-start;\n    flex-wrap: wrap;\n}\n.content-item[data-v-42c7892c]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n}\n.content-img[data-v-42c7892c]{\n    width: 100%;\n}\n.content-exsept[data-v-42c7892c]{\n    padding:10px;\n}\n.content-icon[data-v-42c7892c]{\n    width:50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-42c7892c]{\n    margin-left: 15px;\n}\n.content-description[data-v-42c7892c]{\n    clear: both;\n}\n.loader-space[data-v-42c7892c]{\n    width: 100%;\n    height: 20vh;\n    position: relative;\n    margin: 0 47%;\n}\n.loader[data-v-42c7892c]{\n    position: absolute;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.new-article[data-v-42c7892c]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n}\nh2[data-v-42c7892c]{\n    text-align: center;\n}\n.article[data-v-42c7892c]{\n    width: 100%;\n}\n.contents[data-v-42c7892c]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-start;\n    flex-wrap: wrap;\n}\n.content-item[data-v-42c7892c]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n    border-radius: 20px;\n}\n.content-item[data-v-42c7892c]:hover{\n  opacity: 0.6;\n}\n.content-img[data-v-42c7892c]{\n    width: 100%;\n    border-radius: 20px 20px 0 0;\n}\n.content-exsept[data-v-42c7892c]{\n    padding:10px;\n}\n.content-icon[data-v-42c7892c]{\n    width:50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-42c7892c]{\n    margin-left: 15px;\n}\n.content-description[data-v-42c7892c]{\n    clear: both;\n}\n.loader-space[data-v-42c7892c]{\n    width: 100%;\n    height: 20vh;\n    position: relative;\n    margin: 0 47%;\n}\n.loader[data-v-42c7892c]{\n    position: absolute;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16124,7 +16125,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.contents[data-v-a7cd6e30]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-start;\n    flex-wrap: wrap;\n}\n.content-item[data-v-a7cd6e30]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n}\n.content-img[data-v-a7cd6e30]{\n    width: 100%;\n}\n.content-exsept[data-v-a7cd6e30]{\n    padding:10px;\n}\n.content-icon[data-v-a7cd6e30]{\n    width:50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-a7cd6e30]{\n    margin-left: 15px;\n}\n.content-description[data-v-a7cd6e30]{\n    clear: both;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.pankuzu[data-v-a7cd6e30]{\n  padding:2rem;\n}\n.contents[data-v-a7cd6e30]{\n    margin-top: 30px;\n    display: flex;\n    justify-content: space-between;\n    align-items: flex-start;\n    flex-wrap: wrap;\n}\n.content-item[data-v-a7cd6e30]{\n    width: 32%;\n    background-color: #fff;\n    box-shadow: 2px 2px 4px gray;\n    margin-bottom: 20px;\n    border-radius: 20px;\n}\n.content-item[data-v-a7cd6e30]:hover{\n    opacity: 0.6;\n}\n.content-img[data-v-a7cd6e30]{\n    width: 100%;\n    border-radius: 20px 20px 0 0;\n}\n.content-exsept[data-v-a7cd6e30]{\n    padding:10px;\n}\n.content-icon[data-v-a7cd6e30]{\n    width:50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\n.content-id[data-v-a7cd6e30]{\n    margin-left: 15px;\n}\n.content-description[data-v-a7cd6e30]{\n    clear: both;\n}\n.loader-space[data-v-a7cd6e30]{\n    width: 100%;\n    height: 20vh;\n    position: relative;\n    margin: 0 47%;\n}\n.loader[data-v-a7cd6e30]{\n    position: absolute;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -55262,13 +55263,28 @@ var render = function() {
                 _c(
                   "ul",
                   _vm._l(_vm.tags, function(tag) {
-                    return _c("li", { key: tag.tag_id, staticClass: "tag" }, [
-                      _vm._v(
-                        "\n              " +
-                          _vm._s(tag.tag_name) +
-                          "\n            "
-                      )
-                    ])
+                    return _c(
+                      "li",
+                      { key: tag.tag_id, staticClass: "tag" },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            attrs: {
+                              to: { name: "tag", params: { tagId: tag.tag_id } }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                " +
+                                _vm._s(tag.tag_name) +
+                                "\n              "
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
                   }),
                   0
                 )
@@ -55595,75 +55611,107 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "wrapper" }, [
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "pankuzu" }, [
-        _vm._v("\n      タグテスト\n    ")
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "contents" },
-        _vm._l(_vm.datas, function(data) {
-          return _c(
-            "div",
-            { key: "first-" + data, staticClass: "box" },
-            _vm._l(data, function(hoge) {
-              return _c(
-                "div",
-                { key: "second-" + hoge.post_id },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      attrs: {
-                        to: {
-                          name: "individual",
-                          params: { postId: hoge.post_id }
-                        }
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.loading,
+            expression: "!loading"
+          }
+        ],
+        staticClass: "container"
+      },
+      [
+        _c("div", { staticClass: "pankuzu" }, [
+          _c("h2", [_vm._v(_vm._s(_vm.tag.tag_name) + "の検索結果")])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "contents" },
+          _vm._l(_vm.datas, function(data) {
+            return _c(
+              "div",
+              { key: "first-" + data.post_id, staticClass: "content-item" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    attrs: {
+                      to: {
+                        name: "individual",
+                        params: { postId: data.post_id }
                       }
-                    },
-                    [
-                      _c("img", {
-                        staticClass: "content-img",
-                        attrs: { src: "../" + hoge.photo_path, alt: "card" }
-                      }),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "content-exsept" }, [
-                        _c("div", { staticClass: "profile" }, [
-                          _c("img", {
-                            staticClass: "content-icon",
-                            attrs: { src: "../" + hoge.icon_path, alt: "" }
-                          }),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "content-id" }, [
-                            _vm._v(
-                              "\n                  @" +
-                                _vm._s(hoge.login_id) +
-                                "\n                "
-                            )
-                          ])
-                        ]),
+                    }
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "content-img",
+                      attrs: { src: "../" + data.photo_path, alt: "card" }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "content-exsept" }, [
+                      _c("div", { staticClass: "profile" }, [
+                        _c("img", {
+                          staticClass: "content-icon",
+                          attrs: {
+                            src: "../" + data.user.profile.icon_path,
+                            alt: ""
+                          }
+                        }),
                         _vm._v(" "),
-                        _c("p", { staticClass: "content-description" }, [
+                        _c("p", { staticClass: "content-id" }, [
                           _vm._v(
-                            "\n                " +
-                              _vm._s(hoge.description) +
+                            "\n                @" +
+                              _vm._s(data.user.login_id) +
                               "\n              "
                           )
                         ])
+                      ]),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "content-description" }, [
+                        _vm._v(
+                          "\n              " +
+                            _vm._s(data.description) +
+                            "\n            "
+                        )
                       ])
-                    ]
-                  )
-                ],
-                1
-              )
-            }),
-            0
-          )
-        }),
-        0
-      )
-    ])
+                    ])
+                  ]
+                )
+              ],
+              1
+            )
+          }),
+          0
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loading,
+            expression: "loading"
+          }
+        ],
+        staticClass: "loader-space"
+      },
+      [
+        _c("vue-loaders-ball-spin-fade-loader", {
+          staticClass: "loader",
+          attrs: { color: "#DEF2FF" }
+        })
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []

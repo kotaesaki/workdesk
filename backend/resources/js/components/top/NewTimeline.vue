@@ -101,9 +101,14 @@ export default {
         background-color: #fff;
         box-shadow: 2px 2px 4px gray;
         margin-bottom: 20px;
+        border-radius: 20px;
+    }
+    .content-item:hover{
+      opacity: 0.6;
     }
     .content-img{
         width: 100%;
+        border-radius: 20px 20px 0 0;
     }
     .content-exsept{
         padding:10px;

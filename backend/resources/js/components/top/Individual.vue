@@ -131,7 +131,10 @@
                 v-for="tag in tags"
                 :key="tag.tag_id"
                 class="tag">
-                {{ tag.tag_name }}
+                <router-link
+                  :to="{ name:'tag', params:{tagId: tag.tag_id}}">
+                  {{ tag.tag_name }}
+                </router-link>
               </li>
             </ul>
           </div>
@@ -208,7 +211,7 @@ export default {
       return this.$store.getters['auth/user']
     },
     loading(){
-      return this.$store.getters['loading/loading']
+      return this.$store.getters['individual/loading']
     },
     followStatus(){
       return this.$store.getters['follow/status']
@@ -222,10 +225,8 @@ export default {
   },
   mounted() {
     console.log('Individual mounted start!')
-    this.$store.dispatch('loading/startLoad')
-      .then(()=>this.getIndividual())
+    this.getIndividual()
       .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.postUser.id}))
-      .then(()=>this.$store.dispatch('loading/endLoad')) 
       .then(()=>this.$store.dispatch('follow/countFollow', this.postUser.id))
     this.$store.dispatch('comment/getComment', this.postId)
   },

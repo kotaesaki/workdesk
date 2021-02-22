@@ -35,15 +35,16 @@ export default {
   },
   methods: {
     async updatePost(userId) {
-      await this.$store.commit('mypage/clearVar')
-        .then(()=>this.$store.dispatch('mypage/startPost', userId))
+      this.$store.commit('mypage/clearVar')
+      this.$store.dispatch('mypage/startPost', userId)
     },
     async updateUser(userId){
-      await this.$store.dispatch('mypage/getId', userId)
+      this.$store.dispatch('mypage/getId', userId)
         .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: userId}))
     }
   },
   beforeRouteUpdate (to, from, next) {
+    console.log(to)
     if (to.name == 'mypage'){
       this.updatePost(to.params.userId)
       this.updateUser(to.params.userId)
