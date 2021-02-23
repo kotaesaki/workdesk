@@ -65,6 +65,7 @@ const router = new VueRouter({
             home: NewTimeline,
           },
           props: true,
+          meta: {isPublic: true},
         },
         {
           path: '/trend',
@@ -73,6 +74,7 @@ const router = new VueRouter({
             trend: TrendTimeline,
           },
           props: true,
+          meta: {isPublic: true},
         },
         {
           path: '/item',
@@ -81,6 +83,7 @@ const router = new VueRouter({
             item: TrendItem,
           },
           props: true,
+          meta: {isPublic: true},
         }
       ]
     },
