@@ -3,21 +3,30 @@
     <div class="tab">
       <div class="tab_box container">
         <ul class="tab_list">
-          <li
-            :class="{'active': isActive === '1'}"
-            @click="changeTab('1')">
-            New
-          </li>
-          <li
-            :class="{'active': isActive === '2'}"
-            @click="changeTab('2')">
-            Trend
-          </li>
-          <li
-            :class="{'active': isActive === '3'}"
-            @click="changeTab('3')">
-            Items
-          </li>
+          <router-link
+            :to="{name: 'home'}">
+            <li
+              :class="{'active': isActive === '1'}"
+              @click="changeTab('1')">
+              New
+            </li>
+          </router-link>
+          <router-link
+            :to="{name: 'trend'}">
+            <li
+              :class="{'active': isActive === '2'}"
+              @click="changeTab('2')">
+              Trend
+            </li>
+          </router-link>
+          <router-link
+            :to="{name: 'item'}">
+            <li
+              :class="{'active': isActive === '3'}"
+              @click="changeTab('3')">
+              Items
+            </li>
+          </router-link>
         </ul>
       </div>
     </div>
@@ -37,14 +46,14 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="article">
-            <new-timeline
-              v-show="isActive === '1'"
+            <router-view
+              name="home"
               class="item" />
-            <trend-timeline
-              v-show="isActive === '2'"
+            <router-view
+              name="trend"
               class="item" />
-            <trend-item
-              v-show="isActive === '3'"
+            <router-view
+              name="item"
               class="item" />
           </div>
         </div>
@@ -56,23 +65,30 @@
   </div>
 </template>
 <script>
-import NewTimeline from './NewTimeline.vue'
-import TrendItem from './TrendItem.vue'
-import TrendTimeline from './TrendTimeline.vue'
 export default {
-  components: { NewTimeline, TrendTimeline, TrendItem },
   props: {
     successLogin: Boolean
   },
   data() {
     return {
-      isActive: '1',
+      isActive: '',
     }
   },
   computed: {
     isLogin() {
       return this.$store.getters['auth/check']
     },
+  },
+  mounted() {
+    const path = this.$route.path
+    console.log(this.$route.path)
+    if (path === '/'){
+      this.isActive = '1'
+    } else if (path === '/trend'){
+      this.isActive = '2'
+    } else if (path === '/item'){
+      this.isActive ='3'
+    }
   },
   methods: {
     changeTab(val) {
@@ -82,124 +98,126 @@ export default {
 }
 </script>
 <style scoped>
-    .topImage{
-        position: relative;
-        height: 50vh;
-    }
-    .image-top{
-        position: absolute;
-        width: 41vh;
-        height: 100%;
-        top: 0%;
-        right: 2vw;
-        object-fit: cover;
-    }
-    .topImage span{
-        position: absolute;
-        font-size: 1.5rem;
-        text-align: center;
-        top: 36%;
-        left: 10%;
-        color: #111111;
-        text-shadow: 1px 1px 69px #3ea8ff;
-    }
-    .topImage ul {
-        list-style: none;
-        padding: 0;
-    }
-    .topImage .circle{
-        position: absolute;
-        width: 40vh;
-        height: 40vh;
-        border-radius: 50%;
-        background-color: #DEF2FF;
-        animation: horizontal 40s ease-in-out infinite alternate;
-        animation-duration: 6.5s;
-        z-index:-1;
-    }
-    .topImage li:first-child{
+.topImage{
+    position: relative;
+    height: 50vh;
+}
+.image-top{
+    position: absolute;
+    width: 41vh;
+    height: 100%;
+    top: 0%;
+    right: 2vw;
+    object-fit: cover;
+}
+.topImage span{
+    position: absolute;
+    font-size: 1.5rem;
+    text-align: center;
+    top: 36%;
+    left: 10%;
+    color: #111111;
+    text-shadow: 1px 1px 69px #3ea8ff;
+}
+.topImage ul {
+    list-style: none;
+    padding: 0;
+}
+.topImage .circle{
+    position: absolute;
+    width: 40vh;
+    height: 40vh;
+    border-radius: 50%;
+    background-color: #DEF2FF;
+    animation: horizontal 40s ease-in-out infinite alternate;
+    animation-duration: 6.5s;
+    z-index:-1;
+}
+.topImage li:first-child{
 
-        animation: vertical 30s ease-in-out infinite alternate;
-        animation-duration: 10.5s;
-    }
+    animation: vertical 30s ease-in-out infinite alternate;
+    animation-duration: 10.5s;
+}
 
-    @keyframes horizontal {
-        0% { transform:translateX( -400px); }
-        100% { transform:translateX(  -200px); }
-    }
-    @keyframes vertical {
-        0% { transform:translateY( 0px); }
-        100% { transform:translateY(  100px); }
-    }
+@keyframes horizontal {
+    0% { transform:translateX( -400px); }
+    100% { transform:translateX(  -200px); }
+}
+@keyframes vertical {
+    0% { transform:translateY( 0px); }
+    100% { transform:translateY(  100px); }
+}
 
-    .tab{
-        width: 100%;
-        position: sticky;
-        background-color:#fff;
-        top:0;
-        z-index: 100;
+.tab{
+    width: 100%;
+    position: sticky;
+    background-color:#fff;
+    top:0;
+    z-index: 100;
+}
+.tab_list {
+    overflow: hidden;
+    list-style: none;
+}
+.tab_list li {
+    float: left;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: .3s;
+}
+.tab_list li:not(:first-child) {
+    border-left: none;
+}
+.tab_list .active {
+    border-bottom: 3px solid #000;
+    cursor: auto;
+}
+.article{
+    overflow: hidden;
+    margin-top: -1px;
+    width: 100%;
+}
+.pages{
+    height: 100%;
+    background-color: #DEF2FF;
+    margin-top: 100px;
+}
+.modalLogin{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #F8A017;
+    text-align: center;
+    padding:13px 0 0 0;
+    -moz-animation: modal 0s ease-in 2s forwards;
+    -webkit-animation: modal 0s ease-in 2s forwards;
+    -o-animation: modal 0s ease-in 2s forwards;
+    animation: modal 0s ease-in 2s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    z-index: 20000;
+}
+.modalContent{
+    position: relative;
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    -moz-animation: modal 0s ease-in 2s forwards;
+    -webkit-animation: modal 0s ease-in 2s forwards;
+    -o-animation: modal 0s ease-in 2s forwards;
+    animation: modal 0s ease-in 2s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    z-index: 20001;
+}
+.modalContent::before{
+    content: 'ログインに成功しました。';
+}
+@keyframes modal {
+    to {
+        width:0;
+        height:0;
+        overflow:hidden;
     }
-    .tab_list {
-        overflow: hidden;
-        list-style: none;
-    }
-    .tab_list li {
-        float: left;
-        padding: 10px 20px;
-        cursor: pointer;
-        transition: .3s;
-    }
-    .tab_list li:not(:first-child) {
-        border-left: none;
-    }
-    .tab_list li.active {
-        border-bottom: 3px solid #000;
-        cursor: auto;
-    }
-    .article{
-        overflow: hidden;
-        margin-top: -1px;
-        width: 100%;
-    }
-    .pages{
-        height: 100%;
-        background-color: #DEF2FF;
-        margin-top: 100px;
-    }
-    .modalLogin{
-        position: absolute;
-        top: 0;
-        width: 100%;
-        height: 60px;
-        background-color: #F8A017;
-        text-align: center;
-        padding:13px 0 0 0;
-        -moz-animation: modal 0s ease-in 2s forwards;
-        -webkit-animation: modal 0s ease-in 2s forwards;
-        -o-animation: modal 0s ease-in 2s forwards;
-        animation: modal 0s ease-in 2s forwards;
-        -webkit-animation-fill-mode: forwards;
-        animation-fill-mode: forwards;
-    }
-    .modalContent{
-        position: relative;
-        color: #FFFFFF;
-        font-size: 1.2rem;
-        -moz-animation: modal 0s ease-in 2s forwards;
-        -webkit-animation: modal 0s ease-in 2s forwards;
-        -o-animation: modal 0s ease-in 2s forwards;
-        animation: modal 0s ease-in 2s forwards;
-        -webkit-animation-fill-mode: forwards;
-        animation-fill-mode: forwards;
-    }
-    .modalContent::before{
-        content: 'ログインに成功しました。';
-    }
-    @keyframes modal {
-        to {
-            width:0;
-            height:0;
-            overflow:hidden;
-        }
-    }
+}
 </style>

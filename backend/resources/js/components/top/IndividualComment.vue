@@ -19,11 +19,13 @@
           </p>
           <div class="balloon">
             <div class="says">
-              <p class="message">
-                {{ comments.comment_message }}
-              </p>
+              <p
+                class="message"
+                v-html="$sanitize(comments.comment_message)" />
             </div>
-            <i class="fas fa-reply reply" />
+            <i
+              class="fas fa-reply reply"
+              @click="reply(comments.user[0].login_id,comments.user_id)" />
           </div>
         </li>
       </ul>
@@ -57,7 +59,6 @@
 </template>
 <script>
 import moment from 'moment'
-
 export default {
   filters: {
     moment: function (date){
@@ -87,6 +88,9 @@ export default {
     },
     loading(){
       return this.$store.getters['comment/loading']
+    },
+    replyId(){
+      return this.$store.getters['comment/replyId']
     }
   },
   methods: {
@@ -97,6 +101,10 @@ export default {
         this.$store.dispatch('comment/pushComment',
           {comment: this.comment, post_id: this.post.post_id, user_id: this.user.id})
       }
+    },
+    reply(login_id, user_id){
+      this.$store.commit('comment/setReplyId', '@'+login_id)
+      this.$store.commit('comment/addReplyComment', `<router-link :to="{ name:'mypage', params:{userId:${user_id}}}">${this.replyId}<router-link>`)
     }
 
   },
@@ -163,6 +171,7 @@ export default {
         top: 26px;
         right: 20px;
         font-size: 1.6em;
+        cursor:pointer;
     }
     form{
         display: block;

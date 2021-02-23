@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import auth from './modules/auth'
 import newtimeline from './modules/newTimeline'
+import trendtimeline from './modules/TrendTimeline'
 import individual from './modules/individual'
 import loading from './modules/loading'
 import follow from './modules/follow'
@@ -20,6 +21,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     newtimeline,
+    trendtimeline,
     individual,
     loading,
     follow,

@@ -76,7 +76,6 @@
             </router-link>
           </div>
         </div>
-        </search-component>
       </div>
     </nav>
     <loading v-show="loading" />
@@ -118,7 +117,6 @@ export default {
     const profile = this.$store.getters['auth/profile']
     if (token && !user){
       console.log('fetchUser()メソッドスタート')
-      console.log(token)
       this.$store.dispatch('auth/fetchUser')
         .then(()=> this.complete = true)
     } else if (!profile){
@@ -175,6 +173,7 @@ export default {
         animation: modal 0s ease-in 2s forwards;
         -webkit-animation-fill-mode: forwards;
         animation-fill-mode: forwards;
+        z-index: 20000;
     }
     .modalContent{
         position: relative;
@@ -186,6 +185,7 @@ export default {
         animation: modal 0s ease-in 2s forwards;
         -webkit-animation-fill-mode: forwards;
         animation-fill-mode: forwards;
+        z-index: 20001;
     }
     .modalContent::before{
         content: 'ログアウトに成功しました。';
