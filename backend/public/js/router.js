@@ -5655,21 +5655,30 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__.default({
       components: {
         home: _components_top_NewTimeline__WEBPACK_IMPORTED_MODULE_23__.default
       },
-      props: true
+      props: true,
+      meta: {
+        isPublic: true
+      }
     }, {
       path: '/trend',
       name: 'trend',
       components: {
         trend: _components_top_TrendTimeline__WEBPACK_IMPORTED_MODULE_24__.default
       },
-      props: true
+      props: true,
+      meta: {
+        isPublic: true
+      }
     }, {
       path: '/item',
       name: 'item',
       components: {
         item: _components_top_TrendItem__WEBPACK_IMPORTED_MODULE_25__.default
       },
-      props: true
+      props: true,
+      meta: {
+        isPublic: true
+      }
     }]
   }, {
     path: '/photo/:postId',
@@ -6068,7 +6077,9 @@ var actions = {
               _context.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/register', data, {
                 headers: {
-                  Authorization: "Bearer ".concat(state.token)
+                  Authorization: "Bearer ".concat(state.token),
+                  xsrfHeaderName: 'X-XSRF-TOKEN',
+                  withCredentials: true
                 }
               }).then(function (result) {
                 console.log(data);
@@ -6087,7 +6098,7 @@ var actions = {
                 if (err.response.status === 422) {
                   context.commit('validate', val);
                 } else {
-                  alert('変更に失敗しました。(ステータスコード:', err.response.status, ')');
+                  alert('変更に失敗しました。(ステータスコード:' + err.response.status + ')');
                 }
               });
 
@@ -6135,7 +6146,7 @@ var actions = {
                   if (err.response.status === 422) {
                     context.commit('validate', val);
                   } else {
-                    alert('変更に失敗しました。(ステータスコード:', err.response.status, ')');
+                    alert('変更に失敗しました。(ステータスコード:' + err.response.status + ')');
                   }
                 });
               });

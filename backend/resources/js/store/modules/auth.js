@@ -64,6 +64,8 @@ const actions = {
     await axios.post('/api/register', data, {
       headers: {
         Authorization: `Bearer ${state.token}`,
+        xsrfHeaderName: 'X-XSRF-TOKEN',
+        withCredentials: true
       }
     }).then((result) => {
       console.log(data)
@@ -78,7 +80,7 @@ const actions = {
         if (err.response.status === 422){
           context.commit('validate', val)
         } else {
-          alert('変更に失敗しました。(ステータスコード:', err.response.status, ')')
+          alert('変更に失敗しました。(ステータスコード:'+err.response.status+')')
         }
       })
   },
@@ -105,7 +107,7 @@ const actions = {
           if (err.response.status === 422){
             context.commit('validate', val)
           } else {
-            alert('変更に失敗しました。(ステータスコード:', err.response.status, ')')
+            alert('変更に失敗しました。(ステータスコード:'+ err.response.status+ ')')
           }
         })
     })
