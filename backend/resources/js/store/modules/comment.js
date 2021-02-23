@@ -1,26 +1,41 @@
 import axios from 'axios'
 
 const state = {
-  comment: null,
+  comment: '',
   commentList: [],
+  replyId: '',
+  linkReply: '',
   loading: false
 }
 const getters = {
   comment: state => state.comment ? state.comment: '',
   commentList: state => state.commentList ? state.commentList: '',
+  replyId: state => state.replyId ? state.replyId: '',
+  linkReply: state => state.linkReply ? state.linkReply: '',
   loading: state => state.loading ? state.loading: '',
 
 }
 const mutations = {
   setCommentList(state, commentList){
+    commentList.forEach(element => {
+      element.comment_message = element.comment_message.replace(/\n/g, '<br>')
+    })
     state.commentList = commentList
   },
   addCommentList(state, commentList){
+    commentList.comment_message = commentList.comment_message.replace(/<br>/g, '\n')
     state.commentList.push(commentList)
     state.comment = null
   },
   updateComment(state, comment){
     state.comment = comment
+  },
+  setReplyId(state, replyId){
+    state.replyId = replyId
+  },
+  addReplyComment(state, linkReply){
+    state.comment += state.replyId
+    state.linkReply = linkReply
   },
   setLoading(state, loading){
     state.loading = loading

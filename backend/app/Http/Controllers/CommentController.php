@@ -21,6 +21,10 @@ class CommentController extends Controller
                     $query->with('profile');
                 }])->find($val->comment_id);
             }
+            foreach($commentList as $comList){
+                $comList->comment_message = str_replace("\r\n", '<br>', $comList->comment_message);
+                
+            }
             return $commentList;
         }
     }

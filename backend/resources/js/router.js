@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueLoaders from 'vue-loaders'
 import store from './store'
-
 Vue.use(VueRouter)
 Vue.use(VueLoaders)
 
@@ -38,10 +37,7 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('header-component', HeaderComponent)
 Vue.component('footer-component', FooterComponent)
 Vue.component('search-component', Search)
-Vue.component('new-timeline', NewTimeline)
 Vue.component('individual-comment', IndividualComment)
-Vue.component('trend-timeline', TrendTimeline)
-Vue.component('trend-item', TrendItem)
 Vue.component('mypage-bar', MypageBar)
 Vue.component('mypage-content', MypageContent)
 Vue.component('follow-content', FollowContent)
@@ -61,6 +57,32 @@ const router = new VueRouter({
       component: HomeComponent,
       props: true,
       meta: {isPublic: true},
+      children: [
+        {
+          path: '/',
+          name: 'home',
+          components: {
+            home: NewTimeline,
+          },
+          props: true,
+        },
+        {
+          path: '/trend',
+          name: 'trend',
+          components: {
+            trend: TrendTimeline,
+          },
+          props: true,
+        },
+        {
+          path: '/item',
+          name: 'item',
+          components: {
+            item: TrendItem,
+          },
+          props: true,
+        }
+      ]
     },
     {
       path: '/photo/:postId',
