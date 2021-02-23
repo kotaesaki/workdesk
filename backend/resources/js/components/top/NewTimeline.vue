@@ -88,7 +88,6 @@ export default {
     .article{
         width: 100%;
     }
-
     .contents{
         margin-top: 30px;
         display: flex;
