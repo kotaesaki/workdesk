@@ -314,11 +314,13 @@ export default {
         padding-top: 150px;
     }
     .comment{
+        box-shadow: 2px 2px 9px lightgrey;
         background-color: #FFF;
         border-radius: 10px;
         margin-top: 5%;
     }
     .contents-profile{
+        box-shadow: 2px 2px 9px lightgrey;
         background-color: #FFF;
         border-radius: 10px;
         margin: 6% auto;
@@ -383,6 +385,7 @@ export default {
         margin-left: 5%;
     }
     .individual-profile{
+        box-shadow: 2px 2px 9px lightgrey;
         background-color: #fff;
         border-radius: 10px;
         position: sticky;
@@ -433,6 +436,7 @@ export default {
         color: #fff;
     }
     .individual-tags{
+        box-shadow: 2px 2px 9px lightgrey;
         background-color: #fff;
         border-radius: 10px;
         margin: 13% 0;
@@ -467,6 +471,7 @@ export default {
         margin: 1% 2% 0 0;
     }
     .contents-photo{
+        box-shadow: 2px 2px 10px darkgrey;
         width: 100%;
     }
     .menu{
@@ -481,6 +486,7 @@ export default {
         width: 3rem;
         height: 3rem;
         padding:24%;
+        box-shadow: 2px 2px 5px lightgrey;
     }
     .menu p{
         display: inline;

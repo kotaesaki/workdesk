@@ -132,6 +132,7 @@ export default {
         text-align: left;
     }
     .says{
+        box-shadow: 2px 2px 2px lightgrey;
         width: 80%;
         display: inline-block;
         position: relative; 

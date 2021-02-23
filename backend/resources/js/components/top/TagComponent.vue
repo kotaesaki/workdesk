@@ -94,7 +94,7 @@ export default {
 .content-item{
     width: 32%;
     background-color: #fff;
-    box-shadow: 2px 2px 4px gray;
+    box-shadow: 2px 2px 15px gray;
     margin-bottom: 20px;
     border-radius: 20px;
 }
@@ -116,10 +116,15 @@ export default {
     float: left;
 }
 .content-id{
-    margin-left: 15px;
+   font-size: 1.2rem;
+   padding: 0.7rem 0;
 }
 .content-description{
     clear: both;
+    height: 8.4rem;
+    margin:0%;
+    clear: both;
+    overflow: hidden;
 }
 .loader-space{
     width: 100%;
