@@ -120,7 +120,8 @@ export default {
       formData.append('description', this.description)
       formData.append('id', this.userId)
       axios.post('/api/post_upload/' + this.userId, formData, config).then((res)=>{
-        alert('保存しました')
+        this.$router.push({name: 'home'})
+        alert('投稿しました')
       }).catch(err=>{
         console.log(err.response)
         const val = err.response.data.errors
@@ -140,6 +141,8 @@ export default {
               this.errors.push(i)
             })
           }
+        } else if (err.response.status === 413){
+          alert('画像サイズが大きすぎます')
         } else {
           alert('変更に失敗しました。(ステータスコード:' + err.response.status + ')')
         }
@@ -196,7 +199,7 @@ export default {
     display: block;
     padding: 2% 8%;
     font-size: 1.2rem;
-    background-color: #CFCABF;
+    background-color: #08415C;
     color: #fff;
 }
 .submitBtn:hover{
@@ -208,6 +211,30 @@ export default {
   text-align: center;
 }
 .error ul{
+  padding: 0;
   list-style: none;
+}
+@media(max-width:1000px){
+  h2{
+    text-align: center;
+  }
+  .postUpload .contents .explain{
+    float: none;
+    text-align: center;
+    width: auto;
+  }
+  .postUpload .contents .title{
+    font-size:1rem;
+    margin: 0;
+  }
+  .items{
+    text-align: center;
+  }
+  .commentArea{
+    width: 100%;
+    height: 100vw;
+    font-size: 16px;
+    transform: scale(1.0);
+  }
 }
 </style>

@@ -1,16 +1,18 @@
 <template>
-    <div class="col-md-4">  
-        <div class="settingBar">
-            <ul id="settings-item">
-                <router-link v-bind:to="{name: 'account'}">
-                    <li style="border-top:1px solid #CFCABF;">アカウント設定</li>
-                </router-link>
-                <router-link v-bind:to="{name: 'profile'}">
-                    <li>プロフィール設定</li>
-                </router-link>
-            </ul>
-        </div>
+  <div class="col-md-4">  
+    <div class="settingBar">
+      <ul id="settings-item">
+        <router-link :to="{name: 'account'}">
+          <li style="border-top:1px solid #08415C;">
+            アカウント設定
+          </li>
+        </router-link>
+        <router-link :to="{name: 'profile'}">
+          <li>プロフィール設定</li>
+        </router-link>
+      </ul>
     </div>
+  </div>
 </template>
 <script>
 export default {
@@ -26,12 +28,17 @@ ul{
     padding: 4%;
 }
 ul li{
-    border-bottom: 1px solid #CFCABF;
+    border-bottom: 1px solid #08415C;
     padding: 1rem;
 }
 ul li:hover{
     cursor: pointer;
-    background-color: #CFCABF;
-    counter-reset: #fff;
+    background-color: #08415C;
+    color: #fff;
+}
+@media(max-width:767px){
+    .settingBar{
+        margin: 5% 0 20% 0;
+    }
 }
 </style>

@@ -22,6 +22,9 @@ class TagController extends Controller
     {
         $tag = Tag::find($request->tag_id);
         $posts = $tag->posts;
+        if($posts->isEmpty()){
+            return response()->json([null, $tag]);
+        }
         foreach($posts as $post){
             $data[] = Post::with(['user' => function ($query) {
                 $query->with('profile');

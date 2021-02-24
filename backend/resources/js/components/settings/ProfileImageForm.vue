@@ -115,4 +115,23 @@ export default {
     object-fit: cover;
     border-radius: 50%;
 }
+@media(max-width: 767px){
+  .contents .explain{
+    float: none;
+    text-align: center;
+    width: auto;
+  }
+  .contents .title{
+    font-size:1rem;
+    margin: 0;
+  }
+  .items{
+    text-align: center;
+  }
+  .items input{
+    width: 100%;
+    font-size: 16px;
+    transform: scale(1.0);
+  }
+}
 </style>

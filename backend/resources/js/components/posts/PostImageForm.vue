@@ -26,15 +26,17 @@
               @change="openModal">
             <div class="selectBtn">写真を選択する</div>
           </label>
-          <img
-            v-if="cropImg"
-            class="cropimg"
-            :src="cropImg">
-          <div
-            v-if="cropImg"
-            class="deleteImg"
-            @click="deleteImage">
-            <i class="fas fa-times deleteBatsu" />
+          <div class="photoImage">
+            <img
+              v-if="cropImg"
+              class="cropimg"
+              :src="cropImg">
+            <div
+              v-if="cropImg"
+              class="deleteImg"
+              @click="deleteImage">
+              <i class="fas fa-times deleteBatsu" />
+            </div>
           </div>
         </div>
       </div>
@@ -54,8 +56,8 @@
             v-if="imageData"
             class="image-box">
             <vue-cropper
-              ref="cropper"
               v-if="imageData"
+              ref="cropper"
               :guides="true"
               :view-mode="2"
               :drag-mode="none"
@@ -163,11 +165,12 @@ export default {
 <style scoped>
 .uploadStep{
     position:relative;
+    width: 100%;
 }
 .image-view{
     width: 300px;
     height: 300px;
-    background-color: #CFCABF;
+    background-color: #08415C;
     border: 2px dashed grey;
     text-align: center;
 }
@@ -256,6 +259,11 @@ export default {
     right: 0.65rem;
     font-size: 1.3rem;
 }
+.photoImage{
+  position:relative;
+
+  margin: 0 auto;
+}
 .deleteImg{
     position: absolute;
     border-radius: 50%;
@@ -287,5 +295,42 @@ export default {
 }
 label input{
     display: none;
+}
+@media(max-width: 1199px){
+  .deleteImg{
+    top: -1rem;
+    right: 8rem;
+  }
+}
+@media(max-width:1000px){
+  h2{
+    text-align: center;
+  }
+  .explain{
+    float: none;
+    text-align: center;
+    width: auto;
+  }
+  .title{
+    font-size:1rem;
+    margin: 0;
+  }
+  .required{
+
+  }
+  .uploadStep{
+    text-align: center;
+  }
+  .modal1{
+    width: 93vw;
+    height: 84vh;
+  }
+  .photoImage{
+    width: 300px;
+  }
+  .deleteImg{
+    top: -1rem;
+    right: -1rem;
+  }
 }
 </style>

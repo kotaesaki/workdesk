@@ -113,4 +113,23 @@ ul > li{
   color: red;
   font-size: 0.8rem;
 }
+@media(max-width: 767px){
+  h2{
+    display: inline-block;
+    margin: 2rem 0;
+  }
+  label{
+    width: 100%;
+    text-align: center;
+  }
+  input{
+    width: 100%;
+    font-size: 16px;
+    transform: scale(1.0);
+  }
+  button{
+    padding: 1rem 4rem;
+    margin: 4rem;
+  }
+}
 </style>

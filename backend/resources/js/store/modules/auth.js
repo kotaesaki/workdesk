@@ -60,6 +60,7 @@ const mutations = {
 }
 const actions = {
   async register(context, data) {
+    context.commit('setLoading', true)
     context.commit('clearValidate')
     await axios.post('/api/register', data, {
       headers: {
@@ -72,8 +73,10 @@ const actions = {
       context.commit('setUser', result.data.user)
       context.commit('setToken', result.data.token)
       context.commit('setProfile', result.data.profile)
+      context.commit('setLoading', false)
     }).then(()=> router.push({name: 'home'}))
       .catch(err => {
+        context.commit('setLoading', false)
         console.log('err:', err.response.data.errors)
         console.log('失敗')
         const val = err.response.data.errors
@@ -114,17 +117,20 @@ const actions = {
         
   },
   async logout(context, data) {
-    await axios.post('/api/logout', data, {
-      headers: {
-        Authorization: `Bearer ${state.token}`,
-      }
-    }).then((result) => {
-      console.log(data)
-      context.commit('deleteUser', null)
-      context.commit('setToken', null)
-      context.commit('setProfile', null)
-    }).catch(error => {
-      console.log(`Error! HTTP Status: ${error}`)
+    await axios.get('/sanctum/csrf-cookie').then(()=> {
+      axios.post('/api/logout', data, {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        
+        }
+      }).then((result) => {
+        console.log(data)
+        context.commit('deleteUser', null)
+        context.commit('setToken', null)
+        context.commit('setProfile', null)
+      }).catch(error => {
+        console.log(`Error! HTTP Status: ${error}`)
+      })
     })
   },
   async fetchUser(context){

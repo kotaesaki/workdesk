@@ -21,24 +21,30 @@
     <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
     <script src="https://kit.fontawesome.com/8efc5cc454.js" crossorigin="anonymous"></script>
     <style>
+        html{
+            touch-action: manipulation;
+        }
         #app{
             max-width: 100vw;
             min-height: 100vh;
             position: relative;
-            padding-bottom: 20vh;
+            padding-bottom: 18vh;
             box-sizing: border-box;
+        }
+        #wrapper{
+            margin-top: 2rem;
         }
         body{
             background-color: #fff;
-            color:#443311;
+            color:#08415C;
         }
         a {
             text-decoration: none;
-            color:#443311;
+            color:#08415C;
             cursor: pointer;
         }
         a:hover{
-            color:#443311;
+            color:#08415C;
             text-decoration: none;
         }
     </style>

@@ -45,4 +45,13 @@ export default {
     height: 74px;
     margin: 5% 0 0;
 }
+@media(max-width: 1000px){
+  .footer div{
+    width: 100%;
+  }
+  .logo{
+    height: 44px;
+    margin:0;
+  }
+}
 </style>

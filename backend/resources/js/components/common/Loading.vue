@@ -1,9 +1,8 @@
 <template>
   <div class="view">
     <div class="loading-space" />
-    <vue-loaders-ball-spin-fade-loader
+    <vue-loaders-ball-scale
       color="#DEF2FF"
-      scale="2"
       class="loader" />
   </div>
 </template>
@@ -20,12 +19,21 @@ export default {
         position: fixed;
         top: 0;
         left: 0;
-        padding: 0 47%;
         background:grey;
         opacity: 0.6;
         z-index: 10000;
     }
     .loading-space{
-        height: 40%;
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+    }
+    .loader{
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
     }
 </style>

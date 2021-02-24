@@ -60,7 +60,9 @@
       </div>     
     </div>   
     <div :class="{modalLogin: isLogin===true && successLogin === true}">
-      <p :class="{modalContent: isLogin===true && successLogin === true}" />
+      <p
+        v-if="isLogin===true && successLogin === true"
+        :class="{modalContent: isLogin===true && successLogin === true}" />
     </div>
   </div>
 </template>
@@ -212,6 +214,12 @@ export default {
 }
 .modalContent::before{
     content: 'ログインに成功しました。';
+    -moz-animation: modal 0s ease-in 2s forwards;
+    -webkit-animation: modal 0s ease-in 2s forwards;
+    -o-animation: modal 0s ease-in 2s forwards;
+    animation: modal 0s ease-in 2s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
 }
 @keyframes modal {
     to {
@@ -219,5 +227,36 @@ export default {
         height:0;
         overflow:hidden;
     }
+}
+@media(max-width: 1000px){
+  .tab{
+    margin: -1.1rem 0 0 0;
+  }
+  .container{
+    margin: 0 auto;
+  }
+  .tab_list{
+    padding: 0;
+  }
+  .topImage span{
+    display: inline-block;
+    width: 77%;
+    top:10%;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    font-size: 1.2rem;
+  }
+  .topImage .image-top{
+    top: 7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+  }
+  .pages{
+    margin-top: 13rem;
+  }
 }
 </style>
