@@ -35,7 +35,7 @@
       v-show="loading"
       class="loader-space">
       <vue-loaders-ball-spin-fade-loader
-        color="#FFF"
+        color="#73877B"
         class="loader" />
     </div>
   </div>
@@ -115,9 +115,20 @@ h2{
     width: 100%;
     height: 20vh;
     position: relative;
-    margin: 0 47%;
 }
 .loader{
     position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+}
+@media(max-width:1000px){
+  .content-item{
+    width: 100%;
+  }
+  .content-description{
+    height: 2.6rem;
+  }
 }
 </style>

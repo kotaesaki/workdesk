@@ -1,7 +1,11 @@
 <template>
   <div class="search">
-    <div class="box">
-      <i class="fas fa-search" />
+    <div
+      class="box"
+      :class="{'flugSearch': btnFlug === 0}">
+      <i
+        class="fas fa-search"
+        :class="{'flugSearch': btnFlug === 1}" />
       <input
         id="search"
         v-model="word"
@@ -9,9 +13,20 @@
         class="searchBox"
         placeholder="キーワードを入力..."
         @keydown.enter="trigger">
+      <p
+        class="cancelBtn"
+        @click="closeSearch(); showSearch()">
+        キャンセル
+      </p>
+    </div>
+    <div
+      class="searchBtn"
+      @click="showSearch">
+      <i class="fas fa-search" />
     </div>
     <div
       v-if="result"
+      v-scroll-lock="result"
       class="list">
       <div>
         <ul class="tab_list">
@@ -34,7 +49,8 @@
           <ul>
             <li
               v-for="tag in tagArray"
-              :key="tag.tag_id">
+              :key="tag.tag_id"
+              @click="closeSearch(); showSearch()">
               <router-link
                 :to="{ name:'tag', params:{tagId: tag.tag_id}}">
                 <p>
@@ -54,7 +70,7 @@
             <li 
               v-for="user in userArray"
               :key="user.id"
-              @click="closeSearch">
+              @click="closeSearch(); showSearch()">
               <router-link
                 :to="{name: 'mypage', params: {userId: user.id}}">
                 <p>{{ user.name }}</p>
@@ -87,6 +103,7 @@ export default {
   data() {
     return {
       isActive: '1',
+      btnFlug: 0,
     }
   },
   computed: {
@@ -121,6 +138,13 @@ export default {
     },
     closeSearch(){
       this.$store.commit('search/setResult', false)
+    },
+    showSearch(){
+      if (this.btnFlug === 0){
+        this.btnFlug = 1
+      } else if (this.btnFlug === 1){
+        this.btnFlug = 0
+      }
     }
   },
 }
@@ -144,6 +168,12 @@ export default {
   top: 0.4rem;
   left: 0.6rem;
   color: grey;
+}
+.cancelBtn{
+  display: none;
+}
+.searchBtn{
+  display: none;
 }
 .search input{
   width: 100%;
@@ -178,6 +208,7 @@ li:hover{
   z-index: 1002;
 }
 .tab_list {
+  box-shadow: 0px 1px 8px darkgrey;
   overflow: hidden;
   list-style: none;
   padding: 0;
@@ -227,5 +258,43 @@ li:hover{
   position: absolute;
   top: 4rem;
   margin: 0 47%;
+}
+@media(max-width: 1000px){
+  .search{
+    min-width: 100%;
+    width:100%;
+    margin:0;
+    top:2rem;
+  }
+  .box{
+
+  }
+  .search input{
+    height: 51px;
+    font-size: 16px;
+    transform: scale(1.0);
+    width: 73%;
+  }
+  .cancelBtn{
+    display: inline-block;
+    width: 20%;
+  }
+  .search i{
+    top: 1rem;
+  }
+  .searchBtn{
+    display: inline;
+    position: absolute;
+    font-size: 1rem;
+    top: -53px;
+    left: 7.9rem;
+  }
+  .flugSearch{
+    display: none;
+  }
+  .list{
+    overflow-y: auto;
+    height: 34rem;
+  }
 }
 </style>

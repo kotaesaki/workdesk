@@ -4,7 +4,7 @@
       v-show="!loading"
       class="container">
       <div class="pankuzu">
-        <h2>{{ tag.tag_name }}の検索結果</h2>
+        <h2><span>{{ tag.tag_name }}</span>の検索結果</h2>
       </div>
       <div class="contents">
         <div
@@ -38,7 +38,7 @@
       v-show="loading"
       class="loader-space">
       <vue-loaders-ball-spin-fade-loader
-        color="#DEF2FF"
+        color="#08415C"
         class="loader" />
     </div>
   </div>
@@ -130,9 +130,34 @@ export default {
     width: 100%;
     height: 20vh;
     position: relative;
-    margin: 0 47%;
 }
 .loader{
     position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+}
+@media(max-width: 1000px){
+  .contents{
+    margin: 0 0 5rem 0;
+  }
+  .content-item{
+    width: 100%;
+  }
+  .content-description{
+    height: 2.6rem;
+  }
+  .pankuzu{
+    padding: 2rem 0;
+  }
+  .pankuzu h2{
+    font-size: 1.3rem;
+  }
+  .pankuzu h2 span{
+    border-bottom: dashed 3px #08415C;
+
+  }
+
 }
 </style>

@@ -7,7 +7,8 @@ import router from './router'
 import './directive'
 import store from './store'
 import sanitizeHTML from 'sanitize-html'
-
+import VScrollLock from 'v-scroll-lock'
+Vue.use(VScrollLock)
 const app = async () =>{
   Vue.prototype.$sanitize = sanitizeHTML
   await store.dispatch('auth/fetchUser')

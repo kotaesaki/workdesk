@@ -52,14 +52,7 @@
         新規登録
       </button>
     </form>
-    <div
-      v-show="loading"
-      class="loader-space">
-      <vue-loaders-ball-spin-fade-loader
-        color="#DEF2FF"
-        scale="2"
-        class="loader" />
-    </div>   
+    <loading v-show="loading" />  
   </div>
 </template>
 <script>
@@ -74,7 +67,6 @@ export default {
         email: '',
         password: '',
         password_confirmation: '',
-        loading: false,
       }
     }
   },
@@ -82,6 +74,9 @@ export default {
     errors() {
       return this.$store.getters['auth/errors']
     },
+    loading(){
+      return this.$store.getters['auth/loading']
+    }
   },
   methods: {
     register() {
@@ -125,17 +120,29 @@ button{
 button:hover{
   opacity: 0.6;
 }
-.loader-space{
-    width: 100%;
-    text-align: center;
-    padding: 7% 0;
-    margin: 10% 0 ;
-}
 .error{
   color: red;
   font-size:0.8rem;
 }
 .error ul{
   list-style: none;
+}
+@media(max-width:767px){
+  h2{
+    display: inline-block;
+    margin: 2rem 0;
+  }
+  label{
+    width: 100%;
+  }
+  input{
+    width: 100%;
+    font-size: 16px;
+    transform: scale(1.0);
+  }
+  button{
+    padding: 1rem 4rem;
+    margin: 4rem;
+  }
 }
 </style>

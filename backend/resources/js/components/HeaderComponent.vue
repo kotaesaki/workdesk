@@ -3,7 +3,7 @@
     <nav
       id="header-nav"
       class="navbar navbar-expand-md navbar-light">
-      <div class="container">
+      <div class="container container-s">
         <router-link :to="{name: 'home'}">
           <img
             :src="`/images/Logo.svg`"
@@ -11,26 +11,16 @@
             class="logo">
         </router-link>
         <search-component />
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon" />
-        </button>
         <div v-show="complete">
           <div
             v-if="isLogin==true"
             id="navbarSupportedContent"
-            class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item dropdown">
+            class="coll">
+            <ul class="">
+              <li class="">
                 <a
                   id="navbarDropdown"
-                  class="nav-link dropdown-toggle"
+                  class="dropdown-toggle"
                   href="#"
                   role="button"
                   data-toggle="dropdown"
@@ -41,7 +31,7 @@
                     class="icon_name"> 
                 </a>
                 <div
-                  class="dropdown-menu dropdown-menu-right"
+                  class="dropdown-menu dropdown-menu-right listChild"
                   aria-labelledby="navbarDropdown">
                   <router-link
                     class="dropdown-item"
@@ -67,7 +57,9 @@
               </li>
             </ul>
           </div>
-          <div v-else-if="isLogin==false">
+          <div
+            v-else-if="isLogin==false"
+            class="notLogin">
             <router-link :to="{name: 'register'}">
               新規登録
             </router-link>
@@ -80,7 +72,9 @@
     </nav>
     <loading v-show="loading" />
     <div :class="{modalLogout: isLogin===false && isLogout === true}">
-      <p :class="{modalContent: isLogin===false && isLogout === true}" />
+      <p
+        v-if="isLogin===false && isLogout === true"
+        :class="{modalContent: isLogin===false && isLogout === true}" />
     </div>
   </div>
 </template>
@@ -148,10 +142,30 @@ export default {
         background-color: #fff;
         height: 60px;
     }
+    .nav-bar{
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+    .coll{
+      display: flex !important;
+      flex-basis: auto;
+      flex-grow: 1;
+      align-items: center;
+    }
+    .coll > ul{
+      list-style: none;
+    }
     .logo{
       position:absolute;
       top:2px;
       height: 55px;
+    }
+    .listChild{
+      z-index: 15000;
     }
     .icon_name{
         width: 35px;
@@ -189,6 +203,12 @@ export default {
     }
     .modalContent::before{
         content: 'ログアウトに成功しました。';
+        -moz-animation: modal 0s ease-in 2s forwards;
+        -webkit-animation: modal 0s ease-in 2s forwards;
+        -o-animation: modal 0s ease-in 2s forwards;
+        animation: modal 0s ease-in 2s forwards;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
     }
     @keyframes modal {
         to {
@@ -197,4 +217,28 @@ export default {
             overflow:hidden;
         }
     }
+@media(max-width: 1000px){
+  .container-s{
+    max-width: 100%;
+  }
+  .coll{
+    position: absolute;
+    top: 0.7rem;
+    right: 0.9rem;
+  }
+  .navbar{
+    padding: 0;
+  }
+  .logo{
+    top: 0.7rem;
+    left: 0.5rem;
+    height: 44px;
+
+  }
+  .notLogin{
+    position:absolute;
+    top: 21px;
+    right: 1.2rem;
+  }
+}
 </style>

@@ -140,7 +140,7 @@ export default {
 <style scoped>
 h2{
     margin: 3rem 0.5rem 2rem;
-    background: linear-gradient(transparent 70%, #CFCABF 70%);
+    background: linear-gradient(transparent 70%, #08415C 70%);
 }
 .contents{
     margin: 7% 0 14%;
@@ -160,7 +160,7 @@ h2{
 }
 .items input{
     width: 90%;
-    border: 1px solid #CFCABF;
+    border: 1px solid #08415C;
     position:relative;
 }
 .contents .items p{
@@ -175,7 +175,7 @@ h2{
     display: block;
     padding: 2% 8%;
     font-size: 1.2rem;
-    background-color: #CFCABF;
+    background-color: #08415C;
     color: #fff;
 }
 .submitBtn:hover{
@@ -197,9 +197,42 @@ h2{
 }
 .error{
   color: red;
-  font-size:0.8rem;
+  font-size:0.8rem
 }
 .error ul{
   list-style: none;
+}
+@media(max-width:767px){
+  h2{
+    text-align: center;
+  }
+  .contents .explain{
+    float: none;
+    text-align: center;
+    width: auto;
+  }
+  .contents .title{
+    font-size:1rem;
+    margin: 0;
+  }
+  .items{
+    text-align: center;
+  }
+  .items input{
+    width: 100%;
+    font-size: 16px;
+    transform: scale(1.0);
+  }
+  .contents .items p{
+    font-size: 0.7rem;
+  }
+  .eye::after{
+    right: 1.5rem;
+    font-size: 1.2rem;
+  }
+  .eye-slash::after{
+    right: 1.5rem;
+    font-size: 1.2rem;
+  }
 }
 </style>
