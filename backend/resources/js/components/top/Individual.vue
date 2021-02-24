@@ -20,11 +20,10 @@
                 @click="deleteFavorite" />
               <div
                 v-show="heartLoading"
-                class="loader-space">
+                class="heartLoaderSpace">
                 <vue-loaders-ball-spin-fade-loader
                   color="#F66868"
-                  class="loader"
-                  scale="0.4" />
+                  class="heartLoader" />
               </div>
             </div>
             <p>{{ countFav }}</p><br>
@@ -32,7 +31,7 @@
           </div>
         </div>
         <div class="col-md-7 main">
-          <div class="contents">
+          <div class="contents order2">
             <img
               :src="`../${post.photo_path}`"
               alt="contents-photo"
@@ -43,25 +42,25 @@
             <span class="contents-description">{{ post.description }}</span>
           </div>
           <individual-comment
-            class="comment"
+            class="comment order3"
             :show-modal="showModal" />
           <div
             class="
-            contents-profile">
+            contents-profile order1">
             <h3>写真を投稿したユーザー</h3>
             <div>
-              <img
-                :src="`../${profile.icon_path}`"
-                alt="contents-photo"
-                class="icon-photo">
-              <div class="name-id">
-                <p class="pro_name">
-                  {{ postUser.name }}
-                </p>
-                <router-link :to="{ name:'mypage', params:{userId:postUser.id}}">
+              <router-link :to="{ name:'mypage', params:{userId:postUser.id}}">
+                <img
+                  :src="`../${profile.icon_path}`"
+                  alt="contents-photo"
+                  class="icon-photo">
+                <div class="name-id">
+                  <p class="pro_name">
+                    {{ postUser.name }}
+                  </p>
                   @{{ postUser.login_id }}
-                </router-link>
-              </div>
+                </div>
+              </router-link>
               <div
                 v-show="postUser.id != authUser.id"
                 class="follow-unfollow">
@@ -87,7 +86,6 @@
             </div>
             <hr>
             <span>{{ profile.shokai }}</span>
-            </individual-comment>
           </div>
         </div>
         <div class="col-md-3 sub">
@@ -452,7 +450,7 @@ export default {
     }
     .individual-tags li{    
         list-style: none;
-        border: 1px solid #CFCABF;
+        border: 1px solid #08415C;
         border-radius: 7px;
         display: inline-block;
         padding: 1% 2%;
@@ -460,7 +458,7 @@ export default {
         cursor: pointer;
     }
     .individual-tags li:hover{
-        background-color: #CFCABF;
+        background-color: #08415C;
     }
     .icon-photo{
         width: 50px;
@@ -516,6 +514,14 @@ export default {
     }
     .favorite2:hover{
         color: red;
+    }
+    .heartLoader{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.4);
+        -webkit-transform: translate(-50%, -50%) scale(0.4);
+        -ms-transform: translate(-50%, -50%) scale(0.4);
     }
     .overlay{
         z-index:1;
@@ -603,4 +609,89 @@ export default {
         top: -0.6rem;
         left: -0.6rem;
     }
+@media(max-width:767px){
+  .row{
+    flex-direction: column;
+  }
+  .pages{
+    padding-top: 3rem;
+  }
+  .col-md-7{
+    display: flex;
+    flex-direction: column;
+  }
+  .col-md-3{
+    display: flex;
+    flex-direction: column;
+  }
+  .order1{
+    order: 1;
+  }
+  .order2{
+    order: 2;
+  }
+  .order3{
+    order: 3;
+  }
+  .contents-profile{
+    margin: 0 0 2% 0;
+  }
+  .individual-profile{
+    display: none;
+  }
+  .sub{
+    margin-left: 0;
+  }
+  .menu{
+    display: flex;
+    z-index: 100;
+    bottom: 0;
+    right: 0;
+  }
+  .curcle{
+    position: absolute;
+    bottom: 4rem;
+    right: 2rem;
+    width: 5rem;
+    height: 5rem;
+  }
+  .favorite{
+    font-size: 2.6rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+  .favorite2{
+    font-size: 2.6rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+  }
+  .heartLoader{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    -webkit-transform: translate(-50%, -50%) scale(0.7);
+    -ms-transform: translate(-50%, -50%) scale(0.7);
+  }
+  .menu p{
+    position: absolute;
+    bottom: 4rem;
+    right: 4.2rem;
+  }
+  .menu .twitter{
+    position: absolute;
+    bottom: 9.7rem;
+    right: 3.1rem;
+    font-size: 2.5rem;
+  }
+
+}
 </style>

@@ -2543,7 +2543,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     userId: String
@@ -2603,6 +2602,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     userId: String
@@ -2614,19 +2629,19 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     followers: function followers() {
-      return this.$store.getters["follow/follower"];
+      return this.$store.getters['follow/follower'];
     }
-  },
-  methods: {
-    methodName: function methodName() {}
   },
   mounted: function mounted() {
     var _this = this;
 
-    console.log("FollowerContent mounted start!");
+    console.log('FollowerContent mounted start!');
     this.$store.dispatch('follow/showFollower', this.userId).then(function () {
       return _this.loading = false;
     });
+  },
+  methods: {
+    methodName: function methodName() {}
   }
 });
 
@@ -2743,6 +2758,47 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mixins: [_mixins_multipost_aboidable__WEBPACK_IMPORTED_MODULE_1__.default],
@@ -2751,7 +2807,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      loading: true
+      loading: true,
+      isActive: ''
     };
   },
   computed: {
@@ -2783,6 +2840,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }).then(function () {
       return _this.loading = false;
     });
+    var path = this.$route.name;
+
+    if (path === 'mypage') {
+      this.isActive = '1';
+    } else if (path === 'follow') {
+      this.isActive = '2';
+    } else if (path === 'follower') {
+      this.isActive = '3';
+    } else if (path === 'mytag') {
+      this.isActive = '4';
+    } else if (path === 'mylikes') {
+      this.isActive = '5';
+    }
   },
   methods: {
     pushFollow: function pushFollow() {
@@ -2852,6 +2922,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee4);
       }))();
+    },
+    changeTab: function changeTab(val) {
+      this.isActive = val;
     }
   }
   /*     watch: {
@@ -3036,12 +3109,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -3166,7 +3233,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     userId: String
@@ -3230,7 +3296,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-//
 //
 //
 //
@@ -4607,8 +4672,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -11440,7 +11503,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-17865555]{\n    margin: 3rem 0.5rem 2rem;\n    background: linear-gradient(transparent 70%, #CFCABF 70%);\n}\n.follow-content[data-v-17865555]{\n    padding: 2% 1%;\n    border-bottom: 1px solid #CFCABF;\n}\n.follow-content .follow-body[data-v-17865555]{\n    padding: 0 0 0 60px;\n}\n.card-img[data-v-17865555]{\n    width: 50px;\n    height: 50px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n    float: left;\n}\n.loader-space[data-v-17865555]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n    opacity: 0.6;\n}\n.loader[data-v-17865555]{\n    position:fixed;\n    top:26%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-17865555]{\n        margin: 3rem 0.5rem 2rem;\n        background: linear-gradient(transparent 70%, #08415C 70%);\n}\n.follows[data-v-17865555]{\n        margin-bottom: 5rem;\n}\n.follow-content[data-v-17865555]{\n        padding: 2% 1%;\n        border-bottom: 1px solid #08415C;\n}\n.follow-content .follow-body[data-v-17865555]{\n        padding: 0 0 0 60px;\n}\n.card-img[data-v-17865555]{\n        width: 50px;\n        height: 50px;\n        -o-object-fit: cover;\n           object-fit: cover;\n        border-radius: 50%;\n        float: left;\n}\n.loader-space[data-v-17865555]{\n        width: 100%;\n        height: 20vh;\n        position: relative;\n}\n.loader[data-v-17865555]{\n        position: absolute;\n        left: 50%;\n        transform: translateX(-50%);\n        -webkit-transform: translateX(-50%);\n        -ms-transform: translateX(-50%);\n}\n@media(max-width: 767px){\nh2[data-v-17865555]{\n    display: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11464,7 +11527,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-45146188]{\n    margin: 3rem 0.5rem 2rem;\n    background: linear-gradient(transparent 70%, #CFCABF 70%);\n}\n.follow-content[data-v-45146188]{\n    padding: 2% 1%;\n    border-bottom: 1px solid #CFCABF;\n}\n.follow-content .follow-body[data-v-45146188]{\n    padding: 0 0 0 60px;\n}\n.card-img[data-v-45146188]{\n    width: 50px;\n    height: 50px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n    float: left;\n}\n.loader-space[data-v-45146188]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n}\n.loader[data-v-45146188]{\n    position:fixed;\n    top:26%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-45146188]{\n        margin: 3rem 0.5rem 2rem;\n        background: linear-gradient(transparent 70%, #08415C 70%);\n}\n.follows[data-v-45146188]{\n      margin-bottom: 5rem;\n}\n.follow-content[data-v-45146188]{\n        padding: 2% 1%;\n        border-bottom: 1px solid #08415C;\n}\n.follow-content .follow-body[data-v-45146188]{\n        padding: 0 0 0 60px;\n}\n.card-img[data-v-45146188]{\n        width: 50px;\n        height: 50px;\n        -o-object-fit: cover;\n           object-fit: cover;\n        border-radius: 50%;\n        float: left;\n}\n.loader-space[data-v-45146188]{\n        width: 100%;\n        height: 20vh;\n        position: relative;\n}\n.loader[data-v-45146188]{\n        position: absolute;\n        left: 50%;\n        transform: translateX(-50%);\n        -webkit-transform: translateX(-50%);\n        -ms-transform: translateX(-50%);\n}\n@media(max-width: 767px){\nh2[data-v-45146188]{\n    display: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11488,7 +11551,31 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.page[data-v-4eda792f]{\n    position: -webkit-sticky;\n    position: sticky;\n    top: 5%;\n}\n.mypage-profile[data-v-4eda792f]{\n    text-align: center;\n    padding: 12% 0;\n}\n.mypage-profile p[data-v-4eda792f]{\n    margin-bottom: 0;\n}\n.mypage-profile .name[data-v-4eda792f]{\n    padding-top: 5%;\n}\n.userInfo__icon[data-v-4eda792f]{\n    width: 65px;\n    height: 65px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n}\n.loader-space[data-v-4eda792f]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n    padding: 45%;\n}\n.loader[data-v-4eda792f]{\n    position:fixed;\n    top:21%;\n}\n.mypage-profile .link[data-v-4eda792f]{\n    clear: both;\n    padding: 5% 0 7%;\n}\n.mypage-profile .ff[data-v-4eda792f]{\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding: 1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.mypage-profile .follow[data-v-4eda792f]{\n    display: inline-block;\n    width: 45%;\n    padding:1% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]:hover{\n    background-color: blue;\n    color: #fff;\n}\n.attribute p[data-v-4eda792f]{\n    display: inline;\n}\nul[data-v-4eda792f]{\n    list-style: none;\n}\nul a li[data-v-4eda792f]{\n    padding:1rem 1rem;\n    border-top: 1px solid #CFCABF;\n    color: #443311;\n}\nul li[data-v-4eda792f]:hover{\n    background-color: #CFCABF;\n    color: #fff;\n}\nul > a[data-v-4eda792f]:hover {\n    color: #fff;\n}\n.shokai[data-v-4eda792f]{\n    text-align: center;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.mypage-profile[data-v-4eda792f]{\n        text-align: center;\n        padding: 12% 0;\n}\n.mypage-profile p[data-v-4eda792f]{\n        margin-bottom: 0;\n}\n.mypage-profile .name[data-v-4eda792f]{\n        padding-top: 5%;\n        font-size: 1.5rem;\n}\n.mypage-profile .id[data-v-4eda792f]{\n      color: grey;\n}\n.userInfo__icon[data-v-4eda792f]{\n        width: 65px;\n        height: 65px;\n        -o-object-fit: cover;\n           object-fit: cover;\n        border-radius: 50%;\n}\n.loader-space[data-v-4eda792f]{\n        width: 100%;\n        height: 20vh;\n        position: relative;\n}\n.loader[data-v-4eda792f]{\n        position: absolute;\n        left: 50%;\n        transform: translateX(-50%);\n        -webkit-transform: translateX(-50%);\n        -ms-transform: translateX(-50%);\n}\n.mypage-profile .link[data-v-4eda792f]{\n        clear: both;\n        padding: 5% 0 7%;\n}\n.mypage-profile .ff[data-v-4eda792f]{\n        text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]{\n        display: inline-block;\n        width: 45%;\n        padding: 1% 4%;\n        border: 1px solid #2983FD;\n        border-radius: 6px;\n        font-size: 1.3rem;\n        cursor: pointer;\n        background-color: #2983FD;\n        color: #fff;\n        text-align: center;\n}\n.mypage-profile .follow[data-v-4eda792f]{\n        display: inline-block;\n        width: 45%;\n        padding:1% 4%;\n        border: 1px solid #2983FD;\n        border-radius: 6px;\n        font-size: 1.3rem;\n        cursor: pointer;\n        text-align: center;\n}\n.mypage-profile .unfollow[data-v-4eda792f]:hover{\n        background-color: blue;\n        color: #fff;\n}\n.attribute p[data-v-4eda792f]{\n        display: inline;\n}\nul[data-v-4eda792f]{\n        list-style: none;\n}\nul a li[data-v-4eda792f]{\n        padding:1rem 1rem;\n        border-top: 1px solid #08415C;\n        color: #443311;\n}\n.smList[data-v-4eda792f]{\n      display: none;\n}\nul li[data-v-4eda792f]:hover{\n        background-color: #08415C;\n        color: #fff;\n}\nul > a[data-v-4eda792f]:hover {\n        color: #fff;\n}\n.shokai[data-v-4eda792f]{\n        text-align: center;\n}\n@media(max-width: 767px){\n.page i[data-v-4eda792f]{\n    font-size: 1.5rem;\n    color: grey;\n}\n.mypage-profile[data-v-4eda792f]{\n    padding:12% 0 1rem;\n}\n.tab[data-v-4eda792f]{\n    position: -webkit-sticky;\n    position: sticky;\n    top:0;\n    width: 100%;\n    z-index: 200;\n}\nul[data-v-4eda792f]{\n    padding:0;\n    overflow: hidden;\n    display: flex;\n    flex-wrap: nowrap;\n    justify-content: space-between;\n    border-bottom: 1px solid darkgrey;\n}\nul a li[data-v-4eda792f]{\n    padding:1rem 0.4rem 0.2rem;\n    float: left;\n    border-top: none;\n}\nul a .active[data-v-4eda792f]{\n    border-bottom: 3px solid #08415C;\n    cursor: auto;\n}\nul li[data-v-4eda792f]:hover{\n    font-size: bold;\n    color: #08415C;\n    background-color: #fff;\n}\n.pcList[data-v-4eda792f]{\n    display: none;\n}\n.smList[data-v-4eda792f]{\n    display: flex;\n}\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n@media(max-width:767px){\n.row[data-v-15798219]{\n    flex-direction: column;\n}\n.order1[data-v-15798219]{\n    order: 1;\n}\n.order2[data-v-15798219]{\n    order: 2;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11512,7 +11599,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-76a3ec95]{\n    padding: 4%;\n    font-size: 2rem;\n    background-color: #CFCABF;\n    box-shadow: 1px 1px 6px grey;\n    border-radius: 5px;\n    background: linear-gradient(transparent 0%, #CFCABF 95%);\n}\n.timeline[data-v-76a3ec95]:hover{\n    opacity: 0.5;\n    cursor: pointer;\n}\n.page-content[data-v-76a3ec95]{\n    margin:4% 0;\n    border-bottom: 1px solid #CFCABF;\n}\n.post_image[data-v-76a3ec95]{\n    width: 16vw;;\n    float: left;\n}\n.page-content p[data-v-76a3ec95]{\n    margin: 0;\n    font-size: 0.8em;\n    color: #859099;\n    clear: both;\n}\n.page-content span[data-v-76a3ec95]{\n    padding: 2% 0 0;\n    position: relative;\n    left: 3%;\n}\n.page-content .tags[data-v-76a3ec95]{\n    display: inline-flex;\n}\n.page-content ul[data-v-76a3ec95] {\n    list-style: none;\n}\n.loader-space[data-v-76a3ec95]{\n    width: 100%;\n    text-align: center;\n    padding: 7% 0;\n    margin: 10% 0 ;\n}\n.loader[data-v-76a3ec95]{\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-76a3ec95]{\n        padding: 4%;\n        font-size: 2rem;\n        background-color: #08415C;\n        box-shadow: 1px 1px 6px grey;\n        border-radius: 5px;\n        background: linear-gradient(transparent 0%, #08415C 95%);\n}\n.timeline[data-v-76a3ec95]:hover{\n        opacity: 0.5;\n        cursor: pointer;\n}\n.page-content[data-v-76a3ec95]{\n        margin:4% 0;\n        border-bottom: 1px solid #08415C;\n}\n.post_image[data-v-76a3ec95]{\n        width: 16vw;;\n        float: left;\n}\n.page-content p[data-v-76a3ec95]{\n        margin: 0;\n        font-size: 0.8em;\n        color: #859099;\n        clear: both;\n}\n.page-content span[data-v-76a3ec95]{\n        padding: 2% 0 0;\n        position: relative;\n        left: 3%;\n        overflow: hidden;\n}\n.page-content .tags[data-v-76a3ec95]{\n        display: inline-flex;\n}\n.page-content ul[data-v-76a3ec95] {\n        list-style: none;\n}\n.loader-space[data-v-76a3ec95]{\n        width: 100%;\n        height: 20vh;\n        position: relative;\n}\n.loader[data-v-76a3ec95]{\n        position: absolute;\n        left: 50%;\n        transform: translateX(-50%);\n        -webkit-transform: translateX(-50%);\n        -ms-transform: translateX(-50%);\n}\n@media(max-width: 767px){\nh2[data-v-76a3ec95]{\n    display: none;\n}\n.post_image[data-v-76a3ec95]{\n    width: 50%;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11536,7 +11623,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-11c95950]{\n    margin: 3rem 0.5rem 2rem;\n    background: linear-gradient(transparent 70%, #CFCABF 70%);\n}\n.likes[data-v-11c95950]{\n    display: flex;\n    flex-wrap: wrap;\n    align-content: space-between;\n}\n.content[data-v-11c95950]{\n    width: 22%;\n    margin: 1% 1%;\n    cursor: pointer;\n}\n.content[data-v-11c95950]:hover{\n    opacity: 0.5;\n}\n.card-img[data-v-11c95950]{\n}\n.loader-space[data-v-11c95950]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n}\n.loader[data-v-11c95950]{\n    position:fixed;\n    top:26%;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-11c95950]{\n        margin: 3rem 0.5rem 2rem;\n        background: linear-gradient(transparent 70%, #08415C 70%);\n}\n.likes[data-v-11c95950]{\n        display: flex;\n        flex-wrap: wrap;\n        align-content: space-between;\n        margin-bottom: 5rem;\n}\n.content[data-v-11c95950]{\n        width: 22%;\n        margin: 1% 1%;\n        cursor: pointer;\n}\n.content[data-v-11c95950]:hover{\n        opacity: 0.5;\n}\n.card-img[data-v-11c95950]{\n}\n.loader-space[data-v-11c95950]{\n        width: 100%;\n        height: 20vh;\n        position: relative;\n}\n.loader[data-v-11c95950]{\n        position: absolute;\n        left: 50%;\n        transform: translateX(-50%);\n        -webkit-transform: translateX(-50%);\n        -ms-transform: translateX(-50%);\n}\n@media(max-width: 767px){\nh2[data-v-11c95950]{\n    display: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11560,7 +11647,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-57655c45]{\n    margin: 3rem 0.5rem 2rem;\n    background: linear-gradient(transparent 70%, #CFCABF 70%);\n}\nul[data-v-57655c45]{\n    padding: 0;\n    list-style: none;\n}\nul > li[data-v-57655c45]{\n    border: 1px solid #CFCABF;\n    border-radius: 7px;\n    display: inline-block;\n    padding: 0.5% 1%;\n    margin: 0.5% 0.5%;\n    cursor: pointer;\n}\nul > li[data-v-57655c45]:hover{\n    background-color: #CFCABF;\n    color: #FFF;\n}\nul > li > p[data-v-57655c45]{\n    margin: 0;\n    display: inline;\n}\n.loader-space[data-v-57655c45]{\n    width: 100%;\n    height: 100%;\n    text-align: center;\n}\n.loader[data-v-57655c45]{\n    position:fixed;\n    top:26%;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nh2[data-v-57655c45]{\n        margin: 3rem 0.5rem 2rem;\n        background: linear-gradient(transparent 70%, #08415C 70%);\n}\n.mytag[data-v-57655c45]{\n      margin-bottom: 5rem;\n}\nul[data-v-57655c45]{\n        padding: 0;\n        list-style: none;\n}\nul > li[data-v-57655c45]{\n        border: 1px solid #73877B;\n        border-radius: 7px;\n        display: inline-block;\n        padding: 0.5% 1%;\n        margin: 0.5% 0.5%;\n        cursor: pointer;\n}\nul > li[data-v-57655c45]:hover{\n        background-color: #73877B;\n        color: #FFF;\n}\nul > li > p[data-v-57655c45]{\n        margin: 0;\n        display: inline;\n}\n.loader-space[data-v-57655c45]{\n        width: 100%;\n        height: 20vh;\n        position: relative;\n}\n.loader[data-v-57655c45]{\n        position: absolute;\n        left: 50%;\n        transform: translateX(-50%);\n        -webkit-transform: translateX(-50%);\n        -ms-transform: translateX(-50%);\n}\n@media(max-width: 767px){\nh2[data-v-57655c45]{\n    display: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11776,7 +11863,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper[data-v-7ba11584]{\n    background-color: #EDF2F7;\n}\n.pages[data-v-7ba11584]{\n    padding-top: 150px;\n}\n.comment[data-v-7ba11584]{\n    box-shadow: 2px 2px 9px lightgrey;\n    background-color: #FFF;\n    border-radius: 10px;\n    margin-top: 5%;\n}\n.contents-profile[data-v-7ba11584]{\n    box-shadow: 2px 2px 9px lightgrey;\n    background-color: #FFF;\n    border-radius: 10px;\n    margin: 6% auto;\n    padding: 5%;\n}\n.contents-profile h3[data-v-7ba11584] {\n    font-size: 1.3rem;\n}\n.contents-profile .name-id[data-v-7ba11584]{\n    float: left;\n}\n.contents-profile .pro_name[data-v-7ba11584]{\n    padding: 2% 0 0;\n    margin-bottom: 0;\n}\n.contents-profile .follow-unfollow[data-v-7ba11584]{\n    text-align: right;\n}\n.contents-profile .follow[data-v-7ba11584]{\n    display: inline-block;\n    border: 1px solid #CFCABF;\n    border-radius: 5%;\n    padding:7px;\n    cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]{\n    display: inline-block;\n    border: 1px solid #CFCABF;\n    border-radius: 5%;\n    padding:7px;\n    cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]:hover{\n    background-color: #2983FD;\n    color: #FFF;\n}\n.contents-profile .follow[data-v-7ba11584]:hover{\n    background-color: #2983FD;\n    color: #FFF;\n}\n.contents-profile .follower[data-v-7ba11584]{\n    clear: both;\n}\n.follower p[data-v-7ba11584] {\n    display: inline;\n    font-size: 0.8rem;\n    color: #859099;\n}\n.contents-profile hr[data-v-7ba11584]{\n    border-width: 1px 0 0 0;\n    border-style: solid;\n    border-color: #CFCABF;\n}\n.created-time[data-v-7ba11584]{\n    font-size: 0.9em;\n    color: #859099;\n}\n.contents-description[data-v-7ba11584]{\n    padding: 3%;\n}\n.sub[data-v-7ba11584]{\n    margin-left: 5%;\n}\n.individual-profile[data-v-7ba11584]{\n    box-shadow: 2px 2px 9px lightgrey;\n    background-color: #fff;\n    border-radius: 10px;\n    position: -webkit-sticky;\n    position: sticky;\n    top: 3%;\n}\n.individual-profile img[data-v-7ba11584]{\n    margin: 5%;\n}\n.individual-profile .pro_name[data-v-7ba11584]{\n    margin-bottom: 0;\n    padding: 5% 0 0;\n}\n.individual-profile a[data-v-7ba11584]{\n    font-size:1.2rem;\n}\n.individual-profile .link[data-v-7ba11584]{\n    clear: both;\n    padding-bottom: 7%;\n}\n.individual-profile .ff[data-v-7ba11584]{\n    text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]{\n    display: inline-block;\n    width: 90%;\n    padding: 3% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    background-color: #2983FD;\n    color: #fff;\n    text-align: center;\n}\n.individual-profile .follow[data-v-7ba11584]{\n    display: inline-block;\n    width: 90%;\n    padding: 3% 4%;\n    border: 1px solid #2983FD;\n    border-radius: 6px;\n    font-size: 1.3rem;\n    cursor: pointer;\n    text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]:hover{\n    background-color: blue;\n    color: #fff;\n}\n.individual-tags[data-v-7ba11584]{\n    box-shadow: 2px 2px 9px lightgrey;\n    background-color: #fff;\n    border-radius: 10px;\n    margin: 13% 0;\n    position: -webkit-sticky;\n    position: sticky;\n    top: 22%;\n}\n.individual-tags h3[data-v-7ba11584]{\n    text-align: center;\n    padding: 3% 0;\n}\n.individual-tags ul[data-v-7ba11584]{\n    padding: 5%;\n}\n.individual-tags li[data-v-7ba11584]{    \n    list-style: none;\n    border: 1px solid #CFCABF;\n    border-radius: 7px;\n    display: inline-block;\n    padding: 1% 2%;\n    margin: 2% 3% 3% 3%;\n    cursor: pointer;\n}\n.individual-tags li[data-v-7ba11584]:hover{\n    background-color: #CFCABF;\n}\n.icon-photo[data-v-7ba11584]{\n    width: 50px;\n    height: 50px;\n    -o-object-fit: cover;\n       object-fit: cover;\n    border-radius: 50%;\n    float: left;\n    margin: 1% 2% 0 0;\n}\n.contents-photo[data-v-7ba11584]{\n    box-shadow: 2px 2px 10px darkgrey;\n    width: 100%;\n}\n.menu[data-v-7ba11584]{\n    text-align: center;\n    position: fixed;\n}\n.curcle[data-v-7ba11584]{\n    position: relative;\n    border: 1px solid #fff;\n    background-color: #fff;\n    border-radius: 50%;\n    width: 3rem;\n    height: 3rem;\n    padding:24%;\n    box-shadow: 2px 2px 5px lightgrey;\n}\n.menu p[data-v-7ba11584]{\n    display: inline;\n    margin: 0;\n}\n.menu .twitter[data-v-7ba11584]{\n    font-size: 1.7rem;\n    color: grey;\n    cursor: pointer;\n}\n.menu .twitter[data-v-7ba11584]:hover{\n    color: #000;\n}\n.favorite[data-v-7ba11584]{\n    font-size: 1.2rem;\n    vertical-align: middle;\n    cursor: pointer;\n}\n.favorite2[data-v-7ba11584]{\n    font-size: 1.2rem;\n    color: #F66685;\n    vertical-align: middle;\n    cursor: pointer;\n}\n.favorite[data-v-7ba11584]:hover{\n    color: red;\n}\n.favorite2[data-v-7ba11584]:hover{\n    color: red;\n}\n.overlay[data-v-7ba11584]{\n    z-index:1;\n    position:fixed;\n    top:0;\n    left:0;\n    width:100%;\n    height:100%;\n    background-color:rgba(0,0,0,0.5);\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.modalLogin[data-v-7ba11584]{\n    position:relative;\n    z-index: 2;\n    width: 30%;\n    padding: 1em;\n    background-color: #fff;\n    text-align: center;\n    border-radius: 7px;\n    box-shadow: 2px 2px 6px lightgrey;\n}\n.batsu[data-v-7ba11584]{\n    font-size:2em;\n    cursor: pointer;\n    position: absolute;\n    top: -1.3rem;\n    right: -0.8rem;\n    border-radius: 50%;\n    border: 1px solid #fff;\n    padding: 0.5rem;\n    background-color: #fff;\n    width: 2.4rem;\n    height: 2.4rem;\n    box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-7ba11584]{\n    width: 1rem;\n    height: 1rem;\n    position: absolute;\n    top: 0.6rem;\n    right: 0.65rem;\n    font-size: 1.3rem;\n}\n.modalLogin p[data-v-7ba11584]{\n    margin: 7% 0;\n}\n.modalBtn[data-v-7ba11584]{\n    margin: 5% 0;\n}\n.registerBtn[data-v-7ba11584]{\n    border: 1px solid blue;\n    border-radius: 5px;\n    background: #DEF2FF;\n    padding: 3% 7%;\n    margin: 0 2%;\n}\n.loginBtn[data-v-7ba11584]{\n    border: 1px solid blue;\n    border-radius: 5px;\n    background: #DEF2FF;\n    padding: 3% 7%;\n    margin: 0 2%;\n}\n.registerBtn[data-v-7ba11584]:hover{\n    opacity: 0.6;\n}\n.loginBtn[data-v-7ba11584]:hover{\n    opacity: 0.6;\n}\n.modalLogin .logo[data-v-7ba11584]{\n    height: 90px;\n    margin: 5% 0 0;\n}\n.loader-space[data-v-7ba11584]{\n    width: 100%;\n    height: 20vh;\n    top: 0;\n    left: 0;\n    position: absolute;\n}\n.loader[data-v-7ba11584]{\n    position: absolute;\n    top: -0.6rem;\n    left: -0.6rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper[data-v-7ba11584]{\n        background-color: #EDF2F7;\n}\n.pages[data-v-7ba11584]{\n        padding-top: 150px;\n}\n.comment[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #FFF;\n        border-radius: 10px;\n        margin-top: 5%;\n}\n.contents-profile[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #FFF;\n        border-radius: 10px;\n        margin: 6% auto;\n        padding: 5%;\n}\n.contents-profile h3[data-v-7ba11584] {\n        font-size: 1.3rem;\n}\n.contents-profile .name-id[data-v-7ba11584]{\n        float: left;\n}\n.contents-profile .pro_name[data-v-7ba11584]{\n        padding: 2% 0 0;\n        margin-bottom: 0;\n}\n.contents-profile .follow-unfollow[data-v-7ba11584]{\n        text-align: right;\n}\n.contents-profile .follow[data-v-7ba11584]{\n        display: inline-block;\n        border: 1px solid #CFCABF;\n        border-radius: 5%;\n        padding:7px;\n        cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]{\n        display: inline-block;\n        border: 1px solid #CFCABF;\n        border-radius: 5%;\n        padding:7px;\n        cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]:hover{\n        background-color: #2983FD;\n        color: #FFF;\n}\n.contents-profile .follow[data-v-7ba11584]:hover{\n        background-color: #2983FD;\n        color: #FFF;\n}\n.contents-profile .follower[data-v-7ba11584]{\n        clear: both;\n}\n.follower p[data-v-7ba11584] {\n        display: inline;\n        font-size: 0.8rem;\n        color: #859099;\n}\n.contents-profile hr[data-v-7ba11584]{\n        border-width: 1px 0 0 0;\n        border-style: solid;\n        border-color: #CFCABF;\n}\n.created-time[data-v-7ba11584]{\n        font-size: 0.9em;\n        color: #859099;\n}\n.contents-description[data-v-7ba11584]{\n        padding: 3%;\n}\n.sub[data-v-7ba11584]{\n        margin-left: 5%;\n}\n.individual-profile[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #fff;\n        border-radius: 10px;\n        position: -webkit-sticky;\n        position: sticky;\n        top: 3%;\n}\n.individual-profile img[data-v-7ba11584]{\n        margin: 5%;\n}\n.individual-profile .pro_name[data-v-7ba11584]{\n        margin-bottom: 0;\n        padding: 5% 0 0;\n}\n.individual-profile a[data-v-7ba11584]{\n        font-size:1.2rem;\n}\n.individual-profile .link[data-v-7ba11584]{\n        clear: both;\n        padding-bottom: 7%;\n}\n.individual-profile .ff[data-v-7ba11584]{\n        text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]{\n        display: inline-block;\n        width: 90%;\n        padding: 3% 4%;\n        border: 1px solid #2983FD;\n        border-radius: 6px;\n        font-size: 1.3rem;\n        cursor: pointer;\n        background-color: #2983FD;\n        color: #fff;\n        text-align: center;\n}\n.individual-profile .follow[data-v-7ba11584]{\n        display: inline-block;\n        width: 90%;\n        padding: 3% 4%;\n        border: 1px solid #2983FD;\n        border-radius: 6px;\n        font-size: 1.3rem;\n        cursor: pointer;\n        text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]:hover{\n        background-color: blue;\n        color: #fff;\n}\n.individual-tags[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #fff;\n        border-radius: 10px;\n        margin: 13% 0;\n        position: -webkit-sticky;\n        position: sticky;\n        top: 22%;\n}\n.individual-tags h3[data-v-7ba11584]{\n        text-align: center;\n        padding: 3% 0;\n}\n.individual-tags ul[data-v-7ba11584]{\n        padding: 5%;\n}\n.individual-tags li[data-v-7ba11584]{    \n        list-style: none;\n        border: 1px solid #08415C;\n        border-radius: 7px;\n        display: inline-block;\n        padding: 1% 2%;\n        margin: 2% 3% 3% 3%;\n        cursor: pointer;\n}\n.individual-tags li[data-v-7ba11584]:hover{\n        background-color: #08415C;\n}\n.icon-photo[data-v-7ba11584]{\n        width: 50px;\n        height: 50px;\n        -o-object-fit: cover;\n           object-fit: cover;\n        border-radius: 50%;\n        float: left;\n        margin: 1% 2% 0 0;\n}\n.contents-photo[data-v-7ba11584]{\n        box-shadow: 2px 2px 10px darkgrey;\n        width: 100%;\n}\n.menu[data-v-7ba11584]{\n        text-align: center;\n        position: fixed;\n}\n.curcle[data-v-7ba11584]{\n        position: relative;\n        border: 1px solid #fff;\n        background-color: #fff;\n        border-radius: 50%;\n        width: 3rem;\n        height: 3rem;\n        padding:24%;\n        box-shadow: 2px 2px 5px lightgrey;\n}\n.menu p[data-v-7ba11584]{\n        display: inline;\n        margin: 0;\n}\n.menu .twitter[data-v-7ba11584]{\n        font-size: 1.7rem;\n        color: grey;\n        cursor: pointer;\n}\n.menu .twitter[data-v-7ba11584]:hover{\n        color: #000;\n}\n.favorite[data-v-7ba11584]{\n        font-size: 1.2rem;\n        vertical-align: middle;\n        cursor: pointer;\n}\n.favorite2[data-v-7ba11584]{\n        font-size: 1.2rem;\n        color: #F66685;\n        vertical-align: middle;\n        cursor: pointer;\n}\n.favorite[data-v-7ba11584]:hover{\n        color: red;\n}\n.favorite2[data-v-7ba11584]:hover{\n        color: red;\n}\n.heartLoader[data-v-7ba11584]{\n        position: absolute;\n        top: 50%;\n        left: 50%;\n        transform: translate(-50%, -50%) scale(0.4);\n        -webkit-transform: translate(-50%, -50%) scale(0.4);\n        -ms-transform: translate(-50%, -50%) scale(0.4);\n}\n.overlay[data-v-7ba11584]{\n        z-index:1;\n        position:fixed;\n        top:0;\n        left:0;\n        width:100%;\n        height:100%;\n        background-color:rgba(0,0,0,0.5);\n        display: flex;\n        align-items: center;\n        justify-content: center;\n}\n.modalLogin[data-v-7ba11584]{\n        position:relative;\n        z-index: 2;\n        width: 30%;\n        padding: 1em;\n        background-color: #fff;\n        text-align: center;\n        border-radius: 7px;\n        box-shadow: 2px 2px 6px lightgrey;\n}\n.batsu[data-v-7ba11584]{\n        font-size:2em;\n        cursor: pointer;\n        position: absolute;\n        top: -1.3rem;\n        right: -0.8rem;\n        border-radius: 50%;\n        border: 1px solid #fff;\n        padding: 0.5rem;\n        background-color: #fff;\n        width: 2.4rem;\n        height: 2.4rem;\n        box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-7ba11584]{\n        width: 1rem;\n        height: 1rem;\n        position: absolute;\n        top: 0.6rem;\n        right: 0.65rem;\n        font-size: 1.3rem;\n}\n.modalLogin p[data-v-7ba11584]{\n        margin: 7% 0;\n}\n.modalBtn[data-v-7ba11584]{\n        margin: 5% 0;\n}\n.registerBtn[data-v-7ba11584]{\n        border: 1px solid blue;\n        border-radius: 5px;\n        background: #DEF2FF;\n        padding: 3% 7%;\n        margin: 0 2%;\n}\n.loginBtn[data-v-7ba11584]{\n        border: 1px solid blue;\n        border-radius: 5px;\n        background: #DEF2FF;\n        padding: 3% 7%;\n        margin: 0 2%;\n}\n.registerBtn[data-v-7ba11584]:hover{\n        opacity: 0.6;\n}\n.loginBtn[data-v-7ba11584]:hover{\n        opacity: 0.6;\n}\n.modalLogin .logo[data-v-7ba11584]{\n        height: 90px;\n        margin: 5% 0 0;\n}\n.loader-space[data-v-7ba11584]{\n        width: 100%;\n        height: 20vh;\n        top: 0;\n        left: 0;\n        position: absolute;\n}\n.loader[data-v-7ba11584]{\n        position: absolute;\n        top: -0.6rem;\n        left: -0.6rem;\n}\n@media(max-width:767px){\n.row[data-v-7ba11584]{\n    flex-direction: column;\n}\n.pages[data-v-7ba11584]{\n    padding-top: 3rem;\n}\n.col-md-7[data-v-7ba11584]{\n    display: flex;\n    flex-direction: column;\n}\n.col-md-3[data-v-7ba11584]{\n    display: flex;\n    flex-direction: column;\n}\n.order1[data-v-7ba11584]{\n    order: 1;\n}\n.order2[data-v-7ba11584]{\n    order: 2;\n}\n.order3[data-v-7ba11584]{\n    order: 3;\n}\n.contents-profile[data-v-7ba11584]{\n    margin: 0 0 2% 0;\n}\n.individual-profile[data-v-7ba11584]{\n    display: none;\n}\n.sub[data-v-7ba11584]{\n    margin-left: 0;\n}\n.menu[data-v-7ba11584]{\n    display: flex;\n    z-index: 100;\n    bottom: 0;\n    right: 0;\n}\n.curcle[data-v-7ba11584]{\n    position: absolute;\n    bottom: 4rem;\n    right: 2rem;\n    width: 5rem;\n    height: 5rem;\n}\n.favorite[data-v-7ba11584]{\n    font-size: 2.6rem;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n}\n.favorite2[data-v-7ba11584]{\n    font-size: 2.6rem;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n}\n.heartLoader[data-v-7ba11584]{\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%) scale(0.7);\n    -webkit-transform: translate(-50%, -50%) scale(0.7);\n    -ms-transform: translate(-50%, -50%) scale(0.7);\n}\n.menu p[data-v-7ba11584]{\n    position: absolute;\n    bottom: 4rem;\n    right: 4.2rem;\n}\n.menu .twitter[data-v-7ba11584]{\n    position: absolute;\n    bottom: 9.7rem;\n    right: 3.1rem;\n    font-size: 2.5rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -11800,7 +11887,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.icon_comment[data-v-13a617f1]{\n    width: 50px;\n    height: 50px;\n    border-radius: 50%;\n    -o-object-fit: cover;\n       object-fit: cover;\n    float: left;\n}\nul[data-v-13a617f1]{\n    list-style: none;\n}\nli[data-v-13a617f1]{\n    padding-top:25px;\n}\na:hover .login_id[data-v-13a617f1]{\n    text-decoration: none;\n}\n.login_id[data-v-13a617f1]{\n    margin: 3px;\n    color: #E1544F;\n}\n.time[data-v-13a617f1]{\n    font-size: .8em;\n    color: #859099;\n}\n.balloon[data-v-13a617f1]{\n    width: 100%;\n    text-align: left;\n}\n.says[data-v-13a617f1]{\n    box-shadow: 2px 2px 2px lightgrey;\n    width: 80%;\n    display: inline-block;\n    position: relative; \n    margin: 0 0 0 50px;\n    padding: 10px;\n    max-width: 80%;\n    border-radius: 12px;\n    background: #edf1ee;\n}\n.says[data-v-13a617f1]:after {\n    content: \"\";\n    display: inline-block;\n    position: absolute;\n    top: 3px; \n    left: -19px;\n    border: 8px solid transparent;\n    border-right: 18px solid #edf1ee;\n    transform: rotate(40deg);\n}\n.message[data-v-13a617f1]{\n    margin-bottom: 0.5em;\n    clear: both;\n}\n.reply[data-v-13a617f1]{\n    color: #2983FD;\n    position: relative;\n    top: 26px;\n    right: 20px;\n    font-size: 1.6em;\n    cursor:pointer;\n}\nform[data-v-13a617f1]{\n    display: block;\n    margin: 0 auto;\n    width: 90%;\n    padding: 10% 0 10%;\n}\n.textarea[data-v-13a617f1]{\n    width: 100%;\n    border-radius: 10px;\n    border: 1.5px solid #CFCABF;\n    resize: none;\n}\n.comment-btn[data-v-13a617f1]{\n    display: block;\n    margin: 2% 0 0 auto;\n    border: 1.5px solid #CFCABF;\n    border-radius: 2%;\n    width: 13rem;\n    height: 3rem;\n    background-color: #fff;\n    position: relative;\n}\n.comment-btn[data-v-13a617f1]:hover{\n    background-color: #CFCABF;\n}\n.comment-btn p[data-v-13a617f1]{\n  margin: 0;\n}\n.loader-space[data-v-13a617f1]{\n    width: 100%;\n    height: 20vh;\n    top: 0;\n    left: 0;\n    position: absolute;\n}\n.loader[data-v-13a617f1]{\n    position: absolute;\n    top: -0.6rem;\n    left: 4.4rem;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.icon_comment[data-v-13a617f1]{\n        width: 50px;\n        height: 50px;\n        border-radius: 50%;\n        -o-object-fit: cover;\n           object-fit: cover;\n        float: left;\n}\nul[data-v-13a617f1]{\n        list-style: none;\n}\nli[data-v-13a617f1]{\n        padding-top:25px;\n}\na:hover .login_id[data-v-13a617f1]{\n        text-decoration: none;\n}\n.login_id[data-v-13a617f1]{\n        margin: 3px;\n        color: #E1544F;\n}\n.time[data-v-13a617f1]{\n        font-size: .8em;\n        color: #859099;\n}\n.balloon[data-v-13a617f1]{\n        width: 100%;\n        text-align: left;\n}\n.says[data-v-13a617f1]{\n        box-shadow: 2px 2px 2px lightgrey;\n        width: 80%;\n        display: inline-block;\n        position: relative; \n        margin: 0 0 0 50px;\n        padding: 10px;\n        max-width: 80%;\n        border-radius: 12px;\n        background: #edf1ee;\n}\n.says[data-v-13a617f1]:after {\n        content: \"\";\n        display: inline-block;\n        position: absolute;\n        top: 3px; \n        left: -19px;\n        border: 8px solid transparent;\n        border-right: 18px solid #edf1ee;\n        transform: rotate(40deg);\n}\n.message[data-v-13a617f1]{\n        margin-bottom: 0.5em;\n        clear: both;\n}\n.reply[data-v-13a617f1]{\n        color: #2983FD;\n        position: relative;\n        top: 26px;\n        right: 20px;\n        font-size: 1.6em;\n        cursor:pointer;\n}\nform[data-v-13a617f1]{\n        display: block;\n        margin: 0 auto;\n        width: 90%;\n        padding: 10% 0 10%;\n}\n.textarea[data-v-13a617f1]{\n        width: 100%;\n        border-radius: 10px;\n        border: 1.5px solid #08415C;\n        resize: none;\n}\n.comment-btn[data-v-13a617f1]{\n        display: block;\n        margin: 2% 0 0 auto;\n        border: 1.5px solid #08415C;\n        border-radius: 2%;\n        width: 13rem;\n        height: 3rem;\n        background-color: #fff;\n        position: relative;\n}\n.comment-btn[data-v-13a617f1]:hover{\n        background-color: #08415C;\n}\n.comment-btn p[data-v-13a617f1]{\n      margin: 0;\n}\n.loader-space[data-v-13a617f1]{\n        width: 100%;\n        height: 20vh;\n        top: 0;\n        left: 0;\n        position: absolute;\n}\n.loader[data-v-13a617f1]{\n        position: absolute;\n        top: -0.6rem;\n        left: 4.4rem;\n}\n@media(max-width:767px){\nul[data-v-13a617f1]{\n    padding: 0;\n}\n.balloon[data-v-13a617f1]{\n    position: relative;\n}\n.reply[data-v-13a617f1]{\n    position: absolute;\n    top: 83%;\n    right: 0.7rem;\n}\n.textarea[data-v-13a617f1]{\n    height: 56vw;\n    font-size: 16px;\n    transform: scale(1.0);\n}\n}\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -34701,6 +34788,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_style_index_0_id_15798219_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_style_index_0_id_15798219_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_style_index_0_id_15798219_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageContent.vue?vue&type=style&index=0&id=76a3ec95&scoped=true&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageContent.vue?vue&type=style&index=0&id=76a3ec95&scoped=true&lang=css& ***!
@@ -36146,23 +36263,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _MypageComponent_vue_vue_type_template_id_15798219___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MypageComponent.vue?vue&type=template&id=15798219& */ "./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&");
+/* harmony import */ var _MypageComponent_vue_vue_type_template_id_15798219_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MypageComponent.vue?vue&type=template&id=15798219&scoped=true& */ "./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&scoped=true&");
 /* harmony import */ var _MypageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MypageComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/mypage/MypageComponent.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _MypageComponent_vue_vue_type_style_index_0_id_15798219_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css& */ "./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__.default)(
   _MypageComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _MypageComponent_vue_vue_type_template_id_15798219___WEBPACK_IMPORTED_MODULE_0__.render,
-  _MypageComponent_vue_vue_type_template_id_15798219___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _MypageComponent_vue_vue_type_template_id_15798219_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _MypageComponent_vue_vue_type_template_id_15798219_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  null,
+  "15798219",
   null
   
 )
@@ -37434,6 +37553,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css&":
+/*!*********************************************************************************************************************!*\
+  !*** ./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_style_index_0_id_15798219_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader/dist/cjs.js!../../../../node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=style&index=0&id=15798219&scoped=true&lang=css&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/mypage/MypageContent.vue?vue&type=style&index=0&id=76a3ec95&scoped=true&lang=css&":
 /*!*******************************************************************************************************************!*\
   !*** ./resources/js/components/mypage/MypageContent.vue?vue&type=style&index=0&id=76a3ec95&scoped=true&lang=css& ***!
@@ -37812,19 +37944,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&":
-/*!*******************************************************************************************!*\
-  !*** ./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219& ***!
-  \*******************************************************************************************/
+/***/ "./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&scoped=true&":
+/*!*******************************************************************************************************!*\
+  !*** ./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&scoped=true& ***!
+  \*******************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_template_id_15798219___WEBPACK_IMPORTED_MODULE_0__.render,
-/* harmony export */   "staticRenderFns": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_template_id_15798219___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns
+/* harmony export */   "render": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_template_id_15798219_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+/* harmony export */   "staticRenderFns": () => /* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_template_id_15798219_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_template_id_15798219___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MypageComponent.vue?vue&type=template&id=15798219& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_MypageComponent_vue_vue_type_template_id_15798219_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./MypageComponent.vue?vue&type=template&id=15798219&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&scoped=true&");
 
 
 /***/ }),
@@ -39133,7 +39265,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-8" }, [
+  return _c("div", { staticClass: "col-md-8 order2" }, [
     _c("h2", [_vm._v("フォローしているユーザー")]),
     _vm._v(" "),
     _c(
@@ -39150,9 +39282,9 @@ var render = function() {
         staticClass: "loader-space"
       },
       [
-        _c("vue-loaders-line-scale-pulse-out", {
+        _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#CFCABF", scale: "5" }
+          attrs: { color: "#DEF2FF" }
         })
       ],
       1
@@ -39235,7 +39367,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-8" }, [
+  return _c("div", { staticClass: "col-md-8 order2" }, [
     _c("h2", [_vm._v("フォローされているユーザー")]),
     _vm._v(" "),
     _c(
@@ -39252,9 +39384,9 @@ var render = function() {
         staticClass: "loader-space"
       },
       [
-        _c("vue-loaders-line-scale-pulse-out", {
+        _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#CFCABF", scale: "5" }
+          attrs: { color: "#DEF2FF" }
         })
       ],
       1
@@ -39293,11 +39425,17 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "follow-body" }, [
                   _c("h5", { staticClass: "follow-name" }, [
-                    _vm._v(_vm._s(follower.name))
+                    _vm._v(
+                      "\n            " + _vm._s(follower.name) + "\n          "
+                    )
                   ]),
                   _vm._v(" "),
                   _c("h6", { staticClass: "follow-id" }, [
-                    _vm._v(_vm._s(follower.login_id))
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(follower.login_id) +
+                        "\n          "
+                    )
                   ])
                 ])
               ]
@@ -39333,7 +39471,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-4" }, [
+  return _c("div", { staticClass: "col-md-4 order1" }, [
     _c(
       "div",
       {
@@ -39350,7 +39488,7 @@ var render = function() {
       [
         _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#DEF2FF", scale: "2" }
+          attrs: { color: "#DEF2FF" }
         })
       ],
       1
@@ -39377,28 +39515,28 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("p", { staticClass: "name" }, [
-            _vm._v("\n        " + _vm._s(_vm.id.name) + "さん\n      ")
+            _vm._v("\n        " + _vm._s(_vm.id.name) + "\n      ")
           ]),
           _vm._v(" "),
           _c("p", { staticClass: "id" }, [
             _vm._v("\n        @" + _vm._s(_vm.id.login_id) + "\n      ")
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "link" }, [
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.id.id != _vm.authUser.id,
-                    expression: "id.id != authUser.id"
-                  }
-                ],
-                staticClass: "ff"
-              },
-              [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.id.id != _vm.authUser.id,
+                  expression: "id.id != authUser.id"
+                }
+              ],
+              staticClass: "link"
+            },
+            [
+              _c("div", { staticClass: "ff" }, [
                 _c(
                   "div",
                   {
@@ -39432,40 +39570,8 @@ var render = function() {
                   },
                   [_c("i", { staticClass: "fas fa-user-check" })]
                 )
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.profile.website_url,
-                  expression: "profile.website_url"
-                }
-              ],
-              attrs: { href: "" + _vm.profile.website_url, target: "_blank" }
-            },
-            [_c("i", { staticClass: "fas fa-link" })]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.profile.twitter_url,
-                  expression: "profile.twitter_url"
-                }
-              ],
-              attrs: { href: "" + _vm.profile.twitter_url, target: "_blank" }
-            },
-            [_c("i", { staticClass: "fab fa-twitter" })]
+              ])
+            ]
           ),
           _vm._v(" "),
           _c("div", { staticClass: "attribute" }, [
@@ -39521,48 +39627,163 @@ var render = function() {
                 )
               ]
             )
-          ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "shokai" }, [
+            _c("div", [
+              _c("span", [
+                _vm._v(
+                  "\n            " + _vm._s(_vm.profile.shokai) + "\n          "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.profile.website_url,
+                  expression: "profile.website_url"
+                }
+              ],
+              attrs: { href: "" + _vm.profile.website_url, target: "_blank" }
+            },
+            [_c("i", { staticClass: "fas fa-link" })]
+          ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.profile.twitter_url,
+                  expression: "profile.twitter_url"
+                }
+              ],
+              attrs: { href: "" + _vm.profile.twitter_url, target: "_blank" }
+            },
+            [_c("i", { staticClass: "fab fa-twitter" })]
+          )
         ]),
         _vm._v(" "),
-        _c(
-          "ul",
-          { attrs: { id: "mypage-item" } },
-          [
-            _c("router-link", { attrs: { to: { name: "mypage" } } }, [
-              _c("li", [_vm._v("すべての写真")])
-            ]),
-            _vm._v(" "),
-            _c("router-link", { attrs: { to: { name: "follow" } } }, [
-              _c("li", [_vm._v("フォロー")])
-            ]),
-            _vm._v(" "),
-            _c("router-link", { attrs: { to: { name: "follower" } } }, [
-              _c("li", [_vm._v("フォロワー")])
-            ]),
-            _vm._v(" "),
-            _c("router-link", { attrs: { to: { name: "mytag" } } }, [
-              _c("li", [_vm._v("投稿したタグ")])
-            ]),
-            _vm._v(" "),
-            _c("router-link", { attrs: { to: { name: "mylikes" } } }, [
-              _c(
-                "li",
-                { staticStyle: { "border-bottom": "1px solid #CFCABF" } },
-                [_vm._v("\n          いいねした写真\n        ")]
-              )
-            ])
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "shokai" }, [
-          _c("div", [
-            _c("p", [_vm._v("自己紹介")]),
-            _vm._v(" "),
-            _c("span", [
-              _vm._v("\n          " + _vm._s(_vm.profile.shokai) + "\n        ")
-            ])
-          ])
+        _c("div", { staticClass: "tab" }, [
+          _c(
+            "ul",
+            { attrs: { id: "mypage-item" } },
+            [
+              _c("router-link", { attrs: { to: { name: "mypage" } } }, [
+                _c("li", { staticClass: "pcList" }, [
+                  _vm._v("\n            すべての写真\n          ")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  {
+                    staticClass: "smList",
+                    class: { active: _vm.isActive === "1" },
+                    on: {
+                      click: function($event) {
+                        return _vm.changeTab("1")
+                      }
+                    }
+                  },
+                  [_vm._v(" \n            ポスト\n          ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("router-link", { attrs: { to: { name: "follow" } } }, [
+                _c("li", { staticClass: "pcList" }, [
+                  _vm._v("\n            フォロー\n          ")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  {
+                    staticClass: "smList",
+                    class: { active: _vm.isActive === "2" },
+                    on: {
+                      click: function($event) {
+                        return _vm.changeTab("2")
+                      }
+                    }
+                  },
+                  [_vm._v("\n            フォロー\n          ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("router-link", { attrs: { to: { name: "follower" } } }, [
+                _c("li", { staticClass: "pcList" }, [
+                  _vm._v("\n            フォロワー\n          ")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  {
+                    staticClass: "smList",
+                    class: { active: _vm.isActive === "3" },
+                    on: {
+                      click: function($event) {
+                        return _vm.changeTab("3")
+                      }
+                    }
+                  },
+                  [_vm._v("\n            フォロワー\n          ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("router-link", { attrs: { to: { name: "mytag" } } }, [
+                _c("li", { staticClass: "pcList" }, [
+                  _vm._v("\n            投稿したタグ\n          ")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  {
+                    staticClass: "smList",
+                    class: { active: _vm.isActive === "4" },
+                    on: {
+                      click: function($event) {
+                        return _vm.changeTab("4")
+                      }
+                    }
+                  },
+                  [_vm._v("\n            タグ\n          ")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("router-link", { attrs: { to: { name: "mylikes" } } }, [
+                _c(
+                  "li",
+                  {
+                    staticClass: "pcList",
+                    staticStyle: { "border-bottom": "1px solid #CFCABF" }
+                  },
+                  [_vm._v("\n            いいねした写真\n          ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  {
+                    staticClass: "smList",
+                    class: { active: _vm.isActive === "5" },
+                    on: {
+                      click: function($event) {
+                        return _vm.changeTab("5")
+                      }
+                    }
+                  },
+                  [_vm._v("\n            いいね\n          ")]
+                )
+              ])
+            ],
+            1
+          )
         ])
       ]
     )
@@ -39575,10 +39796,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&":
-/*!**********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219& ***!
-  \**********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/mypage/MypageComponent.vue?vue&type=template&id=15798219&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -39639,7 +39860,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-8" }, [
+  return _c("div", { staticClass: "col-md-8 order2" }, [
     _c("h2", [_vm._v("タイムライン")]),
     _vm._v(" "),
     _c(
@@ -39705,7 +39926,7 @@ var render = function() {
       [
         _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#DEF2FF", scale: "2" }
+          attrs: { color: "#DEF2FF" }
         })
       ],
       1
@@ -39735,7 +39956,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-8" }, [
+  return _c("div", { staticClass: "col-md-8 order2" }, [
     _c("h2", [_vm._v("いいねしている写真")]),
     _vm._v(" "),
     _c(
@@ -39752,9 +39973,9 @@ var render = function() {
         staticClass: "loader-space"
       },
       [
-        _c("vue-loaders-line-scale-pulse-out", {
+        _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#CFCABF", scale: "5" }
+          attrs: { color: "#DEF2FF" }
         })
       ],
       1
@@ -39826,7 +40047,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-8" }, [
+  return _c("div", { staticClass: "col-md-8 order2" }, [
     _c("h2", [_vm._v("投稿したタグ一覧")]),
     _vm._v(" "),
     _c(
@@ -39843,9 +40064,9 @@ var render = function() {
         staticClass: "loader-space"
       },
       [
-        _c("vue-loaders-line-scale-pulse-out", {
+        _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#CFCABF", scale: "5" }
+          attrs: { color: "#DEF2FF" }
         })
       ],
       1
@@ -41551,12 +41772,12 @@ var render = function() {
                           expression: "heartLoading"
                         }
                       ],
-                      staticClass: "loader-space"
+                      staticClass: "heartLoaderSpace"
                     },
                     [
                       _c("vue-loaders-ball-spin-fade-loader", {
-                        staticClass: "loader",
-                        attrs: { color: "#F66868", scale: "0.4" }
+                        staticClass: "heartLoader",
+                        attrs: { color: "#F66868" }
                       })
                     ],
                     1
@@ -41574,7 +41795,7 @@ var render = function() {
               "div",
               { staticClass: "col-md-7 main" },
               [
-                _c("div", { staticClass: "contents" }, [
+                _c("div", { staticClass: "contents order2" }, [
                   _c("img", {
                     staticClass: "contents-photo",
                     attrs: {
@@ -41597,34 +41818,19 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("individual-comment", {
-                  staticClass: "comment",
+                  staticClass: "comment order3",
                   attrs: { "show-modal": _vm.showModal }
                 }),
                 _vm._v(" "),
-                _c("div", { staticClass: "\n          contents-profile" }, [
-                  _c("h3", [_vm._v("写真を投稿したユーザー")]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("img", {
-                      staticClass: "icon-photo",
-                      attrs: {
-                        src: "../" + _vm.profile.icon_path,
-                        alt: "contents-photo"
-                      }
-                    }),
+                _c(
+                  "div",
+                  { staticClass: "\n          contents-profile order1" },
+                  [
+                    _c("h3", [_vm._v("写真を投稿したユーザー")]),
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "name-id" },
                       [
-                        _c("p", { staticClass: "pro_name" }, [
-                          _vm._v(
-                            "\n                " +
-                              _vm._s(_vm.postUser.name) +
-                              "\n              "
-                          )
-                        ]),
-                        _vm._v(" "),
                         _c(
                           "router-link",
                           {
@@ -41636,50 +41842,28 @@ var render = function() {
                             }
                           },
                           [
-                            _vm._v(
-                              "\n                @" +
-                                _vm._s(_vm.postUser.login_id) +
-                                "\n              "
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.postUser.id != _vm.authUser.id,
-                            expression: "postUser.id != authUser.id"
-                          }
-                        ],
-                        staticClass: "follow-unfollow"
-                      },
-                      [
-                        _c(
-                          "div",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: !_vm.followStatus,
-                                expression: "!followStatus"
+                            _c("img", {
+                              staticClass: "icon-photo",
+                              attrs: {
+                                src: "../" + _vm.profile.icon_path,
+                                alt: "contents-photo"
                               }
-                            ],
-                            staticClass: "follow",
-                            on: { click: _vm.pushFollow }
-                          },
-                          [
-                            _c("i", { staticClass: "fas fa-user-plus" }),
-                            _vm._v(
-                              "\n                フォローする\n              "
-                            )
+                            }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "name-id" }, [
+                              _c("p", { staticClass: "pro_name" }, [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.postUser.name) +
+                                    "\n                "
+                                )
+                              ]),
+                              _vm._v(
+                                "\n                @" +
+                                  _vm._s(_vm.postUser.login_id) +
+                                  "\n              "
+                              )
+                            ])
                           ]
                         ),
                         _vm._v(" "),
@@ -41690,34 +41874,75 @@ var render = function() {
                               {
                                 name: "show",
                                 rawName: "v-show",
-                                value: _vm.followStatus,
-                                expression: "followStatus"
+                                value: _vm.postUser.id != _vm.authUser.id,
+                                expression: "postUser.id != authUser.id"
                               }
                             ],
-                            staticClass: "unfollow",
-                            on: { click: _vm.deleteFollow }
+                            staticClass: "follow-unfollow"
                           },
                           [
-                            _c("i", { staticClass: "fas fa-user-plus" }),
-                            _vm._v(
-                              "\n                フォロー解除                        \n              "
+                            _c(
+                              "div",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: !_vm.followStatus,
+                                    expression: "!followStatus"
+                                  }
+                                ],
+                                staticClass: "follow",
+                                on: { click: _vm.pushFollow }
+                              },
+                              [
+                                _c("i", { staticClass: "fas fa-user-plus" }),
+                                _vm._v(
+                                  "\n                フォローする\n              "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.followStatus,
+                                    expression: "followStatus"
+                                  }
+                                ],
+                                staticClass: "unfollow",
+                                on: { click: _vm.deleteFollow }
+                              },
+                              [
+                                _c("i", { staticClass: "fas fa-user-plus" }),
+                                _vm._v(
+                                  "\n                フォロー解除                        \n              "
+                                )
+                              ]
                             )
                           ]
                         )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "follower" }, [
-                    _c("p", [_vm._v(_vm._s(_vm.countFollow) + "フォロー")]),
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(_vm.countFollower) + "フォロワー")])
-                  ]),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(_vm.profile.shokai))])
-                ])
+                    _c("div", { staticClass: "follower" }, [
+                      _c("p", [_vm._v(_vm._s(_vm.countFollow) + "フォロー")]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.countFollower) + "フォロワー")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(_vm.profile.shokai))])
+                  ]
+                )
               ],
               1
             ),
@@ -42221,7 +42446,7 @@ var render = function() {
       [
         _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#73877B" }
+          attrs: { color: "#fff" }
         })
       ],
       1
@@ -42493,7 +42718,7 @@ var render = function() {
       [
         _c("vue-loaders-ball-spin-fade-loader", {
           staticClass: "loader",
-          attrs: { color: "#73877B" }
+          attrs: { color: "#fff" }
         })
       ],
       1

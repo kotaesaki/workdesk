@@ -1,14 +1,13 @@
 <template>
-  <div class="col-md-8">
+  <div class="col-md-8 order2">
     <h2>投稿したタグ一覧</h2>
     <div
       v-show="loading"
       class="loader-space">
-      <vue-loaders-line-scale-pulse-out
-        color="#CFCABF"
-        scale="5"
-        class="loader" /> 
-    </div>        
+      <vue-loaders-ball-spin-fade-loader
+        color="#DEF2FF"
+        class="loader" />
+    </div>    
     <div
       v-show="!loading"
       class="mytag">
@@ -51,15 +50,17 @@ export default {
 <style scoped>
     h2{
         margin: 3rem 0.5rem 2rem;
-        background: linear-gradient(transparent 70%, #CFCABF 70%);
-
+        background: linear-gradient(transparent 70%, #08415C 70%);
+    }
+    .mytag{
+      margin-bottom: 5rem;
     }
     ul{
         padding: 0;
         list-style: none;
     }
     ul > li{
-        border: 1px solid #CFCABF;
+        border: 1px solid #73877B;
         border-radius: 7px;
         display: inline-block;
         padding: 0.5% 1%;
@@ -67,7 +68,7 @@ export default {
         cursor: pointer;
     }
     ul > li:hover{
-        background-color: #CFCABF;
+        background-color: #73877B;
         color: #FFF;
     }
     ul > li > p{
@@ -76,12 +77,19 @@ export default {
     }
     .loader-space{
         width: 100%;
-        height: 100%;
-        text-align: center;
+        height: 20vh;
+        position: relative;
     }
     .loader{
-        position:fixed;
-        top:26%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
     }
-
+@media(max-width: 767px){
+  h2{
+    display: none;
+  }
+}
 </style>

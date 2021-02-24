@@ -182,13 +182,13 @@ export default {
     .textarea{
         width: 100%;
         border-radius: 10px;
-        border: 1.5px solid #CFCABF;
+        border: 1.5px solid #08415C;
         resize: none;
     }
     .comment-btn{
         display: block;
         margin: 2% 0 0 auto;
-        border: 1.5px solid #CFCABF;
+        border: 1.5px solid #08415C;
         border-radius: 2%;
         width: 13rem;
         height: 3rem;
@@ -196,7 +196,7 @@ export default {
         position: relative;
     }
     .comment-btn:hover{
-        background-color: #CFCABF;
+        background-color: #08415C;
     }
     .comment-btn p{
       margin: 0;
@@ -213,5 +213,23 @@ export default {
         top: -0.6rem;
         left: 4.4rem;
     }
+@media(max-width:767px){
+  ul{
+    padding: 0;
+  }
+  .balloon{
+    position: relative;
+  }
+  .reply{
+    position: absolute;
+    top: 83%;
+    right: 0.7rem;
+  }
+  .textarea{
+    height: 56vw;
+    font-size: 16px;
+    transform: scale(1.0);
+  }
+}
 
 </style>

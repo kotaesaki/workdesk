@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-8">
+  <div class="col-md-8 order2">
     <h2>タイムライン</h2>
     <div> 
       <div
@@ -14,11 +14,6 @@
               :src="`../${post.photo_path}`">
             <div class="right_side">
               <span>{{ post.description }}</span>
-              <!-- <div v-for="tags in tagsData" :key="tags.tag_id" class="tags">
-                                    <li v-if="post.post_id === tags.pivot.post_id">
-                                        #{{tags.tag_name}}
-                                    </li>
-                            </div> -->
               <p>{{ post.created_at | moment }}</p>
             </div>
           </div>
@@ -30,7 +25,6 @@
       class="loader-space">
       <vue-loaders-ball-spin-fade-loader
         color="#DEF2FF"
-        scale="2"
         class="loader" />
     </div>   
   </div>
@@ -96,10 +90,10 @@ export default {
     h2{
         padding: 4%;
         font-size: 2rem;
-        background-color: #CFCABF;
+        background-color: #08415C;
         box-shadow: 1px 1px 6px grey;
         border-radius: 5px;
-        background: linear-gradient(transparent 0%, #CFCABF 95%);
+        background: linear-gradient(transparent 0%, #08415C 95%);
 
     }
     .timeline:hover{
@@ -108,7 +102,7 @@ export default {
     }
     .page-content{
         margin:4% 0;
-        border-bottom: 1px solid #CFCABF;
+        border-bottom: 1px solid #08415C;
     }
     .post_image{
         width: 16vw;;
@@ -124,6 +118,7 @@ export default {
         padding: 2% 0 0;
         position: relative;
         left: 3%;
+        overflow: hidden;
     }
     .page-content .tags{
         display: inline-flex;
@@ -133,10 +128,22 @@ export default {
     }
     .loader-space{
         width: 100%;
-        text-align: center;
-        padding: 7% 0;
-        margin: 10% 0 ;
+        height: 20vh;
+        position: relative;
     }
     .loader{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
     }
+@media(max-width: 767px){
+  h2{
+    display: none;
+  }
+  .post_image{
+    width: 50%;
+  }
+}
 </style>
