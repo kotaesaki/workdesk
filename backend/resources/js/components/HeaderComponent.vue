@@ -105,6 +105,11 @@ export default {
       return this.$store.getters['auth/token']
     }
   },
+  watch: {
+    profile(newValue, oldValue) {
+      return this.$store.getters['auth/profile']
+    },
+  },
   mounted() {
     const token = this.$store.getters['auth/token']
     const user = this.$store.getters['auth/user']
@@ -151,13 +156,14 @@ export default {
         padding: 0.5rem 1rem;
     }
     .coll{
-      display: flex !important;
-      flex-basis: auto;
-      flex-grow: 1;
-      align-items: center;
+        position: relative;
+        padding-top: 8px;
     }
     .coll > ul{
       list-style: none;
+    }
+    .dropdown-toggle::after{
+      display: none;
     }
     .logo{
       position:absolute;

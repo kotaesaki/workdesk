@@ -35,7 +35,7 @@
       v-show="loading"
       class="loader-space">
       <vue-loaders-ball-spin-fade-loader
-        color="#73877B"
+        color="#fff"
         class="loader" />
     </div>
   </div>

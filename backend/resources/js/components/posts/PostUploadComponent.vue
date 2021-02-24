@@ -185,6 +185,7 @@ export default {
     font-size: 0.7rem;
     padding: 0 4%;
 }
+
 .commentArea{
     resize: none;
     border: 1px solid #cde;

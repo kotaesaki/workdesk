@@ -6,6 +6,7 @@
       <div class="contents">
         <div class="explain">
           <p>アイコン</p>
+          <span>画像形式：JPEG/PNG<br>画像サイズ：1MB以内</span>
         </div>
         <div class="items">
           <img
@@ -114,6 +115,10 @@ export default {
     height: 100px;
     object-fit: cover;
     border-radius: 50%;
+}
+.explain span{
+  color: grey;
+  font-size: 0.8rem;
 }
 @media(max-width: 767px){
   .contents .explain{

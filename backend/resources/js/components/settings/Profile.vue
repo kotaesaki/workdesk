@@ -226,6 +226,7 @@ export default {
       console.log(formData)
       axios.post('/api/profile/'+ this.userId, formData, config).then((res)=>{
         alert('保存しました')
+        this.$store.dispatch('auth/fetchUser')
       }).catch(err => {
         console.log('err:', err.response.data.errors)
         console.log('失敗')

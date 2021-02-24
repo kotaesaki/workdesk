@@ -54,3 +54,16 @@ export default {
 
 }
 </script>
+<style scoped>
+@media(max-width:767px){
+  .row{
+    flex-direction: column;
+  }
+  .order1{
+    order: 1;
+  }
+  .order2{
+    order: 2;
+  }
+}
+</style>

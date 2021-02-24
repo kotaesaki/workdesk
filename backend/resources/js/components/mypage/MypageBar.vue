@@ -1,11 +1,10 @@
 <template>
-  <div class="col-md-4">
+  <div class="col-md-4 order1">
     <div
       v-show="loading"
       class="loader-space">
       <vue-loaders-ball-spin-fade-loader
         color="#DEF2FF"
-        scale="2"
         class="loader" />
     </div>
     <div
@@ -16,15 +15,15 @@
           class="userInfo__icon"
           :src="`../${profile.icon_path}`"> 
         <p class="name">
-          {{ id.name }}さん
+          {{ id.name }}
         </p>
         <p class="id">
           @{{ id.login_id }}
         </p>
-        <div class="link">
-          <div
-            v-show="id.id != authUser.id"
-            class="ff">
+        <div
+          v-show="id.id != authUser.id"
+          class="link">
+          <div class="ff">
             <div
               v-show="!followStatus"
               class="follow"
@@ -39,14 +38,7 @@
             </div>
           </div>
         </div>
-        <a
-          v-show="profile.website_url"
-          :href="`${profile.website_url}`"
-          target="_blank"><i class="fas fa-link" /></a>
-        <a
-          v-show="profile.twitter_url"
-          :href="`${profile.twitter_url}`"
-          target="_blank"><i class="fab fa-twitter" /></a>
+
         <div class="attribute">
           <p v-show="profile.sex">
             {{ profile.sex }}
@@ -58,48 +50,97 @@
             {{ profile.age }}歳
           </p>
         </div>
-      </div>
-      <ul id="mypage-item">
-        <router-link :to="{name: 'mypage'}">
-          <li>すべての写真</li>
-        </router-link>
-        <router-link :to="{name: 'follow'}">
-          <li>フォロー</li>
-        </router-link>
-        <router-link :to="{name: 'follower'}">
-          <li>フォロワー</li>
-        </router-link>
-        <router-link :to="{name: 'mytag'}">
-          <li>投稿したタグ</li>
-        </router-link>
-        <router-link :to="{name: 'mylikes'}">
-          <li style="border-bottom: 1px solid #CFCABF;">
-            いいねした写真
-          </li>
-        </router-link>
-      </ul>
-      <div class="shokai">
-        <div>
-          <p>自己紹介</p>
-          <span>
-            {{ profile.shokai }}
-          </span>
+        <div class="shokai">
+          <div>
+            <span>
+              {{ profile.shokai }}
+            </span>
+          </div>
         </div>
+        <a
+          v-show="profile.website_url"
+          :href="`${profile.website_url}`"
+          target="_blank"><i class="fas fa-link" /></a>
+        <a
+          v-show="profile.twitter_url"
+          :href="`${profile.twitter_url}`"
+          target="_blank"><i class="fab fa-twitter" /></a>
       </div>
-    </div>
-  </div>    
+      <div class="tab">
+        <ul id="mypage-item">
+          <router-link :to="{name: 'mypage'}">
+            <li class="pcList">
+              すべての写真
+            </li>
+            <li
+              class="smList"
+              :class="{'active': isActive === '1'}"
+              @click="changeTab('1')"> 
+              ポスト
+            </li>
+          </router-link>
+          <router-link :to="{name: 'follow'}">
+            <li class="pcList">
+              フォロー
+            </li>
+            <li
+              class="smList"
+              :class="{'active': isActive === '2'}"
+              @click="changeTab('2')">
+              フォロー
+            </li>
+          </router-link>
+          <router-link :to="{name: 'follower'}">
+            <li class="pcList">
+              フォロワー
+            </li>
+            <li
+              class="smList"
+              :class="{'active': isActive === '3'}"
+              @click="changeTab('3')">
+              フォロワー
+            </li>
+          </router-link>
+          <router-link :to="{name: 'mytag'}">
+            <li class="pcList">
+              投稿したタグ
+            </li>
+            <li
+              class="smList"
+              :class="{'active': isActive === '4'}"
+              @click="changeTab('4')">
+              タグ
+            </li>
+          </router-link>
+          <router-link :to="{name: 'mylikes'}">
+            <li
+              class="pcList"
+              style="border-bottom: 1px solid #CFCABF;">
+              いいねした写真
+            </li>
+            <li
+              class="smList"
+              :class="{'active': isActive === '5'}"
+              @click="changeTab('5')">
+              いいね
+            </li>
+          </router-link>
+        </ul>
+      </div>
+    </div>    
+  </div>
 </template>
 <script>
 import MultipostAboidable from '../../mixins/multipost_aboidable'
 export default {
   mixins: [MultipostAboidable],
-
   props: {
     userId: String,
   },
   data() {
     return {
       loading: true,
+      isActive: '',
     }
   },
   computed: {
@@ -125,6 +166,18 @@ export default {
     this.$store.dispatch('mypage/getId', this.userId)
       .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.id.id}))
       .then(()=> this.loading = false)
+    const path = this.$route.name
+    if (path === 'mypage'){
+      this.isActive = '1'
+    } else if (path === 'follow'){
+      this.isActive = '2'
+    } else if (path === 'follower'){
+      this.isActive = '3'
+    } else if (path === 'mytag'){
+      this.isActive = '4'
+    } else if (path === 'mylikes'){
+      this.isActive = '5'
+    }
   },
   methods: {
     async pushFollow(){
@@ -137,6 +190,9 @@ export default {
         this.$store.dispatch('follow/deleteFollow', {auth_user: this.authUser.id, post_user: this.id.id})
       })
     },
+    changeTab(val){
+      this.isActive = val
+    }
   },
 /*     watch: {
         userId(newValue, oldValue) {
@@ -148,10 +204,6 @@ export default {
 }
 </script>
 <style  scoped>
-    .page{
-        position: sticky;
-        top: 5%;
-    }
     .mypage-profile{
         text-align: center;
         padding: 12% 0;
@@ -161,6 +213,10 @@ export default {
     }
     .mypage-profile .name{
         padding-top: 5%;
+        font-size: 1.5rem;
+    }
+    .mypage-profile .id{
+      color: grey;
     }
     .userInfo__icon{
         width: 65px;
@@ -170,13 +226,15 @@ export default {
     }
     .loader-space{
         width: 100%;
-        height: 100%;
-        text-align: center;
-        padding: 45%;
+        height: 20vh;
+        position: relative;
     }
     .loader{
-        position:fixed;
-        top:21%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
     }
     .mypage-profile .link{
         clear: both;
@@ -217,16 +275,17 @@ export default {
     }
     ul{
         list-style: none;
-
     }
     ul a li{
         padding:1rem 1rem;
-        border-top: 1px solid #CFCABF;
+        border-top: 1px solid #08415C;
         color: #443311;
     }
-    
+    .smList{
+      display: none;
+    }
     ul li:hover{
-        background-color: #CFCABF;
+        background-color: #08415C;
         color: #fff;
     }
     ul > a:hover {
@@ -235,5 +294,47 @@ export default {
     .shokai{
         text-align: center;
     }
-
+@media(max-width: 767px){
+  .page i{
+    font-size: 1.5rem;
+    color: grey;
+  }
+  .mypage-profile{
+    padding:12% 0 1rem;
+  }
+  .tab{
+    position: sticky;
+    top:0;
+    width: 100%;
+    z-index: 200;
+  }
+  ul{
+    padding:0;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    border-bottom: 1px solid darkgrey;
+  }
+  ul a li{
+    padding:1rem 0.4rem 0.2rem;
+    float: left;
+    border-top: none;
+  }
+  ul a .active{
+    border-bottom: 3px solid #08415C;
+    cursor: auto;
+  }
+  ul li:hover{
+    font-size: bold;
+    color: #08415C;
+    background-color: #fff;
+  }
+  .pcList{
+    display: none;
+  }
+  .smList{
+    display: flex;
+  }
+}
 </style>

@@ -1,14 +1,13 @@
 <template>
-  <div class="col-md-8">
+  <div class="col-md-8 order2">
     <h2>フォローしているユーザー</h2>
     <div
       v-show="loading"
       class="loader-space">
-      <vue-loaders-line-scale-pulse-out
-        color="#CFCABF"
-        scale="5"
-        class="loader" /> 
-    </div>
+      <vue-loaders-ball-spin-fade-loader
+        color="#DEF2FF"
+        class="loader" />
+    </div>   
     <div
       v-show="!loading"
       class="follows">
@@ -64,11 +63,14 @@ export default {
 <style scoped>
     h2{
         margin: 3rem 0.5rem 2rem;
-        background: linear-gradient(transparent 70%, #CFCABF 70%);
+        background: linear-gradient(transparent 70%, #08415C 70%);
     } 
+    .follows{
+        margin-bottom: 5rem;
+    }
     .follow-content{
         padding: 2% 1%;
-        border-bottom: 1px solid #CFCABF;
+        border-bottom: 1px solid #08415C;
     }
     .follow-content .follow-body{
         padding: 0 0 0 60px;
@@ -82,12 +84,19 @@ export default {
     }
     .loader-space{
         width: 100%;
-        height: 100%;
-        text-align: center;
-        opacity: 0.6;
+        height: 20vh;
+        position: relative;
     }
     .loader{
-        position:fixed;
-        top:26%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
     }
+@media(max-width: 767px){
+  h2{
+    display: none;
+  }
+}
 </style>
