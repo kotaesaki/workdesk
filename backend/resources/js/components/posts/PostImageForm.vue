@@ -11,6 +11,7 @@
           <p class="required">
             ※必須
           </p>
+          <span>画像形式：JPEG/PNG<br>画像サイズ：1MB以内</span>
         </div>
         <div class="uploadStep items">
           <label
@@ -66,7 +67,7 @@
               :min-container-width="200"
               :min-container-height="200"
               :background="true"
-              :rotatable="false"
+              :rotatable="true"
               :src="imageData"
               :img-style="{ 'width': '300px', 'height': '300px' }" />
           </div>
@@ -199,7 +200,7 @@ export default {
 }
 .modal1{
     position:relative;
-    z-index: 2;
+    z-index: 2000;
     width: 50%;
     padding: 1em;
     background-color: #fff;
@@ -295,6 +296,10 @@ export default {
 }
 label input{
     display: none;
+}
+.explain span{
+  color: grey;
+  font-size: 0.8rem;
 }
 @media(max-width: 1199px){
   .deleteImg{

@@ -101,18 +101,20 @@ const actions = {
         context.commit('setProfile', result.data.profile)
         context.commit('setToken', result.data.token)
         context.commit('setLoading', false)
-      }).then(()=> router.push({ name: 'home', params: {successLogin: true}}))
-        .catch(err => {
-          context.commit('setLoading', false)
-          console.log('err:', err.response.data.errors)
-          console.log('失敗')
-          const val = err.response.data.errors
-          if (err.response.status === 422){
-            context.commit('validate', val)
-          } else {
-            alert('変更に失敗しました。(ステータスコード:'+ err.response.status+ ')')
-          }
-        })
+      }).then(()=> {
+        router.push({ name: 'home', params: {successLogin: true}})
+        setTimeout()
+      }).catch(err => {
+        context.commit('setLoading', false)
+        console.log('err:', err.response.data.errors)
+        console.log('失敗')
+        const val = err.response.data.errors
+        if (err.response.status === 422){
+          context.commit('validate', val)
+        } else {
+          alert('変更に失敗しました。(ステータスコード:'+ err.response.status+ ')')
+        }
+      })
     })
         
   },

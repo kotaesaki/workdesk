@@ -524,7 +524,7 @@ export default {
         -ms-transform: translate(-50%, -50%) scale(0.4);
     }
     .overlay{
-        z-index:1;
+        z-index:1000;
         position:fixed;
         top:0;
         left:0;
@@ -537,7 +537,7 @@ export default {
     }
     .modalLogin{
         position:relative;
-        z-index: 2;
+        z-index: 1001;
         width: 30%;
         padding: 1em;
         background-color: #fff;
@@ -691,6 +691,9 @@ export default {
     bottom: 9.7rem;
     right: 3.1rem;
     font-size: 2.5rem;
+  }
+  .modalLogin{
+    width: 92vw;
   }
 
 }
