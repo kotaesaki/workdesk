@@ -177,8 +177,6 @@
         </div>
       </div>
     </div>
-    </individual-loader>
-    </individual-loader>
   </div>
 </template>
 <script>
