@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <loading v-show="loading" />
+    <individual-loader v-show="loading" />
     <div
       v-show="!loading"
       class="container pages">
@@ -37,7 +37,7 @@
               alt="contents-photo"
               class="contents-photo">
             <p class="created-time">
-              {{ post.created_at | moment }}
+              {{ post.created_at | dayjs }}
             </p>
             <span class="contents-description">{{ post.description }}</span>
           </div>
@@ -177,19 +177,21 @@
         </div>
       </div>
     </div>
+    </individual-loader>
+    </individual-loader>
   </div>
 </template>
 <script>
-import Loading from '../common/Loading.vue'
+import IndividualLoader from './IndividualLoader.vue'
 import MultipostAboidable from '../../mixins/multipost_aboidable'
 import IndividualComment from './IndividualComment.vue'
-import axios from 'axios'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
 export default {
-  components: { Loading, IndividualComment },
+  components: { IndividualComment, IndividualLoader },
   filters: {
-    moment: function (date){
-      return moment(date).format('YYYY/MM/DD HH:mm')
+    dayjs: function (date){
+      return dayjs(date).format('YYYY/MM/DD HH:mm')
     }
   },
   mixins: [MultipostAboidable],
@@ -242,17 +244,12 @@ export default {
       return this.$store.getters['individual/source']
     }
   },
-  mounted() {
-    console.log('Individual mounted start!')
+  created() {
+    console.log('Individual created start!')
     this.getIndividual()
       .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.postUser.id}))
       .then(()=>this.$store.dispatch('follow/countFollow', this.postUser.id))
     this.$store.dispatch('comment/getComment', this.postId)
-  },
-  beforeRouteLeave(to, from, next){
-    console.log('beforeRouteLeave: キャンセル〜〜〜')
-    this.source.cancel()
-    next()
   },
   methods: {
     async pushFavorite(){

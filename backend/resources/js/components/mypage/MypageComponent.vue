@@ -16,22 +16,33 @@
       <router-view
         name="mylikes"
         :user-id="userId" />
-      <mypage-bar :user-id="userId" />
+      <mypage-bar
+        ref="MypageBar"
+        :user-id="userId" />
     </div>
   </div>   
 </template>
 <script>
 import MypageBar from './MypageBar.vue'
-import MypageContent from './MypageContent.vue'
 export default {
-  components: { MypageBar, MypageContent },
+  components: { MypageBar },
   props: {
     userId: String //idを取得
   },
   computed: {
     authUser(){
       return this.$store.getters['auth/user']
+    },
+    CancelToken(){
+      return this.$store.getters['mypage/CancelToken']
+    },
+    source(){
+      return this.$store.getters['mypage/source']
     }
+  },
+  created() {
+    console.log('キャンセルトークン：'+this.CancelToken)
+    console.log(this.source)
   },
   methods: {
     async updatePost(userId) {
@@ -45,11 +56,15 @@ export default {
   },
   beforeRouteUpdate (to, from, next) {
     console.log(to)
-    if (to.name == 'mypage'){
+    console.log(from)
+    if (from.params.userId == to.params.userId){
+      console.log(from.params.userId == to.params.userId)
+      next()
+    } else if (to.name == 'mypage'){
       this.updatePost(to.params.userId)
       this.updateUser(to.params.userId)
+      next()
     }
-    next()
   },
 
 }

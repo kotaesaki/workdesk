@@ -21,7 +21,7 @@ class MypageController extends Controller
     {
         $user = User::find($login_id);
         $profile = $user->profile->where('user_id', $login_id)->first();
-        return [$user,$profile];
+        return $user;
     }
 
     public function getPost(Request $request)

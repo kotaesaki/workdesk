@@ -14,7 +14,7 @@
               :src="`../${post.photo_path}`">
             <div class="right_side">
               <span>{{ post.description }}</span>
-              <p>{{ post.created_at | moment }}</p>
+              <p>{{ post.created_at | dayjs }}</p>
             </div>
           </div>
         </router-link>
@@ -30,12 +30,12 @@
   </div>
 </template>
 <script>
-import moment from 'moment'
-
+import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
 export default {
   filters: {
-    moment: function (date){
-      return moment(date).format('YYYY/MM/DD HH:mm')
+    dayjs: function (date){
+      return dayjs(date).format('YYYY/MM/DD HH:mm')
     }
   },
   props: {

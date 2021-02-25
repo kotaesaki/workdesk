@@ -15,7 +15,7 @@
             </p>
           </router-link>
           <p class="time">
-            {{ comments.created_at | moment }}
+            {{ comments.created_at | dayjs }}
           </p>
           <div class="balloon">
             <div class="says">
@@ -58,11 +58,13 @@
   </div>
 </template>
 <script>
-import moment from 'moment'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
+
 export default {
   filters: {
-    moment: function (date){
-      return moment(date).format('YYYY/MM/DD HH:mm')
+    dayjs: function (date){
+      return dayjs(date).format('YYYY/MM/DD HH:mm')
     }
   },
   props: {  
