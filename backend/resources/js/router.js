@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueLoaders from 'vue-loaders'
 import store from './store'
+import { ContentLoader } from 'vue-content-loader'
+
 Vue.use(VueRouter)
 Vue.use(VueLoaders)
 
@@ -11,6 +13,7 @@ import FooterComponent from './components/common/Footer'
 import Search from './components/common/Search'
 import TagComponent from './components/top/TagComponent'
 import MypageBar from './components/mypage/MypageBar'
+import ProfileLoader from './components/mypage/ProfileLoader'
 import MypageContent from './components/mypage/MypageContent'
 import MypageLikes from './components/mypage/MypageLikes'
 import Mytag from './components/mypage/Mytag'
@@ -29,6 +32,7 @@ import TrendTimeline from './components/top/TrendTimeline'
 import TrendItem from './components/top/TrendItem'
 import Individual from './components/top/Individual'
 import IndividualComment from './components/top/IndividualComment'
+import IndividualLoader from './components/top/IndividualLoader'
 import Register from './components/Auth/Register'
 import Login from './components/Auth/Login'
 import Loading from './components/common/Loading'
@@ -38,7 +42,9 @@ Vue.component('header-component', HeaderComponent)
 Vue.component('footer-component', FooterComponent)
 Vue.component('search-component', Search)
 Vue.component('individual-comment', IndividualComment)
+Vue.component('individual-loader', IndividualLoader)
 Vue.component('mypage-bar', MypageBar)
+Vue.component('profile-loader', ProfileLoader)
 Vue.component('mypage-content', MypageContent)
 Vue.component('follow-content', FollowContent)
 Vue.component('mypage-likes', MypageLikes)
@@ -47,6 +53,7 @@ Vue.component('profile-image-form', ProfileImageForm)
 Vue.component('post-image-form', PostImageForm)
 Vue.component('post-tag-form', PostTagForm)
 Vue.component('loading', Loading)
+Vue.component('content-loader', ContentLoader)
 
 const router = new VueRouter({
   mode: 'history',
@@ -226,7 +233,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next)=>{
-    
+  store.dispatch('individual/cancel')
   if (to.matched.some(record => !record.meta.isPublic) && !store.getters['auth/check']){
     console.log('beforeEach : true')
     next('/login')

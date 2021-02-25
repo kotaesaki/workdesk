@@ -25,8 +25,6 @@ class IndividualController extends Controller
 
         return response()->json([
             'post' => $post,
-            'postUser' => $postUser,
-            'profile' => $profile,
             'tags' => $tags,
             'status' => $status,
             'count_fav' => $count_fav

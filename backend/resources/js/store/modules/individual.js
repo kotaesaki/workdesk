@@ -9,8 +9,8 @@ const state = {
   countFav: null,
   loading: false,
   heartLoading: false,
-  CancelToken: null,
-  source: null,
+  source: axios.CancelToken.source(),
+
 }
 const getters = {
   post: state=> state.post ? state.post: '',
@@ -21,7 +21,8 @@ const getters = {
   countFav: state=> state.countFav ? state.countFav: '',
   loading: state => state.loading ? state.loading: '',
   heartLoading: state => state.heartLoading ? state.heartLoading: '',
-  source: state => state.source ? state.source: '',
+  source: state => state.source ? state.source: 'ないよ',
+
   checked: state=>{
     if (state.post==null || state.user==null || state.profile==null || state.tags==null || state.status==null || state.countFav==null){
       return false
@@ -61,35 +62,26 @@ const mutations = {
   setHeartLoading(state, heartLoading){
     state.heartLoading = heartLoading
   },
-  setToken(state, source){
-    state.source = source
-  },
-  cancelToken(state){
-    state.source.cancel('リクエストはキャンセルされました')
-    console.log('きゃんせるできねええ')
-    state.source = axios.CancelToken.source()
-  },
 
 }
 const actions = {
   async getIndividual({commit, state}, {post_id, user_id}){
-    state.CancelToken = axios.CancelToken
-    state.source = state.CancelToken.source()
-    console.log('state.source:', state.source)
+    let cancelToken = {
+      cancelToken: state.source.token
+    }
+    console.log('state.source.token:' + cancelToken)
+
     commit('setLoading', true)
     await axios.get('/api/individual', {
       params: {
         post_id: post_id,
         user_id: user_id
       }
-    },
-    {
-      cancelToken: state.source.token
-    }).then((result)=>{
+    }, cancelToken).then((result)=>{
       console.log(state.source)
       commit('setPost', result.data.post)
-      commit('setUser', result.data.postUser)
-      commit('setProfile', result.data.profile)
+      commit('setUser', result.data.post.user)
+      commit('setProfile', result.data.post.user.profile)
       commit('setTags', result.data.tags)
       commit('setStatus', result.data.status)
       commit('setCountFav', result.data.count_fav)
@@ -127,6 +119,14 @@ const actions = {
       alert('いいねに失敗しました')
       commit('setHeartLoading', false)
     })
+  },
+  cancel({state}){
+    if (typeof state.source != 'undefined'){
+      console.log('cancel()スタート')  
+      console.log(state.source.cancel)  
+      state.source.cancel('何故キャンセルしてくれないんですか')
+      state.source = axios.CancelToken.source()
+    }
   },
 }
 

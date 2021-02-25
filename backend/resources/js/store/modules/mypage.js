@@ -1,4 +1,4 @@
-
+import axios from 'axios'
 const state = {
   id: null,
   profile: null,
@@ -9,6 +9,9 @@ const state = {
   page: 1,
   load: true,
   itemLoading: false,
+  profileLoading: false,
+  source: axios.CancelToken.source(),
+
 }
 const getters = {
   id: state=>state.id ? state.id :'',
@@ -20,6 +23,10 @@ const getters = {
   page: state => state.page ? state.page: '',
   load: state => state.load ? state.load: '',
   itemLoading: state => state.itemLoading ? state.itemLoading: '',
+  profileLoading: state => state.profileLoading ? state.profileLoading: '',
+  source: state => state.source ? state.source: 'ないよ',
+  CancelToken: state => state.source ? state.source.token: 'トークンないよ'
+
 }
 const mutations = {
   setId(state, id){
@@ -52,6 +59,9 @@ const mutations = {
   setItemLoading(state, itemLoading){
     state.itemLoading = itemLoading
   },
+  setProfileLoading(state, profileLoading){
+    state.profileLoading = profileLoading
+  },
   clearVar(state){
     state.postData.splice(0)
     state.tagsData.splice(0)
@@ -62,27 +72,38 @@ const mutations = {
 
 }
 const actions = {
-  async getId({commit}, userId) {
+  async getId({commit, state}, userId) {
+    let cancelToken = {
+      cancelToken: state.source.token
+    }
+    console.log('state.source.token:' + cancelToken)
+    commit('setProfileLoading', true)
     await axios.get('/api/getId/' + userId).then((res)=>{
-      if (res.data[1].age == 'null'){
-        res.data[1].age = ''
+      if (res.data.profile.age == 'null'){
+        res.data.profile.age = ''
       }
-      if (res.data[1].sex == 'null'){
-        res.data[1].sex = ''
+      if (res.data.profile.sex == 'null'){
+        res.data.profile.sex = ''
       }
-      if (res.data[1].occupation =='null'){
-        res.data[1].occupation = ''
+      if (res.data.profile.occupation =='null'){
+        res.data.profile.occupation = ''
       }
-      if (res.data[1].website_url == 'null'){
-        res.data[1].website_url = ''
+      if (res.data.profile.website_url == 'null'){
+        res.data.profile.website_url = ''
       }
-      if (res.data[1].twitter_url == 'null'){
-        res.data[1].twitter_url = ''
+      if (res.data.profile.twitter_url == 'null'){
+        res.data.profile.twitter_url = ''
       }
-      commit('setId', res.data[0])
-      commit('setProfile', res.data[1])
+      commit('setId', res.data)
+      commit('setProfile', res.data.profile)
+      commit('setProfileLoading', false)
     }).catch(error=>{
+      if (axios.isCancel(error)){
+        console.log('リクエストがキャンセルされました。')
+      }
       console.log(error)
+      commit('setProfileLoading', false)
+      alert('プロフィールの取得に失敗しました。status:'+ error.response.status)
     })
   },
   async startPost({commit, state}, userId){
@@ -122,7 +143,15 @@ const actions = {
         }
       }
     }
-  }
+  },
+  /*   cancel({state}){
+    if (state.source != 'undefined'){
+      console.log('cancel()スタート')  
+      console.log(state.source.cancel)  
+      state.source.cancel('キャンセル')
+      state.source = axios.CancelToken.source()
+    }
+  } */
 
 }
 

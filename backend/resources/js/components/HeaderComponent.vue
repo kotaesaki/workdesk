@@ -110,15 +110,10 @@ export default {
       return this.$store.getters['auth/profile']
     },
   },
-  mounted() {
+  created() {
     const token = this.$store.getters['auth/token']
     const user = this.$store.getters['auth/user']
-    const profile = this.$store.getters['auth/profile']
     if (token && !user){
-      console.log('fetchUser()メソッドスタート')
-      this.$store.dispatch('auth/fetchUser')
-        .then(()=> this.complete = true)
-    } else if (!profile){
       console.log('fetchUser()メソッドスタート')
       this.$store.dispatch('auth/fetchUser')
         .then(()=> this.complete = true)

@@ -1,16 +1,10 @@
 <template>
   <div class="col-md-4 order1">
-    <div
-      v-show="loading"
-      class="loader-space">
-      <vue-loaders-ball-spin-fade-loader
-        color="#DEF2FF"
-        class="loader" />
-    </div>
-    <div
-      v-show="!loading"
-      class="page">
-      <div class="mypage-profile">
+    <profile-loader v-show="loading" />
+    <div class="page">
+      <div
+        v-show="!loading"
+        class="mypage-profile">
         <img
           class="userInfo__icon"
           :src="`../${profile.icon_path}`"> 
@@ -132,14 +126,15 @@
 </template>
 <script>
 import MultipostAboidable from '../../mixins/multipost_aboidable'
+import ProfileLoader from './ProfileLoader.vue'
 export default {
+  components: { ProfileLoader },
   mixins: [MultipostAboidable],
   props: {
     userId: String,
   },
   data() {
     return {
-      loading: true,
       isActive: '',
     }
   },
@@ -158,26 +153,23 @@ export default {
     },
     posts(){
       return this.$store.getters['mypage/posts']
+    },
+    loading(){
+      return this.$store.getters['mypage/profileLoading']
     }
   },
-
+  watch: {
+    $route(to, from) {
+      if (to.name == 'mypage'){
+        this.isActive = '1'
+      }
+    },
+  },
   created() {
     console.log('created start!')
     this.$store.dispatch('mypage/getId', this.userId)
       .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.id.id}))
-      .then(()=> this.loading = false)
-    const path = this.$route.name
-    if (path === 'mypage'){
-      this.isActive = '1'
-    } else if (path === 'follow'){
-      this.isActive = '2'
-    } else if (path === 'follower'){
-      this.isActive = '3'
-    } else if (path === 'mytag'){
-      this.isActive = '4'
-    } else if (path === 'mylikes'){
-      this.isActive = '5'
-    }
+    this.checkPath()
   },
   methods: {
     async pushFollow(){
@@ -192,15 +184,22 @@ export default {
     },
     changeTab(val){
       this.isActive = val
+    },
+    checkPath(){
+      const path = this.$route.name
+      if (path === 'mypage'){
+        this.isActive = '1'
+      } else if (path === 'follow'){
+        this.isActive = '2'
+      } else if (path === 'follower'){
+        this.isActive = '3'
+      } else if (path === 'mytag'){
+        this.isActive = '4'
+      } else if (path === 'mylikes'){
+        this.isActive = '5'
+      }
     }
   },
-/*     watch: {
-        userId(newValue, oldValue) {
-            console.log('mypagebar watch start');
-                this.$store.dispatch('mypage/getId', this.userId)
-                    .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user:this.userId}))
-        },
-    }, */
 }
 </script>
 <style  scoped>
