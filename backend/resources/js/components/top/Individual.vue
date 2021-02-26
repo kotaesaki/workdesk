@@ -27,7 +27,10 @@
               </div>
             </div>
             <p>{{ countFav }}</p><br>
-            <i class="fab fa-twitter twitter" />
+            <a
+              href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+              class="twitter-share-button"
+              data-show-count="false"><i class="fab fa-twitter twitter" /></a>
           </div>
         </div>
         <div class="col-md-7 main">

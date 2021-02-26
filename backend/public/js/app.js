@@ -4973,6 +4973,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 
@@ -61880,7 +61883,7 @@ var render = function() {
                 _c("p", [_vm._v(_vm._s(_vm.countFav))]),
                 _c("br"),
                 _vm._v(" "),
-                _c("i", { staticClass: "fab fa-twitter twitter" })
+                _vm._m(0)
               ])
             ]),
             _vm._v(" "),
@@ -62261,7 +62264,24 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "twitter-share-button",
+        attrs: {
+          href: "https://twitter.com/share?ref_src=twsrc%5Etfw",
+          "data-show-count": "false"
+        }
+      },
+      [_c("i", { staticClass: "fab fa-twitter twitter" })]
+    )
+  }
+]
 render._withStripped = true
 
 

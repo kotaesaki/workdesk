@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <title>{{ config('app.name', 'WorkDeskClip') }}</title>
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
