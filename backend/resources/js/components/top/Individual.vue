@@ -298,8 +298,16 @@ export default {
     },
     showLogin(){
       this.$router.push({name: 'login'})
-    }
+    },
   },
+  beforeRouteLeave(to, from, next){
+    console.log('beforeRouteLeave')
+    this.$store.dispatch('individual/cancel')
+    this.$store.dispatch('follow/cancel')
+    this.$store.commit('individual/setController', new AbortController())
+    this.$store.commit('follow/setController', new AbortController())
+    next()
+  }
 }
 </script>
 <style  scoped>

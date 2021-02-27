@@ -10,7 +10,7 @@ const state = {
   loading: false,
   heartLoading: false,
   source: axios.CancelToken.source(),
-
+  controller: new AbortController()
 }
 const getters = {
   post: state=> state.post ? state.post: '',
@@ -62,37 +62,39 @@ const mutations = {
   setHeartLoading(state, heartLoading){
     state.heartLoading = heartLoading
   },
+  setController(state, controller){
+    state.controller = controller
+  }
 
 }
 const actions = {
   async getIndividual({commit, state}, {post_id, user_id}){
-    let cancelToken = {
-      cancelToken: state.source.token
+    const { signal } = state.controller
+    const params = {
+      post_id: post_id,
+      user_id: user_id
     }
-    console.log('state.source.token:' + cancelToken)
-
+    const query_params = new URLSearchParams(params)
     commit('setLoading', true)
-    await axios.get('/api/individual', {
-      params: {
-        post_id: post_id,
-        user_id: user_id
-      }
-    }, cancelToken).then((result)=>{
-      console.log(state.source)
-      commit('setPost', result.data.post)
-      commit('setUser', result.data.post.user)
-      commit('setProfile', result.data.post.user.profile)
-      commit('setTags', result.data.tags)
-      commit('setStatus', result.data.status)
-      commit('setCountFav', result.data.count_fav)
-      commit('setLoading', false)
-    }).catch(error=>{
-      if (axios.isCancel(error)){
-        console.log('キャンセルだよ〜〜〜〜')
-      } else {
-        console.log(error)
-      }
-    })
+    await fetch(`/api/individual?${query_params}`, { signal })
+      .then(result=> result.json())
+      .then(result=>{
+        console.log(result)
+        commit('setPost', result.post)
+        commit('setUser', result.post.user)
+        commit('setProfile', result.post.user.profile)
+        commit('setTags', result.tags)
+        commit('setStatus', result.status)
+        commit('setCountFav', result.count_fav)
+        commit('setLoading', false)
+      }).catch(error=>{
+        if (error.name === state.controller.abort){
+          console.warn('キャンセルだよ〜〜〜〜')
+        } else {
+          commit('setLoading', false)
+          console.warn(error)
+        }
+      })
   },
   async pushFavorite({commit}, data){
     commit('setHeartLoading', true)
@@ -121,12 +123,9 @@ const actions = {
     })
   },
   cancel({state}){
-    if (typeof state.source != 'undefined'){
-      console.log('cancel()スタート')  
-      console.log(state.source.cancel)  
-      state.source.cancel('何故キャンセルしてくれないんですか')
-      state.source = axios.CancelToken.source()
-    }
+    console.log('cancel()スタート')  
+    state.controller.abort()
+    console.log('キャンセル完了')
   },
 }
 
