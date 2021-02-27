@@ -5264,6 +5264,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         name: 'login'
       });
     }
+  },
+  beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+    console.log('beforeRouteLeave');
+    this.$store.dispatch('individual/cancel');
+    this.$store.dispatch('follow/cancel');
+    this.$store.commit('individual/setController', new AbortController());
+    this.$store.commit('follow/setController', new AbortController());
+    next();
   }
 });
 
@@ -6362,8 +6370,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__.default({
   }]
 });
 router.beforeEach(function (to, from, next) {
-  _store__WEBPACK_IMPORTED_MODULE_1__.default.dispatch('individual/cancel');
-
   if (to.matched.some(function (record) {
     return !record.meta.isPublic;
   }) && !_store__WEBPACK_IMPORTED_MODULE_1__.default.getters["auth/check"]) {
@@ -6948,7 +6954,8 @@ var state = {
   follow: null,
   follower: null,
   countFollow: null,
-  countFollower: null
+  countFollower: null,
+  controller: new AbortController()
 };
 var getters = {
   status: function status(state) {
@@ -6982,6 +6989,9 @@ var mutations = {
   },
   setcountFollower: function setcountFollower(state, countFollower) {
     state.countFollower = countFollower;
+  },
+  setController: function setController(state, controller) {
+    state.controller = controller;
   }
 };
 var actions = {
@@ -7031,26 +7041,31 @@ var actions = {
   },
   checkFollow: function checkFollow(_ref, _ref2) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-      var commit, auth_user, post_user;
+      var commit, auth_user, post_user, signal, params, query_params;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               commit = _ref.commit;
               auth_user = _ref2.auth_user, post_user = _ref2.post_user;
-              _context3.next = 4;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/follow', {
-                params: {
-                  auth_user: auth_user,
-                  post_user: post_user
-                }
+              signal = state.controller.signal;
+              params = {
+                auth_user: auth_user,
+                post_user: post_user
+              };
+              query_params = new URLSearchParams(params);
+              _context3.next = 7;
+              return fetch("/api/follow?".concat(query_params), {
+                signal: signal
               }).then(function (result) {
-                commit('setStatus', result.data);
+                return result.json();
+              }).then(function (result) {
+                commit('setStatus', result);
               })["catch"](function (error) {
                 console.log(error);
               });
 
-            case 4:
+            case 7:
             case "end":
               return _context3.stop();
           }
@@ -7116,16 +7131,27 @@ var actions = {
   },
   countFollow: function countFollow(_ref5, user_id) {
     var commit = _ref5.commit;
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/countFollow', {
-      params: {
-        user_id: user_id
-      }
+    var signal = state.controller.signal;
+    var params = {
+      user_id: user_id
+    };
+    var query_params = new URLSearchParams(params);
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get("/api/countFollow?".concat(query_params), {
+      signal: signal
     }).then(function (result) {
-      commit('setcountFollow', result.data[0]);
-      commit('setcountFollower', result.data[1]);
+      return result.json();
+    }).then(function (result) {
+      commit('setcountFollow', result[0]);
+      commit('setcountFollower', result[1]);
     })["catch"](function (error) {
       console.log(error);
     });
+  },
+  cancel: function cancel(_ref6) {
+    var state = _ref6.state;
+    console.log('cancel()スタート');
+    state.controller.abort();
+    console.log('キャンセル完了');
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7169,7 +7195,8 @@ var state = {
   countFav: null,
   loading: false,
   heartLoading: false,
-  source: axios__WEBPACK_IMPORTED_MODULE_1___default().CancelToken.source()
+  source: axios__WEBPACK_IMPORTED_MODULE_1___default().CancelToken.source(),
+  controller: new AbortController()
 };
 var getters = {
   post: function post(state) {
@@ -7237,47 +7264,52 @@ var mutations = {
   },
   setHeartLoading: function setHeartLoading(state, heartLoading) {
     state.heartLoading = heartLoading;
+  },
+  setController: function setController(state, controller) {
+    state.controller = controller;
   }
 };
 var actions = {
   getIndividual: function getIndividual(_ref, _ref2) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, state, post_id, user_id, cancelToken;
+      var commit, state, post_id, user_id, signal, params, query_params;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit, state = _ref.state;
               post_id = _ref2.post_id, user_id = _ref2.user_id;
-              cancelToken = {
-                cancelToken: state.source.token
+              signal = state.controller.signal;
+              params = {
+                post_id: post_id,
+                user_id: user_id
               };
-              console.log('state.source.token:' + cancelToken);
+              query_params = new URLSearchParams(params);
               commit('setLoading', true);
-              _context.next = 7;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/individual', {
-                params: {
-                  post_id: post_id,
-                  user_id: user_id
-                }
-              }, cancelToken).then(function (result) {
-                console.log(state.source);
-                commit('setPost', result.data.post);
-                commit('setUser', result.data.post.user);
-                commit('setProfile', result.data.post.user.profile);
-                commit('setTags', result.data.tags);
-                commit('setStatus', result.data.status);
-                commit('setCountFav', result.data.count_fav);
+              _context.next = 8;
+              return fetch("/api/individual?".concat(query_params), {
+                signal: signal
+              }).then(function (result) {
+                return result.json();
+              }).then(function (result) {
+                console.log(result);
+                commit('setPost', result.post);
+                commit('setUser', result.post.user);
+                commit('setProfile', result.post.user.profile);
+                commit('setTags', result.tags);
+                commit('setStatus', result.status);
+                commit('setCountFav', result.count_fav);
                 commit('setLoading', false);
               })["catch"](function (error) {
-                if (axios__WEBPACK_IMPORTED_MODULE_1___default().isCancel(error)) {
-                  console.log('キャンセルだよ〜〜〜〜');
+                if (error.name === state.controller.abort) {
+                  console.warn('キャンセルだよ〜〜〜〜');
                 } else {
-                  console.log(error);
+                  commit('setLoading', false);
+                  console.warn(error);
                 }
               });
 
-            case 7:
+            case 8:
             case "end":
               return _context.stop();
           }
@@ -7347,13 +7379,9 @@ var actions = {
   },
   cancel: function cancel(_ref5) {
     var state = _ref5.state;
-
-    if (typeof state.source != 'undefined') {
-      console.log('cancel()スタート');
-      console.log(state.source.cancel);
-      state.source.cancel('何故キャンセルしてくれないんですか');
-      state.source = axios__WEBPACK_IMPORTED_MODULE_1___default().CancelToken.source();
-    }
+    console.log('cancel()スタート');
+    state.controller.abort();
+    console.log('キャンセル完了');
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -7474,8 +7502,7 @@ var state = {
   page: 1,
   load: true,
   itemLoading: false,
-  profileLoading: false,
-  source: axios__WEBPACK_IMPORTED_MODULE_1___default().CancelToken.source()
+  profileLoading: false
 };
 var getters = {
   id: function id(state) {
@@ -7507,12 +7534,6 @@ var getters = {
   },
   profileLoading: function profileLoading(state) {
     return state.profileLoading ? state.profileLoading : '';
-  },
-  source: function source(state) {
-    return state.source ? state.source : 'ないよ';
-  },
-  CancelToken: function CancelToken(state) {
-    return state.source ? state.source.token : 'トークンないよ';
   }
 };
 var mutations = {
@@ -7560,18 +7581,14 @@ var mutations = {
 var actions = {
   getId: function getId(_ref, userId) {
     return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var commit, state, cancelToken;
+      var commit, state;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               commit = _ref.commit, state = _ref.state;
-              cancelToken = {
-                cancelToken: state.source.token
-              };
-              console.log('state.source.token:' + cancelToken);
               commit('setProfileLoading', true);
-              _context.next = 6;
+              _context.next = 4;
               return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/getId/' + userId).then(function (res) {
                 if (res.data.profile.age == 'null') {
                   res.data.profile.age = '';
@@ -7606,7 +7623,7 @@ var actions = {
                 alert('プロフィールの取得に失敗しました。status:' + error.response.status);
               });
 
-            case 6:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -7650,13 +7667,13 @@ var actions = {
                 }
 
                 if (result.data[0].data) {
-                  result.data[0].data.forEach(function (n, i) {
+                  result.data[0].data.forEach(function (n) {
                     state.postData.push(n);
                   });
                 }
 
                 if (result.data[1][0].data) {
-                  result.data[1][0].data.forEach(function (n, i) {
+                  result.data[1][0].data.forEach(function (n) {
                     state.tagsData.push(n);
                   });
                 }
@@ -7688,15 +7705,6 @@ var actions = {
       }, _callee2, null, [[4, 9, 13, 16]]);
     }))();
   }
-  /*   cancel({state}){
-    if (state.source != 'undefined'){
-      console.log('cancel()スタート')  
-      console.log(state.source.cancel)  
-      state.source.cancel('キャンセル')
-      state.source = axios.CancelToken.source()
-    }
-  } */
-
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   namespaced: true,

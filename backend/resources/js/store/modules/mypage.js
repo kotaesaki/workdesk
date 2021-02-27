@@ -10,7 +10,6 @@ const state = {
   load: true,
   itemLoading: false,
   profileLoading: false,
-  source: axios.CancelToken.source(),
 
 }
 const getters = {
@@ -24,8 +23,6 @@ const getters = {
   load: state => state.load ? state.load: '',
   itemLoading: state => state.itemLoading ? state.itemLoading: '',
   profileLoading: state => state.profileLoading ? state.profileLoading: '',
-  source: state => state.source ? state.source: 'ないよ',
-  CancelToken: state => state.source ? state.source.token: 'トークンないよ'
 
 }
 const mutations = {
@@ -73,10 +70,6 @@ const mutations = {
 }
 const actions = {
   async getId({commit, state}, userId) {
-    let cancelToken = {
-      cancelToken: state.source.token
-    }
-    console.log('state.source.token:' + cancelToken)
     commit('setProfileLoading', true)
     await axios.get('/api/getId/' + userId).then((res)=>{
       if (res.data.profile.age == 'null'){
@@ -123,12 +116,12 @@ const actions = {
               commit('setLoad', false)
             }
             if (result.data[0].data){
-              result.data[0].data.forEach((n, i) => {
+              result.data[0].data.forEach((n) => {
                 state.postData.push(n)
               })
             }
             if (result.data[1][0].data){
-              result.data[1][0].data.forEach((n, i) => {
+              result.data[1][0].data.forEach((n) => {
                 state.tagsData.push(n)
               })                      
             }
@@ -144,14 +137,6 @@ const actions = {
       }
     }
   },
-  /*   cancel({state}){
-    if (state.source != 'undefined'){
-      console.log('cancel()スタート')  
-      console.log(state.source.cancel)  
-      state.source.cancel('キャンセル')
-      state.source = axios.CancelToken.source()
-    }
-  } */
 
 }
 
