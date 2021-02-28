@@ -111,7 +111,7 @@ const actions = {
           }).then((result)=>{
             commit('setPosts', result.data[0].data)
             console.log(result.data[0].data)
-            console.log(result.data[1][0].data)
+            console.log(result.data[1][0].data) 
             if (result.data[0].last_page === state.page){
               commit('setLoad', false)
             }
