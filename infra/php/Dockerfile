@@ -20,6 +20,8 @@ RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     npm install npm@latest -g
 
 
-COPY ./php.ini /usr/local/etc/php/php.ini
+COPY ./infra/php/php.ini /usr/local/etc/php/php.ini
+
+COPY ./backend /work
 
 WORKDIR /work
