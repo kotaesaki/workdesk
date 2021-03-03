@@ -217,19 +217,17 @@ export default {
       formData.append('occupation', this.profile.occupation)
       formData.append('sex', this.profile.sex)
       formData.append('age', this.profile.age)
-      formData.append('icon_title', this.profile.icon_title)
+      formData.append('default_icon', this.profile)
       let config = {
         headers: {
           'content-type': 'multipart/form-data'
         }
       }
-      console.log(formData)
       axios.post('/api/profile/'+ this.userId, formData, config).then((res)=>{
         alert('保存しました')
         this.$store.dispatch('auth/fetchUser')
       }).catch(err => {
         console.log('err:', err.response.data.errors)
-        console.log('失敗')
         const val = err.response.data.errors
         if (err.response.status === 422){
           this.validate(val)
@@ -243,7 +241,6 @@ export default {
     async validate(val){
       if (val.name){
         val.name.forEach((v) =>{
-          console.log(v)
           this.errors.push(v)
         })
       }

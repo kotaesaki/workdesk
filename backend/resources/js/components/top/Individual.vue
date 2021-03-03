@@ -30,13 +30,14 @@
             <a
               href="https://twitter.com/share?ref_src=twsrc%5Etfw"
               class="twitter-share-button"
-              data-show-count="false"><i class="fab fa-twitter twitter" /></a>
+              data-show-count="false"
+              target="_blank"><i class="fab fa-twitter twitter" /></a>
           </div>
         </div>
         <div class="col-md-7 main">
           <div class="contents order2">
             <img
-              :src="`../${post.photo_path}`"
+              :src="`${post.photo_path}`"
               alt="contents-photo"
               class="contents-photo">
             <p class="created-time">
@@ -54,7 +55,7 @@
             <div>
               <router-link :to="{ name:'mypage', params:{userId:postUser.id}}">
                 <img
-                  :src="`../${profile.icon_path}`"
+                  :src="`${profile.icon_path}`"
                   alt="contents-photo"
                   class="icon-photo">
                 <div class="name-id">
@@ -96,7 +97,7 @@
             <div>
               <router-link :to="{ name:'mypage', params:{userId:postUser.id}}">
                 <img
-                  :src="`../${profile.icon_path}`"
+                  :src="`${profile.icon_path}`"
                   alt="icon-photo"
                   class="icon-photo">
               </router-link>
@@ -246,7 +247,6 @@ export default {
     }
   },
   created() {
-    console.log('Individual created start!')
     this.getIndividual()
       .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.postUser.id}))
       .then(()=>this.$store.dispatch('follow/countFollow', this.postUser.id))
@@ -301,7 +301,6 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next){
-    console.log('beforeRouteLeave')
     this.$store.dispatch('individual/cancel')
     this.$store.dispatch('follow/cancel')
     this.$store.commit('individual/setController', new AbortController())

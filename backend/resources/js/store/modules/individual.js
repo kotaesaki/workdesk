@@ -79,7 +79,6 @@ const actions = {
     await fetch(`/api/individual?${query_params}`, { signal })
       .then(result=> result.json())
       .then(result=>{
-        console.log(result)
         commit('setPost', result.post)
         commit('setUser', result.post.user)
         commit('setProfile', result.post.user.profile)
@@ -88,18 +87,13 @@ const actions = {
         commit('setCountFav', result.count_fav)
         commit('setLoading', false)
       }).catch(error=>{
-        if (error.name === state.controller.abort){
-          console.warn('キャンセルだよ〜〜〜〜')
-        } else {
-          commit('setLoading', false)
-          console.warn(error)
-        }
+        commit('setLoading', false)
+        console.warn(error)
       })
   },
   async pushFavorite({commit}, data){
     commit('setHeartLoading', true)
     await axios.post('/api/favorite', data).then(result =>{
-      console.log(result.data)
       commit('setStatus', result.data)
       commit('addCount')
       commit('setHeartLoading', false)
@@ -112,7 +106,6 @@ const actions = {
   async deleteFavorite({commit}, data){
     commit('setHeartLoading', true)
     await axios.delete('/api/favorite', {data: data}).then(result=>{
-      console.log(result.data)
       commit('setStatus', result.data)
       commit('subtractCount')
       commit('setHeartLoading', false)
@@ -123,9 +116,7 @@ const actions = {
     })
   },
   cancel({state}){
-    console.log('cancel()スタート')  
     state.controller.abort()
-    console.log('キャンセル完了')
   },
 }
 

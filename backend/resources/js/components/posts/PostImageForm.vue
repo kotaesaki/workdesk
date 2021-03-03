@@ -117,7 +117,6 @@ export default {
       if (files.length) {
         this.file = files[0]
         const reader = new FileReader()
-        console.log(this.file)
         reader.onload = (e) => {
           this.imageData = e.target.result
           this.$refs.cropper.replace(e.target.result)
@@ -145,18 +144,15 @@ export default {
       this.blob = new Blob([buffer.buffer], {
         type: 'image/jpeg'
       })
-      console.log(this.blob)
       this.$emit('catchBlob', this.blob)
       this.showModal = false
     },
     deleteImage(){
-      console.log('写真消します')
       this.imageData = ''
       this.cropImg = ''
       this.file = ''
       this.blob = ''
       this.$emit('catchBlob', this.blob)
-      console.log('写真消しました')
       //こっちでもemit送る
     },
 

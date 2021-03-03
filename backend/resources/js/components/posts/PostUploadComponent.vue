@@ -144,7 +144,7 @@ export default {
         } else if (err.response.status === 413){
           alert('画像サイズが大きすぎます')
         } else {
-          alert('変更に失敗しました。(ステータスコード:' + err.response.status + ')')
+          alert('投稿に失敗しました。(ステータスコード:' + err.response.status + ')')
         }
       })
     },

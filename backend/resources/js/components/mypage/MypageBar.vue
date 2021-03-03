@@ -7,7 +7,7 @@
         class="mypage-profile">
         <img
           class="userInfo__icon"
-          :src="`../${profile.icon_path}`"> 
+          :src="`${profile.icon_path}`"> 
         <p class="name">
           {{ id.name }}
         </p>
@@ -166,7 +166,6 @@ export default {
     },
   },
   created() {
-    console.log('created start!')
     this.$store.dispatch('mypage/getId', this.userId)
       .then(()=>this.$store.dispatch('follow/checkFollow', {auth_user: this.authUser.id, post_user: this.id.id}))
     this.checkPath()

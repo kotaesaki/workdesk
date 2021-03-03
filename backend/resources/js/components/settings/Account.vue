@@ -112,13 +112,11 @@ export default {
 
       await axios.post('/api/account/' + this.userId, formData).then((res)=>{
         alert('変更を保存しました')
-        console.log(res.status)
       }).catch(err => {
         const val = err.response.data.errors
         if (err.response.status === 422){
           if (val.email){
             val.email.forEach((v) =>{
-              console.log(v)
               this.errors.push(v)
             })
           }

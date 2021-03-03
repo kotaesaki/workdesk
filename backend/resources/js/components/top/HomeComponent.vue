@@ -83,7 +83,6 @@ export default {
   },
   mounted() {
     const path = this.$route.path
-    console.log(this.$route.path)
     if (path === '/'){
       this.isActive = '1'
     } else if (path === '/trend'){

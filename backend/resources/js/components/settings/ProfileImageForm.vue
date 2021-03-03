@@ -16,7 +16,7 @@
           <img
             v-if="imageData1"
             class="userInfo__icon"
-            :src="`../${imageData1.icon_path}`">                     
+            :src="`${imageData1.icon_path}`">                     
           <label
             class="form-label image-label"
             for="image">
@@ -51,9 +51,6 @@ export default {
       this.imageData1 = newValue
     },
   },
-  mounted() {
-        
-  },
   methods: {
     onFileChange(e) {
       const files = e.target.files
@@ -62,7 +59,6 @@ export default {
 
         this.file = files[0]
         const reader = new FileReader()
-        console.log(this.file)
 
         reader.onload = (e) => {
           this.imageData = e.target.result

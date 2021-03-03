@@ -17,7 +17,7 @@
         class="content">
         <router-link :to="{ name: 'individual', params: { postId: likePost.post_id}}">
           <img
-            :src="`../${likePost.post.photo_path}`"
+            :src="`${likePost.post.photo_path}`"
             alt=""
             class="card-img">
         </router-link>
@@ -37,7 +37,6 @@ export default {
     }
   },
   mounted() {
-    console.log('MypageLikes mounted start!')
     this.getMylikes(this.userId)
       .then(()=>this.loading= false)
   },
@@ -48,10 +47,9 @@ export default {
           user_id: data
         }
       }).then(result=>{
-        console.log(result.data)
         this.likePosts = result.data.mylikes.favorite
       }).catch(error=>{
-        console.log(error)  
+        console.log(error)
       })
     }
   },

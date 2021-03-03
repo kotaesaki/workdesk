@@ -51,7 +51,6 @@ const actions ={
         q: state.word
       }
     }).then(res=> {
-      console.log(res.data)
       commit('setTagArray', res.data[0])
       commit('setUserArray', res.data[1])
       commit('setLoading', false)

@@ -28,7 +28,6 @@ const actions ={
         tag_id: tag_id
       }
     }).then(res=>{
-      console.log(res.data)
       commit('setData', res.data[0])
       commit('setTag', res.data[1])
       commit('setLoading', false)

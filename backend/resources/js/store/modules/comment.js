@@ -45,11 +45,9 @@ const actions = {
   async pushComment({commit}, data){
     commit('setLoading', true)
     await axios.post('/api/comment', data).then(result=>{
-      console.log('コメント登録できました')
       commit('addCommentList', result.data)
       commit('setLoading', false)
     }).catch(error=>{
-      console.log(error)
       alert('コメントに失敗しました')
       commit('setLoading', false)
     })
@@ -60,7 +58,6 @@ const actions = {
         post_id: post_id
       }
     }).then(result=>{
-      console.log(result.data)
       commit('setCommentList', result.data)
     }).catch(error=>{
       console.log(error)

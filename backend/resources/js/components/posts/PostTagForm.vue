@@ -68,7 +68,6 @@ export default {
       .then(res => this.List = res.data)
       .catch((error)=>{
         this.errorMsg = 'Error! Could not reach the API. ' + error
-        console.log(this.errorMsg)
       })        
   },
   methods: {
@@ -76,19 +75,16 @@ export default {
       if (this.selected){
         if (!this.tagList.includes(this.selected)){
           this.tagList.push(this.selected)
-          console.log(this.selected + 'を追加')
           this.selected = ''
           this.$emit('catchTag', this.tagList)
         } else {
           this.selected = ''
-          console.log(this.selected + 'は追加済み')
         }
       }
     },
     deleteTag(tag){
       let index = this.tagList.indexOf(tag)
       this.tagList.splice(index, 1)
-      console.log(tag +'タグを削除')
     }
   }
 

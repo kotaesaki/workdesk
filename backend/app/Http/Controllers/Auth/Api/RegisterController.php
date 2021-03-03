@@ -38,7 +38,7 @@ class RegisterController extends Controller
             $profile = Profile::create([
                 'user_id' => $user->id,
                 'icon_title' => 'default_icon.jpg',
-                'icon_path' => 'storage/' . 'default_icon.jpg'
+                'icon_path' => 'https://takuwaku-s3.s3-ap-northeast-1.amazonaws.com/common/default_icon.jpg'
 
             ]);
             return json_encode(['token' => $token, 'user' => $user, 'profile' => $profile]);

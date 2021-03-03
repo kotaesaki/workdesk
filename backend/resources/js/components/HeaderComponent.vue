@@ -27,7 +27,7 @@
                   aria-haspopup="true"
                   aria-expanded="false">
                   <img
-                    :src="`../${profile.icon_path}`"
+                    :src="`${profile.icon_path}`"
                     class="icon_name"> 
                 </a>
                 <div
@@ -114,7 +114,6 @@ export default {
     const token = this.$store.getters['auth/token']
     const user = this.$store.getters['auth/user']
     if (token && !user){
-      console.log('fetchUser()メソッドスタート')
       this.$store.dispatch('auth/fetchUser')
         .then(()=> this.complete = true)
     } else {

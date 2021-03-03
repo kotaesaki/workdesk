@@ -1,0 +1,3 @@
+SetEnv Host "takuwaku.work" APP_ENV=production
+SetEnv Host "localhost" APP_ENV=local
+

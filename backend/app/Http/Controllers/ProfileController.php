@@ -7,8 +7,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Support\Facades\DB;
-
-
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -27,10 +26,16 @@ class ProfileController extends Controller
     {
         try {
             if(!$request->file){
-                $file_name = $request->icon_title;
+                $file_name = $request->default_icon->icon_title;
+                $path = $request->default_icon->icon_path;
             }else{
                 $file_name = request()->file->getClientOriginalName();
-                request()->file->storeAs('public', $file_name);
+                if(app()->environment('local')){
+                    $disk = Storage::disk('s3')->putFile('/test/profile', request()->file,'public');
+                }else if(app()->environment('production')){
+                    $disk = Storage::disk('s3')->putFile('/production/profile', request()->file,'public');
+                }
+                $path = Storage::disk('s3')->url($disk);
             }
             DB::beginTransaction();
             try {
@@ -47,14 +52,16 @@ class ProfileController extends Controller
                         'sex' => $request->sex,
                         'age' => $request->age,
                         'icon_title' => $file_name,
-                        'icon_path' => 'storage/' . $file_name
+                        'icon_path' => $path
                     ]
                 );
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
+                throw $e;
             }
         } catch (\Exception $e) {
+            throw $e;
         }
     }
 }
