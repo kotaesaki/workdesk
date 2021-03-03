@@ -7,8 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    <title>{{ config('app.name', 'WorkDeskClip') }}</title>
+    <title>TakuWaku</title>
     <!-- Styles -->
     <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
@@ -50,7 +49,6 @@
         <header-component></header-component>
         <router-view></router-view>
         <footer-component></footer-component>
-
     </div>
     <script src="{{ mix('/js/app.js') }}" defer></script>
 </body>

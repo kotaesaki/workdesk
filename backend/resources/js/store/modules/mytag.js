@@ -16,10 +16,9 @@ const actions = {
         user_id: user_id
       }
     }).then(result=>{
-      console.log(result.data)
       commit('setMytag', result.data[0])
     }).catch(error=>{
-
+      
     })
   }
 }

@@ -18,7 +18,6 @@ const actions = {
   async getPost({commit}){
     commit('setLoading', true)
     await axios.get('/api/trend_timeline').then(res=>{
-      console.log(res.data)
       commit('setPosts', res.data)
       commit('setLoading', false)
     }).catch(err=>{

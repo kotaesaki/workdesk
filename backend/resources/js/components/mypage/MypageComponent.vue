@@ -40,10 +40,6 @@ export default {
       return this.$store.getters['mypage/source']
     }
   },
-  created() {
-    console.log('キャンセルトークン：'+this.CancelToken)
-    console.log(this.source)
-  },
   methods: {
     async updatePost(userId) {
       this.$store.commit('mypage/clearVar')
@@ -55,10 +51,7 @@ export default {
     }
   },
   beforeRouteUpdate (to, from, next) {
-    console.log(to)
-    console.log(from)
     if (from.params.userId == to.params.userId){
-      console.log(from.params.userId == to.params.userId)
       next()
     } else if (to.name == 'mypage'){
       this.updatePost(to.params.userId)

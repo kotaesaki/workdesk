@@ -45,12 +45,11 @@ const actions = {
         try {
           await axios.get('/api/timeline?page=' + state.page).then((result)=>{
             commit('setPost', result.data.data)
-            console.log(result.data.data)
             if (result.data.last_page === state.page){
               commit('setLoad', false)
             }
             if (result.data.data){
-              result.data.data.forEach((n, i) => {
+              result.data.data.forEach((n) => {
                 state.items.push(n)
               })
             }

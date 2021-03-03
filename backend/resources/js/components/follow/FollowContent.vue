@@ -17,7 +17,7 @@
         class="follow-content">
         <router-link :to="{name: 'mypage', params: {userId: follow.id}}">
           <img
-            :src="`../../${follow.profile.icon_path}`"
+            :src="`${follow.profile.icon_path}`"
             alt=""
             class="card-img">
           <div class="follow-body">
@@ -49,7 +49,6 @@ export default {
     }
   },
   mounted() {
-    console.log('FollowContent mounted start!')
     this.$store.dispatch('follow/showFollow', this.userId)
       .then(()=>this.loading = false)
   },

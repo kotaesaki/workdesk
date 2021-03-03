@@ -13,13 +13,13 @@
           class="content-item">
           <router-link :to="{ name: 'individual', params: { postId: data.post_id }}">
             <img
-              :src="`../${data.photo_path}`"
+              :src="`${data.photo_path}`"
               alt="card"
               class="content-img">
             <div class="content-exsept">
               <div class="profile">
                 <img
-                  :src="`../${data.user.profile.icon_path}`"
+                  :src="`${data.user.profile.icon_path}`"
                   alt=""
                   class="content-icon">
                 <p class="content-id">
@@ -64,7 +64,6 @@ export default {
     }
   },
   mounted() {
-    console.log('tagId:', this.tagId)
     this.$store.dispatch('tagpage/getTag', this.tagId)
   },
   methods: {

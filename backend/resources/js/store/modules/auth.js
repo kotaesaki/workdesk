@@ -69,7 +69,6 @@ const actions = {
         withCredentials: true
       }
     }).then((result) => {
-      console.log(data)
       context.commit('setUser', result.data.user)
       context.commit('setToken', result.data.token)
       context.commit('setProfile', result.data.profile)
@@ -78,7 +77,6 @@ const actions = {
       .catch(err => {
         context.commit('setLoading', false)
         console.log('err:', err.response.data.errors)
-        console.log('失敗')
         const val = err.response.data.errors
         if (err.response.status === 422){
           context.commit('validate', val)
@@ -96,7 +94,6 @@ const actions = {
           Authorization: `Bearer ${state.token}`,
         }
       }).then((result) => {
-        console.log(data)
         context.commit('setUser', result.data.user)
         context.commit('setProfile', result.data.profile)
         context.commit('setToken', result.data.token)
@@ -107,7 +104,6 @@ const actions = {
       }).catch(err => {
         context.commit('setLoading', false)
         console.log('err:', err.response.data.errors)
-        console.log('失敗')
         const val = err.response.data.errors
         if (err.response.status === 422){
           context.commit('validate', val)
@@ -126,7 +122,6 @@ const actions = {
         
         }
       }).then((result) => {
-        console.log(data)
         context.commit('deleteUser', null)
         context.commit('setToken', null)
         context.commit('setProfile', null)
@@ -143,7 +138,6 @@ const actions = {
     }).then((result)=>{
       context.commit('setUser', result.data.user)
       context.commit('setProfile', result.data.profile)
-      console.log(result.data)
     }).catch(error=>{
       console.log(`Error! HTTP Status: ${error}`)
     })

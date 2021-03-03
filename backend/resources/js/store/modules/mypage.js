@@ -91,9 +91,6 @@ const actions = {
       commit('setProfile', res.data.profile)
       commit('setProfileLoading', false)
     }).catch(error=>{
-      if (axios.isCancel(error)){
-        console.log('リクエストがキャンセルされました。')
-      }
       console.log(error)
       commit('setProfileLoading', false)
       alert('プロフィールの取得に失敗しました。status:'+ error.response.status)
@@ -110,8 +107,6 @@ const actions = {
             }
           }).then((result)=>{
             commit('setPosts', result.data[0].data)
-            console.log(result.data[0].data)
-            console.log(result.data[1][0].data) 
             if (result.data[0].last_page === state.page){
               commit('setLoad', false)
             }

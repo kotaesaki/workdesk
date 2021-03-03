@@ -6,7 +6,7 @@
           v-for="comments in commentList"
           :key="comments.comment_id">
           <img
-            :src="`../../../../${comments.user[0].profile.icon_path}`"
+            :src="`${comments.user[0].profile.icon_path}`"
             alt=""
             class="icon_comment">
           <router-link :to="{ name:'mypage', params:{userId:comments.user_id}}">

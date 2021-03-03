@@ -11,7 +11,7 @@
           <div class="page-content">
             <img
               class="post_image"
-              :src="`../${post.photo_path}`">
+              :src="`${post.photo_path}`">
             <div class="right_side">
               <span>{{ post.description }}</span>
               <p>{{ post.created_at | dayjs }}</p>
@@ -64,7 +64,6 @@ export default {
 
   },
   mounted() {
-    console.log('mypageContent mounted start')
     window.onscroll = () => {
       let bottomOfWindow = document.scrollingElement.scrollTop + window.innerHeight
       if (bottomOfWindow >= document.documentElement.offsetHeight) {

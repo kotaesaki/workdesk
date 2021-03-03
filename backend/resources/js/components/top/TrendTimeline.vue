@@ -11,13 +11,13 @@
         class="content-item">
         <router-link :to="{ name: 'individual', params: { postId: post.post_id }}">
           <img
-            :src="`../${post.photo_path}`"
+            :src="`${post.photo_path}`"
             alt="card"
             class="content-img">
           <div class="content-exsept">
             <div class="profile">
               <img
-                :src="`../${post.user.profile.icon_path}`"
+                :src="`${post.user.profile.icon_path}`"
                 alt=""
                 class="content-icon">
               <p class="content-id">

@@ -74,7 +74,6 @@ const actions = {
         user_id: user_id
       }
     }).then(result=>{
-      console.log(result.data)
       commit('setFollow', result.data.follow)
     }).catch(error=>{
       console.log(error)
@@ -86,7 +85,6 @@ const actions = {
         user_id: user_id
       }
     }).then(result=>{
-      console.log(result.data)
       commit('setFollower', result.data.follower.follow_users)
     }).catch(error=>{
       console.log(error)
@@ -108,10 +106,9 @@ const actions = {
       })
   },
   cancel({state}){
-    console.log('cancel()スタート')  
     state.controller.abort()
-    console.log('キャンセル完了')
-  }, }
+  }, 
+}
 
 export default {
   namespaced: true,

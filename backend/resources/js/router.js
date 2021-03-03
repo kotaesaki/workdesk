@@ -161,7 +161,6 @@ const router = new VueRouter({
       beforeEnter(to, from, next){
         const user = store.getters['auth/user']
         if (to.params.userId !=user.id){
-          console.log('入れません')
           next('/')
         } else {
           next()
@@ -176,7 +175,6 @@ const router = new VueRouter({
       beforeEnter(to, from, next){
         const user = store.getters['auth/user']
         if (to.params.userId !=user.id){
-          console.log('入れません')
           next('/')
         } else {
           next()
@@ -191,7 +189,6 @@ const router = new VueRouter({
       beforeEnter(to, from, next){
         const user = store.getters['auth/user']
         if (to.params.userId !=user.id){
-          console.log('入れません')
           next('/')
         } else {
           next()
@@ -205,7 +202,6 @@ const router = new VueRouter({
       props: true,
       meta: {isPublic: true},
       beforeEnter(to, from, next){
-        console.log(store.getters['auth/check'])
         if (store.getters['auth/check']){
           next('/')
         } else {
@@ -220,7 +216,6 @@ const router = new VueRouter({
       props: true,
       meta: {isPublic: true},
       beforeEnter(to, from, next){
-        console.log(store.getters['auth/check'])
         if (store.getters['auth/check']){
           next('/')
         } else {
@@ -229,15 +224,20 @@ const router = new VueRouter({
       }
     },
 
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition || to.name == 'home' ||to.name == 'trend' || to.name == 'item') {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 router.beforeEach((to, from, next)=>{
   if (to.matched.some(record => !record.meta.isPublic) && !store.getters['auth/check']){
-    console.log('beforeEach : true')
     next('/login')
   } else {
-    console.log('beforeEach : false')
     next()
   }
 })
