@@ -13,6 +13,6 @@ class PostTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Post::factory(5)->create();
+        \App\Models\Post::factory(1)->create();
     }
 }

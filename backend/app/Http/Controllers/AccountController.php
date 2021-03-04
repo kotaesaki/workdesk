@@ -12,7 +12,8 @@ use Illuminate\Validation\Rule;
 
 class AccountController extends Controller
 {
-    public function index($login_id){
+    public function index($login_id)
+    {
         $user = User::find($login_id);
         return $user;
     }

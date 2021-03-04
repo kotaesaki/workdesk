@@ -32,6 +32,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@vue/cli": "^4.5.11",
         "body-scroll-lock": "^3.1.5",
         "dayjs": "^1.10.4",
         "sanitize-html": "^1.27.5",
