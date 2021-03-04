@@ -20,7 +20,7 @@ class MypageController extends Controller
     public function getId($login_id)
     {
         $user = User::find($login_id);
-        $profile = $user->profile->where('user_id', $login_id)->first();
+        $user->profile->where('user_id', $login_id)->first();
         return $user;
     }
 
