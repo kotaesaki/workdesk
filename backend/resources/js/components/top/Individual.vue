@@ -30,8 +30,12 @@
             <a
               href="https://twitter.com/share?ref_src=twsrc%5Etfw"
               class="twitter-share-button"
+              data-text="aaa"
+              data-url="https://takuwaku.work/photo"
+              data-hashtags="takuwaku"
               data-show-count="false"
-              target="_blank"><i class="fab fa-twitter twitter" /></a>
+              target="_blank">
+              <i class="fab fa-twitter twitter" /></a>
           </div>
         </div>
         <div class="col-md-7 main">
@@ -202,7 +206,7 @@ export default {
   },
   data() {
     return {
-      showModal: false
+      showModal: false,
     }
   },
   computed: {
