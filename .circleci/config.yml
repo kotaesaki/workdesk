@@ -20,6 +20,7 @@ jobs:
             - v1-dependencies-{{ checksum "backend/composer.json" }}
             - v1-dependencies-
       - run:
+          working_directory: backend
           name: Install PHP libraries
           command: composer install -n --prefer-dist
       - save_cache:
