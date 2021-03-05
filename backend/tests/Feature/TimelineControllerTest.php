@@ -18,9 +18,9 @@ class TimelineControllerTest extends TestCase
         $response = $this->get('/api/timeline');
         $response->assertStatus(200);
     }
-    public function testGetTrend()
+/*     public function testGetTrend()
     {
         $response = $this->get('/api/trend_timeline');
         $response->assertStatus(200);
-    }
+    } */
 }
