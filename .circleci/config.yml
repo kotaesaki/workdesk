@@ -21,7 +21,7 @@ jobs:
       - run:
           working_directory: backend
           name: Install php-gd
-          command: sudo -E docker-php-ext-install -j$(nproc) gd
+          command: docker-php-ext-install -j$(nproc) gd 
       - run: 
           name: Update apt-get
           command: sudo apt-get update
@@ -43,6 +43,9 @@ jobs:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "backend/composer.json" }}
+      - run:
+          working_directory: backend
+          command: composer install
       - run:
           working_directory: backend
           command: php artisan migrate
