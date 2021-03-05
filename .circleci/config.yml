@@ -18,6 +18,9 @@ jobs:
     working_directory: ~/ci-demo
     steps:
       - checkout
+      - run:
+          name: Install php-gd
+          command: sudo -E docker-php-ext-install -j$(nproc) gd
       - run: 
           name: Update apt-get
           command: sudo apt-get update
