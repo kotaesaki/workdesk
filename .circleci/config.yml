@@ -11,6 +11,7 @@ jobs:
       - APP_DEBUG: true
       - DB_DATABASE: laravel_local
       - MYSQL_ALLOW_EMPTY_PASSWORD: true
+      - MYSQL_ROOT_HOST: '%'
     working_directory: ~/ci-demo
     steps:
       - checkout
