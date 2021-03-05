@@ -6,6 +6,8 @@ jobs:
       - image: circleci/mysql:8.0.0
     environment:
       - DB_CONNECTION: circle_testing
+      - MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+      - MYSQL_ROOT_HOST: '%'
     working_directory: ~/ci-demo
     steps:
       - checkout
