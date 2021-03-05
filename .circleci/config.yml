@@ -2,7 +2,46 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:4.8.2
+      - image: circleci/php:7.3.0-node-browsers
+      - image: circleci/mysql:8.0.0
+
+    environment:
+      - DB_CONNECTION: circle_testing
+      - MYSQL_ALLOW_EMPTY_PASSWORD: true
+      - APP_KEY: base64:dmBYeugMdayS+V0UkxSk1tOQRhP1gKHw2iZZJtTRTL0=
+      - APP_ENV: testing
+      - APP_DEBUG: true
+    working_directory: ~/ci-demo
     steps:
       - checkout
-      - run: echo "hello world"
+      - run: 
+          name: Update apt-get
+          command: sudo apt-get update
+      - run:
+          name: Docker php extensions install
+          command: sudo docker-php-ext-install pdo_mysql
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 3m 
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "backend/composer.json" }}
+            - v1-dependencies-
+      - run:
+          working_directory: backend
+          name: Install PHP libraries
+          command: composer install -n --prefer-dist
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-{{ checksum "backend/composer.json" }}
+      - run: 
+          working_directory: backend
+          command: php artisan migrate
+      - run:
+          working_directory: backend
+          command: php artisan bd:seed
+      - run:
+          working_directory: backend
+          name: Run PHPUnit
+          command: ./vendor/bin/phpunit
