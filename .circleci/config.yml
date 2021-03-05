@@ -18,14 +18,14 @@ jobs:
     working_directory: ~/ci-demo
     steps:
       - checkout
+      - run: 
+          name: Update apt-get
+          command: sudo apt-get update
       - run:
           name: Install php-gd
           command: |
             sudo apt-get -y install libpng-dev
             sudo docker-php-ext-install  gd 
-      - run: 
-          name: Update apt-get
-          command: sudo apt-get update
       - run:
           name: Docker php extensions install
           command: sudo docker-php-ext-install pdo_mysql
