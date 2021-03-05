@@ -92,10 +92,10 @@ return [
         ],
         'circle_testing' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => '127.0.0.1',
             'port' => '3306',
             'database' => 'laravel_local',
-            'username' => 'root',
+            'username' => 'phper',
             'password' => '',
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
