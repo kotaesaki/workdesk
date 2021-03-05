@@ -20,7 +20,7 @@ jobs:
       - checkout
       - run:
           name: Install php-gd
-          command: docker-php-ext-install -j$(nproc) gd 
+          command: sudo docker-php-ext-install gd 
       - run: 
           name: Update apt-get
           command: sudo apt-get update
