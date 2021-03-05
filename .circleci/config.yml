@@ -7,7 +7,6 @@ jobs:
 
     environment:
       - DB_CONNECTION: circle_testing
-      - MYSQL_ALLOW_EMPTY_PASSWORD: true
       - MYSQL_ROOT_HOST: '%'
       - APP_KEY: base64:dmBYeugMdayS+V0UkxSk1tOQRhP1gKHw2iZZJtTRTL0=
       - APP_ENV: testing
