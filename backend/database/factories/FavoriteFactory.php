@@ -24,8 +24,8 @@ class FavoriteFactory extends Factory
     public function definition()
     {
         return [
-            'post_id' => Post::factory(),
-            'user_id' => User::factory()
+            'post_id' => '',
+            'user_id' =>''
         ];
     }
 }

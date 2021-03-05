@@ -25,7 +25,7 @@ class LoginControllerTest extends TestCase
             'login_id' => $this->user->login_id,
             'password' => '1234567890'
         ]);
-        $response->assertStatus(200);
+        $response->assertStatus(302);
     }
     public function testLoginValidate()
     {
