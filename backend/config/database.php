@@ -81,7 +81,7 @@ return [
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
-            'host' => 'db',
+            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
@@ -92,7 +92,7 @@ return [
         ],
         'circle_testing' => [
             'driver' => 'mysql',
-            'host' => '127.0.0.1',
+            'host' => 'db',
             'port' => '3306',
             'database' => 'laravel_local',
             'username' => 'root',
