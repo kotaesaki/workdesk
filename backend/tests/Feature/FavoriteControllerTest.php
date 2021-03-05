@@ -25,14 +25,18 @@ class FavoriteControllerTest extends TestCase
     public function testStore()
     {
         $user = User::factory()->create();
-        $post = Post::factory()->create();
+        $post = Post::factory()->create([
+            'user_id'=> $user->id
+        ]);
         $response = $this->post('/api/favorite',['post_id'=>$post->post_id,'user_id'=>$user->id]);
         $response->assertStatus(200);
     }
     public function testDelete()
     {
         $user = User::factory()->create();
-        $post = Post::factory()->create();
+        $post = Post::factory()->create([
+            'user_id' => $user->id
+        ]);
         $favorite = Favorite::factory()->create([
             'post_id' => $post->post_id,
             'user_id' => $user->id

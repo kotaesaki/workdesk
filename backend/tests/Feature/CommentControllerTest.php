@@ -20,7 +20,10 @@ class CommentControllerTest extends TestCase
     public function setUp() :void
     {
         parent::setUp();
-        $this->post = Post::factory()->create();
+        $this->user = User::factory()->create();
+        $this->post = Post::factory()->create([
+            'user_id' => $this->user->id
+        ]);
     }
     public function testIndex()
     {
@@ -33,7 +36,7 @@ class CommentControllerTest extends TestCase
         $response = $this->post('/api/comment',[
             'comment'=> $this->faker->realText(),
             'post_id' => $this->post->post_id,
-            'user_id'=>$user->id
+            'user_id'=>$this->user->id
         ]);
         $response->assertStatus(200);
     }
@@ -43,7 +46,7 @@ class CommentControllerTest extends TestCase
         $response = $this->post('/api/comment',[
             'comment'=> '',
             'post_id' => $this->post->post_id,
-            'user_id'=>$user->id
+            'user_id'=>$this->user->id
         ]);
         $response->assertStatus(302);
     }

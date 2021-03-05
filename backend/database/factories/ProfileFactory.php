@@ -24,6 +24,7 @@ class ProfileFactory extends Factory
     public function definition()
     {
         return [
+            'user_id' =>'',
             'website_url' => $this->faker->url,
             'twitter_url' => $this->faker->url,
             'shokai' => $this->faker->realText(),

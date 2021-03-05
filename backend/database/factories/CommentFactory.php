@@ -24,6 +24,8 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
+            'post_id' => '',
+            'user_id' => '',
             'comment_message' => $this->faker->realText(),
         ];
     }

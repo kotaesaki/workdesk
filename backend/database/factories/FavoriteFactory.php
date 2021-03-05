@@ -24,7 +24,8 @@ class FavoriteFactory extends Factory
     public function definition()
     {
         return [
-
+            'post_id' => '',
+            'user_id' =>''
         ];
     }
 }
