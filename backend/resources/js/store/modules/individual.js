@@ -55,6 +55,7 @@ const mutations = {
   },
   subtractCount(state){
     --state.countFav
+    
   },
   setLoading(state, loading){
     state.loading = loading
