@@ -19,6 +19,7 @@ jobs:
     steps:
       - checkout
       - run:
+          working_directory: backend
           name: Install php-gd
           command: sudo -E docker-php-ext-install -j$(nproc) gd
       - run: 
