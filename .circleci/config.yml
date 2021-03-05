@@ -30,8 +30,12 @@ jobs:
             - ./vendor
           key: v1-dependencies-{{ checksum "backend/composer.json" }}
       - run: echo "APP_KEY=" > .env.testing
-      - run: php artisan key:generate
-      - run: php artisan migrate
+      - run: 
+          commend: php artisan key:generate
+          working_directory: backend
+      - run: 
+          command: php artisan migrate
+          working_directory: backend
       - run:
           working_directory: backend
           name: Run PHPUnit
