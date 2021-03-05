@@ -11,6 +11,9 @@ jobs:
           - APP_KEY: base64:dmBYeugMdayS+V0UkxSk1tOQRhP1gKHw2iZZJtTRTL0=
           - APP_ENV: testing
           - APP_DEBUG: true
+          - DB_DATABASE: laravel_local
+          - DB_USERNAME: root 
+          - DB_PASSWORD: secret
     working_directory: ~/ci-demo
     steps:
       - checkout
