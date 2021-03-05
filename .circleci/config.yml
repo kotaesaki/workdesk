@@ -6,7 +6,7 @@ jobs:
       - image: circleci/mysql:8.0.0
     environment:
       - DB_CONNECTION: circle_testing
-    working_directory: backend
+    working_directory: ~/ci-demo
     steps:
       - checkout
       - run: 
