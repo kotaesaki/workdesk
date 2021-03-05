@@ -44,5 +44,8 @@ jobs:
           command: php artisan migrate
       - run:
           working_directory: backend
+          command: php artisan db:seed
+      - run:
+          working_directory: backend
           name: Run PHPUnit
           command: ./vendor/bin/phpunit
