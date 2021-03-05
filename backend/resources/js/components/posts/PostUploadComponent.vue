@@ -92,7 +92,6 @@ export default {
       blob: '',
       tag: '',
       description: '',
-
     }
   },
   methods: {

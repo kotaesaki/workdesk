@@ -16,6 +16,7 @@ class TagController extends Controller
             $tags = Tag::all()->pluck('tag_name')->toArray();
             return $tags;
         } catch (\Exception $e) {
+            return $e;
         }
     }
     public function search(Request $request)
