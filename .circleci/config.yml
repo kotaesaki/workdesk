@@ -2,30 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/php:7.3.0-node-browsers
-      - image: circleci/mysql:8.0.0
-    environment:
-      - DB_CONNECTION: circle_testing
-    working_directory: backend
+      - image: circleci/node:4.8.2
     steps:
       - checkout
-      - run: 
-        name: Update apt-get
-        command: sudo apt-get update
-      - run:
-        name: Docker php extensions install
-        command: sudo docker-php-ext-install pdo_mysql
-      - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "composer.json" }}
-          - v1-dependencies-
-      - run:
-        name: Install PHP libraries
-        command: composer install -n --prefer-dist
-      - save_cache:
-        paths:
-          - ./vendor
-        key: v1-dependencies-{{ checksum "composer.json" }}
-      - run:
-        name: Pun PHPUnit
-        command: vendor/bin/phpunit
+      - run: echo "hello world"
