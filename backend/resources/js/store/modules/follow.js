@@ -54,19 +54,17 @@ const actions = {
     })
   },
   async checkFollow({commit}, {auth_user, post_user}){
-    const { signal } = state.controller
-    const params = {
-      auth_user: auth_user,
-      post_user: post_user
-    }
-    const query_params = new URLSearchParams(params)
-    await fetch(`/api/follow?${query_params}`, { signal })
-      .then(result=>result.json())
-      .then(result=>{
-        commit('setStatus', result)
-      }).catch(error=>{
-        console.log(error)
-      })
+    await axios('/api/follow', {
+      params: {
+        auth_user: auth_user,
+        post_user: post_user
+      }
+    }).then(result=>{
+      commit('setStatus', result.data)
+      console.log(result.data)
+    }).catch(error=>{
+      console.log(error)
+    })
   },
   async showFollow({commit}, user_id){
     await axios.get('/api/follow/'+ user_id, {
@@ -91,16 +89,14 @@ const actions = {
     })
   },
   countFollow({commit}, user_id){
-    const { signal } = state.controller
     const params = {
       user_id: user_id,
     }
     const query_params = new URLSearchParams(params)
-    axios.get(`/api/countFollow?${query_params}`, {signal})
-      .then(result=>result.json())
+    axios.get(`/api/countFollow?${query_params}`)
       .then(result=>{
-        commit('setcountFollow', result[0])
-        commit('setcountFollower', result[1])
+        commit('setcountFollow', result.data[0])
+        commit('setcountFollower', result.data[1])
       }).catch(error=>{
         console.log(error)
       })

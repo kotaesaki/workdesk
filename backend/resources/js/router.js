@@ -37,7 +37,6 @@ import Register from './components/Auth/Register'
 import Login from './components/Auth/Login'
 import Loading from './components/common/Loading'
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default)
 Vue.component('header-component', HeaderComponent)
 Vue.component('footer-component', FooterComponent)
 Vue.component('search-component', Search)
