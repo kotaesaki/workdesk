@@ -11,6 +11,7 @@ jobs:
       - APP_KEY: base64:dmBYeugMdayS+V0UkxSk1tOQRhP1gKHw2iZZJtTRTL0=
       - APP_ENV: testing
       - APP_DEBUG: true
+      - DB_PASSWORD: 1234567890
     working_directory: ~/ci-demo
     steps:
       - checkout
