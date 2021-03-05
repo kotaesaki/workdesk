@@ -96,7 +96,7 @@ return [
             'port' => '3306',
             'database' => 'laravel_local',
             'username' => 'root',
-            'password' => 'secrettt',
+            'password' => 'secret',
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
