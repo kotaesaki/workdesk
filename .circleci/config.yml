@@ -54,24 +54,59 @@ jobs:
           working_directory: backend
           name: Run PHPUnit
           command: ./vendor/bin/phpunit
+
 orbs: 
   aws-ecr: circleci/aws-ecr@6.15.3
   aws-ecs: circleci/aws-ecs@2.0.0
 workflows: 
   build_and_push_image:
     jobs:
+      - build
       - aws-ecr/build-and-push-image:
-          region: AWS_REGION
+          name: 'ecr-build-and-push-image-app'
+          requires:
+            - build
+          region: AWS_DEFAULT_REGION
           account-url: AWS_ECR_ACCOUNT_URL
           repo: 'takuwaku-app'
           tag: "${CIRCLE_SHA1}"
           dockerfile: infra/php/Dockerfile
-      - aws-ecs/deploy-service-update:
+          filters: 
+            branches:
+              only: develop
+      - aws-ecr/build-and-push-image:
+          name: 'ecr-build-and-push-image-web'
           requires:
-            - aws-ecr/build-and-push-image
+            - build
+          region: AWS_DEFAULT_REGION
+          account-url: AWS_ECR_ACCOUNT_URL
+          repo: 'takuwaku_web'
+          tag: "${CIRCLE_SHA1}"
+          dockerfile: infra/nginx/Dockerfile
+          filters: 
+            branches:
+              only: develop          
+      - aws-ecs/deploy-service-update:
+          name: 'deploy-http'
+          requires:
+            - ecr-build-and-push-image-web
+            - ecr-build-and-push-image-app
           family: 'takuwaku-ec2-task'
           cluster-name: 'takuwaku-2'
           service-name: 'takuwaku-http-service'
-          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1}'
-
-
+          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1},container=web,tag=${CIRCLE_SHA1}'
+          filters: 
+            branches:
+              only: develop
+      - aws-ecs/deploy-service-update:
+          name: 'deploy-https'
+          requires:
+            - ecr-build-and-push-image-web
+            - ecr-build-and-push-image-app
+          family: 'takuwaku-ec2-task'
+          cluster-name: 'takuwaku-2'
+          service-name: 'takuwaku-https-service'
+          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1},container=web,tag=${CIRCLE_SHA1}'
+          filters: 
+            branches:
+              only: develop
