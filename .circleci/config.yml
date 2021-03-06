@@ -58,7 +58,7 @@ orbs:
   aws-ecr: circleci/aws-ecr@6.15.3
   aws-ecs: circleci/aws-ecs@2.0.0
 workflows: 
-  build_and_push_image:
+  deploy_app:
     jobs:
       - build
       - aws-ecr/build-and-push-image:
@@ -69,12 +69,21 @@ workflows:
           repo: 'takuwaku-app'
           tag: "${CIRCLE_SHA1}"
           dockerfile: infra/php/Dockerfile
+      - aws-ecr/build-and-push-image:
+          region: AWS_DEFAULT_REGION
+          account-url: AWS_ECR_ACCOUNT_URL
+          repo: 'takuwaku_web'
+          tag: "${CIRCLE_SHA1}"
+          dockerfile: infra/nginx/Dockerfile
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image
           family: 'takuwaku-ec2-task'
           cluster-name: 'takuwaku-2'
           service-name: 'takuwaku-http-service'
-          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1}'
-
-
+          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1},container=web,tag=${CIRCLE_SHA1}'
+      - aws-ecs/deploy-service-update:
+          family: 'takuwaku-ec2-task'
+          cluster-name: 'takuwaku-2'
+          service-name: 'takuwaku-https-service'
+          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1},container=web,tag=${CIRCLE_SHA1}'
