@@ -65,8 +65,8 @@ workflows:
         repo: 'takuwaku-app'
         tag: "${CIRCLE_SHA1}"
         filters: 
-          branches:
-            only: develop
+            branches:
+                only: develop
     - aws-ecs/deploy-service-update:
         requires:
             - aws-ecr/build-and-push-image
@@ -75,6 +75,6 @@ workflows:
         service-name: 'takuwaku-http-service'
         container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1}'
         filters: 
-          branches:
-            only: develop
+            branches:
+                only: develop
 
