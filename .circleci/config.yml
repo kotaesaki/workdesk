@@ -62,12 +62,12 @@ workflows:
     - aws-ecr/build-and-push-image:
         region: AWS_REGION
         account-url: AWS_ECR_ACCOUNT_URL
-        repo: 'cicdtest'
+        repo: 'takuwaku-app'
         tag: "${CIRCLE_SHA1}"
         filter: 
-            branches:
-                only: 
-                - develop
+          branches:
+            only: 
+              - develop
     - aws-ecs/deploy-service-update:
         requires:
             - aws-ecr/build-and-push-image
@@ -76,7 +76,7 @@ workflows:
         service-name: 'takuwaku-http-service'
         container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1}'
         filter: 
-            branches:
-                only: 
-                - develop
+          branches:
+            only: 
+              - develop
 
