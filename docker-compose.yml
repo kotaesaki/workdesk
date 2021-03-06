@@ -1,9 +1,13 @@
 version: "3.8"
 services:
   app:
-    build: ./infra/php
+    build:
+      context: .
+      dockerfile: ./infra/php/Dockerfile
   web:
-    build: ./infra/nginx
+    build: 
+      context: .
+      dockerfile: ./infra/nginx/Dockerfile
     ports:
       - 80:80
     working_dir: /work
