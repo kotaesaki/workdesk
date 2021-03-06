@@ -32,6 +32,9 @@ jobs:
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://127.0.0.1:3306 -timeout 3m 
+      - run:
+          working_directory: backend
+          command: composer install
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "backend/composer.json" }}
@@ -44,9 +47,6 @@ jobs:
           paths:
             - ./vendor
           key: v1-dependencies-{{ checksum "backend/composer.json" }}
-      - run:
-          working_directory: backend
-          command: composer install
       - run:
           working_directory: backend
           command: php artisan migrate
