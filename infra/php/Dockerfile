@@ -6,8 +6,6 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
 
 COPY --from=composer:1.10 /usr/bin/composer /usr/bin/composer
 
-RUN composer install --no-autoloader
-
 RUN apt-get update && \
     apt-get -y install git unzip libzip-dev libicu-dev libonig-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev && \
     apt-get clean && \
