@@ -64,7 +64,7 @@ workflows:
         account-url: AWS_ECR_ACCOUNT_URL
         repo: 'takuwaku-app'
         tag: "${CIRCLE_SHA1}"
-        filter: 
+        filters: 
           branches:
             only: develop
     - aws-ecs/deploy-service-update:
@@ -74,7 +74,7 @@ workflows:
         cluster-name: 'takuwaku-2'
         service-name: 'takuwaku-http-service'
         container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1}'
-        filter: 
+        filters: 
           branches:
             only: develop
 
