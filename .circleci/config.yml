@@ -67,7 +67,7 @@ workflows:
 
     - aws-ecs/deploy-service-update:
         requires:
-            - aws-ecr/build-and-push-image
+          - aws-ecr/build-and-push-image
         family: 'takuwaku-ec2-task'
         cluster-name: 'takuwaku-2'
         service-name: 'takuwaku-http-service'
