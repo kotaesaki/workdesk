@@ -101,7 +101,7 @@ export default {
       }
       formData.append('description', this.description)
       formData.append('id', this.userId)
-      axios.post('/api/post_upload/' + this.userId, formData, config).then((res)=>{
+      axios.post('/api/post_upload/' + this.userId, formData, config).then(()=>{
         this.$router.push({name: 'home'})
         alert('投稿しました')
       }).catch(err=>{
