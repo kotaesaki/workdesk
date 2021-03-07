@@ -14,7 +14,7 @@ COPY --from=node /usr/local/lib /usr/local/lib
 # yarn command
 COPY --from=node /opt /opt
 # nginx config file
-COPY ./infra/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY /infra/nginx/default.conf /etc/nginx/conf.d/default.conf
 
-COPY ./backend /work
+COPY /backend /work
 WORKDIR /work

@@ -4,10 +4,14 @@ services:
     build: 
       context: .
       dockerfile: ./infra/php/Dockerfile
+    volumes: 
+      - ./backend:/work
   web:
     build: 
       context: .
       dockerfile: ./infra/nginx/Dockerfile
+    volumes: 
+      - ./backend:/work
     ports:
       - 80:80
     working_dir: /work
