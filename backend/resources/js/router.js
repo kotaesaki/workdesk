@@ -19,6 +19,7 @@ import MypageLikes from './components/mypage/MypageLikes'
 import Mytag from './components/mypage/Mytag'
 import PostUploadComponent from './components/posts/PostUploadComponent'
 import PostImageForm from './components/posts/PostImageForm'
+import PostItemForm from './components/posts/PostItemForm'
 import PostTagForm from './components/posts/PostTagForm'
 import Account from './components/settings/Account'
 import Profile from './components/settings/Profile'
@@ -51,6 +52,7 @@ Vue.component('settings-bar', settingsBar)
 Vue.component('profile-image-form', ProfileImageForm)
 Vue.component('post-image-form', PostImageForm)
 Vue.component('post-tag-form', PostTagForm)
+Vue.component('post-item-form', PostItemForm)
 Vue.component('loading', Loading)
 Vue.component('content-loader', ContentLoader)
 

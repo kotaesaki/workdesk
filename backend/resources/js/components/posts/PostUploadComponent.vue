@@ -8,25 +8,7 @@
           @submit.prevent="submit">
           <post-image-form @catchBlob="uploadBlob" />
           <post-tag-form @catchTag="uploadTag" />
-          <div class="form-group">
-            <div class="contents">
-              <div class="explain">
-                <p class="title">
-                  アイテムタグを追加する
-                </p>
-                <p class="required">
-                  ※必須
-                </p>
-              </div>
-              <div class="items">
-                <input
-                  id="itemTag"
-                  type="text"
-                  name="itemTag">
-              </div>
-            </div>
-          </div>
-
+          <post-item-form />
           <div class="form-group">
             <div class="contents">
               <div class="explain">
@@ -78,9 +60,10 @@
 <script>
 import PostImageForm from './PostImageForm.vue'
 import PostTagForm from './PostTagForm.vue'
+import PostItemForm from './PostItemForm.vue'
 import axios from 'axios'
 export default {
-  components: { PostImageForm, PostTagForm },
+  components: { PostImageForm, PostTagForm, PostItemForm },
   props: {
     userId: String
   },

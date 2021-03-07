@@ -70,7 +70,7 @@ workflows:
           dockerfile: infra/php/Dockerfile
           filters: 
             branches:
-              only: develop
+              only: main
       - aws-ecr/build-and-push-image:
           name: 'ecr-build-and-push-image-web'
           requires:
@@ -82,48 +82,28 @@ workflows:
           dockerfile: infra/nginx/Dockerfile
           filters: 
             branches:
-              only: develop          
+              only: main          
       - aws-ecs/deploy-service-update:
-          name: 'deploy-http-web'
+          name: 'deploy-http'
           requires:
             - ecr-build-and-push-image-web
-          family: 'takuwaku-ec2-task'
-          cluster-name: 'takuwaku-2'
-          service-name: 'takuwaku-http-service'
-          container-image-name-updates: 'container=web,tag=${CIRCLE_SHA1}'
-          filters: 
-            branches:
-              only: develop
-      - aws-ecs/deploy-service-update:
-          name: 'deploy-http-app'
-          requires:
             - ecr-build-and-push-image-app
           family: 'takuwaku-ec2-task'
           cluster-name: 'takuwaku-2'
           service-name: 'takuwaku-http-service'
-          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1}'
+          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1},container=web,tag=${CIRCLE_SHA1}'
           filters: 
             branches:
-              only: develop      
+              only: main
       - aws-ecs/deploy-service-update:
-          name: 'deploy-https-web'
+          name: 'deploy-https'
           requires:
             - ecr-build-and-push-image-web
-          family: 'takuwaku-ec2-task'
-          cluster-name: 'takuwaku-2'
-          service-name: 'takuwaku-https-service'
-          container-image-name-updates: 'container=web,tag=${CIRCLE_SHA1}'
-          filters: 
-            branches:
-              only: develop
-      - aws-ecs/deploy-service-update:
-          name: 'deploy-https-app'
-          requires:
             - ecr-build-and-push-image-app
           family: 'takuwaku-ec2-task'
           cluster-name: 'takuwaku-2'
           service-name: 'takuwaku-https-service'
-          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1}'
+          container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1},container=web,tag=${CIRCLE_SHA1}'
           filters: 
             branches:
-              only: develop
+              only: main
