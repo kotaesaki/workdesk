@@ -70,7 +70,7 @@ workflows:
           dockerfile: infra/php/Dockerfile
           filters: 
             branches:
-              only: main
+              only: develop
       - aws-ecr/build-and-push-image:
           name: 'ecr-build-and-push-image-web'
           requires:
@@ -82,7 +82,7 @@ workflows:
           dockerfile: infra/nginx/Dockerfile
           filters: 
             branches:
-              only: main          
+              only: develop  
       - aws-ecs/deploy-service-update:
           name: 'deploy-http'
           requires:
@@ -94,7 +94,7 @@ workflows:
           container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1},container=web,tag=${CIRCLE_SHA1}'
           filters: 
             branches:
-              only: main
+              only: develop
       - aws-ecs/deploy-service-update:
           name: 'deploy-https'
           requires:
@@ -106,4 +106,4 @@ workflows:
           container-image-name-updates: 'container=app,tag=${CIRCLE_SHA1},container=web,tag=${CIRCLE_SHA1}'
           filters: 
             branches:
-              only: main
+              only: develop
