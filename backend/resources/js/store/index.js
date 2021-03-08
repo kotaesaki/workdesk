@@ -11,6 +11,7 @@ import mytag from './modules/mytag'
 import mypage from './modules/mypage'
 import search from './modules/search'
 import tagpage from './modules/tagPage'
+import item from './modules/item'
 
 Vue.use(Vuex)
 
@@ -29,7 +30,8 @@ export default new Vuex.Store({
     mytag,
     mypage,
     search,
-    tagpage
+    tagpage,
+    item
   },
   mutations: {},
   actions: {},
