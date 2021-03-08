@@ -47,10 +47,10 @@
         v-show="showModal"
         class="overlay">
         <div class="modal1">
-          <div class="batsu">
-            <i
-              class="fas fa-times batsuBtn"
-              @click="closeModal" />
+          <div
+            class="batsu"
+            @click="closeModal">
+            <i class="fas fa-times batsuBtn" />
           </div>
           <p>トリミングする</p>
           <div
@@ -70,17 +70,17 @@
               :rotatable="true"
               :src="imageData"
               :img-style="{ 'width': '300px', 'height': '300px' }" />
-          </div>
-          <div class="modalBtn">
-            <div
-              class="cancelBtn"
-              @click="closeModal">
-              キャンセル
-            </div>                    
-            <div
-              class="completeBtn"
-              @click="cropImage">
-              完了
+            <div class="modalBtn">
+              <div
+                class="cancelBtn"
+                @click="closeModal">
+                キャンセル
+              </div>                    
+              <div
+                class="completeBtn"
+                @click="cropImage">
+                完了
+              </div>
             </div>
           </div>
         </div>

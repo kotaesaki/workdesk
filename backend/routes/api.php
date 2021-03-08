@@ -55,4 +55,5 @@ Route::post('/follow', 'App\Http\Controllers\FollowUserController@follow')->name
 Route::delete('/follow', 'App\Http\Controllers\FollowUserController@unfollow')->name('api.push_unfollow');
 Route::get('/follow/{login_id}', 'App\Http\Controllers\FollowUserController@showFollow')->name('api.show_follow');
 Route::get('/follower/{login_id}', 'App\Http\Controllers\FollowUserController@showFollower')->name('api.show_follower');
+Route::get('/searchItem', 'App\Http\Controllers\ItemController@index')->name('api.search_item');
 
