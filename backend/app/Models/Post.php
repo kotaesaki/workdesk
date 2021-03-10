@@ -38,4 +38,7 @@ class Post extends Model
     {
         return $this->hasMany('App\Models\Comment', 'comment_id');
     }
+    public function item(){
+        return $this->hasMany('App\Models\Item', 'item_id');
+    }
 }

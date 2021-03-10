@@ -3517,6 +3517,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3524,18 +3534,24 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     VueCropper: vue_cropperjs__WEBPACK_IMPORTED_MODULE_0__.default
   },
-
-  /*     props:
-    [
-     ], */
+  props: {
+    cartItems: Array
+  },
   data: function data() {
     return {
       showModal: false,
       imageData: '',
       cropImg: '',
       file: '',
-      blob: ''
+      blob: '',
+      hukidashiFlug: 'false'
     };
+  },
+  watch: {
+    cartItems: {
+      handler: function handler() {},
+      deep: true
+    }
   },
   methods: {
     openModal: function openModal(e) {
@@ -3576,6 +3592,7 @@ __webpack_require__.r(__webpack_exports__);
         type: 'image/jpeg'
       });
       this.$emit('catchBlob', this.blob);
+      this.$emit('catchCropImg', this.cropImg);
       this.showModal = false;
     },
     deleteImage: function deleteImage() {
@@ -3583,7 +3600,8 @@ __webpack_require__.r(__webpack_exports__);
       this.cropImg = '';
       this.file = '';
       this.blob = '';
-      this.$emit('catchBlob', this.blob); //こっちでもemit送る
+      this.$emit('catchBlob', this.blob);
+      this.$emit('catchCropImg', this.cropImg); //こっちでもemit送る
     }
   }
 });
@@ -3698,12 +3716,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    cropImg: String
+  },
   data: function data() {
     return {
       showModal: false,
       isActive: 1,
-      individualItem: ''
+      individualItem: '',
+      cartItems: [],
+      itemCode: ''
     };
   },
   computed: {
@@ -3723,11 +3783,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    openModal: function openModal() {
+    openModal: function openModal(isActive) {
+      this.isActive = isActive;
       this.showModal = true;
     },
     closeModal: function closeModal() {
       this.showModal = false;
+      this.individualItem = '';
+      this.itemCode = '';
     },
     searchItem: function searchItem() {
       this.$store.dispatch('item/searchItem');
@@ -3735,6 +3798,43 @@ __webpack_require__.r(__webpack_exports__);
     selectItem: function selectItem(item, isActive) {
       this.individualItem = item;
       this.isActive = isActive;
+    },
+    backModal: function backModal() {
+      this.isActive = 1;
+    },
+    addItem: function addItem() {
+      if (!this.cartItems.includes(this.individualItem)) {
+        this.openCrop(this.individualItem);
+      } else {
+        this.isActive = 1;
+        this.individualItem = '';
+        this.closeModal();
+      }
+    },
+    deleteCartItem: function deleteCartItem(itemCode) {
+      this.cartItems = this.cartItems.filter(function (v) {
+        return v.itemCode != itemCode;
+      });
+      this.$emit('catchCartItems', this.cartItems);
+    },
+    openCrop: function openCrop(individualItem) {
+      this.isActive = 3;
+      this.showModal = true;
+      this.itemCode = individualItem.itemCode;
+    },
+    deployItem: function deployItem() {
+      var _this = this;
+
+      document.getElementById('cropImg').addEventListener('click', function (event) {
+        _this.individualItem.relationX = event.offsetX / 300 * 100;
+        _this.individualItem.relationY = event.offsetY / 300 * 100;
+
+        _this.cartItems.push(_this.individualItem);
+
+        _this.$emit('catchCartItems', _this.cartItems);
+
+        _this.closeModal();
+      });
     }
   }
 });
@@ -3922,6 +4022,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -3941,8 +4046,10 @@ __webpack_require__.r(__webpack_exports__);
       profile: '',
       errors: [],
       blob: '',
+      cropImg: '',
       tag: '',
-      description: ''
+      description: '',
+      cartItems: ''
     };
   },
   methods: {
@@ -3964,6 +4071,14 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         formData.append('tag', []);
+      }
+
+      if (this.cartItems.length > 0) {
+        this.cartItems.forEach(function (text, index) {
+          formData.append('items[' + index + ']', JSON.stringify(text));
+        });
+      } else {
+        formData.append('items', []);
       }
 
       if (!this.blob) {
@@ -4020,8 +4135,14 @@ __webpack_require__.r(__webpack_exports__);
     uploadBlob: function uploadBlob(blob) {
       this.blob = blob;
     },
+    uploadCropImg: function uploadCropImg(cropImg) {
+      this.cropImg = cropImg;
+    },
     uploadTag: function uploadTag(tag) {
       this.tag = tag;
+    },
+    uploadCartItems: function uploadCartItems(cartItems) {
+      this.cartItems = cartItems;
     }
   }
 });
@@ -5048,6 +5169,53 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5069,7 +5237,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      showModal: false
+      showModal: false,
+      balloonFlug: false
     };
   },
   computed: {
@@ -5111,6 +5280,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     source: function source() {
       return this.$store.getters['individual/source'];
+    },
+    items: function items() {
+      return this.$store.getters['individual/items'];
     }
   },
   created: function created() {
@@ -5334,6 +5506,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.$router.push({
         name: 'login'
       });
+    },
+    popBalloon: function popBalloon() {
+      return true;
+    },
+    leaveBalloon: function leaveBalloon() {
+      return false;
     }
   },
   beforeRouteLeave: function beforeRouteLeave(to, from, next) {
@@ -5788,6 +5966,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -5799,7 +5985,74 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      items: '',
+      loading: false,
+      count: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      n: 0
+    };
+  },
+  mounted: function mounted() {
+    this.getItems();
+  },
+  methods: {
+    getItems: function getItems() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.loading = true;
+                _context.next = 3;
+                return axios.get('/api/trend_items').then(function (res) {
+                  console.log(res.data);
+                  _this.items = res.data;
+                }).then(function () {
+                  return _this.loading = false;
+                })["catch"](function (err) {
+                  alert('商品の取得に失敗しました。');
+                  _this.loading = false;
+                });
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
+  }
+});
 
 /***/ }),
 
@@ -7252,7 +7505,8 @@ var state = {
   loading: false,
   heartLoading: false,
   source: axios__WEBPACK_IMPORTED_MODULE_1___default().CancelToken.source(),
-  controller: new AbortController()
+  controller: new AbortController(),
+  items: null
 };
 var getters = {
   post: function post(state) {
@@ -7281,6 +7535,9 @@ var getters = {
   },
   source: function source(state) {
     return state.source ? state.source : 'ないよ';
+  },
+  items: function items(state) {
+    return state.items ? state.items : '';
   },
   checked: function checked(state) {
     if (state.post == null || state.user == null || state.profile == null || state.tags == null || state.status == null || state.countFav == null) {
@@ -7323,6 +7580,9 @@ var mutations = {
   },
   setController: function setController(state, controller) {
     state.controller = controller;
+  },
+  setItems: function setItems(state, items) {
+    state.items = items;
   }
 };
 var actions = {
@@ -7354,6 +7614,7 @@ var actions = {
                 commit('setTags', result.tags);
                 commit('setStatus', result.status);
                 commit('setCountFav', result.count_fav);
+                commit('setItems', result.items);
                 commit('setLoading', false);
               })["catch"](function (error) {
                 commit('setLoading', false);
@@ -16718,7 +16979,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.uploadStep[data-v-555081b0]{\n    position:relative;\n    width: 100%;\n}\n.image-view[data-v-555081b0]{\n    width: 300px;\n    height: 300px;\n    background-color: #08415C;\n    border: 2px dashed grey;\n    text-align: center;\n}\n.selectBtn[data-v-555081b0]{\n    margin: 71% 10% 0 10%;\n    border: 1px solid;\n    border-radius: 6px;\n    padding: 4% 14%;\n    background-color: #fff;\n    cursor: pointer;\n}\n.selectBtn[data-v-555081b0]:hover{\n    opacity: 0.6;\n}\n.overlay[data-v-555081b0]{\n    z-index:1;\n    position:fixed;\n    top:0;\n    left:0;\n    width:100%;\n    height:100%;\n    background-color:rgba(0,0,0,0.5);\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.modal1[data-v-555081b0]{\n    position:relative;\n    z-index: 2000;\n    width: 50%;\n    padding: 1em;\n    background-color: #fff;\n    text-align: center;\n    border-radius: 7px;\n}\n.modal1 p[data-v-555081b0]{\n    border-bottom: 2.3px solid slategrey;\n    padding: 1% 0 2% 0;\n}\n.modalBtn[data-v-555081b0]{\n    margin:2% 0;\n}\n.cancelBtn[data-v-555081b0]{\n    display: inline-block;\n    border: 2px solid;\n    border-radius: 6px;\n    padding: 2% 3%;\n    margin:0 2% 0 0;  \n    cursor: pointer;\n}\n.cancelBtn[data-v-555081b0]:hover{\n    opacity: 0.3;\n}\n.completeBtn[data-v-555081b0]{\n    display: inline-block;\n    border: 2px solid #DC3E38;\n    border-radius: 6px;\n    padding: 2% 7%;\n    background-color: #DC3E38;\n    color: #fff;\n    margin:0 0 0 2%;\n    cursor: pointer;\n}\n.completeBtn[data-v-555081b0]:hover{\n    opacity: 0.3;\n}\n.batsu[data-v-555081b0]{\n    font-size:2em;\n    cursor: pointer;\n    position: absolute;\n    top: -1.3rem;\n    right: -0.8rem;\n    border-radius: 50%;\n    border: 1px solid #fff;\n    padding: 0.5rem;\n    background-color: #fff;\n    width: 2.4rem;\n    height: 2.4rem;\n    box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-555081b0]{\n    width: 1rem;\n    height: 1rem;\n    position: absolute;\n    top: 0.6rem;\n    right: 0.65rem;\n    font-size: 1.3rem;\n}\n.photoImage[data-v-555081b0]{\n  position:relative;\n\n  margin: 0 auto;\n}\n.deleteImg[data-v-555081b0]{\n    position: absolute;\n    border-radius: 50%;\n    border: 1px solid #443311;\n    padding: 0.5rem;\n    background-color: #443311;\n    box-shadow: 0 2px 7px grey;\n    top: -1rem;\n    right: 13rem;\n    width: 2rem;\n    height: 2rem;\n    cursor: pointer;\n}\n.deleteBatsu[data-v-555081b0]{\n    position:absolute;\n    top: 0.58rem;\n    right: 0.6rem;\n    color: #fff;\n}\n.cropimg[data-v-555081b0]{\n    width: 300px;\n    height: 300px;\n}\n.image-box[data-v-555081b0]{\n    width: 300px; \n    height:300px; \n    border: 1px solid gray; \n    display: inline-block;\n}\nlabel input[data-v-555081b0]{\n    display: none;\n}\n.explain span[data-v-555081b0]{\n  color: grey;\n  font-size: 0.8rem;\n}\n@media(max-width: 1199px){\n.deleteImg[data-v-555081b0]{\n    top: -1rem;\n    right: 8rem;\n}\n}\n@media(max-width:1000px){\nh2[data-v-555081b0]{\n    text-align: center;\n}\n.explain[data-v-555081b0]{\n    float: none;\n    text-align: center;\n    width: auto;\n}\n.title[data-v-555081b0]{\n    font-size:1rem;\n    margin: 0;\n}\n.required[data-v-555081b0]{\n}\n.uploadStep[data-v-555081b0]{\n    text-align: center;\n}\n.modal1[data-v-555081b0]{\n    width: 93vw;\n    height: 84vh;\n}\n.photoImage[data-v-555081b0]{\n    width: 300px;\n}\n.deleteImg[data-v-555081b0]{\n    top: -1rem;\n    right: -1rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.uploadStep[data-v-555081b0]{\n    position:relative;\n    width: 100%;\n}\n.image-view[data-v-555081b0]{\n    width: 300px;\n    height: 300px;\n    background-color: #08415C;\n    border: 2px dashed grey;\n    text-align: center;\n}\n.selectBtn[data-v-555081b0]{\n    margin: 71% 10% 0 10%;\n    border: 1px solid;\n    border-radius: 6px;\n    padding: 4% 14%;\n    background-color: #fff;\n    cursor: pointer;\n}\n.selectBtn[data-v-555081b0]:hover{\n    opacity: 0.6;\n}\n.overlay[data-v-555081b0]{\n    z-index:1;\n    position:fixed;\n    top:0;\n    left:0;\n    width:100%;\n    height:100%;\n    background-color:rgba(0,0,0,0.5);\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.modal1[data-v-555081b0]{\n    position:relative;\n    z-index: 2000;\n    width: 50%;\n    padding: 1em;\n    background-color: #fff;\n    text-align: center;\n    border-radius: 7px;\n}\n.modal1 p[data-v-555081b0]{\n    border-bottom: 2.3px solid slategrey;\n    padding: 1% 0 2% 0;\n}\n.modalBtn[data-v-555081b0]{\n    margin:2% 0;\n}\n.cancelBtn[data-v-555081b0]{\n    display: inline-block;\n    border: 2px solid;\n    border-radius: 6px;\n    padding: 2% 3%;\n    margin:0 2% 0 0;  \n    cursor: pointer;\n}\n.cancelBtn[data-v-555081b0]:hover{\n    opacity: 0.3;\n}\n.completeBtn[data-v-555081b0]{\n    display: inline-block;\n    border: 2px solid #DC3E38;\n    border-radius: 6px;\n    padding: 2% 7%;\n    background-color: #DC3E38;\n    color: #fff;\n    margin:0 0 0 2%;\n    cursor: pointer;\n}\n.completeBtn[data-v-555081b0]:hover{\n    opacity: 0.3;\n}\n.batsu[data-v-555081b0]{\n    font-size:2em;\n    cursor: pointer;\n    position: absolute;\n    top: -1.3rem;\n    right: -0.8rem;\n    border-radius: 50%;\n    border: 1px solid #fff;\n    padding: 0.5rem;\n    background-color: #fff;\n    width: 2.4rem;\n    height: 2.4rem;\n    box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-555081b0]{\n    width: 1rem;\n    height: 1rem;\n    position: absolute;\n    top: 0.6rem;\n    right: 0.65rem;\n    font-size: 1.3rem;\n}\n.photoImage[data-v-555081b0]{\n  position:relative;\n  margin: 0 auto;\n}\n.deleteImg[data-v-555081b0]{\n    position: absolute;\n    border-radius: 50%;\n    border: 1px solid #443311;\n    padding: 0.5rem;\n    background-color: #443311;\n    box-shadow: 0 2px 7px grey;\n    top: -1rem;\n    right: 13rem;\n    width: 2rem;\n    height: 2rem;\n    cursor: pointer;\n}\n.deleteBatsu[data-v-555081b0]{\n    position:absolute;\n    top: 0.58rem;\n    right: 0.6rem;\n    color: #fff;\n}\n.itemList[data-v-555081b0]{\n  position:absolute;\n  top: 0;\n  left: 43%;\n  width: 300px;\n  height: 300px;\n}\n.itemList div[data-v-555081b0]{ \n  position: absolute;\n  width: 30px;\n  height: 30px;\n  background: #08415C;\n  border-radius: 50%;\n}\n.itemList i[data-v-555081b0]{\n  position:absolute;\n  top: 50%;\n  left: 50%;\n  color:#FFF;\n  transform: translate(-50%,-50%);\n  -webkit-transform: translate(-50%,-50%);\n  -ms-transform: translate(-50%,-50%);\n}\n.cropimg[data-v-555081b0]{\n    width: 300px;\n    height: 300px;\n}\n.image-box[data-v-555081b0]{\n    width: 300px; \n    height:300px; \n    border: 1px solid gray; \n    display: inline-block;\n}\nlabel input[data-v-555081b0]{\n    display: none;\n}\n.explain span[data-v-555081b0]{\n  color: grey;\n  font-size: 0.8rem;\n}\n@media(max-width: 1199px){\n.deleteImg[data-v-555081b0]{\n    top: -1rem;\n    right: 8rem;\n}\n}\n@media(max-width:1000px){\nh2[data-v-555081b0]{\n    text-align: center;\n}\n.explain[data-v-555081b0]{\n    float: none;\n    text-align: center;\n    width: auto;\n}\n.title[data-v-555081b0]{\n    font-size:1rem;\n    margin: 0;\n}\n.required[data-v-555081b0]{\n}\n.uploadStep[data-v-555081b0]{\n    text-align: center;\n}\n.modal1[data-v-555081b0]{\n    width: 93vw;\n    height: 84vh;\n}\n.photoImage[data-v-555081b0]{\n    width: 300px;\n}\n.deleteImg[data-v-555081b0]{\n    top: -1rem;\n    right: -1rem;\n}\n.itemList[data-v-555081b0]{\n    left: 0;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16742,7 +17003,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.searchBtn[data-v-557cac1e]{\n  width: 20%;\n  display: inline-block;\n  text-align: center;\n  padding: 1.6rem 1rem;\n  border: 3px solid #DEF2FF;\n  border-radius: 7px;\n  cursor: pointer;\n}\n.searchBtn[data-v-557cac1e]:hover{\n  background: #DEF2FF;\n}\n.searchBtn i[data-v-557cac1e]{\n  display: block;\n  font-size: 1.7rem;\n}\n.searchBtn p[data-v-557cac1e]{\n  display: inline-block;\n  margin-bottom: 0;\n}\n.overlay[data-v-557cac1e]{\n    z-index:1;\n    position:fixed;\n    top:0;\n    left:0;\n    width:100%;\n    height:100%;\n    background-color:rgba(0,0,0,0.5);\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n.modal1[data-v-557cac1e]{\n    position:relative;\n    z-index: 2000;\n    width: 50%;\n    max-height: 80vh;\n    padding: 1em;\n    background-color: #fff;\n    text-align: center;\n    border-radius: 7px;\n    overflow: scroll;\n}\n.modal1 p[data-v-557cac1e]{\n    border-bottom: 2.3px solid slategrey;\n    padding: 1% 0 2% 0;\n}\n.modalBtn[data-v-557cac1e]{\n    margin:3rem 0;\n}\n.completeBtn[data-v-557cac1e]{\n    display: inline-block;\n    border: 2px solid #DC3E38;\n    border-radius: 6px;\n    padding: 2% 7%;\n    background-color: #DC3E38;\n    color: #fff;\n    margin:2rem 0 0 0;\n    cursor: pointer;\n}\n.completeBtn[data-v-557cac1e]:hover{\n    opacity: 0.3;\n}\n.batsu[data-v-557cac1e]{\n    font-size:2em;\n    cursor: pointer;\n    position: absolute;\n    top: 0.6rem;\n    right: 1rem;\n    border-radius: 50%;\n    border: 1px solid #fff;\n    padding: 0.5rem;\n    background-color: #fff;\n    width: 2.4rem;\n    height: 2.4rem;\n    box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-557cac1e]{\n    width: 1rem;\n    height: 1rem;\n    position: absolute;\n    top: 0.6rem;\n    right: 0.65rem;\n    font-size: 1.3rem;\n}\n.itemArea[data-v-557cac1e]{\n  resize: none;\n  border: 1px solid #cde;\n  border-radius: 6px;\n  width: 90%;\n  height: 2.5rem;\n}\n.resultItem[data-v-557cac1e]{\n  margin-top: 30px;\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  flex-wrap: wrap;\n}\n.contentItem[data-v-557cac1e]{\n  width: 18%;\n  background-color: #fff;\n  margin-bottom: 20px;\n  border-radius: 20px;\n  cursor: pointer;\n}\n.contentItem[data-v-557cac1e]:hover{\n  opacity: 0.6;\n}\n.contentItem img[data-v-557cac1e]{\n  width: 100%;\n}\n.contentDescription[data-v-557cac1e]{\n  display: block;\n  position: relative;\n  height: 4.4rem;\n  font-size: 0.8rem;\n  margin:0%;\n  clear: both;\n  overflow: hidden;\n}\n.contentPrice[data-v-557cac1e]{\n  display: block;\n  text-align: start;\n  font-weight: bold;\n  color: dimgray;\n  font-size: 0.8rem;\n}\n.individualItem[data-v-557cac1e]{\n  display: inline-block;\n  text-align: center;\n  margin-top: 1.5rem;\n}\n.individualItem img[data-v-557cac1e]{\n  float: left;\n}\n.individualItem .individualName[data-v-557cac1e]{\n  padding: 0.6rem 0 0 14rem;\n  border: none;\n  text-align: left;\n  margin-bottom: 0;\n}\n.individualItem .individualPrice[data-v-557cac1e]{\n  padding: 0 0 0 14rem;\n  border: none;\n  text-align: left;\n  margin-bottom: 0;\n}\n.individualItem a[data-v-557cac1e]{\n  padding: 0 0 0 14rem;\n  display: block;\n  text-align: left;\n  color: blue;\n}\n.individualItem .btnWrapper[data-v-557cac1e]{\n  clear: both;\n  margin: 2rem 0;\n}\n.individualItem .backBtn[data-v-557cac1e]{\n  display: inline-block;\n  clear: both;\n  padding: 1rem 2rem;\n  border: 1px solid darkgrey;\n  border-radius: 5px;\n  margin-right: 0.5rem;\n  cursor: pointer;\n}\n.backBtn[data-v-557cac1e]:hover{\n  background: darkgrey;\n}\n.individualItem .addBtn[data-v-557cac1e]{\n  display: inline-block;\n  padding: 1rem 2rem;\n  border: 1px solid #DEF2FF;\n  border-radius: 5px;\n  margin-left: 0.5rem;\n  cursor: pointer;\n}\n.addBtn[data-v-557cac1e]:hover{\n  background: #DEF2FF;\n}\n.loader-space[data-v-557cac1e]{\n  width: 100%;\n  height: 20vh;\n  position: relative;\n}\n.loader[data-v-557cac1e]{\n  position: absolute;\n  left: 50%;\n  transform: translateX(-50%);\n  -webkit-transform: translateX(-50%);\n  -ms-transform: translateX(-50%);\n}\n@media(max-width: 1000px){\n.searchBtn[data-v-557cac1e] {\n  width: 50%;\n}\n.modal1[data-v-557cac1e]{\n  width: 93vw;\n  height: 84vh;\n}\n.photoImage[data-v-557cac1e]{\n  width: 300px;\n}\n.deleteImg[data-v-557cac1e]{\n  top: -1rem;\n  right: -1rem;\n}\n.commentArea[data-v-557cac1e]{\n  width: 100%;\n  height: 2.5rem;\n  font-size: 16px;\n  transform: scale(1.0);\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.searchBtn[data-v-557cac1e]{\n  width: 8rem;\n  height: 8rem;\n  display: inline-block;\n  text-align: center;\n  padding: 1.6rem 1rem;\n  border: 3px solid #DEF2FF;\n  border-radius: 7px;\n  cursor: pointer;\n}\n.selectBtnWrapper[data-v-557cac1e]{\n  height: 100%;\n}\n.searchBtn[data-v-557cac1e]:hover{\n  background: #DEF2FF;\n}\n.searchBtn i[data-v-557cac1e]{\n  display: block;\n  font-size: 1.7rem;\n}\n.searchBtn p[data-v-557cac1e]{\n  display: inline-block;\n  margin-bottom: 0;\n}\n.items[data-v-557cac1e]{\n  display: flex;\n}\n.addItem ul[data-v-557cac1e]{\n  list-style: none;\n  display: flex;\n  flex-wrap: wrap;\n  float: right;\n  padding: 0;\n}\n.addItem ul li[data-v-557cac1e]{\n  position: relative;\n  display: inline-block;\n  height: 8rem;\n  width: 8rem;\n  padding: 0 0.5rem;\n}\nli img[data-v-557cac1e]{\n  width: 100%;\n}\nli .deleteItemBtn[data-v-557cac1e]{\n  position: absolute;\n  top: -1rem;\n  right: 0rem;\n  width: 30px;\n  height: 30px;\n  border: 1px solid #443311;\n  padding: 0.5rem;\n  background-color: #443311;\n  box-shadow: 0 2px 7px grey;\n  cursor: pointer;\n}\nli .deleteItemBtn i[data-v-557cac1e]{\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  color: #fff;\n  transform: translate(-50%,-50%);\n  -webkit-transform: translate(-50%,-50%);\n  -ms-transform: translate(-50%,-50%);\n}\n.overlay[data-v-557cac1e]{\n  z-index:1;\n  position:fixed;\n  top:0;\n  left:0;\n  width:100%;\n  height:100%;\n  background-color:rgba(0,0,0,0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.modal1[data-v-557cac1e]{\n  position:relative;\n  z-index: 2000;\n  width: 50%;\n  max-height: 80vh;\n  padding: 1em;\n  background-color: #fff;\n  text-align: center;\n  border-radius: 7px;\n  overflow: scroll;\n}\n.modal1 p[data-v-557cac1e]{\n  border-bottom: 2.3px solid slategrey;\n  padding: 1% 0 2% 0;\n}\n.modalBtn[data-v-557cac1e]{\n  margin:3rem 0;\n}\n.completeBtn[data-v-557cac1e]{\n  display: inline-block;\n  border: 2px solid #DC3E38;\n  border-radius: 6px;\n  padding: 2% 7%;\n  background-color: #DC3E38;\n  color: #fff;\n  margin:2rem 0 0 0;\n  cursor: pointer;\n}\n.completeBtn[data-v-557cac1e]:hover{\n  opacity: 0.3;\n}\n.batsu[data-v-557cac1e]{\n  font-size:2em;\n  cursor: pointer;\n  position: absolute;\n  top: 0.6rem;\n  right: 1rem;\n  border-radius: 50%;\n  border: 1px solid #fff;\n  padding: 0.5rem;\n  background-color: #fff;\n  width: 2.4rem;\n  height: 2.4rem;\n  box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-557cac1e]{\n  width: 1rem;\n  height: 1rem;\n  position: absolute;\n  top: 0.6rem;\n  right: 0.65rem;\n  font-size: 1.3rem;\n}\n.itemArea[data-v-557cac1e]{\n  resize: none;\n  border: 1px solid #cde;\n  border-radius: 6px;\n  width: 90%;\n  height: 2.5rem;\n}\n.resultItem[data-v-557cac1e]{\n  margin-top: 30px;\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n  flex-wrap: wrap;\n}\n.contentItem[data-v-557cac1e]{\n  width: 18%;\n  background-color: #fff;\n  margin-bottom: 20px;\n  border-radius: 20px;\n  cursor: pointer;\n}\n.contentItem[data-v-557cac1e]:hover{\n  opacity: 0.6;\n}\n.contentItem img[data-v-557cac1e]{\n  width: 100%;\n}\n.contentDescription[data-v-557cac1e]{\n  display: block;\n  position: relative;\n  height: 4.4rem;\n  font-size: 0.8rem;\n  margin:0%;\n  clear: both;\n  overflow: hidden;\n}\n.contentPrice[data-v-557cac1e]{\n  display: block;\n  text-align: start;\n  font-weight: bold;\n  color: dimgray;\n  font-size: 0.8rem;\n}\n.individualItem[data-v-557cac1e]{\n  display: inline-block;\n  text-align: center;\n  margin-top: 1.5rem;\n}\n.individualItem img[data-v-557cac1e]{\n  float: left;\n}\n.individualItem .individualName[data-v-557cac1e]{\n  padding: 0.6rem 0 0 14rem;\n  border: none;\n  text-align: left;\n  margin-bottom: 0;\n}\n.individualItem .individualPrice[data-v-557cac1e]{\n  padding: 0 0 0 14rem;\n  border: none;\n  text-align: left;\n  margin-bottom: 0;\n}\n.individualItem a[data-v-557cac1e]{\n  padding: 0 0 0 14rem;\n  display: block;\n  text-align: left;\n  color: blue;\n}\n.individualItem .btnWrapper[data-v-557cac1e]{\n  clear: both;\n  margin: 2rem 0;\n}\n.individualItem .backBtn[data-v-557cac1e]{\n  display: inline-block;\n  clear: both;\n  padding: 1rem 2rem;\n  border: 1px solid darkgrey;\n  border-radius: 5px;\n  margin-right: 0.5rem;\n  cursor: pointer;\n}\n.backBtn[data-v-557cac1e]:hover{\n  background: darkgrey;\n}\n.individualItem .addBtn[data-v-557cac1e]{\n  display: inline-block;\n  padding: 1rem 2rem;\n  border: 1px solid #DEF2FF;\n  border-radius: 5px;\n  margin-left: 0.5rem;\n  cursor: pointer;\n}\n.addBtn[data-v-557cac1e]:hover{\n  background: #DEF2FF;\n}\n.onItem img[data-v-557cac1e]{\n  width: 300px;\n  height: 300px;\n}\n.loader-space[data-v-557cac1e]{\n  width: 100%;\n  height: 20vh;\n  position: relative;\n}\n.loader[data-v-557cac1e]{\n  position: absolute;\n  left: 50%;\n  transform: translateX(-50%);\n  -webkit-transform: translateX(-50%);\n  -ms-transform: translateX(-50%);\n}\n@media(max-width: 1000px){\n.itemUpload[data-v-557cac1e]{\n  display: block;\n  text-align: center;\n}\n.addItem[data-v-557cac1e]{\n  display: flex;\n}\n.addItem ul[data-v-557cac1e]{\n  justify-content: space-between;\n  align-items: flex-start;\n  margin-top: 2rem;\n}\n.addItem ul li[data-v-557cac1e]{\n  width: 7rem;\n}\n.modal1[data-v-557cac1e]{\n  width: 93vw;\n  height: 84vh;\n}\n.photoImage[data-v-557cac1e]{\n  width: 300px;\n}\n.deleteImg[data-v-557cac1e]{\n  top: -1rem;\n  right: -1rem;\n}\n.commentArea[data-v-557cac1e]{\n  width: 100%;\n  height: 2.5rem;\n  font-size: 16px;\n  transform: scale(1.0);\n}\n.contentItem[data-v-557cac1e]{\n  width: 30%;\n}\n.individualItem[data-v-557cac1e]{\n  width: 100%;\n  height: 100%;\n  text-align: center;\n}\n.individualItem img[data-v-557cac1e]{\n  float: none;\n}\n.individualItem .individualName[data-v-557cac1e]{\n  padding: 0;\n  font-size: 0.8rem;\n}\n.individualItem .individualPrice[data-v-557cac1e]{\n  padding: 0;\n}\n.individualItem a[data-v-557cac1e]{\n  padding: 0;\n  word-wrap:break-word;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -16934,7 +17195,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper[data-v-7ba11584]{\n        background-color: #EDF2F7;\n}\n.pages[data-v-7ba11584]{\n        padding-top: 150px;\n}\n.comment[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #FFF;\n        border-radius: 10px;\n        margin-top: 5%;\n}\n.contents-profile[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #FFF;\n        border-radius: 10px;\n        margin: 6% auto;\n        padding: 5%;\n}\n.contents-profile h3[data-v-7ba11584] {\n        font-size: 1.3rem;\n}\n.contents-profile .name-id[data-v-7ba11584]{\n        float: left;\n}\n.contents-profile .pro_name[data-v-7ba11584]{\n        padding: 2% 0 0;\n        margin-bottom: 0;\n}\n.contents-profile .follow-unfollow[data-v-7ba11584]{\n        text-align: right;\n}\n.contents-profile .follow[data-v-7ba11584]{\n        display: inline-block;\n        border: 1px solid #CFCABF;\n        border-radius: 5%;\n        padding:7px;\n        cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]{\n        display: inline-block;\n        border: 1px solid #CFCABF;\n        border-radius: 5%;\n        padding:7px;\n        cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]:hover{\n        background-color: #2983FD;\n        color: #FFF;\n}\n.contents-profile .follow[data-v-7ba11584]:hover{\n        background-color: #2983FD;\n        color: #FFF;\n}\n.contents-profile .follower[data-v-7ba11584]{\n        clear: both;\n}\n.follower p[data-v-7ba11584] {\n        display: inline;\n        font-size: 0.8rem;\n        color: #859099;\n}\n.contents-profile hr[data-v-7ba11584]{\n        border-width: 1px 0 0 0;\n        border-style: solid;\n        border-color: #CFCABF;\n}\n.created-time[data-v-7ba11584]{\n        font-size: 0.9em;\n        color: #859099;\n}\n.contents-description[data-v-7ba11584]{\n        padding: 3%;\n}\n.sub[data-v-7ba11584]{\n        margin-left: 5%;\n}\n.individual-profile[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #fff;\n        border-radius: 10px;\n        position: -webkit-sticky;\n        position: sticky;\n        top: 3%;\n}\n.individual-profile img[data-v-7ba11584]{\n        margin: 5%;\n}\n.individual-profile .pro_name[data-v-7ba11584]{\n        margin-bottom: 0;\n        padding: 5% 0 0;\n}\n.individual-profile a[data-v-7ba11584]{\n        font-size:1.2rem;\n}\n.individual-profile .link[data-v-7ba11584]{\n        clear: both;\n        padding-bottom: 7%;\n}\n.individual-profile .ff[data-v-7ba11584]{\n        text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]{\n        display: inline-block;\n        width: 90%;\n        padding: 3% 4%;\n        border: 1px solid #2983FD;\n        border-radius: 6px;\n        font-size: 1.3rem;\n        cursor: pointer;\n        background-color: #2983FD;\n        color: #fff;\n        text-align: center;\n}\n.individual-profile .follow[data-v-7ba11584]{\n        display: inline-block;\n        width: 90%;\n        padding: 3% 4%;\n        border: 1px solid #2983FD;\n        border-radius: 6px;\n        font-size: 1.3rem;\n        cursor: pointer;\n        text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]:hover{\n        background-color: blue;\n        color: #fff;\n}\n.individual-tags[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #fff;\n        border-radius: 10px;\n        margin: 13% 0;\n        position: -webkit-sticky;\n        position: sticky;\n        top: 22%;\n}\n.individual-tags h3[data-v-7ba11584]{\n        text-align: center;\n        padding: 3% 0;\n}\n.individual-tags ul[data-v-7ba11584]{\n        padding: 5%;\n}\n.individual-tags li[data-v-7ba11584]{    \n        list-style: none;\n        border: 1px solid #08415C;\n        border-radius: 7px;\n        display: inline-block;\n        padding: 1% 2%;\n        margin: 2% 3% 3% 3%;\n        cursor: pointer;\n}\n.individual-tags li[data-v-7ba11584]:hover{\n        background-color: #08415C;\n}\n.icon-photo[data-v-7ba11584]{\n        width: 50px;\n        height: 50px;\n        -o-object-fit: cover;\n           object-fit: cover;\n        border-radius: 50%;\n        float: left;\n        margin: 1% 2% 0 0;\n}\n.contents-photo[data-v-7ba11584]{\n        box-shadow: 2px 2px 10px darkgrey;\n        width: 100%;\n}\n.menu[data-v-7ba11584]{\n        text-align: center;\n        position: fixed;\n}\n.curcle[data-v-7ba11584]{\n        position: relative;\n        border: 1px solid #fff;\n        background-color: #fff;\n        border-radius: 50%;\n        width: 3rem;\n        height: 3rem;\n        padding:24%;\n        box-shadow: 2px 2px 5px lightgrey;\n}\n.menu p[data-v-7ba11584]{\n        display: inline;\n        margin: 0;\n}\n.menu .twitter[data-v-7ba11584]{\n        font-size: 1.7rem;\n        color: grey;\n        cursor: pointer;\n}\n.menu .twitter[data-v-7ba11584]:hover{\n        color: #000;\n}\n.favorite[data-v-7ba11584]{\n        font-size: 1.2rem;\n        vertical-align: middle;\n        cursor: pointer;\n}\n.favorite2[data-v-7ba11584]{\n        font-size: 1.2rem;\n        color: #F66685;\n        vertical-align: middle;\n        cursor: pointer;\n}\n.favorite[data-v-7ba11584]:hover{\n        color: red;\n}\n.favorite2[data-v-7ba11584]:hover{\n        color: red;\n}\n.heartLoader[data-v-7ba11584]{\n        position: absolute;\n        top: 50%;\n        left: 50%;\n        transform: translate(-50%, -50%) scale(0.4);\n        -webkit-transform: translate(-50%, -50%) scale(0.4);\n        -ms-transform: translate(-50%, -50%) scale(0.4);\n}\n.overlay[data-v-7ba11584]{\n        z-index:1000;\n        position:fixed;\n        top:0;\n        left:0;\n        width:100%;\n        height:100%;\n        background-color:rgba(0,0,0,0.5);\n        display: flex;\n        align-items: center;\n        justify-content: center;\n}\n.modalLogin[data-v-7ba11584]{\n        position:relative;\n        z-index: 1001;\n        width: 30%;\n        padding: 1em;\n        background-color: #fff;\n        text-align: center;\n        border-radius: 7px;\n        box-shadow: 2px 2px 6px lightgrey;\n}\n.batsu[data-v-7ba11584]{\n        font-size:2em;\n        cursor: pointer;\n        position: absolute;\n        top: -1.3rem;\n        right: -0.8rem;\n        border-radius: 50%;\n        border: 1px solid #fff;\n        padding: 0.5rem;\n        background-color: #fff;\n        width: 2.4rem;\n        height: 2.4rem;\n        box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-7ba11584]{\n        width: 1rem;\n        height: 1rem;\n        position: absolute;\n        top: 0.6rem;\n        right: 0.65rem;\n        font-size: 1.3rem;\n}\n.modalLogin p[data-v-7ba11584]{\n        margin: 7% 0;\n}\n.modalBtn[data-v-7ba11584]{\n        margin: 5% 0;\n}\n.registerBtn[data-v-7ba11584]{\n        border: 1px solid blue;\n        border-radius: 5px;\n        background: #DEF2FF;\n        padding: 3% 7%;\n        margin: 0 2%;\n}\n.loginBtn[data-v-7ba11584]{\n        border: 1px solid blue;\n        border-radius: 5px;\n        background: #DEF2FF;\n        padding: 3% 7%;\n        margin: 0 2%;\n}\n.registerBtn[data-v-7ba11584]:hover{\n        opacity: 0.6;\n}\n.loginBtn[data-v-7ba11584]:hover{\n        opacity: 0.6;\n}\n.modalLogin .logo[data-v-7ba11584]{\n        height: 90px;\n        margin: 5% 0 0;\n}\n.loader-space[data-v-7ba11584]{\n        width: 100%;\n        height: 20vh;\n        top: 0;\n        left: 0;\n        position: absolute;\n}\n.loader[data-v-7ba11584]{\n        position: absolute;\n        top: -0.6rem;\n        left: -0.6rem;\n}\n@media(max-width:767px){\n.row[data-v-7ba11584]{\n    flex-direction: column;\n}\n.pages[data-v-7ba11584]{\n    padding-top: 3rem;\n}\n.col-md-7[data-v-7ba11584]{\n    display: flex;\n    flex-direction: column;\n}\n.col-md-3[data-v-7ba11584]{\n    display: flex;\n    flex-direction: column;\n}\n.order1[data-v-7ba11584]{\n    order: 1;\n}\n.order2[data-v-7ba11584]{\n    order: 2;\n}\n.order3[data-v-7ba11584]{\n    order: 3;\n}\n.contents-profile[data-v-7ba11584]{\n    margin: 0 0 2% 0;\n}\n.individual-profile[data-v-7ba11584]{\n    display: none;\n}\n.sub[data-v-7ba11584]{\n    margin-left: 0;\n}\n.menu[data-v-7ba11584]{\n    display: flex;\n    z-index: 100;\n    bottom: 0;\n    right: 0;\n}\n.curcle[data-v-7ba11584]{\n    position: absolute;\n    bottom: 4rem;\n    right: 2rem;\n    width: 5rem;\n    height: 5rem;\n}\n.favorite[data-v-7ba11584]{\n    font-size: 2.6rem;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n}\n.favorite2[data-v-7ba11584]{\n    font-size: 2.6rem;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n}\n.heartLoader[data-v-7ba11584]{\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%) scale(0.7);\n    -webkit-transform: translate(-50%, -50%) scale(0.7);\n    -ms-transform: translate(-50%, -50%) scale(0.7);\n}\n.menu p[data-v-7ba11584]{\n    position: absolute;\n    bottom: 4rem;\n    right: 4.2rem;\n}\n.menu .twitter[data-v-7ba11584]{\n    position: absolute;\n    bottom: 9.7rem;\n    right: 3.1rem;\n    font-size: 2.5rem;\n}\n.modalLogin[data-v-7ba11584]{\n    width: 92vw;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.wrapper[data-v-7ba11584]{\n        background-color: #EDF2F7;\n}\n.pages[data-v-7ba11584]{\n        padding-top: 150px;\n}\n.comment[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #FFF;\n        border-radius: 10px;\n        margin-top: 5%;\n}\n.contents-profile[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #FFF;\n        border-radius: 10px;\n        margin: 6% auto;\n        padding: 5%;\n}\n.contents-profile h3[data-v-7ba11584] {\n        font-size: 1.3rem;\n}\n.contents-profile .name-id[data-v-7ba11584]{\n        float: left;\n}\n.contents-profile .pro_name[data-v-7ba11584]{\n        padding: 2% 0 0;\n        margin-bottom: 0;\n}\n.contents-profile .follow-unfollow[data-v-7ba11584]{\n        text-align: right;\n}\n.contents-profile .follow[data-v-7ba11584]{\n        display: inline-block;\n        border: 1px solid #CFCABF;\n        border-radius: 5%;\n        padding:7px;\n        cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]{\n        display: inline-block;\n        border: 1px solid #CFCABF;\n        border-radius: 5%;\n        padding:7px;\n        cursor: pointer;\n}\n.contents-profile .unfollow[data-v-7ba11584]:hover{\n        background-color: #2983FD;\n        color: #FFF;\n}\n.contents-profile .follow[data-v-7ba11584]:hover{\n        background-color: #2983FD;\n        color: #FFF;\n}\n.contents-profile .follower[data-v-7ba11584]{\n        clear: both;\n}\n.follower p[data-v-7ba11584] {\n        display: inline;\n        font-size: 0.8rem;\n        color: #859099;\n}\n.contents-profile hr[data-v-7ba11584]{\n        border-width: 1px 0 0 0;\n        border-style: solid;\n        border-color: #CFCABF;\n}\n.created-time[data-v-7ba11584]{\n        font-size: 0.9em;\n        color: #859099;\n}\n.contents-description[data-v-7ba11584]{\n        padding: 3%;\n}\n.sub[data-v-7ba11584]{\n        margin-left: 5%;\n}\n.individual-profile[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #fff;\n        border-radius: 10px;\n        position: -webkit-sticky;\n        position: sticky;\n        top: 3%;\n}\n.individual-profile img[data-v-7ba11584]{\n        margin: 5%;\n}\n.individual-profile .pro_name[data-v-7ba11584]{\n        margin-bottom: 0;\n        padding: 5% 0 0;\n}\n.individual-profile a[data-v-7ba11584]{\n        font-size:1.2rem;\n}\n.individual-profile .link[data-v-7ba11584]{\n        clear: both;\n        padding-bottom: 7%;\n}\n.individual-profile .ff[data-v-7ba11584]{\n        text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]{\n        display: inline-block;\n        width: 90%;\n        padding: 3% 4%;\n        border: 1px solid #2983FD;\n        border-radius: 6px;\n        font-size: 1.3rem;\n        cursor: pointer;\n        background-color: #2983FD;\n        color: #fff;\n        text-align: center;\n}\n.individual-profile .follow[data-v-7ba11584]{\n        display: inline-block;\n        width: 90%;\n        padding: 3% 4%;\n        border: 1px solid #2983FD;\n        border-radius: 6px;\n        font-size: 1.3rem;\n        cursor: pointer;\n        text-align: center;\n}\n.individual-profile .unfollow[data-v-7ba11584]:hover{\n        background-color: blue;\n        color: #fff;\n}\n.individual-tags[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #fff;\n        border-radius: 10px;\n        margin: 13% 0;\n        position: -webkit-sticky;\n        position: sticky;\n        top: 22%;\n}\n.individual-tags h3[data-v-7ba11584]{\n        text-align: center;\n        padding: 3% 0;\n}\n.individual-tags ul[data-v-7ba11584]{\n        padding: 5%;\n}\n.individual-tags li[data-v-7ba11584]{    \n        list-style: none;\n        border: 1px solid #08415C;\n        border-radius: 7px;\n        display: inline-block;\n        padding: 1% 2%;\n        margin: 2% 3% 3% 3%;\n        cursor: pointer;\n}\n.individual-tags li[data-v-7ba11584]:hover{\n        background-color: #08415C;\n}\n.icon-photo[data-v-7ba11584]{\n        width: 50px;\n        height: 50px;\n        -o-object-fit: cover;\n           object-fit: cover;\n        border-radius: 50%;\n        float: left;\n        margin: 1% 2% 0 0;\n}\n.contents-photo[data-v-7ba11584]{\n        box-shadow: 2px 2px 10px darkgrey;\n        width: 100%;\n}\n.menu[data-v-7ba11584]{\n        text-align: center;\n        position: fixed;\n}\n.curcle[data-v-7ba11584]{\n        position: relative;\n        border: 1px solid #fff;\n        background-color: #fff;\n        border-radius: 50%;\n        width: 3rem;\n        height: 3rem;\n        padding:24%;\n        box-shadow: 2px 2px 5px lightgrey;\n}\n.menu p[data-v-7ba11584]{\n        display: inline;\n        margin: 0;\n}\n.menu .twitter[data-v-7ba11584]{\n        font-size: 1.7rem;\n        color: grey;\n        cursor: pointer;\n}\n.menu .twitter[data-v-7ba11584]:hover{\n        color: #000;\n}\n.favorite[data-v-7ba11584]{\n        font-size: 1.2rem;\n        vertical-align: middle;\n        cursor: pointer;\n}\n.favorite2[data-v-7ba11584]{\n        font-size: 1.2rem;\n        color: #F66685;\n        vertical-align: middle;\n        cursor: pointer;\n}\n.favorite[data-v-7ba11584]:hover{\n        color: red;\n}\n.favorite2[data-v-7ba11584]:hover{\n        color: red;\n}\n.heartLoader[data-v-7ba11584]{\n        position: absolute;\n        top: 50%;\n        left: 50%;\n        transform: translate(-50%, -50%) scale(0.4);\n        -webkit-transform: translate(-50%, -50%) scale(0.4);\n        -ms-transform: translate(-50%, -50%) scale(0.4);\n}\n.overlay[data-v-7ba11584]{\n        z-index:1000;\n        position:fixed;\n        top:0;\n        left:0;\n        width:100%;\n        height:100%;\n        background-color:rgba(0,0,0,0.5);\n        display: flex;\n        align-items: center;\n        justify-content: center;\n}\n.modalLogin[data-v-7ba11584]{\n        position:relative;\n        z-index: 1001;\n        width: 30%;\n        padding: 1em;\n        background-color: #fff;\n        text-align: center;\n        border-radius: 7px;\n        box-shadow: 2px 2px 6px lightgrey;\n}\n.batsu[data-v-7ba11584]{\n        font-size:2em;\n        cursor: pointer;\n        position: absolute;\n        top: -1.3rem;\n        right: -0.8rem;\n        border-radius: 50%;\n        border: 1px solid #fff;\n        padding: 0.5rem;\n        background-color: #fff;\n        width: 2.4rem;\n        height: 2.4rem;\n        box-shadow: 0 2px 7px grey;\n}\n.batsuBtn[data-v-7ba11584]{\n        width: 1rem;\n        height: 1rem;\n        position: absolute;\n        top: 0.6rem;\n        right: 0.65rem;\n        font-size: 1.3rem;\n}\n.modalLogin p[data-v-7ba11584]{\n        margin: 7% 0;\n}\n.modalBtn[data-v-7ba11584]{\n        margin: 5% 0;\n}\n.registerBtn[data-v-7ba11584]{\n        border: 1px solid blue;\n        border-radius: 5px;\n        background: #DEF2FF;\n        padding: 3% 7%;\n        margin: 0 2%;\n}\n.loginBtn[data-v-7ba11584]{\n        border: 1px solid blue;\n        border-radius: 5px;\n        background: #DEF2FF;\n        padding: 3% 7%;\n        margin: 0 2%;\n}\n.registerBtn[data-v-7ba11584]:hover{\n        opacity: 0.6;\n}\n.loginBtn[data-v-7ba11584]:hover{\n        opacity: 0.6;\n}\n.modalLogin .logo[data-v-7ba11584]{\n        height: 90px;\n        margin: 5% 0 0;\n}\n.individual-items[data-v-7ba11584]{\n        box-shadow: 2px 2px 9px lightgrey;\n        background-color: #fff;\n        border-radius: 10px;\n        margin: 13% 0;\n        position: -webkit-sticky;\n        position: sticky;\n        top: 38%;\n}\n.individual-items h3[data-v-7ba11584]{\n        text-align: center;\n        padding: 3% 0;\n}\n.individual-items ul[data-v-7ba11584]{\n        list-style: none;\n        padding: 0;\n}\n.individual-items li[data-v-7ba11584]{\n        text-align: center;\n        margin-bottom: 1rem;\n        border-bottom: 2px dotted;\n}\n.individual-items a[data-v-7ba11584]:hover{\n      opacity: 0.7;\n      cursor: pointer;\n}\n.individual-items img[data-v-7ba11584]{\n        position: relative;\n        width: 80%;\n}\n.individual-items .item-name[data-v-7ba11584]{\n      font-size: 0.7rem;\n      padding: 0%;\n      margin-bottom: 0.3rem;\n}\n.individual-items .item-price[data-v-7ba11584]{\n      font-size: 1.1rem;\n      color: black;\n      font-weight: bold;\n      padding: 0 2.5rem 0 0;\n      margin-bottom: 0.3rem;\n      text-align: right;\n}\n.item-relation[data-v-7ba11584]{\n      position:absolute;\n      top: 0;\n      left: 0;\n      width: 100%;\n      height: 100%;\n}\n.item-relation > div[data-v-7ba11584]{ \n      position: absolute;\n      width: 40px;\n      height: 40px;\n      background: #08415C;\n      border-radius: 50%;\n      opacity: 0.8;\n      cursor: pointer;\n      transition: all 0.2s;\n}\n.item-relation > div[data-v-7ba11584]:hover{\n      transform: scale(1.1,1.1);\n}\n.item-relation > div:hover .balloon1[data-v-7ba11584]{\n      visibility: visible;\n}\n.item-relation > div:hover .balloon1[data-v-7ba11584]:before{\n      visibility: visible;\n}\n.item-relation i[data-v-7ba11584]{\n      position:absolute;\n      top: 50%;\n      left: 50%;\n      color:#FFF;\n      transform: translate(-50%,-50%);\n      -webkit-transform: translate(-50%,-50%);\n      -ms-transform: translate(-50%,-50%);\n}\n.balloon1[data-v-7ba11584] {\n      position: relative;\n      visibility: hidden;\n      margin: 1.5em 0;\n      padding: 7px 10px;\n      color: #555;\n      font-size: 16px;\n      background: #e0edff;\n      border-radius: 15px;\n      top: -346%;\n      right: 266%;\n      width: 16rem;\n      height: 6rem;\n      z-index: 10001;\n}\n.balloon1[data-v-7ba11584]:before {\n      content: \"\";\n      position: absolute;\n      top: 100%;\n      left: 50%;\n      margin-left: -15px;\n      border: 15px solid transparent;\n      border-top: 15px solid #e0edff;\n      z-index: 10001;\n}\n.balloon1 img[data-v-7ba11584]{\n      width: 33%;\n      float: left;\n}\n.balloon1 .hukidashi-name[data-v-7ba11584]{\n      position: relative;\n      font-size: 0.7rem;\n      height: 64%;\n      overflow: hidden;\n}\n.balloon1 .hukidashi-price[data-v-7ba11584]{\n      text-align: right;\n      position: relative;\n      color: black;\n      bottom: 0.6rem;\n}\n.photo-wrapper[data-v-7ba11584]{\n      position: relative;\n}\n.loader-space[data-v-7ba11584]{\n        width: 100%;\n        height: 20vh;\n        top: 0;\n        left: 0;\n        position: absolute;\n}\n.loader[data-v-7ba11584]{\n        position: absolute;\n        top: -0.6rem;\n        left: -0.6rem;\n}\n@media(max-width:767px){\n.row[data-v-7ba11584]{\n    flex-direction: column;\n}\n.pages[data-v-7ba11584]{\n    padding-top: 3rem;\n}\n.col-md-7[data-v-7ba11584]{\n    display: flex;\n    flex-direction: column;\n}\n.col-md-3[data-v-7ba11584]{\n    display: flex;\n    flex-direction: column;\n}\n.order1[data-v-7ba11584]{\n    order: 1;\n}\n.order2[data-v-7ba11584]{\n    order: 2;\n}\n.order3[data-v-7ba11584]{\n    order: 3;\n}\n.contents-profile[data-v-7ba11584]{\n    margin: 0 0 2% 0;\n}\n.individual-profile[data-v-7ba11584]{\n    display: none;\n}\n.sub[data-v-7ba11584]{\n    margin-left: 0;\n}\n.menu[data-v-7ba11584]{\n    display: flex;\n    z-index: 100;\n    bottom: 0;\n    right: 0;\n}\n.curcle[data-v-7ba11584]{\n    position: absolute;\n    bottom: 4rem;\n    right: 2rem;\n    width: 5rem;\n    height: 5rem;\n}\n.favorite[data-v-7ba11584]{\n    font-size: 2.6rem;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n}\n.favorite2[data-v-7ba11584]{\n    font-size: 2.6rem;\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    -webkit-transform: translate(-50%, -50%);\n    -ms-transform: translate(-50%, -50%);\n}\n.heartLoader[data-v-7ba11584]{\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%) scale(0.7);\n    -webkit-transform: translate(-50%, -50%) scale(0.7);\n    -ms-transform: translate(-50%, -50%) scale(0.7);\n}\n.menu p[data-v-7ba11584]{\n    position: absolute;\n    bottom: 4rem;\n    right: 4.2rem;\n}\n.menu .twitter[data-v-7ba11584]{\n    position: absolute;\n    bottom: 9.7rem;\n    right: 3.1rem;\n    font-size: 2.5rem;\n}\n.modalLogin[data-v-7ba11584]{\n    width: 92vw;\n}\n.balloon1[data-v-7ba11584]{\n    visibility: hidden;\n    display: none;\n}\n.balloon1[data-v-7ba11584]:before{\n    display: none;\n    visibility: hidden;\n}\n.individual-tags[data-v-7ba11584]{\n    position:relative;\n    top:auto;\n}\n.individual-items[data-v-7ba11584]{\n    position: relative;\n    top: auto;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -17054,7 +17315,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.trend-item[data-v-7906ea8a]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.trend-item[data-v-7906ea8a]{\n    margin-top: 30px;\n    position: relative;\n    width: 100%;\n    padding-right: 15px;\n    padding-left: 15px;\n    text-align: center;\n}\nh2[data-v-7906ea8a]{\n    text-align: center;\n}\n.trend-item > p[data-v-7906ea8a]{\n    text-align: center;\n}\n.contents[data-v-7906ea8a]{\n  width: 80%;\n  margin: 0 auto;\n}\n.itemRank[data-v-7906ea8a]{\n  float: left;\n  clear: both;\n  font-size: 4.3rem;\n  margin: 0;\n}\n.contentItem[data-v-7906ea8a]{\n  position: relative;\n  width: auto;\n  margin-bottom: 3rem;\n  padding-bottom: 4rem;\n  border-bottom: 2px dotted #000\n}\n.contentItem[data-v-7906ea8a]:hover{\n  opacity: 0.7;\n}\n.contentItem img[data-v-7906ea8a]{\n  width:auto;\n  height: 100%;\n  float: left;\n  margin: 0 2rem;\n}\n.itemName[data-v-7906ea8a]{\n  padding-top: 2rem;\n}\n.itemPrice[data-v-7906ea8a]{\n  font-size: 1.5rem;\n  color: black;\n  text-align: right;\n  padding-right: 2rem;\n}\n.loader-space[data-v-7906ea8a]{\n  width: 100%;\n  height: 20vh;\n  position: relative;\n}\n.loader[data-v-7906ea8a]{\n  position: absolute;\n  left: 50%;\n  transform: translateX(-50%);\n  -webkit-transform: translateX(-50%);\n  -ms-transform: translateX(-50%);\n}\n@media(max-width:1000px){\n.itemRank[data-v-7906ea8a]{\n  float: none;\n  font-size: 3.3rem;\n}\n.contentItem img[data-v-7906ea8a]{\n  float: none;\n}\n.itemName[data-v-7906ea8a]{\n  padding-top: 0.5rem;\n  font-size: 0.7rem;\n}\n.contentItem[data-v-7906ea8a]{\n  margin-bottom: 2rem;\n  padding-bottom: 2rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -60490,6 +60751,27 @@ var render = function() {
               _vm.cropImg
                 ? _c(
                     "div",
+                    { staticClass: "itemList" },
+                    _vm._l(_vm.cartItems, function(cartItem) {
+                      return _c(
+                        "div",
+                        {
+                          key: cartItem.itemCode,
+                          style: {
+                            top: cartItem.relationY + "%",
+                            left: cartItem.relationX + "%"
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-tag" })]
+                      )
+                    }),
+                    0
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.cropImg
+                ? _c(
+                    "div",
                     {
                       staticClass: "deleteImg",
                       on: { click: _vm.deleteImage }
@@ -60626,11 +60908,63 @@ var render = function() {
     _c("div", { staticClass: "contents" }, [
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "items" }, [
-        _c("div", { staticClass: "searchBtn", on: { click: _vm.openModal } }, [
-          _c("i", { staticClass: "fas fa-search" }),
-          _vm._v(" "),
-          _vm._m(1)
+      _c("div", { staticClass: "items itemUpload" }, [
+        _c("div", { staticClass: "selectBtnWrapper" }, [
+          _c(
+            "div",
+            {
+              staticClass: "searchBtn",
+              on: {
+                click: function($event) {
+                  return _vm.openModal(1)
+                }
+              }
+            },
+            [_c("i", { staticClass: "fas fa-search" }), _vm._v(" "), _vm._m(1)]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cartItems" }, [
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.cartItems,
+                  expression: "cartItems"
+                }
+              ],
+              staticClass: "addItem"
+            },
+            [
+              _c(
+                "ul",
+                _vm._l(_vm.cartItems, function(cartItem) {
+                  return _c("li", { key: cartItem.itemCode }, [
+                    _c("img", {
+                      attrs: { src: "" + cartItem.itemImageUrl, alt: "商品" }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "deleteItemBtn",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteCartItem(cartItem.itemCode)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-times deleteBatsu" })]
+                    )
+                  ])
+                }),
+                0
+              )
+            ]
+          )
         ])
       ]),
       _vm._v(" "),
@@ -60648,187 +60982,242 @@ var render = function() {
           staticClass: "overlay"
         },
         [
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "scroll-lock",
-                  rawName: "v-scroll-lock",
-                  value: !_vm.loading,
-                  expression: "!loading"
-                }
-              ],
-              staticClass: "modal1"
-            },
-            [
-              _c(
-                "div",
-                { staticClass: "batsu", on: { click: _vm.closeModal } },
-                [_c("i", { staticClass: "fas fa-times batsuBtn" })]
-              ),
-              _vm._v(" "),
-              _c("p", [_vm._v("アイテムを探す")]),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: !_vm.loading && _vm.isActive === 1,
-                      expression: "!loading && isActive === 1"
-                    }
-                  ],
-                  staticClass: "modalBtn"
-                },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.searchWords,
-                        expression: "searchWords"
-                      }
-                    ],
-                    staticClass: "itemArea",
-                    attrs: {
-                      id: "item",
-                      type: "text",
-                      placeholder: "検索ワードを入力してください。"
-                    },
-                    domProps: { value: _vm.searchWords },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.searchWords = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass: "completeBtn",
-                      on: { click: _vm.searchItem }
-                    },
-                    [_vm._v("\n            検索する\n          ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "resultItem" },
-                    _vm._l(_vm.items, function(item) {
-                      return _c(
-                        "div",
-                        {
-                          key: item.itemCode,
-                          staticClass: "contentItem",
-                          on: {
-                            click: function($event) {
-                              return _vm.selectItem(item, 2)
-                            }
-                          }
-                        },
-                        [
-                          _c("img", {
-                            attrs: { src: "" + item.itemImageUrl, alt: "商品" }
-                          }),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "contentDescription" }, [
-                            _vm._v(_vm._s(item.itemName))
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "contentPrice" }, [
-                            _vm._v("¥" + _vm._s(item.itemPrice))
-                          ])
-                        ]
-                      )
-                    }),
-                    0
-                  )
+          _c("div", { staticClass: "modal1" }, [
+            _c("div", { staticClass: "batsu", on: { click: _vm.closeModal } }, [
+              _c("i", { staticClass: "fas fa-times batsuBtn" })
+            ]),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value:
+                      (!_vm.loading && _vm.isActive === 1) ||
+                      (!_vm.loading && _vm.isActive === 2),
+                    expression:
+                      "!loading && isActive === 1 || !loading && isActive === 2"
+                  }
                 ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: !_vm.loading && _vm.isActive === 2,
-                      expression: "!loading && isActive === 2"
-                    }
-                  ],
-                  staticClass: "individualItem"
-                },
-                [
-                  _c("img", {
-                    attrs: {
-                      src: "" + _vm.individualItem.itemImageUrl,
-                      alt: "商品"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "individualName" }, [
-                    _vm._v(
-                      "\n            " +
-                        _vm._s(_vm.individualItem.itemName) +
-                        "\n          "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "individualPrice" }, [
-                    _vm._v(
-                      "\n            ¥" +
-                        _vm._s(_vm.individualItem.itemPrice) +
-                        "\n          "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      attrs: {
-                        href: "" + _vm.individualItem.itemUrl,
-                        target: "_blank"
-                      }
-                    },
-                    [_vm._v(_vm._s(_vm.individualItem.itemUrl))]
-                  ),
-                  _vm._v(" "),
-                  _vm._m(2)
+              },
+              [_vm._v("\n          アイテムを探す\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.loading && _vm.isActive === 3,
+                    expression: "!loading && isActive === 3 "
+                  }
                 ]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.loading,
-                      expression: "loading"
-                    }
-                  ],
-                  staticClass: "loader-space"
-                },
-                [
-                  _c("vue-loaders-ball-spin-fade-loader", {
-                    staticClass: "loader",
-                    attrs: { color: "#0f0f0f" }
-                  })
+              },
+              [_vm._v("\n          アイテムを配置する\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.loading && _vm.isActive === 1,
+                    expression: "!loading && isActive === 1"
+                  }
                 ],
-                1
-              )
-            ]
-          )
+                staticClass: "modalBtn"
+              },
+              [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.searchWords,
+                      expression: "searchWords"
+                    }
+                  ],
+                  staticClass: "itemArea",
+                  attrs: {
+                    id: "item",
+                    type: "text",
+                    placeholder: "検索ワードを入力してください。"
+                  },
+                  domProps: { value: _vm.searchWords },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.searchWords = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "completeBtn", on: { click: _vm.searchItem } },
+                  [_vm._v("\n            検索する\n          ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "resultItem" },
+                  _vm._l(_vm.items, function(item) {
+                    return _c(
+                      "div",
+                      {
+                        key: item.itemCode,
+                        staticClass: "contentItem",
+                        on: {
+                          click: function($event) {
+                            return _vm.selectItem(item, 2)
+                          }
+                        }
+                      },
+                      [
+                        _c("img", {
+                          attrs: { src: "" + item.itemImageUrl, alt: "商品" }
+                        }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "contentDescription" }, [
+                          _vm._v(_vm._s(item.itemName))
+                        ]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "contentPrice" }, [
+                          _vm._v("¥" + _vm._s(item.itemPrice))
+                        ])
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.loading && _vm.isActive === 2,
+                    expression: "!loading && isActive === 2"
+                  }
+                ],
+                staticClass: "individualItem"
+              },
+              [
+                _c("img", {
+                  attrs: {
+                    src: "" + _vm.individualItem.itemImageUrl,
+                    alt: "商品"
+                  }
+                }),
+                _vm._v(" "),
+                _c("p", { staticClass: "individualName" }, [
+                  _vm._v(
+                    "\n            " +
+                      _vm._s(_vm.individualItem.itemName) +
+                      "\n          "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "individualPrice" }, [
+                  _vm._v(
+                    "\n            ¥" +
+                      _vm._s(_vm.individualItem.itemPrice) +
+                      "\n          "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href: "" + _vm.individualItem.itemUrl,
+                      target: "_blank"
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.individualItem.itemUrl))]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "btnWrapper" }, [
+                  _c(
+                    "div",
+                    { staticClass: "backBtn", on: { click: _vm.backModal } },
+                    [_vm._v("\n              戻る\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "addBtn", on: { click: _vm.addItem } },
+                    [_vm._v("\n              商品を追加する\n            ")]
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.loading && _vm.isActive === 3,
+                    expression: "!loading && isActive === 3"
+                  }
+                ],
+                staticClass: "onItem"
+              },
+              [
+                _c("p", [_vm._v("配置したい場所をクリックしてください。")]),
+                _vm._v(" "),
+                _c("img", {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.cropImg,
+                      expression: "cropImg"
+                    }
+                  ],
+                  attrs: { id: "cropImg", src: "" + _vm.cropImg, alt: "商品" },
+                  on: { click: _vm.deployItem }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.loading,
+                    expression: "loading"
+                  }
+                ],
+                staticClass: "loader-space"
+              },
+              [
+                _c("vue-loaders-ball-spin-fade-loader", {
+                  staticClass: "loader",
+                  attrs: { color: "#0f0f0f" }
+                })
+              ],
+              1
+            )
+          ])
         ]
       )
     ])
@@ -60842,9 +61231,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "explain" }, [
       _c("p", { staticClass: "title" }, [
         _vm._v("\n        アイテムタグを追加する\n      ")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "required" }, [_vm._v("\n        ※必須\n      ")])
+      ])
     ])
   },
   function() {
@@ -60852,20 +61239,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("p", [_vm._v("検索して"), _c("br"), _vm._v("追加する")])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "btnWrapper" }, [
-      _c("div", { staticClass: "backBtn" }, [
-        _vm._v("\n              戻る\n            ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "addBtn" }, [
-        _vm._v("\n              商品を追加する\n            ")
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -61043,11 +61416,17 @@ var render = function() {
             }
           },
           [
-            _c("post-image-form", { on: { catchBlob: _vm.uploadBlob } }),
+            _c("post-image-form", {
+              attrs: { "cart-items": _vm.cartItems },
+              on: { catchBlob: _vm.uploadBlob, catchCropImg: _vm.uploadCropImg }
+            }),
             _vm._v(" "),
             _c("post-tag-form", { on: { catchTag: _vm.uploadTag } }),
             _vm._v(" "),
-            _c("post-item-form"),
+            _c("post-item-form", {
+              attrs: { "crop-img": _vm.cropImg },
+              on: { catchCartItems: _vm.uploadCartItems }
+            }),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
               _c("div", { staticClass: "contents" }, [
@@ -62367,13 +62746,71 @@ var render = function() {
               { staticClass: "col-md-7 main" },
               [
                 _c("div", { staticClass: "contents order2" }, [
-                  _c("img", {
-                    staticClass: "contents-photo",
-                    attrs: {
-                      src: "" + _vm.post.photo_path,
-                      alt: "contents-photo"
-                    }
-                  }),
+                  _c("div", { staticClass: "photo-wrapper" }, [
+                    _c("img", {
+                      staticClass: "contents-photo",
+                      attrs: {
+                        src: "" + _vm.post.photo_path,
+                        alt: "contents-photo"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.items,
+                            expression: "items"
+                          }
+                        ],
+                        staticClass: "item-relation"
+                      },
+                      _vm._l(_vm.items, function(item) {
+                        return _c(
+                          "div",
+                          {
+                            key: item.item_id,
+                            style: {
+                              top: item.item_relation_y + "%",
+                              left: item.item_relation_x + "%"
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fas fa-tag" }),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "balloon1" }, [
+                              _c("img", {
+                                attrs: {
+                                  src: "" + item.item_image_url,
+                                  alt: "商品"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "hukidashi-name" }, [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(item.item_name) +
+                                    "\n                  "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "hukidashi-price" }, [
+                                _vm._v(
+                                  "\n                    ¥" +
+                                    _vm._s(item.item_price) +
+                                    "\n                  "
+                                )
+                              ])
+                            ])
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  ]),
                   _vm._v(" "),
                   _c("p", { staticClass: "created-time" }, [
                     _vm._v(
@@ -62393,127 +62830,121 @@ var render = function() {
                   attrs: { "show-modal": _vm.showModal }
                 }),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "\n          contents-profile order1" },
-                  [
-                    _c("h3", [_vm._v("写真を投稿したユーザー")]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      [
-                        _c(
-                          "router-link",
-                          {
-                            attrs: {
-                              to: {
-                                name: "mypage",
-                                params: { userId: _vm.postUser.id }
-                              }
+                _c("div", { staticClass: "contents-profile order1" }, [
+                  _c("h3", [_vm._v("写真を投稿したユーザー")]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: {
+                            to: {
+                              name: "mypage",
+                              params: { userId: _vm.postUser.id }
                             }
-                          },
-                          [
-                            _c("img", {
-                              staticClass: "icon-photo",
-                              attrs: {
-                                src: "" + _vm.profile.icon_path,
-                                alt: "contents-photo"
-                              }
-                            }),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "name-id" }, [
-                              _c("p", { staticClass: "pro_name" }, [
-                                _vm._v(
-                                  "\n                  " +
-                                    _vm._s(_vm.postUser.name) +
-                                    "\n                "
-                                )
-                              ]),
+                          }
+                        },
+                        [
+                          _c("img", {
+                            staticClass: "icon-photo",
+                            attrs: {
+                              src: "" + _vm.profile.icon_path,
+                              alt: "contents-photo"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "name-id" }, [
+                            _c("p", { staticClass: "pro_name" }, [
                               _vm._v(
-                                "\n                @" +
-                                  _vm._s(_vm.postUser.login_id) +
-                                  "\n              "
+                                "\n                  " +
+                                  _vm._s(_vm.postUser.name) +
+                                  "\n                "
                               )
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: _vm.postUser.id != _vm.authUser.id,
-                                expression: "postUser.id != authUser.id"
-                              }
-                            ],
-                            staticClass: "follow-unfollow"
-                          },
-                          [
-                            _c(
-                              "div",
-                              {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value: !_vm.followStatus,
-                                    expression: "!followStatus"
-                                  }
-                                ],
-                                staticClass: "follow",
-                                on: { click: _vm.pushFollow }
-                              },
-                              [
-                                _c("i", { staticClass: "fas fa-user-plus" }),
-                                _vm._v(
-                                  "\n                フォローする\n              "
-                                )
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value: _vm.followStatus,
-                                    expression: "followStatus"
-                                  }
-                                ],
-                                staticClass: "unfollow",
-                                on: { click: _vm.deleteFollow }
-                              },
-                              [
-                                _c("i", { staticClass: "fas fa-user-plus" }),
-                                _vm._v(
-                                  "\n                フォロー解除                        \n              "
-                                )
-                              ]
+                            ]),
+                            _vm._v(
+                              "\n                @" +
+                                _vm._s(_vm.postUser.login_id) +
+                                "\n              "
                             )
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "follower" }, [
-                      _c("p", [_vm._v(_vm._s(_vm.countFollow) + "フォロー")]),
+                          ])
+                        ]
+                      ),
                       _vm._v(" "),
-                      _c("p", [
-                        _vm._v(_vm._s(_vm.countFollower) + "フォロワー")
-                      ])
-                    ]),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.postUser.id != _vm.authUser.id,
+                              expression: "postUser.id != authUser.id"
+                            }
+                          ],
+                          staticClass: "follow-unfollow"
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: !_vm.followStatus,
+                                  expression: "!followStatus"
+                                }
+                              ],
+                              staticClass: "follow",
+                              on: { click: _vm.pushFollow }
+                            },
+                            [
+                              _c("i", { staticClass: "fas fa-user-plus" }),
+                              _vm._v(
+                                "\n                フォローする\n              "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.followStatus,
+                                  expression: "followStatus"
+                                }
+                              ],
+                              staticClass: "unfollow",
+                              on: { click: _vm.deleteFollow }
+                            },
+                            [
+                              _c("i", { staticClass: "fas fa-user-plus" }),
+                              _vm._v(
+                                "\n                フォロー解除                        \n              "
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "follower" }, [
+                    _c("p", [_vm._v(_vm._s(_vm.countFollow) + "フォロー")]),
                     _vm._v(" "),
-                    _c("hr"),
-                    _vm._v(" "),
-                    _c("span", [_vm._v(_vm._s(_vm.profile.shokai))])
-                  ]
-                )
+                    _c("p", [_vm._v(_vm._s(_vm.countFollower) + "フォロワー")])
+                  ]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.profile.shokai))])
+                ])
               ],
               1
             ),
@@ -62679,7 +63110,67 @@ var render = function() {
                   }),
                   0
                 )
-              ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.items,
+                      expression: "items"
+                    }
+                  ],
+                  staticClass: "individual-items"
+                },
+                [
+                  _c("h3", [_vm._v("Items")]),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    _vm._l(_vm.items, function(item) {
+                      return _c("li", { key: item.item_id }, [
+                        _c(
+                          "a",
+                          {
+                            attrs: {
+                              href: "" + item.item_url,
+                              target: "_blank"
+                            }
+                          },
+                          [
+                            _c("img", {
+                              attrs: {
+                                src: "" + item.item_image_url,
+                                alt: "商品"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "item-name" }, [
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(item.item_name) +
+                                  "\n                "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("p", { staticClass: "item-price" }, [
+                              _vm._v(
+                                "\n                  ¥" +
+                                  _vm._s(item.item_price) +
+                                  "\n                "
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    }),
+                    0
+                  )
+                ]
+              )
             ])
           ])
         ]
@@ -63316,22 +63807,66 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "trend-item" }, [
+    _c("h2", { staticClass: "title" }, [_vm._v("\n    Trend Item\n  ")]),
+    _vm._v(" "),
+    _c("p", [_vm._v("人気の商品を表示しています。")]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "contents" },
+      _vm._l(_vm.items, function(item) {
+        return _c("div", { key: item.item_id, staticClass: "contentItem" }, [
+          _vm._o(
+            _c("p", { staticClass: "itemRank" }, [
+              _vm._v("\n        " + _vm._s(_vm.count[_vm.n++]) + "\n      ")
+            ]),
+            0,
+            item.item_id
+          ),
+          _vm._v(" "),
+          _c("a", { attrs: { href: "" + item.item_url, target: "_blank" } }, [
+            _c("img", {
+              attrs: { src: "" + item.item_image_url, alt: "商品" }
+            }),
+            _vm._v(" "),
+            _c("p", { staticClass: "itemName" }, [
+              _vm._v(_vm._s(item.item_name))
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "itemPrice" }, [
+              _vm._v("¥" + _vm._s(item.item_price))
+            ])
+          ])
+        ])
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.loading,
+            expression: "loading"
+          }
+        ],
+        staticClass: "loader-space"
+      },
+      [
+        _c("vue-loaders-ball-spin-fade-loader", {
+          staticClass: "loader",
+          attrs: { color: "#fff" }
+        })
+      ],
+      1
+    )
+  ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "trend-item" }, [
-      _c("h2", { staticClass: "title" }, [_vm._v("\n    Trend Item\n  ")]),
-      _vm._v(" "),
-      _c("p", [_vm._v("人気の商品を表示しています。")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "contents" }, [_vm._v("\n    aiue\n  ")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

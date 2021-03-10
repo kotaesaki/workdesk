@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Profile;
@@ -10,6 +11,7 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Expr\Cast\Object_;
 
 class PostController extends Controller
 {
@@ -39,6 +41,21 @@ class PostController extends Controller
                         'tag_name' => $value
                     ]);
                 }
+                if(!empty($request->items)){
+                    foreach($request->items as $key=>$value){
+                        $array = json_decode($value,true);
+                        Item::create([
+                            'post_id' => $post->post_id,
+                            'item_code'=> $array["itemCode"],
+                            'item_name'=> $array["itemName"],
+                            'item_price' => $array["itemPrice"],
+                            'item_url'=> $array["itemUrl"],
+                            'item_image_url' => $array["itemImageUrl"],
+                            'item_relation_x' => $array["relationX"],
+                            'item_relation_y' => $array["relationY"]
+                        ]);
+                    }
+                }
                 $tagIds = array();
                 foreach ($request->tag as $val) {
                     $tagIds[] = Tag::select('tag_id')->where('tag_name', $val)
@@ -46,6 +63,7 @@ class PostController extends Controller
                 }
                 $post->tags()->sync($tagIds, false);
                 DB::commit();
+                
             } catch (\Exception $e) {
                 DB::rollBack();
                 throw $e;
@@ -67,6 +85,21 @@ class PostController extends Controller
                     Tag::firstOrCreate([
                         'tag_name' => $value
                     ]);
+                }
+                if(!empty($request->items)){
+                    foreach($request->items as $key=>$value){
+                        $array = json_decode($value,true);
+                        Item::create([
+                            'post_id' => $post->post_id,
+                            'item_code'=> $array["itemCode"],
+                            'item_name'=> $array["itemName"],
+                            'item_price' => $array["itemPrice"],
+                            'item_url'=> $array["itemUrl"],
+                            'item_image_url' => $array["itemImageUrl"],
+                            'item_relation_x' => $array["relationX"],
+                            'item_relation_y' => $array["relationY"]
+                        ]);
+                    }
                 }
                 $tagIds = array();
                 foreach ($request->tag as $val) {

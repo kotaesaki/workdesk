@@ -6,9 +6,14 @@
         <form
           enctype="multipart/form-data"
           @submit.prevent="submit">
-          <post-image-form @catchBlob="uploadBlob" />
+          <post-image-form
+            :cart-items="cartItems"
+            @catchBlob="uploadBlob"
+            @catchCropImg="uploadCropImg" />
           <post-tag-form @catchTag="uploadTag" />
-          <post-item-form />
+          <post-item-form
+            :crop-img="cropImg"
+            @catchCartItems="uploadCartItems" />
           <div class="form-group">
             <div class="contents">
               <div class="explain">
@@ -73,8 +78,10 @@ export default {
       profile: '',
       errors: [],
       blob: '',
+      cropImg: '',
       tag: '',
       description: '',
+      cartItems: ''
     }
   },
   methods: {
@@ -93,6 +100,13 @@ export default {
         })
       } else {
         formData.append('tag', [])
+      }
+      if (this.cartItems.length > 0){
+        this.cartItems.forEach((text, index)=>{
+          formData.append('items[' + index + ']', JSON.stringify(text))
+        })
+      } else {
+        formData.append('items', [])
       }
       if (!this.blob){
         formData.append('file', '')
@@ -139,8 +153,14 @@ export default {
     uploadBlob(blob){
       this.blob = blob
     },
+    uploadCropImg(cropImg){
+      this.cropImg = cropImg
+    },
     uploadTag(tag){
       this.tag = tag
+    },
+    uploadCartItems(cartItems){
+      this.cartItems = cartItems
     }
   },
 }

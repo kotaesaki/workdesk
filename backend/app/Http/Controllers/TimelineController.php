@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Favorite;
+use App\Models\Item;
 use Carbon\Carbon;
+use ickx\fw2\vartype\arrays\Arrays;
 
 class TimelineController extends Controller
 {
@@ -45,6 +47,26 @@ class TimelineController extends Controller
             $i++;
         }
         return response()->json($posts);
-
+    }
+    public function getItems(){
+        $items = Item::orderBy('created_at', 'desc')
+            ->whereRaw( "created_at >= DATE_SUB( CURDATE(),INTERVAL 30 DAY )" )
+            ->get();
+        $items_array = array();
+        foreach($items as $item){
+            $count = Item::where('item_code', $item->item_code)
+                ->count();
+            $items_array[$item->item_code] = $count; 
+        }
+        arsort($items_array);
+        $i = 0;
+        foreach($items_array as $key => $val){
+            if($i >= 9){
+                break;
+            }
+            $array[] = Item::where('item_code', $key)->first(); 
+            $i++;
+        }
+        return response()->json($array);
     }
 }
