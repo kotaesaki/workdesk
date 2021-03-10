@@ -40,10 +40,34 @@
         </div>
         <div class="col-md-7 main">
           <div class="contents order2">
-            <img
-              :src="`${post.photo_path}`"
-              alt="contents-photo"
-              class="contents-photo">
+            <div class="photo-wrapper">
+              <img
+                :src="`${post.photo_path}`"
+                alt="contents-photo"
+                class="contents-photo">
+              <div
+                v-show="items"
+                class="item-relation">
+                <div
+                  v-for="item in items"
+                  :key="item.item_id"
+                  :style="{ top: item.item_relation_y + '%', left:item.item_relation_x +'%' }">
+                  <i class="fas fa-tag" />
+                  <div 
+                    class="balloon1">
+                    <img
+                      :src="`${item.item_image_url}`"
+                      alt="商品">
+                    <p class="hukidashi-name">
+                      {{ item.item_name }}
+                    </p>
+                    <p class="hukidashi-price">
+                      ¥{{ item.item_price }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <p class="created-time">
               {{ post.created_at | dayjs }}
             </p>
@@ -53,8 +77,7 @@
             class="comment order3"
             :show-modal="showModal" />
           <div
-            class="
-            contents-profile order1">
+            class="contents-profile order1">
             <h3>写真を投稿したユーザー</h3>
             <div>
               <router-link :to="{ name:'mypage', params:{userId:postUser.id}}">
@@ -152,6 +175,30 @@
               </li>
             </ul>
           </div>
+          <div
+            v-show="items"
+            class="individual-items">
+            <h3>Items</h3>
+            <ul>
+              <li
+                v-for="item in items"
+                :key="item.item_id">
+                <a
+                  :href="`${item.item_url}`"
+                  target="_blank">
+                  <img
+                    :src="`${item.item_image_url}`"
+                    alt="商品">
+                  <p class="item-name">
+                    {{ item.item_name }}
+                  </p>
+                  <p class="item-price">
+                    ¥{{ item.item_price }}
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -207,6 +254,7 @@ export default {
   data() {
     return {
       showModal: false,
+      balloonFlug: false
     }
   },
   computed: {
@@ -248,6 +296,9 @@ export default {
     },
     source(){
       return this.$store.getters['individual/source']
+    },
+    items(){
+      return this.$store.getters['individual/items']
     }
   },
   created() {
@@ -303,6 +354,12 @@ export default {
     showLogin(){
       this.$router.push({name: 'login'})
     },
+    popBalloon(){
+      return true
+    },
+    leaveBalloon(){
+      return false
+    }
   },
   beforeRouteLeave(to, from, next){
     this.$store.dispatch('individual/cancel')
@@ -469,6 +526,7 @@ export default {
     .individual-tags li:hover{
         background-color: #08415C;
     }
+    
     .icon-photo{
         width: 50px;
         height: 50px;
@@ -606,6 +664,128 @@ export default {
         height: 90px;
         margin: 5% 0 0;
     }
+    .individual-items{
+        box-shadow: 2px 2px 9px lightgrey;
+        background-color: #fff;
+        border-radius: 10px;
+        margin: 13% 0;
+        position: sticky;
+        top: 38%;
+    }
+    .individual-items h3{
+        text-align: center;
+        padding: 3% 0;
+    }
+    .individual-items ul{
+        list-style: none;
+        padding: 0;
+    }
+    .individual-items li{
+        text-align: center;
+        margin-bottom: 1rem;
+        border-bottom: 2px dotted;
+    }
+    .individual-items a:hover{
+      opacity: 0.7;
+      cursor: pointer;
+    }
+    .individual-items img{
+        position: relative;
+        width: 80%;
+    }
+    .individual-items .item-name{
+      font-size: 0.7rem;
+      padding: 0%;
+      margin-bottom: 0.3rem;
+    }
+    .individual-items .item-price{
+      font-size: 1.1rem;
+      color: black;
+      font-weight: bold;
+      padding: 0 2.5rem 0 0;
+      margin-bottom: 0.3rem;
+      text-align: right;
+    }
+    .item-relation{
+      position:absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .item-relation > div{ 
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      background: #08415C;
+      border-radius: 50%;
+      opacity: 0.8;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .item-relation > div:hover{
+      transform: scale(1.1,1.1);
+    }
+    .item-relation > div:hover .balloon1{
+      visibility: visible;
+    }
+    .item-relation > div:hover .balloon1:before{
+      visibility: visible;
+    }
+    .item-relation i{
+      position:absolute;
+      top: 50%;
+      left: 50%;
+      color:#FFF;
+      transform: translate(-50%,-50%);
+      -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+    }
+    .balloon1 {
+      position: relative;
+      visibility: hidden;
+      margin: 1.5em 0;
+      padding: 7px 10px;
+      color: #555;
+      font-size: 16px;
+      background: #e0edff;
+      border-radius: 15px;
+      top: -346%;
+      right: 266%;
+      width: 16rem;
+      height: 6rem;
+      z-index: 10001;
+
+    }
+    .balloon1:before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -15px;
+      border: 15px solid transparent;
+      border-top: 15px solid #e0edff;
+      z-index: 10001;
+    }
+    .balloon1 img{
+      width: 33%;
+      float: left;
+    }
+    .balloon1 .hukidashi-name{
+      position: relative;
+      font-size: 0.7rem;
+      height: 64%;
+      overflow: hidden;
+    }
+    .balloon1 .hukidashi-price{
+      text-align: right;
+      position: relative;
+      color: black;
+      bottom: 0.6rem;
+    }
+    .photo-wrapper{
+      position: relative;
+    }
     .loader-space{
         width: 100%;
         height: 20vh;
@@ -703,6 +883,22 @@ export default {
   }
   .modalLogin{
     width: 92vw;
+  }
+  .balloon1{
+    visibility: hidden;
+    display: none;
+  }
+  .balloon1:before{
+    display: none;
+    visibility: hidden;
+  }
+  .individual-tags{
+    position:relative;
+    top:auto;
+  }
+  .individual-items{
+    position: relative;
+    top: auto;
   }
 
 }

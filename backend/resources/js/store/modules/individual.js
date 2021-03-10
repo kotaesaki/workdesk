@@ -10,7 +10,8 @@ const state = {
   loading: false,
   heartLoading: false,
   source: axios.CancelToken.source(),
-  controller: new AbortController()
+  controller: new AbortController(),
+  items: null
 }
 const getters = {
   post: state=> state.post ? state.post: '',
@@ -22,7 +23,7 @@ const getters = {
   loading: state => state.loading ? state.loading: '',
   heartLoading: state => state.heartLoading ? state.heartLoading: '',
   source: state => state.source ? state.source: 'ないよ',
-
+  items: state => state.items ? state.items: '',
   checked: state=>{
     if (state.post==null || state.user==null || state.profile==null || state.tags==null || state.status==null || state.countFav==null){
       return false
@@ -55,7 +56,6 @@ const mutations = {
   },
   subtractCount(state){
     --state.countFav
-    
   },
   setLoading(state, loading){
     state.loading = loading
@@ -65,6 +65,9 @@ const mutations = {
   },
   setController(state, controller){
     state.controller = controller
+  },
+  setItems(state, items){
+    state.items = items
   }
 
 }
@@ -86,6 +89,7 @@ const actions = {
         commit('setTags', result.tags)
         commit('setStatus', result.status)
         commit('setCountFav', result.count_fav)
+        commit('setItems', result.items)
         commit('setLoading', false)
       }).catch(error=>{
         commit('setLoading', false)

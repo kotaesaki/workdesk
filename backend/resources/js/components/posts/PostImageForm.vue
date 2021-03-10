@@ -34,6 +34,16 @@
               :src="cropImg">
             <div
               v-if="cropImg"
+              class="itemList">
+              <div
+                v-for="cartItem in cartItems"
+                :key="cartItem.itemCode"
+                :style="{ top: cartItem.relationY + '%', left:cartItem.relationX +'%' }">
+                <i class="fas fa-tag" />
+              </div>
+            </div>
+            <div
+              v-if="cropImg"
               class="deleteImg"
               @click="deleteImage">
               <i class="fas fa-times deleteBatsu" />
@@ -90,18 +100,15 @@
 </template>
 <script>
 import VueCropper from 'vue-cropperjs'
-
 import 'cropperjs/dist/cropper.css'
-
 export default {
   el: '#post-image-preview',
   components: {
     VueCropper
   },
-  /*     props:
-    [
-
-    ], */
+  props: {
+    cartItems: Array
+  },
   data() {
     return {
       showModal: false,
@@ -109,7 +116,16 @@ export default {
       cropImg: '',
       file: '',
       blob: '',
+      hukidashiFlug: 'false'
     }
+  },
+  watch: {
+    cartItems: {
+      handler: function(){
+
+      },
+      deep: true
+    },
   },
   methods: {
     openModal(e) {
@@ -124,9 +140,7 @@ export default {
         reader.readAsDataURL(this.file)
         e.target.value = ''
         this.showModal = true
-
       }
-            
     },
     closeModal(){
       this.deleteImage()
@@ -139,12 +153,12 @@ export default {
       for (let i = 0; i < bin.length; i++){
         buffer[i] = bin.charCodeAt(i)
       }
-
       // Blobを作成
       this.blob = new Blob([buffer.buffer], {
         type: 'image/jpeg'
       })
       this.$emit('catchBlob', this.blob)
+      this.$emit('catchCropImg', this.cropImg)
       this.showModal = false
     },
     deleteImage(){
@@ -153,9 +167,9 @@ export default {
       this.file = ''
       this.blob = ''
       this.$emit('catchBlob', this.blob)
+      this.$emit('catchCropImg', this.cropImg)
       //こっちでもemit送る
     },
-
   },
 }
 </script>
@@ -258,7 +272,6 @@ export default {
 }
 .photoImage{
   position:relative;
-
   margin: 0 auto;
 }
 .deleteImg{
@@ -279,6 +292,29 @@ export default {
     top: 0.58rem;
     right: 0.6rem;
     color: #fff;
+}
+.itemList{
+  position:absolute;
+  top: 0;
+  left: 43%;
+  width: 300px;
+  height: 300px;
+}
+.itemList div{ 
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: #08415C;
+  border-radius: 50%;
+}
+.itemList i{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  color:#FFF;
+  transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
 }
 .cropimg{
     width: 300px;
@@ -332,6 +368,9 @@ label input{
   .deleteImg{
     top: -1rem;
     right: -1rem;
+  }
+  .itemList{
+    left: 0;
   }
 }
 </style>

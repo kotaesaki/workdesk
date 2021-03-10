@@ -28,6 +28,7 @@ Route::get('/getId/{login_id}', 'App\Http\Controllers\MypageController@getId')->
 Route::get('/getPost', 'App\Http\Controllers\MypageController@getPost')->name('api.getPost');
 Route::get('/timeline', 'App\Http\Controllers\TimelineController@index')->name('api.timeline');
 Route::get('/trend_timeline', 'App\Http\Controllers\TimelineController@getTrend')->name('api.trendTimeline');
+Route::get('/trend_items', 'App\Http\Controllers\TimelineController@getItems')->name('api.trendItems');
 Route::get('/individual', 'App\Http\Controllers\IndividualController@index')->name('api.individual');
 Route::get('/favorite', 'App\Http\Controllers\FavoriteController@isLiked')->name('api.isLiked_favorite');
 Route::get('/comment', 'App\Http\Controllers\CommentController@index')->name('api.index_comment');
