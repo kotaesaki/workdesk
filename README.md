@@ -1,6 +1,20 @@
-#TakuWaku
-* [to header1](#header1)
-* [to header2](#header2)
+
+* [ポートフォリオ紹介](#anchor1) 
+    * [トップページ](#anchor11)
+* [設計](#anchor2)
+    * [環境](#anchor21)
+    * [インフラ構成図](#anchor22)
+    * [ER図](#anchor23)
+    * [画面一覧](#anchor24)
+    * [機能一覧](#anchor25)
+    * [画面遷移図](#anchor26)
+    * [フロントエンド](#anchor27)
+    * [バックエンド](#anchor28)
+
+
+
+
+<a id="anchor1"></a>
 # ポートフォリオ紹介
 
 [https://takuwaku.work/](https://takuwaku.work/)
@@ -17,8 +31,9 @@ TakuWakuは自宅の作業環境をシェアすることができる投稿型プ
 
 ちなみにアプリケーション名は「宅ワーク」と「宅(で)ワク(ワク)」という意味が込められています。
 
-ゲストログイン機能もございますので、是非一度触れていただきたいです。
+ゲストログイン機能もございますので、是非一度触れていただきたいです.
 
+<a id="anchor11"></a>
 ## トップページ
 
 PC
@@ -30,8 +45,10 @@ PC
 
 <img src="https://user-images.githubusercontent.com/65902454/110801600-c1b30a00-82c0-11eb-9478-41618549487a.PNG" width="30%">
 
+<a id="anchor2"></a>
 
-# 使用技術
+# 設計
+<a id="anchor21"></a>
 
 ## 環境
 
@@ -44,6 +61,8 @@ PC
 - Docker Compose 1.27.4
 - AmazonWebService
 - CircleCI/CD
+
+<a id="anchor22"></a>
 
 ## インフラ構成図
 
@@ -61,9 +80,14 @@ AZを2つ用意し、public subnetとprivate subnetを一つずつ配置しま�
 2. そしてテストが成功したら、自動でECRにイメージをpushします。
 3. その後、ECSのタスク定義のコンテナイメージを更新して、サービスに反映させます。
 
+<a id="anchor23"></a>
+
 ## ER図
 
 ![Untitled Diagram (1)](https://user-images.githubusercontent.com/65902454/110801372-87e20380-82c0-11eb-9348-186798ac4263.png)
+
+<a id="anchor24"></a>
+
 ## 画面一覧
 
 
@@ -86,7 +110,10 @@ AZを2つ用意し、public subnetとprivate subnetを一つずつ配置しま�
 |  15 | 新規登録画面                 | トップ画面 | 新規登録   | ユーザー新規登録をする                                              | ○                  |
 
 
-## 機能設計
+
+<a id="anchor25"></a>
+
+## 機能一覧
 | No. | 大機能           | 中機能                 | 小機能           | 概要                                                                           |
 |-----|------------------|------------------------|------------------|--------------------------------------------------------------------------------|
 |   1 | ユーザー認証関連 | 新規登録               | -                | 新規登録をしたらトークンを発行、ローディングしてホームに遷移                   |
@@ -113,8 +140,14 @@ AZを2つ用意し、public subnetとprivate subnetを一つずつ配置しま�
 |  22 | プロフィール     | プロフィール情報変更   | -                | プロフィール変更                                                               |
 |  23 |                  | プロフィール表示       | -                | プロフィールを表示                                                             |
 
+
+<a id="anchor26"></a>
+
 ## 画面遷移図
 <img src="https://user-images.githubusercontent.com/65902454/110800489-924fcd80-82bf-11eb-91cb-6649424809b4.png" width="50%">
+
+
+<a id="anchor27"></a>
 
 ## フロントエンド
 
