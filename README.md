@@ -1,15 +1,19 @@
 
 * [ポートフォリオ紹介](#anchor1) 
     * [トップページ](#anchor11)
+    * [環境](#anchor12)
 * [設計](#anchor2)
-    * [環境](#anchor21)
     * [インフラ構成図](#anchor22)
     * [ER図](#anchor23)
     * [画面一覧](#anchor24)
     * [機能一覧](#anchor25)
     * [画面遷移図](#anchor26)
-    * [フロントエンド](#anchor27)
-    * [バックエンド](#anchor28)
+* [使用技術](#anchor3)
+    * [全体](#anchor31)
+    * [フロントエンド](#anchor32)
+    * [バックエンド](#anchor33)
+    * [インフラストラクチャ + DevOps](#anchor34)
+* [マネタイズ](#anchor4)
 
 
 
@@ -45,10 +49,9 @@ PC
 
 <img src="https://user-images.githubusercontent.com/65902454/110801600-c1b30a00-82c0-11eb-9478-41618549487a.PNG" width="30%">
 
-<a id="anchor2"></a>
 
-# 設計
-<a id="anchor21"></a>
+
+<a id="anchor12"></a>
 
 ## 環境
 
@@ -61,6 +64,15 @@ PC
 - Docker Compose 1.27.4
 - AmazonWebService
 - CircleCI/CD
+
+
+
+
+
+<a id="anchor2"></a>
+
+# 設計
+
 
 <a id="anchor22"></a>
 
@@ -147,15 +159,122 @@ AZを2つ用意し、public subnetとprivate subnetを一つずつ配置しま�
 <img src="https://user-images.githubusercontent.com/65902454/110800489-924fcd80-82bf-11eb-91cb-6649424809b4.png" width="50%">
 
 
-<a id="anchor27"></a>
+<a id="anchor3"></a>
+
+# 使用技術
+
+<a id="anchor31"></a>
+
+## 全体
+
+- PHP 7.3
+- Laravel 8.12
+- Vue.js 2.5.17
+- Vue-Router 3.4.9
+- Vuex 3.6.0
+- Nginx 1.18
+- MySQL 8.0
+- Docker 19.03.13
+- Docker Compose 1.27.4
+- AmazonWebService
+- CircleCI/CD
+
+<a id="anchor32"></a>
 
 ## フロントエンド
 
-### こだわり、工夫した箇所
+Vue.js 2.5.17
+
+@vue/cli 4.5.11
+
+Vuex 3.6.0
+
+Vue-Router 3.4.9
+
+axios 0.21.1
+
+<a id="anchor321"></a>
+
+### ポイント
 
 - Vueコンポーネントを使った完全SPAアプリケーション
 - スマートフォンの利用を想定したレスポンシブデザイン
 - Vuexストアでステート管理
 - 未ログインユーザでの機能を制限
+- 投稿一覧画面などでの無限スクロールの実装
 - 404ページの実装
 - ローディング画面の実装
+
+また、ユーザにストレスを与えないようなデザインを意識をして開発に取り組みました。
+
+- レスポンシブ時にformをタップすると自動で画面がズームされてしまうので、ズームされないように改善
+- ゲストユーザーログインボタンを押してもらわないと見てすらもらえないため、ボタンに遊びを持たせて興味を引き立てる
+- デザインカラーは青系の三色に絞り、目立たせたい要素には反対色の黄系の色を使用
+- 投稿画像のトリミング機能の実装
+- 投稿時に画像にタップすることで楽天APIから取得したアイテムを画像にタグづけすることできる。
+- 投稿画面のタグの検索予測の実装
+
+<a id="anchor33"></a>
+
+## バックエンド
+
+PHP 7.3
+
+Laravel 8.12
+
+Laravel Sanctum 2.8
+
+
+<a id="anchor331"></a>
+
+### ポイント
+
+- Laravel Sanctumを利用したトークンベースのユーザー認証の実装
+- 画像データはS3に保存
+- その他のデータはRDS(MySQL)に保存
+- 独自のアルゴリズムによる投稿トレンド機能を実装
+- 可読性向上のためにバリデーションとコントローラのファイルを分離
+- DB transactionの実装
+
+controller処理に頼りすぎな点が課題だと考えており、ModelとControllerの処理の設計を学習中です。
+
+<a id="anchor34"></a>
+
+## インフラストラクチャ + DevOps
+
+AmazonWebService
+
+- ECS (EC2)
+- ECR
+- ALB
+- Route53
+- S3
+- RDS
+
+CircleCI
+
+GitHub
+
+Docker 19.03.13
+
+Docker Compose 1.27.4
+
+AWSに関しましては、インフラ構成図に記述した通りとなっております。
+
+Githubではチーム開発を意識して開発に取り組みました。
+
+- 機能、要件ごとにissueを作成
+- issue毎にブランチを作成し管理しやすくする
+- Pull Requestを都度依頼する
+
+以上のことを意識してタスク管理も兼ねたGitHub開発を取り組みました。
+
+<a id="anchor4"></a>
+
+# マネタイズ
+
+楽天APIを利用して投稿した写真に写っている商品を知ることができます。
+
+そのリンクをクリックすることで、アフィリエイト広告費としてのマネタイズができると考えております。(現状未実装)
+
+
