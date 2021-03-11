@@ -8,7 +8,7 @@
     * [画面一覧](#anchor24)
     * [機能一覧](#anchor25)
     * [画面遷移図](#anchor26)
-* [使用技術](#anchor3)
+* [開発](#anchor3)
     * [全体](#anchor31)
     * [フロントエンド](#anchor32)
     * [バックエンド](#anchor33)
@@ -161,7 +161,7 @@ AZを2つ用意し、public subnetとprivate subnetを一つずつ配置しま�
 
 <a id="anchor3"></a>
 
-# 使用技術
+# 開発
 
 <a id="anchor31"></a>
 
