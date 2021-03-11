@@ -23,10 +23,16 @@
                 </div>
                 <div class="items">
                   <input
+                    v-if="userId != '288'"
                     id="email"
                     v-model="id.email"
                     type="text"
                     name="email">
+                  <input
+                    v-if="userId === '288' || userId === 288"
+                    type="text"
+                    placeholder="ゲストユーザーのため、変更できません。"
+                    disabled="disabled">
                 </div>
               </div>
             </div>
@@ -37,11 +43,17 @@
                 </div>
                 <div class="items">
                   <input
+                    v-if="userId != '288'"
                     id="password"
                     v-model="password"
                     :type="inputType"
                     name="password"
                     autocomplete="new-password">
+                  <input
+                    v-if="userId === '288' || userId === 288"
+                    type="text"
+                    placeholder="ゲストユーザーのため、変更できません。"
+                    disabled="disabled">
                   <span
                     :class="iconType"
                     @click="changePassword" />
@@ -57,10 +69,16 @@
             type="hidden"
             name="id">
           <button
+            v-if="userId != '288'"
             type="submit"
             class="submitBtn">
             変更内容を保存する
           </button>
+          <div
+            v-if="userId === '288' || userId === 288"
+            class="submitBtn">
+            変更内容を保存する
+          </div>
         </form>
       </div>
       <settings-bar />

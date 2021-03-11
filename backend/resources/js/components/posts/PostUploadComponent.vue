@@ -54,7 +54,8 @@
             name="id">
           <button
             type="submit"
-            class="submitBtn">
+            class="submitBtn"
+            :disabled="isPosting">
             写真を投稿する
           </button>
         </form>
@@ -65,10 +66,12 @@
 <script>
 import PostImageForm from './PostImageForm.vue'
 import PostTagForm from './PostTagForm.vue'
+import MultipostAboidable from '../../mixins/multipost_aboidable'
 import PostItemForm from './PostItemForm.vue'
 import axios from 'axios'
 export default {
   components: { PostImageForm, PostTagForm, PostItemForm },
+  mixins: [MultipostAboidable],
   props: {
     userId: String
   },
@@ -85,7 +88,7 @@ export default {
     }
   },
   methods: {
-    submit() {
+    async submit() {
       this.errors.splice(0)
       let imageName = Math.random().toString(32).substring(2)
       let formData = new FormData()
@@ -115,33 +118,35 @@ export default {
       }
       formData.append('description', this.description)
       formData.append('id', this.userId)
-      axios.post('/api/post_upload/' + this.userId, formData, config).then(()=>{
-        this.$router.push({name: 'home'})
-        alert('投稿しました')
-      }).catch(err=>{
-        console.log(err.response)
-        const val = err.response.data.errors
-        if (err.response.status === 422){
-          if (val.file){
-            val.file.forEach((v) =>{
-              this.errors.push(v)
-            })
+      this.avoidMultipost(async()=>{
+        await axios.post('/api/post_upload/' + this.userId, formData, config).then(()=>{
+          this.$router.push({name: 'home'})
+          alert('投稿しました')
+        }).catch(err=>{
+          console.log(err.response)
+          const val = err.response.data.errors
+          if (err.response.status === 422){
+            if (val.file){
+              val.file.forEach((v) =>{
+                this.errors.push(v)
+              })
+            }
+            if (val.tag){
+              val.tag.forEach(i =>{
+                this.errors.push(i)
+              })
+            }
+            if (val.description){
+              val.description.forEach(i =>{
+                this.errors.push(i)
+              })
+            }
+          } else if (err.response.status === 413){
+            alert('画像サイズが大きすぎます')
+          } else {
+            alert('投稿に失敗しました。(ステータスコード:' + err.response.status + ')')
           }
-          if (val.tag){
-            val.tag.forEach(i =>{
-              this.errors.push(i)
-            })
-          }
-          if (val.description){
-            val.description.forEach(i =>{
-              this.errors.push(i)
-            })
-          }
-        } else if (err.response.status === 413){
-          alert('画像サイズが大きすぎます')
-        } else {
-          alert('投稿に失敗しました。(ステータスコード:' + err.response.status + ')')
-        }
+        })
       })
     },
     getId() {

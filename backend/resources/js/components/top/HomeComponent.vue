@@ -36,6 +36,12 @@
           <li><div class="circle" /></li>
         </ul>
         <span>自宅の作業環境の参考に！<br>在宅環境をシェアする写真投稿サービスです。</span>
+        <div
+          v-if="!isLogin"
+          class="guestLogin"
+          @click="guestLogin">
+          <span>Guest Login</span>
+        </div>
         <img
           :src="`./images/top.jpg`"
           alt="トップ"
@@ -59,11 +65,16 @@
         </div>
       </div>     
     </div>   
-    <div :class="{modalLogin: isLogin===true && successLogin === true}">
+    <div
+      v-show="isLogin && successLogin"
+      class="modalLogin">
       <p
-        v-if="isLogin===true && successLogin === true"
-        :class="{modalContent: isLogin===true && successLogin === true}" />
+        v-show="isLogin && successLogin"
+        class="modalContent">
+        ログインに成功しました。
+      </p>
     </div>
+    <loading v-show="loading" />
   </div>
 </template>
 <script>
@@ -80,6 +91,9 @@ export default {
     isLogin() {
       return this.$store.getters['auth/check']
     },
+    loading(){
+      return this.$store.getters['auth/loading']
+    }
   },
   mounted() {
     const path = this.$route.path
@@ -95,6 +109,9 @@ export default {
     changeTab(val) {
       this.isActive = val
     },
+    guestLogin(){
+      this.$store.dispatch('auth/login', {login_id: 'guest', password: 'w7WPmhuC'})
+    }
   },
 }
 </script>
@@ -111,7 +128,7 @@ export default {
     right: 2vw;
     object-fit: cover;
 }
-.topImage span{
+.topImage > .box > span{
     position: absolute;
     font-size: 1.5rem;
     text-align: center;
@@ -211,21 +228,60 @@ export default {
     animation-fill-mode: forwards;
     z-index: 20001;
 }
-.modalContent::before{
-    content: 'ログインに成功しました。';
-    -moz-animation: modal 0s ease-in 2s forwards;
-    -webkit-animation: modal 0s ease-in 2s forwards;
-    -o-animation: modal 0s ease-in 2s forwards;
-    animation: modal 0s ease-in 2s forwards;
-    -webkit-animation-fill-mode: forwards;
-    animation-fill-mode: forwards;
-}
 @keyframes modal {
     to {
+        opacity: 0;
         width:0;
         height:0;
         overflow:hidden;
     }
+}
+.guestLogin{
+    position: absolute;
+    top: 57%;
+    left: 24%;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 1rem 2rem;
+    background: #222;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    -moz-transition: 1s;
+    -o-transition: 1s;
+    -webkit-transition: 1s;
+    transition: 1s;
+    overflow: hidden;
+}
+.guestLogin:before{
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    right: -40px;
+    width: 10px;
+    height: 10px;
+    background: #222;
+    border-radius: 25%;
+    -moz-transition: 1s;
+    -o-transition: 1s;
+    -webkit-transition: 1s;
+    transition: 1s;
+    bottom: auto;
+    top: -40px;
+    overflow: hidden;
+}
+.guestLogin:hover, .guestLogin:focus {
+  color:  #000;
+}
+.guestLogin:hover:before, .guestLogin:focus:before {
+  width: 400px;
+  height: 400px;
+  background-color: #fcde59;
+}
+.guestLogin span {
+  position: relative;
+  z-index: 1000;
 }
 @media(max-width: 1000px){
   .tab{
@@ -237,7 +293,7 @@ export default {
   .tab_list{
     padding: 0;
   }
-  .topImage span{
+  .topImage > .box > span{
     display: inline-block;
     width: 77%;
     top:10%;
@@ -255,7 +311,14 @@ export default {
     -ms-transform: translateX(-50%);
   }
   .pages{
-    margin-top: 13rem;
+    margin-top: 17rem;
+  }
+  .guestLogin{
+    top: 32rem;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
   }
 }
 </style>

@@ -23,11 +23,10 @@ const mutations = {
 }
 const actions = {
   async searchItem({commit, state}){
-    const words = unescape(encodeURIComponent(state.searchWords))
     commit('setLoading', true)
     await axios.get('/api/searchItem', {
       params: {
-        searchWords: words
+        searchWords: state.searchWords
       }
     }).then(res=>{
       console.log(res.data)

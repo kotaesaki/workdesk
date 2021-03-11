@@ -350,6 +350,8 @@ li .deleteItemBtn i{
   border-radius: 6px;
   width: 90%;
   height: 2.5rem;
+  font-size: 16px;
+  transform: scale(1.0);
 }
 
 .resultItem{

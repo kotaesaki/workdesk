@@ -11,8 +11,8 @@ const state={
 
 const getters = {
   status: state =>state.status ? state.status: '',
-  follow: state =>state.follow ? state.follow: '',
-  follower: state => state.follower ? state.follower: '',
+  follow: state =>state.follow ? state.follow: '0',
+  follower: state => state.follower ? state.follower: '0',
   countFollow: state => state.countFollow ? state.countFollow: '',
   countFollower: state => state.countFollower ? state.countFollower: '',
 }
@@ -97,6 +97,12 @@ const actions = {
       .then(result=>{
         commit('setcountFollow', result.data[0])
         commit('setcountFollower', result.data[1])
+        if (!result.data[0]){
+          commit('setcountFollow', '0')
+        }
+        if (!result.data[1]){
+          commit('setcountFollower', '0')
+        }
       }).catch(error=>{
         console.log(error)
       })

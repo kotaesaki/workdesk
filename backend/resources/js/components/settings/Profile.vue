@@ -142,12 +142,12 @@
                     v-model="profile.age"
                     name="age"
                     placeholder="Select">
-                    <option value="" />
+                    <option value="0" />
                     <option
                       v-for="n in 100"
                       :key="n"
                       :value="n + 1">
-                      {{ n + 9 }}
+                      {{ n }}
                     </option>                    
                   </select>
                 </div>
@@ -217,7 +217,8 @@ export default {
       formData.append('occupation', this.profile.occupation)
       formData.append('sex', this.profile.sex)
       formData.append('age', this.profile.age)
-      formData.append('default_icon', this.profile)
+      formData.append('icon_title', this.profile.icon_title)
+      formData.append('icon_path', this.profile.icon_path)
       let config = {
         headers: {
           'content-type': 'multipart/form-data'
@@ -234,7 +235,7 @@ export default {
         } else if (err.response.status === 413){
           alert('画像サイズが大きすぎます。')
         } else {
-          alert('変更に失敗しました。(ステータスコード:', err.response.status, ')')
+          alert('変更に失敗しました。(ステータスコード:'+ err.response.status+ ')')
         }
       })
     },
@@ -290,6 +291,9 @@ export default {
         }
         if (this.profile.twitter_url == 'null'){
           this.profile.twitter_url = ''
+        }
+        if (this.profile.shokai == 'null'){
+          this.profile.shokai = ''
         }
         if (this.profile.sex == 'null'){
           this.profile.sex = ''

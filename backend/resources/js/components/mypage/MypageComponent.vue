@@ -40,6 +40,10 @@ export default {
       return this.$store.getters['mypage/source']
     }
   },
+  mounted(){
+    this.updatePost(this.userId)
+    this.updateUser(this.userId)
+  },
   methods: {
     async updatePost(userId) {
       this.$store.commit('mypage/clearVar')
@@ -58,7 +62,7 @@ export default {
       this.updateUser(to.params.userId)
       next()
     }
-  },
+  }
 
 }
 </script>

@@ -37,8 +37,8 @@ class RegisterController extends Controller
             $token = $user->createToken($request->device_name ?? 'undefined')->plainTextToken;
             $profile = Profile::create([
                 'user_id' => $user->id,
-                'icon_title' => 'default_icon.jpg',
-                'icon_path' => 'https://takuwaku-s3.s3-ap-northeast-1.amazonaws.com/common/default_icon.jpg'
+                'icon_title' => 'default.jpg',
+                'icon_path' => 'https://takuwaku-s3.s3-ap-northeast-1.amazonaws.com/common/default.jpg'
 
             ]);
             return json_encode(['token' => $token, 'user' => $user, 'profile' => $profile]);

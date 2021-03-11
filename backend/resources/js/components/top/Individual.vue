@@ -27,15 +27,6 @@
               </div>
             </div>
             <p>{{ countFav }}</p><br>
-            <a
-              href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-              class="twitter-share-button"
-              data-text="aaa"
-              data-url="https://takuwaku.work/photo"
-              data-hashtags="takuwaku"
-              data-show-count="false"
-              target="_blank">
-              <i class="fab fa-twitter twitter" /></a>
           </div>
         </div>
         <div class="col-md-7 main">
@@ -412,18 +403,17 @@ export default {
     }
     .contents-profile .unfollow{
         display: inline-block;
-        border: 1px solid #CFCABF;
+        background-color: #2983FD;
+        color: #fff;
         border-radius: 5%;
         padding:7px;
         cursor: pointer;
     }
     .contents-profile .unfollow:hover{
-        background-color: #2983FD;
-        color: #FFF;
+      opacity: 0.8;
     }
     .contents-profile .follow:hover{
-        background-color: #2983FD;
-        color: #FFF;
+      opacity: 0.8;
     }
     .contents-profile .follower{
         clear: both;
@@ -446,14 +436,15 @@ export default {
         padding: 3%;
     }
     .sub{
+        position: sticky;
+        top: 3%;
         margin-left: 5%;
     }
     .individual-profile{
         box-shadow: 2px 2px 9px lightgrey;
         background-color: #fff;
         border-radius: 10px;
-        position: sticky;
-        top: 3%;
+        
     }
     .individual-profile img{
         margin: 5%;
@@ -504,8 +495,6 @@ export default {
         background-color: #fff;
         border-radius: 10px;
         margin: 13% 0;
-        position: sticky;
-        top: 22%;
     }
     .individual-tags h3{
         text-align: center;
@@ -668,9 +657,6 @@ export default {
         box-shadow: 2px 2px 9px lightgrey;
         background-color: #fff;
         border-radius: 10px;
-        margin: 13% 0;
-        position: sticky;
-        top: 38%;
     }
     .individual-items h3{
         text-align: center;

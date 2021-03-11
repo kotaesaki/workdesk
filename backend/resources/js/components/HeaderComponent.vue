@@ -71,10 +71,14 @@
       </div>
     </nav>
     <loading v-show="loading" />
-    <div :class="{modalLogout: isLogin===false && isLogout === true}">
+    <div
+      v-show="isLogout && !isLogin"
+      class="modalLogout">
       <p
-        v-if="isLogin===false && isLogout === true"
-        :class="{modalContent: isLogin===false && isLogout === true}" />
+        v-show="isLogout && !isLogin"
+        class="modalContent">
+        ログアウトに成功しました
+      </p>
     </div>
   </div>
 </template>
@@ -201,17 +205,9 @@ export default {
         animation-fill-mode: forwards;
         z-index: 20001;
     }
-    .modalContent::before{
-        content: 'ログアウトに成功しました。';
-        -moz-animation: modal 0s ease-in 2s forwards;
-        -webkit-animation: modal 0s ease-in 2s forwards;
-        -o-animation: modal 0s ease-in 2s forwards;
-        animation: modal 0s ease-in 2s forwards;
-        -webkit-animation-fill-mode: forwards;
-        animation-fill-mode: forwards;
-    }
     @keyframes modal {
         to {
+            opacity: 0;
             width:0;
             height:0;
             overflow:hidden;
@@ -239,6 +235,12 @@ export default {
     position:absolute;
     top: 21px;
     right: 1.2rem;
+  }
+  .dropdown-menu{
+    min-width: 13rem;
+  }
+  .dropdown-item{
+    padding: 0.45rem 1.5rem;
   }
 }
 </style>
