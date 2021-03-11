@@ -41,12 +41,12 @@
             {{ profile.occupation }}
           </p>
           <p v-show="profile.age">
-            {{ profile.age }}歳
+            {{ profile.age -1 }}歳
           </p>
         </div>
         <div class="shokai">
           <div>
-            <span>
+            <span v-show="profile.shokai != 'null'">
               {{ profile.shokai }}
             </span>
           </div>

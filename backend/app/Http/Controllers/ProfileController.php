@@ -26,8 +26,8 @@ class ProfileController extends Controller
     {
         try {
             if(!$request->file){
-                $file_name = $request->default_icon->icon_title;
-                $path = $request->default_icon->icon_path;
+                $file_name = $request->icon_title;
+                $path = $request->icon_path;
             }else{
                 $file_name = request()->file->getClientOriginalName();
                 if(app()->environment('local')){

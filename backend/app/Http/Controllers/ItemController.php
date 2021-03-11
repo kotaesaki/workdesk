@@ -11,9 +11,7 @@ class ItemController extends Controller
         $client = new RakutenRws_Client();
 
         define('RAKUTEN_APPLICATION_ID', config('app.rakuten_id'));
-        define('RAKUTEN_APPLICATION_SECRET',config('app.rakuten_key'));
-
-        $client->setApplicationId(1052343180181954218);
+        $client->setApplicationId(RAKUTEN_APPLICATION_ID);
 
         $keyword = $request->searchWords;
 

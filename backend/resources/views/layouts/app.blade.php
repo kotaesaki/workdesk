@@ -41,6 +41,11 @@
             color:#08415C;
             text-decoration: none;
         }
+        @media(max-width: 1000px){
+            *:hover{
+                opacity: 1.0;
+            }
+        }
     </style>
 </head>
 

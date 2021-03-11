@@ -8,6 +8,7 @@ Vue.use(VueRouter)
 Vue.use(VueLoaders)
 
 import HeaderComponent from './components/HeaderComponent'
+import NotFoundComponent from './components/top/NotFoundComponent'
 import MypageComponent from './components/mypage/MypageComponent'
 import FooterComponent from './components/common/Footer'
 import Search from './components/common/Search'
@@ -224,6 +225,11 @@ const router = new VueRouter({
         }
       }
     },
+    { 
+      name: 'notFound',
+      path: '*', 
+      component: NotFoundComponent 
+    }
 
   ],
   scrollBehavior (to, from, savedPosition) {

@@ -4,16 +4,12 @@
       Trend Item
     </h2>
     <p>人気の商品を表示しています。</p>
+    <p>※リンクを押すと商品ページに遷移します。</p>
     <div class="contents">
       <div
         v-for="item in items"
         :key="item.item_id"
         class="contentItem">
-        <p
-          v-once
-          class="itemRank">
-          {{ count[n++] }}
-        </p>
         <a
           :href="`${item.item_url}`"
           target="_blank">
@@ -40,8 +36,6 @@ export default {
     return {
       items: '',
       loading: false,
-      count: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      n: 0
     }
   },
   mounted() {
@@ -135,6 +129,10 @@ h2{
 .itemName{
   padding-top: 0.5rem;
   font-size: 0.7rem;
+}
+.itemPrice{
+  text-align: center;
+  padding: 0;
 }
 .contentItem{
   margin-bottom: 2rem;
