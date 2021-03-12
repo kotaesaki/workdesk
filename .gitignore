@@ -1,2 +1,3 @@
 .vscode/
 packege-lock.json
+*.DS_Store
