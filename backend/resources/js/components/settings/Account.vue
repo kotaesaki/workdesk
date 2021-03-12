@@ -23,13 +23,13 @@
                 </div>
                 <div class="items">
                   <input
-                    v-if="userId != '288'"
+                    v-if="userId != '5' || userId != 5"
                     id="email"
                     v-model="id.email"
                     type="text"
                     name="email">
                   <input
-                    v-if="userId === '288' || userId === 288"
+                    v-if="userId === '5' || userId === 5"
                     type="text"
                     placeholder="ゲストユーザーのため、変更できません。"
                     disabled="disabled">
@@ -43,14 +43,14 @@
                 </div>
                 <div class="items">
                   <input
-                    v-if="userId != '288'"
+                    v-if="userId != '5' || userId != 5"
                     id="password"
                     v-model="password"
                     :type="inputType"
                     name="password"
                     autocomplete="new-password">
                   <input
-                    v-if="userId === '288' || userId === 288"
+                    v-if="userId === '5' || userId === 5"
                     type="text"
                     placeholder="ゲストユーザーのため、変更できません。"
                     disabled="disabled">

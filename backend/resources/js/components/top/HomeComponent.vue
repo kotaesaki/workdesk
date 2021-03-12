@@ -156,7 +156,6 @@ export default {
     animation: vertical 30s ease-in-out infinite alternate;
     animation-duration: 10.5s;
 }
-
 @keyframes horizontal {
     0% { transform:translateX( -400px); }
     100% { transform:translateX(  -200px); }
