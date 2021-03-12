@@ -42,7 +42,8 @@
                 <div
                   v-for="item in items"
                   :key="item.item_id"
-                  :style="{ top: item.item_relation_y + '%', left:item.item_relation_x +'%' }">
+                  :style="{ top: item.item_relation_y + '%', left:item.item_relation_x +'%' }"
+                  @click="popBalloon(item)">
                   <i class="fas fa-tag" />
                   <div 
                     class="balloon1">
@@ -193,36 +194,59 @@
         </div>
       </div>
     </div>
-    <div
-      v-show="showModal"
-      class="overlay"
-      @click="closeModal">
-      <div class="modalLogin">
-        <div class="batsu">
-          <i
-            class="fas fa-times batsuBtn"
-            @click="closeModal" />
-        </div>
-        <img
-          :src="`/images/Logo.svg`"
-          height="64"
-          alt="ロゴだよ"
-          class="logo">
-        <p>Takuwakuは在宅環境共有プラットフォームです。シェアしてみましょう。</p>
-        <div class="modalBtn">
-          <button
-            class="registerBtn"
-            @click="showRegister">
-            新規登録
-          </button>
-          <button
-            class="loginBtn"
-            @click="showLogin">
-            ログイン
-          </button>
+    <transition name="component-balloon">
+      <div
+        v-show="showModal"
+        class="overlay"
+        @click="closeModal">
+        <div class="modalLogin">
+          <div class="batsu">
+            <i
+              class="fas fa-times batsuBtn"
+              @click="closeModal" />
+          </div>
+          <img
+            :src="`/images/Logo.svg`"
+            height="64"
+            alt="ロゴだよ"
+            class="logo">
+          <p>Takuwakuは在宅環境共有プラットフォームです。シェアしてみましょう。</p>
+          <div class="modalBtn">
+            <button
+              class="registerBtn"
+              @click="showRegister">
+              新規登録
+            </button>
+            <button
+              class="loginBtn"
+              @click="showLogin">
+              ログイン
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
+    <transition name="component-balloon">
+      <div
+        v-show="balloonFlug"
+        class="overlay"
+        @click="leaveBalloon">
+        <div class="balloon2">
+          <i
+            class="fas fa-times batsuBtn"
+            @click="leaveBalloon" />
+          <img
+            :src="`${popItem.item_image_url}`"
+            alt="商品">
+          <p class="hukidashi-name">
+            {{ popItem.item_name }}
+          </p>
+          <p class="hukidashi-price">
+            ¥{{ popItem.item_price }}
+          </p>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 <script>
@@ -245,7 +269,8 @@ export default {
   data() {
     return {
       showModal: false,
-      balloonFlug: false
+      balloonFlug: false,
+      popItem: '',
     }
   },
   computed: {
@@ -345,11 +370,13 @@ export default {
     showLogin(){
       this.$router.push({name: 'login'})
     },
-    popBalloon(){
-      return true
+    popBalloon(item){
+      console.log('item_id'+ item)
+      this.popItem = item
+      this.balloonFlug = true
     },
     leaveBalloon(){
-      return false
+      this.balloonFlug = false
     }
   },
   beforeRouteLeave(to, from, next){
@@ -740,9 +767,7 @@ export default {
       top: -346%;
       right: 266%;
       width: 16rem;
-      height: 6rem;
       z-index: 10001;
-
     }
     .balloon1:before {
       content: "";
@@ -769,6 +794,9 @@ export default {
       position: relative;
       color: black;
       bottom: 0.6rem;
+    }
+    .balloon2{
+      display: none;
     }
     .photo-wrapper{
       position: relative;
@@ -887,6 +915,32 @@ export default {
     position: relative;
     top: auto;
   }
-
+  .balloon2 {
+    display: block;
+    position: absolute;
+    margin: 1.5em 0;
+    padding: 7px 10px;
+    color: #555;
+    font-size: 16px;
+    background: #e0edff;
+    border-radius: 15px;
+    z-index: 10001;
+    width: 75%;
+    top: 11%;
+    left: 50%;
+    text-align: center;
+    opacity: 0.85;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+  }
+  .component-balloon-enter-active,
+  .component-balloon-leave-active {
+    transition: opacity .2s ease;
+  }
+  .component-balloon-enter,
+  .component-balloon-leave-to {
+    opacity: 0;
+  }
 }
 </style>
