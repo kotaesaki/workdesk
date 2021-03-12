@@ -600,6 +600,7 @@ export default {
         text-align: center;
         border-radius: 7px;
         box-shadow: 2px 2px 6px lightgrey;
+        
     }
     .batsu{
         font-size:2em;
