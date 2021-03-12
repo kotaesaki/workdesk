@@ -109,7 +109,7 @@
           <router-link :to="{name: 'mylikes'}">
             <li
               class="pcList"
-              style="border-bottom: 1px solid #CFCABF;">
+              style="border-bottom: 1px solid #08415C;">
               いいねした写真
             </li>
             <li

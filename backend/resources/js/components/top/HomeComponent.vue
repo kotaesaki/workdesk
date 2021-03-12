@@ -95,6 +95,13 @@ export default {
       return this.$store.getters['auth/loading']
     }
   },
+  watch: {
+    $route(to, from) {
+      if (to.name === 'home'){
+        this.isActive = '1'
+      }
+    },
+  },
   mounted() {
     const path = this.$route.path
     if (path === '/'){

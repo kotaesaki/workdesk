@@ -219,7 +219,7 @@ export default {
   }
   .coll{
     position: absolute;
-    top: 0.7rem;
+    top: 0.2rem;
     right: 0.9rem;
   }
   .navbar{
