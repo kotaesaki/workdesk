@@ -19,6 +19,7 @@
           </p>
           <div class="balloon">
             <div class="says">
+              <!-- eslint-disable-next-line vue/no-v-html -->
               <p
                 class="message"
                 v-html="$sanitize(comments.comment_message)" />
@@ -60,13 +61,14 @@
 <script>
 import dayjs from 'dayjs'
 import 'dayjs/locale/ja'
-
+import MultipostAboidable from '../../mixins/multipost_aboidable'
 export default {
   filters: {
     dayjs: function (date){
       return dayjs(date).format('YYYY/MM/DD HH:mm')
     }
   },
+  mixins: [MultipostAboidable],
   props: {  
     showModal: Boolean,
   },
@@ -93,15 +95,25 @@ export default {
     },
     replyId(){
       return this.$store.getters['comment/replyId']
-    }
+    },
+    linkReply(){{
+      return this.$store.getters['comment/linkReply']
+    }}
+  },
+  mounted() {
+    this.$store.commit('comment/updateComment', '')
+    this.$store.commit('comment/setReplyId', '')
+    this.$store.commit('comment/addReplyComment', '')
   },
   methods: {
-    submit() {
+    async submit() {
       if (!this.user){
         this.$parent.showModal = true
       } else {
-        this.$store.dispatch('comment/pushComment',
-          {comment: this.comment, post_id: this.post.post_id, user_id: this.user.id})
+        this.avoidMultipost(async()=>{
+          await this.$store.dispatch('comment/pushComment',
+            {comment: this.comment, post_id: this.post.post_id, user_id: this.user.id})
+        })
       }
     },
     reply(login_id, user_id){

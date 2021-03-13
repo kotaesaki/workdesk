@@ -11,7 +11,11 @@
             class="loader" />
         </div>
         <div v-show="!loading">
+          <p v-show="id.login_id === 'guest'">
+            ゲストユーザのため、編集できません。
+          </p>
           <form
+            :class="{'guestLogin': id.login_id === 'guest'}"
             enctype="multipart/form-data"
             @submit.prevent="submit">
             <profile-image-form
@@ -392,6 +396,9 @@ h2{
 }
 .error ul{
   list-style: none;
+}
+.guestLogin{
+  pointer-events: none;
 }
 @media(max-width:767px){
   h2{

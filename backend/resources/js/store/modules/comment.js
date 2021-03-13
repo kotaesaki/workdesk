@@ -25,7 +25,7 @@ const mutations = {
   addCommentList(state, commentList){
     commentList.comment_message = commentList.comment_message.replace(/<br>/g, '\n')
     state.commentList.push(commentList)
-    state.comment = null
+    state.comment = ''
   },
   updateComment(state, comment){
     state.comment = comment
@@ -42,8 +42,9 @@ const mutations = {
   },
 }
 const actions = {
-  async pushComment({commit}, data){
+  async pushComment({commit, state}, data){
     commit('setLoading', true)
+    console.log(state.comment)
     await axios.post('/api/comment', data).then(result=>{
       commit('addCommentList', result.data)
       commit('setLoading', false)
