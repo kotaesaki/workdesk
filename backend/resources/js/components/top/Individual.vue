@@ -764,7 +764,7 @@ export default {
       font-size: 16px;
       background: #e0edff;
       border-radius: 15px;
-      top: -346%;
+      top: -393%;
       right: 266%;
       width: 16rem;
       z-index: 10001;
@@ -780,13 +780,15 @@ export default {
       z-index: 10001;
     }
     .balloon1 img{
-      width: 33%;
+      width: 6rem;
+      height: 6rem;
       float: left;
+      object-fit: cover;
     }
     .balloon1 .hukidashi-name{
       position: relative;
       font-size: 0.7rem;
-      height: 64%;
+      height: 3rem;
       overflow: hidden;
     }
     .balloon1 .hukidashi-price{

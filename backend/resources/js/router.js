@@ -3,9 +3,14 @@ import VueRouter from 'vue-router'
 import VueLoaders from 'vue-loaders'
 import store from './store'
 import { ContentLoader } from 'vue-content-loader'
+import VueAnalytics from 'vue-analytics'
 
 Vue.use(VueRouter)
 Vue.use(VueLoaders)
+Vue.use(VueAnalytics, {
+  id: 'UA-146042680-2',
+  router
+})
 
 import HeaderComponent from './components/HeaderComponent'
 import NotFoundComponent from './components/top/NotFoundComponent'
