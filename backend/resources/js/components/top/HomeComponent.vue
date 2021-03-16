@@ -96,7 +96,7 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
+    $route(to) {
       if (to.name === 'home'){
         this.isActive = '1'
       }

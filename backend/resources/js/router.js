@@ -7,10 +7,6 @@ import VueAnalytics from 'vue-analytics'
 
 Vue.use(VueRouter)
 Vue.use(VueLoaders)
-Vue.use(VueAnalytics, {
-  id: 'UA-146042680-2',
-  router
-})
 
 import HeaderComponent from './components/HeaderComponent'
 import NotFoundComponent from './components/top/NotFoundComponent'
@@ -252,6 +248,11 @@ router.beforeEach((to, from, next)=>{
   } else {
     next()
   }
+})
+
+Vue.use(VueAnalytics, {
+  id: 'UA-146042680-2',
+  router
 })
 
 export default router
