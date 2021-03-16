@@ -120,7 +120,7 @@ export default {
       formData.append('id', this.userId)
       this.avoidMultipost(async()=>{
         await axios.post('/api/post_upload/' + this.userId, formData, config).then(()=>{
-          this.$router.push({name: 'home'})
+          this.$router.push({name: 'mypage'})
           alert('投稿しました')
         }).catch(err=>{
           console.log(err.response)

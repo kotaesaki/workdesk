@@ -125,11 +125,11 @@
                   {{ postUser.name }}
                 </p>
                 <a
-                  v-show="profile.website_url"
+                  v-show="profile.website_url != 'null'"
                   :href="`${profile.website_url}`"
                   target="_blank"><i class="fas fa-link" /></a>
                 <a
-                  v-show="profile.twitter_url"
+                  v-show="profile.twitter_url != 'null'"
                   :href="`${profile.twitter_url}`"
                   target="_blank"><i class="fab fa-twitter" /></a>
               </div>
