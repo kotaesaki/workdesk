@@ -139,6 +139,7 @@ export default {
     closeSearch(){
       this.$store.commit('search/setResult', false)
     },
+    
     showSearch(){
       if (this.btnFlug === 0){
         this.btnFlug = 1
