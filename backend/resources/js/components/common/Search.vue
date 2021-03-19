@@ -113,6 +113,7 @@ export default {
       },
       set(val) {
         this.$store.commit('search/setWord', val)
+        
       },
     },
     result(){
