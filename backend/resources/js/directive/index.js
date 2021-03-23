@@ -1,2 +1,2 @@
-import './scroll.js';
-import './showPassword.js';
+import './scroll.js'
+import './showPassword.js'
