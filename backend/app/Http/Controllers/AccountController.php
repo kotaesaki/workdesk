@@ -27,7 +27,6 @@ class AccountController extends Controller
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->save();  
-            
             DB::commit();
         }catch(\Exception $e){
             DB::rollBack();
