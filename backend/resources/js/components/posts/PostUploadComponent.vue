@@ -101,6 +101,7 @@ export default {
         this.tag.forEach((text, index) => {
           formData.append('tag[' + index + ']', text)
         })
+        
       } else {
         formData.append('tag', [])
       }
