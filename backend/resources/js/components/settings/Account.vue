@@ -111,6 +111,7 @@ export default {
   }, 
   mounted() {
     this.getId()
+    
   },
   methods: {
     changePassword(){
