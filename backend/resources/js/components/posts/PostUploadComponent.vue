@@ -89,6 +89,7 @@ export default {
   },
   methods: {
     async submit() {
+      
       this.errors.splice(0)
       let imageName = Math.random().toString(32).substring(2)
       let formData = new FormData()
