@@ -51,7 +51,6 @@ export default {
         .catch(err=> {
           alert('商品の取得に失敗しました。')
           this.loading = false
-          
         })
     },
   },
